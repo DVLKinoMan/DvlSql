@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using DVL_SQL_Test1.Abstract;
+﻿using DVL_SQL_Test1.Abstract;
 using DVL_SQL_Test1.Expressions;
+using System;
+using System.Text;
 
 namespace DVL_SQL_Test1.Concrete
 {
@@ -33,20 +32,28 @@ namespace DVL_SQL_Test1.Concrete
 
         public void Visit(DvlSqlOrExpression expression)
         {
-            expression.LeftExpression.Accept(this);
+            const string or = " OR ";
 
-            this._command.Append(" OR ");
+            foreach (var innerExpression in expression.InnerExpressions)
+            {
+                innerExpression.Accept(this);
+                this._command.Append(or);
+            }
 
-            expression.RightExpression.Accept(this);
+            this._command.Remove(this._command.Length - or.Length, or.Length);
         }
 
         public void Visit(DvlSqlAndExpression expression)
         {
-            expression.LeftExpression.Accept(this);
+            const string and = " AND ";
 
-            this._command.Append(" AND ");
+            foreach (var innerExpression in expression.InnerExpressions)
+            {
+                innerExpression.Accept(this);
+                this._command.Append(and);
+            }
 
-            expression.RightExpression.Accept(this);
+            this._command.Remove(this._command.Length - and.Length, and.Length);
         }
 
         public void Visit(DvlSqlSelectExpression expression)
@@ -84,19 +91,20 @@ namespace DVL_SQL_Test1.Concrete
         {
             expression.LeftExpression.Accept(this);
 
-            this._command.Append(expression.ComparisonOperator switch
-            {
-                SqlComparisonOperator.Equality => " = ",
-                SqlComparisonOperator.Greater => " > ",
-                SqlComparisonOperator.GreaterOrEqual => " >= ",
-                SqlComparisonOperator.Less => " < ",
-                SqlComparisonOperator.LessOrEqual => " <= ",
-                SqlComparisonOperator.NotEquality => " != ",
-                SqlComparisonOperator.Different => " <> ",
-                SqlComparisonOperator.NotGreater => " !< ",
-                SqlComparisonOperator.NotLess => " !> ",
-                _ => throw new NotImplementedException("ComparisonOperator not implemented")
-            });
+            this._command.Append(
+                expression.ComparisonOperator switch
+                {
+                    SqlComparisonOperator.Equality => " = ",
+                    SqlComparisonOperator.Greater => " > ",
+                    SqlComparisonOperator.GreaterOrEqual => " >= ",
+                    SqlComparisonOperator.Less => " < ",
+                    SqlComparisonOperator.LessOrEqual => " <= ",
+                    SqlComparisonOperator.NotEquality => " != ",
+                    SqlComparisonOperator.Different => " <> ",
+                    SqlComparisonOperator.NotGreater => " !< ",
+                    SqlComparisonOperator.NotLess => " !> ",
+                    _ => throw new NotImplementedException("ComparisonOperator not implemented")
+                });
 
             expression.RightExpression.Accept(this);
         }

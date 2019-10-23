@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using DVL_SQL_Test1.Abstract;
 using DVL_SQL_Test1.Expressions;
 
@@ -10,9 +13,12 @@ namespace DVL_SQL_Test1.Concrete
     public class DvlSqlSelectable : IDvlSelectable
     {
         private readonly DvlSqlFromExpression _sqlFromExpression;
-        private List<DvlSqlWhereExpression> _sqlWhereExpressions = new List<DvlSqlWhereExpression>();
+        private readonly List<DvlSqlWhereExpression> _sqlWhereExpressions = new List<DvlSqlWhereExpression>();
+        private readonly Task<Func<string, Func<SqlDataReaderType, CancellationToken, Task<SqlDataReader>>>> _readerAsync;
 
-        public DvlSqlSelectable(DvlSqlFromExpression sqlFromExpression) => this._sqlFromExpression = sqlFromExpression;
+        public DvlSqlSelectable(DvlSqlFromExpression sqlFromExpression,
+            Task<Func<string, Func<SqlDataReaderType, CancellationToken, Task<SqlDataReader>>>> readerAsync)
+            => (this._sqlFromExpression, this._readerAsync) = (sqlFromExpression, readerAsync);
 
         public IExecuter Select(params string[] parameterNames)
         {
@@ -21,12 +27,16 @@ namespace DVL_SQL_Test1.Concrete
 
         public IExecuter Select()
         {
+            var builder = new StringBuilder();
+            var commandBuilder = new DvlSqlCommandBuilder(builder);
+
             var selectExpression = new DvlSqlSelectExpression(this._sqlFromExpression);
-            var whereExpression = _sqlWhereExpressions.
-            var connection = new SqlConnection("asdfasdf");
-            //await connection.OpenAsync();
-            var command = new SqlCommand("asdfasd", connection);
-            return new SqlExecutor(command);
+            var whereExpression = GetOneWhereExpression(this._sqlWhereExpressions);
+            
+            selectExpression.Accept(commandBuilder);
+            whereExpression.Accept(commandBuilder);
+
+            return new SqlExecutor(await this._readerAsync(builder.ToString()));
         }
 
         public IDvlSelectable Where(DvlSqlWhereExpression whereExpression)
@@ -35,13 +45,7 @@ namespace DVL_SQL_Test1.Concrete
             return this;
         }
 
-        private DvlSqlWhereExpression GetOneWhereExpression(List<DvlSqlWhereExpression> whereExpressions)
-        {
-            var res = whereExpressions[0];
-            for (int i = 1; i < whereExpressions.Count; i++)
-            {
-                res.InnerExpression = new DvlSqlAndExpression(res.InnerExpression, whereExpressions[i]);
-            }
-        }
+        private static DvlSqlWhereExpression GetOneWhereExpression(IEnumerable<DvlSqlWhereExpression> whereExpressions) =>
+            new DvlSqlWhereExpression(new DvlSqlAndExpression(whereExpressions.Select(ex => ex.InnerExpression)));
     }
 }
