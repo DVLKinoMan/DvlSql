@@ -13,17 +13,21 @@ namespace DVL_SQL_Test1.Console
         {
             string connString = "Data Source=SQL; Initial Catalog=BANK2000; Connection Timeout=30; User Id=b2000; Password=1234; Application Name = CoreApi";
 
-            var list = new DVL_SQL(connString)
+            var list = new DvlSql(connString)
                 .From("nbe.BANK_DATA")
                 .Where(new DvlSqlWhereExpression(
                     new DvlSqlAndExpression(
-                    new DvlSqlComparisonExpression(new DvlSqlConstantExpression<string>("AMOUNT"), SqlComparisonOperator.Less, new DvlSqlConstantExpression<int>(350000)),
-                    new DvlSqlComparisonExpression(new DvlSqlConstantExpression<string>("ADD_DATE"), SqlComparisonOperator.Less, new DvlSqlConstantExpression<DateTime>(new DateTime(2012, 1, 1)))
+                    new DvlSqlComparisonExpression(new DvlSqlConstantExpression<string>("AMOUNT"), SqlComparisonOperator.Less, new DvlSqlConstantExpression<int>(350000))
+                    //new DvlSqlComparisonExpression(new DvlSqlConstantExpression<string>("ADD_DATE"), SqlComparisonOperator.Less, new DvlSqlConstantExpression<DateTime>(new DateTime(2012, 1, 1)))
                     ))
                 )
                 .Select()
-                .ToListAsync<int>();
+                .ToListAsync<int>().Result;
 
+            foreach (var l in list)
+            {
+                System.Console.WriteLine(l);
+            }
             System.Console.WriteLine("Hello World!");
         }
     }

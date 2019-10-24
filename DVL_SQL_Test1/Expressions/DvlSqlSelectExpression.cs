@@ -14,5 +14,6 @@ namespace DVL_SQL_Test1.Expressions
             (this.FromExpression, this.ParameterNames) = (expression, parameterNames);
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
+
     }
 }

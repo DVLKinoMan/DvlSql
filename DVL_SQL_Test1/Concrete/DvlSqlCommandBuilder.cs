@@ -1,6 +1,7 @@
 ﻿using DVL_SQL_Test1.Abstract;
 using DVL_SQL_Test1.Expressions;
 using System;
+using System.IO;
 using System.Text;
 
 namespace DVL_SQL_Test1.Concrete
@@ -62,8 +63,8 @@ namespace DVL_SQL_Test1.Concrete
 
             if (expression.ParameterNames == null)
             {
-                this._command.Append("*");
-                return;
+                this._command.Append("* ");
+                goto end;
             }
 
             bool isEmpty = true;
@@ -76,6 +77,7 @@ namespace DVL_SQL_Test1.Concrete
             if (!isEmpty)
                 this._command.Remove(this._command.Length - 2, 2);
 
+            end:
             expression.FromExpression.Accept(this);
 
         }
@@ -116,7 +118,7 @@ namespace DVL_SQL_Test1.Concrete
 
         public void Visit(DvlSqlFromExpression expression)
         {
-            this._command.Append($"FROM {expression.TableName}");
+            this._command.Append($"FROM {expression.TableName} ");
         }
     }
 }

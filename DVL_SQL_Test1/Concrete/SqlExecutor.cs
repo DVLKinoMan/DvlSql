@@ -9,11 +9,12 @@ namespace DVL_SQL_Test1.Concrete
 {
     public class SqlExecutor : IExecuter
     {
-        private readonly Func<SqlDataReaderType, CancellationToken, Task<SqlDataReader>> _sqlReaderAsync;
+        //private readonly Func<SqlDataReaderType, CancellationToken, Task<SqlDataReader>> _sqlReaderAsync;
         //private CancellationToken _cancellationToken;
+        private DvlSqlCommand _command;
 
-        public SqlExecutor(Func<SqlDataReaderType, CancellationToken, Task<SqlDataReader>> readerAsync) =>
-            this._sqlReaderAsync = readerAsync;
+        public SqlExecutor(DvlSqlCommand command) =>
+            this._command = command;
 
         public (int, bool) Execute()
         {
@@ -29,7 +30,7 @@ namespace DVL_SQL_Test1.Concrete
         {
             var list = new List<TResult>();
 
-            var reader = await this._sqlReaderAsync(SqlDataReaderType.ExecuteReaderAsync, cancellationToken);
+            var reader = await this._command.ReadAsync(SqlDataReaderType.ExecuteReaderAsync, cancellationToken);
             while (await reader.ReadAsync(cancellationToken))
                 list.Add((TResult) reader[0]);
 
