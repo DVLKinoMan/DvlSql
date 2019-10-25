@@ -1,40 +1,52 @@
 ﻿using DVL_SQL_Test1.Abstract;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace DVL_SQL_Test1.Concrete
 {
-    public class SqlExecutor : IExecuter
+    public class SqlExecutor : IExecutor
     {
-        //private readonly Func<SqlDataReaderType, CancellationToken, Task<SqlDataReader>> _sqlReaderAsync;
-        //private CancellationToken _cancellationToken;
-        private DvlSqlCommand _command;
+        private readonly IDvlSqlConnection _connection;
 
-        public SqlExecutor(DvlSqlCommand command) =>
-            this._command = command;
+        public SqlExecutor(IDvlSqlConnection connection) =>
+            this._connection = connection;
 
         public (int, bool) Execute()
         {
             throw new NotImplementedException();
         }
 
-        public List<TResult> ToList<TResult>(Func<SqlDataReader, TResult> reader)
+        public async Task<List<TResult>> ToListAsync<TResult>(Func<SqlDataReader, TResult> selectorFunc)
         {
-            throw new NotImplementedException();
+            return await this._connection.ConnectAsync(dvlCommand => dvlCommand.ExecuteReaderAsync(ConverterFunc));
+
+            List<TResult> ConverterFunc(SqlDataReader reader)
+            {
+                var list = new List<TResult>();
+                while (reader.Read())
+                    list.Add(selectorFunc(reader));
+
+                return list;
+            }
         }
 
-        public async Task<List<TResult>> ToListAsync<TResult>(CancellationToken cancellationToken = default)
+        public async Task<List<TResult>> ToListAsync<TResult>(int? timeout = default,
+            CommandBehavior behavior = CommandBehavior.Default, CancellationToken cancellationToken = default)
         {
-            var list = new List<TResult>();
+            return await this._connection.ConnectAsync(dvlCommand => dvlCommand.ExecuteReaderAsync(ConverterFunc, timeout, behavior, cancellationToken));
 
-            var reader = await this._command.ReadAsync(SqlDataReaderType.ExecuteReaderAsync, cancellationToken);
-            while (await reader.ReadAsync(cancellationToken))
-                list.Add((TResult) reader[0]);
+            static List<TResult> ConverterFunc(SqlDataReader reader)
+            {
+                var list = new List<TResult>();
+                while (reader.Read())
+                    list.Add((TResult) reader[0]);
 
-            return list;
+                return list;
+            }
         }
 
         public TResult FirstOrDefault<TResult>()

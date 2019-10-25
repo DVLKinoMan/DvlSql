@@ -1,7 +1,6 @@
 ﻿using DVL_SQL_Test1.Abstract;
 using DVL_SQL_Test1.Expressions;
 using System;
-using System.IO;
 using System.Text;
 
 namespace DVL_SQL_Test1.Concrete
@@ -75,7 +74,10 @@ namespace DVL_SQL_Test1.Concrete
             }
 
             if (!isEmpty)
+            {
                 this._command.Remove(this._command.Length - 2, 2);
+                this._command.Append(" ");
+            }
 
             end:
             expression.FromExpression.Accept(this);

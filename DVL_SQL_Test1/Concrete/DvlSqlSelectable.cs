@@ -1,6 +1,5 @@
 ﻿using DVL_SQL_Test1.Abstract;
 using DVL_SQL_Test1.Expressions;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,18 +10,26 @@ namespace DVL_SQL_Test1.Concrete
     {
         private readonly DvlSqlFromExpression _sqlFromExpression;
         private readonly List<DvlSqlWhereExpression> _sqlWhereExpressions = new List<DvlSqlWhereExpression>();
-        private readonly Func<string, DvlSqlCommand> _funcCommand;
+        private readonly string _connectionString;
 
-        public DvlSqlSelectable(DvlSqlFromExpression sqlFromExpression,
-            Func<string,DvlSqlCommand> funcCommand)
-            => (this._sqlFromExpression, this._funcCommand) = (sqlFromExpression, funcCommand);
+        public DvlSqlSelectable(DvlSqlFromExpression sqlFromExpression, string connectionString)
+            => (this._sqlFromExpression, this._connectionString) = (sqlFromExpression, connectionString);
 
-        public IExecuter Select(params string[] parameterNames)
+        public IExecutor Select(params string[] parameterNames)
         {
-            throw new NotImplementedException();
+            var builder = new StringBuilder();
+            var commandBuilder = new DvlSqlCommandBuilder(builder);
+
+            var selectExpression = new DvlSqlSelectExpression(this._sqlFromExpression, parameterNames);
+            var whereExpression = GetOneWhereExpression(this._sqlWhereExpressions);
+
+            selectExpression.Accept(commandBuilder);
+            whereExpression.Accept(commandBuilder);
+
+            return new SqlExecutor(new DvlSqlConnection(this._connectionString, builder.ToString()));
         }
 
-        public IExecuter Select()
+        public IExecutor Select()
         {
             var builder = new StringBuilder();
             var commandBuilder = new DvlSqlCommandBuilder(builder);
@@ -33,7 +40,7 @@ namespace DVL_SQL_Test1.Concrete
             selectExpression.Accept(commandBuilder);
             whereExpression.Accept(commandBuilder);
 
-            return new SqlExecutor(this._funcCommand(builder.ToString()));
+            return new SqlExecutor(new DvlSqlConnection(this._connectionString,builder.ToString()));
         }
 
         public IDvlSelectable Where(DvlSqlWhereExpression whereExpression)

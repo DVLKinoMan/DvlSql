@@ -9,6 +9,18 @@ namespace DVL_SQL_Test1.Console
 {
     class Program
     {
+        public class Cl
+        {
+            public byte Status;
+            public decimal Amount;
+            public string RestrictCode;
+
+            public override string ToString()
+            {
+                return $"{Status} {Amount} {RestrictCode}";
+            }
+        }
+
         static void Main(string[] args)
         {
             string connString = "Data Source=SQL; Initial Catalog=BANK2000; Connection Timeout=30; User Id=b2000; Password=1234; Application Name = CoreApi";
@@ -21,8 +33,13 @@ namespace DVL_SQL_Test1.Console
                     //new DvlSqlComparisonExpression(new DvlSqlConstantExpression<string>("ADD_DATE"), SqlComparisonOperator.Less, new DvlSqlConstantExpression<DateTime>(new DateTime(2012, 1, 1)))
                     ))
                 )
-                .Select()
-                .ToListAsync<int>().Result;
+                .Select("STATUS", "AMOUNT", "RESTRICT_CODE")
+                .ToListAsync(r=> new Cl
+                {
+                    Status = (byte)r[0],
+                    Amount = (decimal)r[1],
+                    RestrictCode = (string)r[2]
+                }).Result;
 
             foreach (var l in list)
             {

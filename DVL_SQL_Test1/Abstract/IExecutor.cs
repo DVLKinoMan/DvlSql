@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 using System.Threading;
@@ -9,11 +10,15 @@ using DVL_SQL_Test1.Expressions;
 
 namespace DVL_SQL_Test1.Abstract
 {
-    public interface IExecuter
+    public interface IExecutor
     {
         (int, bool) Execute();
-        List<TResult> ToList<TResult>(Func<SqlDataReader, TResult> reader);
-        Task<List<TResult>> ToListAsync<TResult>(CancellationToken cancellationToken = default);
+
+        Task<List<TResult>> ToListAsync<TResult>(Func<SqlDataReader, TResult> reader);
+
+        Task<List<TResult>> ToListAsync<TResult>(int? timeout = default,
+            CommandBehavior behavior = CommandBehavior.Default, CancellationToken cancellationToken = default);
+
         TResult FirstOrDefault<TResult>();
     }
 }

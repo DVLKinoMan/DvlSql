@@ -1,37 +1,37 @@
-﻿using System;
+﻿using DVL_SQL_Test1.Abstract;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace DVL_SQL_Test1.Concrete
 {
-    public class DvlSqlConnection : IDisposable
+    public class DvlSqlConnection : IDvlSqlConnection, IDisposable
     {
-        private readonly SqlConnection _sqlConnection;
-        private readonly List<SqlCommand> commands = new List<SqlCommand>();
+        private readonly List<SqlCommand> _commands = new List<SqlCommand>();
+        private readonly string _connectionString;
+        private readonly string _sqlString;
 
-        public DvlSqlConnection(SqlConnection connection) => this._sqlConnection = connection;
+        public DvlSqlConnection(string connectionString, string sqlString) =>
+            (this._connectionString, this._sqlString) = (connectionString, sqlString);
 
         public void Dispose()
         {
-            this._sqlConnection?.Dispose();
-            this.commands.Clear();
+            this._commands.Clear();
         }
 
-        private SqlCommand CreateCommand(string sql)
+        private DvlSqlCommand CreateCommand(SqlConnection connection)
         {
-            var com = new SqlCommand(sql, this._sqlConnection);
-            this.commands.Add(com);
-            return com;
+            var command = new SqlCommand(this._sqlString, connection);
+            this._commands.Add(command);
+            return new DvlSqlCommand(command);
         }
 
-        public async Task<SqlDataReader> GetExecuteReaderAsync(SqlDataReaderType type, CancellationToken token,
-            string sql) =>
-            type switch
-            {
-                SqlDataReaderType.ExecuteReaderAsync => await CreateCommand(sql).ExecuteReaderAsync(token),
-                _ => throw new NotImplementedException()
-            };
+        public async Task<TResult> ConnectAsync<TResult>(Func<IDvlSqlCommand, Task<TResult>> func)
+        {
+            await using var connection = new SqlConnection(this._connectionString);
+            await connection.OpenAsync();
+            return await func(CreateCommand(connection));
+        }
     }
 }

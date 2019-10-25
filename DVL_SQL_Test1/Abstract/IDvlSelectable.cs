@@ -8,8 +8,8 @@ namespace DVL_SQL_Test1.Abstract
 {
     public interface IDvlSelectable
     {
-        IExecuter Select(params string[] parameterNames);
-        IExecuter Select();
+        IExecutor Select(params string[] parameterNames);
+        IExecutor Select();
         IDvlSelectable Where(DvlSqlWhereExpression whereExpression);
     }
 }
