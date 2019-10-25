@@ -3,7 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 using DVL_SQL_Test1.Concrete;
 using DVL_SQL_Test1.Expressions;
-using static DVL_SQL_Test1.Functions;
+using static DVL_SQL_Test1.Helpers.DvlSqlExpressionHelpers;
 
 namespace DVL_SQL_Test1.Console
 {
@@ -27,19 +27,20 @@ namespace DVL_SQL_Test1.Console
 
             var list = new DvlSql(connString)
                 .From("nbe.BANK_DATA")
-                .Where(new DvlSqlWhereExpression(
-                    new DvlSqlAndExpression(
-                    new DvlSqlComparisonExpression(new DvlSqlConstantExpression<string>("AMOUNT"), SqlComparisonOperator.Less, new DvlSqlConstantExpression<int>(350000))
-                    //new DvlSqlComparisonExpression(new DvlSqlConstantExpression<string>("ADD_DATE"), SqlComparisonOperator.Less, new DvlSqlConstantExpression<DateTime>(new DateTime(2012, 1, 1)))
-                    ))
+                .Where(
+                    WhereExp(
+                        AndExp(ComparisonExp(ConstantExp("AMOUNT"), SqlComparisonOperator.Less, ConstantExp(350000))
+                            //new DvlSqlComparisonExpression(new DvlSqlConstantExpression<string>("ADD_DATE"), SqlComparisonOperator.Less, new DvlSqlConstantExpression<DateTime>(new DateTime(2012, 1, 1)))
+                        ))
                 )
                 .Select("STATUS", "AMOUNT", "RESTRICT_CODE")
-                .ToListAsync(r=> new Cl
-                {
-                    Status = (byte)r[0],
-                    Amount = (decimal)r[1],
-                    RestrictCode = (string)r[2]
-                }).Result;
+                .ToListAsync(r =>
+                    new Cl
+                    {
+                        Status = (byte) r[0],
+                        Amount = (decimal) r[1],
+                        RestrictCode = (string) r[2]
+                    }).Result;
 
             foreach (var l in list)
             {

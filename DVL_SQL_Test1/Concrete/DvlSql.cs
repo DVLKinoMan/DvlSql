@@ -3,13 +3,6 @@ using DVL_SQL_Test1.Expressions;
 
 namespace DVL_SQL_Test1.Concrete
 {
-    public enum SqlDataReaderType
-    {
-        ExecuteReaderAsync,
-        ExecuteNonQueryAsync,
-        ExecuteScalarAsync
-    }
-
     public class DvlSql : IDvlFrom
     {
         private readonly string _connectionString;

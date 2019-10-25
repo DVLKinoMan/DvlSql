@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using DVL_SQL_Test1.Abstract;
+﻿using DVL_SQL_Test1.Abstract;
 
 namespace DVL_SQL_Test1.Expressions
 {
