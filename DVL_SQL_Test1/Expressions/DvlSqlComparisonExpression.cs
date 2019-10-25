@@ -2,7 +2,7 @@
 
 namespace DVL_SQL_Test1.Expressions
 {
-    public class DvlSqlComparisonExpression : DvlSqlExpression
+    public class DvlSqlComparisonExpression : DvlSqlBinaryExpression
     {
         public DvlSqlExpression LeftExpression { get; }
         public SqlComparisonOperator ComparisonOperator { get; }

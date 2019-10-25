@@ -6,6 +6,6 @@ namespace DVL_SQL_Test1.Abstract
     {
         IExecutor Select(params string[] parameterNames);
         IExecutor Select();
-        IDvlSelectable Where(DvlSqlWhereExpression whereExpression);
+        IDvlSelectable Where(DvlSqlBinaryExpression binaryExpression);
     }
 }

@@ -2,6 +2,6 @@
 {
     public interface IDvlFrom
     {
-        IDvlSelectable From(string tableName);
+        IDvlSelectable From(string tableName, bool withNoLock = false);
     }
 }

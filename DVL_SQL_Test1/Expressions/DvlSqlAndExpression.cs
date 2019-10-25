@@ -3,7 +3,7 @@ using DVL_SQL_Test1.Abstract;
 
 namespace DVL_SQL_Test1.Expressions
 {
-    public class DvlSqlAndExpression : DvlSqlExpression
+    public class DvlSqlAndExpression : DvlSqlBinaryExpression
     {
         public IEnumerable<DvlSqlExpression> InnerExpressions { get; }
 

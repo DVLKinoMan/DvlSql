@@ -121,6 +121,8 @@ namespace DVL_SQL_Test1.Concrete
         public void Visit(DvlSqlFromExpression expression)
         {
             this._command.Append($"FROM {expression.TableName} ");
+            if (expression.WithNoLock)
+                this._command.Append("WITH(NOLOCK) ");
         }
     }
 }

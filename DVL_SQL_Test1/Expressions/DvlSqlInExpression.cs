@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DVL_SQL_Test1.Expressions
 {
-    public class DvlSqlInExpression : DvlSqlExpression
+    public class DvlSqlInExpression : DvlSqlBinaryExpression
     {
         public string ParameterName { get; }
         public IEnumerable<DvlSqlExpression> InnerExpressions { get; }

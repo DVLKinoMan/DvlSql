@@ -15,38 +15,37 @@ namespace DVL_SQL_Test1.Console
             public decimal Amount;
             public string RestrictCode;
 
-            public override string ToString()
-            {
-                return $"{Status} {Amount} {RestrictCode}";
-            }
+            public override string ToString() => $"{this.Status} {this.Amount} {this.RestrictCode}";
         }
 
-        static void Main(string[] args)
+        static void Main()
         {
             string connString = "Data Source=SQL; Initial Catalog=BANK2000; Connection Timeout=30; User Id=b2000; Password=1234; Application Name = CoreApi";
 
             var list = new DvlSql(connString)
-                .From("nbe.BANK_DATA")
+                .From("nbe.BANK_DATA", true)
                 .Where(
-                    WhereExp(
-                        AndExp(ComparisonExp(ConstantExp("AMOUNT"), SqlComparisonOperator.Less, ConstantExp(350000))
-                            //new DvlSqlComparisonExpression(new DvlSqlConstantExpression<string>("ADD_DATE"), SqlComparisonOperator.Less, new DvlSqlConstantExpression<DateTime>(new DateTime(2012, 1, 1)))
-                        ))
+                        AndExp(
+                            ComparisonExp(ConstantExp("AMOUNT"), SqlComparisonOperator.Less, ConstantExp(350000)),
+                            //ComparisonExp(ConstantExp("ADD_DATE"), SqlComparisonOperator.Less, ConstantExp(new DateTime(2012, 1, 1)))
+                            ComparisonExp(ConstantExp("STATUS"), SqlComparisonOperator.Equality, ConstantExp(1))
+                        )
                 )
-                .Select("STATUS", "AMOUNT", "RESTRICT_CODE")
+                //.Where(ComparisonExp(ConstantExp("STATUS"), SqlComparisonOperator.Equality, ConstantExp(1)))
+                .Select("MAX(AMOUNT) AS max")
                 .ToListAsync(r =>
-                    new Cl
-                    {
-                        Status = (byte) r[0],
-                        Amount = (decimal) r[1],
-                        RestrictCode = (string) r[2]
-                    }).Result;
+                    //new Cl
+                    //{
+                    //    Status = (byte) r["max"],
+                    //    Amount = (decimal) r[1],
+                    //    RestrictCode = (string) r[2]
+                    //}
+                    r["max"]).Result;
 
             foreach (var l in list)
             {
                 System.Console.WriteLine(l);
             }
-            System.Console.WriteLine("Hello World!");
         }
     }
 }

@@ -9,9 +9,9 @@ namespace DVL_SQL_Test1.Concrete
 
         public DvlSql(string connectionString) => this._connectionString = connectionString;
 
-        public IDvlSelectable From(string tableName)
+        public IDvlSelectable From(string tableName, bool withNoLock = false)
         {
-            var fromExpression = new DvlSqlFromExpression(tableName);
+            var fromExpression = new DvlSqlFromExpression(tableName, withNoLock);
 
             return new DvlSqlSelectable(fromExpression, this._connectionString);
         }

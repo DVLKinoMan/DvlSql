@@ -43,9 +43,9 @@ namespace DVL_SQL_Test1.Concrete
             return new SqlExecutor(new DvlSqlConnection(this._connectionString,builder.ToString()));
         }
 
-        public IDvlSelectable Where(DvlSqlWhereExpression whereExpression)
+        public IDvlSelectable Where(DvlSqlBinaryExpression binaryExpression)
         {
-            this._sqlWhereExpressions.Add(whereExpression);
+            this._sqlWhereExpressions.Add(new DvlSqlWhereExpression(binaryExpression));
             return this;
         }
 
