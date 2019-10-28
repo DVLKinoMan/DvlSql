@@ -11,5 +11,7 @@ namespace DVL_SQL_Test1.Abstract
         IDvlSelectable FullJoin(string tableName, DvlSqlComparisonExpression compExpression);
         IDvlSelectable LeftJoin(string tableName, DvlSqlComparisonExpression compExpression);
         IDvlSelectable RightJoin(string tableName, DvlSqlComparisonExpression compExpression);
+        IDvlSelectable OrderBy(params string[] fields);
+        IDvlSelectable OrderByDescending(params string[] fields);
     }
 }

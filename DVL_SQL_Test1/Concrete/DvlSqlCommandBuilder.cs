@@ -141,5 +141,15 @@ namespace DVL_SQL_Test1.Concrete
             this._command.Append("ON ");
             expression.ComparisonExpression.Accept(this);
         }
+
+        public void Visit(DvlSqlOrderByExpression expression)
+        {
+            this._command.Append("ORDER BY ");
+            foreach (var (column, ordering) in expression.Params)
+                this._command.Append($"{column} {ordering}, ");
+
+            if (expression.Params.Count != 0)
+                this._command.Remove(this._command.Length - 2, 2);
+        }
     }
 }

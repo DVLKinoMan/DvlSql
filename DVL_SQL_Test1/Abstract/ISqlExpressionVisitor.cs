@@ -13,5 +13,6 @@ namespace DVL_SQL_Test1.Abstract
         void Visit<TValue>(DvlSqlConstantExpression<TValue> expression);
         void Visit(DvlSqlFromExpression expression);
         void Visit(DvlSqlJoinExpression expression);
+        void Visit(DvlSqlOrderByExpression expression);
     }
 }

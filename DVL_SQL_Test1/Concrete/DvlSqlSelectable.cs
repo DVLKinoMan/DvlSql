@@ -11,6 +11,7 @@ namespace DVL_SQL_Test1.Concrete
         private readonly DvlSqlFromExpression _sqlFromExpression;
         private readonly List<DvlSqlWhereExpression> _sqlWhereExpressions = new List<DvlSqlWhereExpression>();
         private readonly List<DvlSqlJoinExpression> _sqlJoinExpressions = new List<DvlSqlJoinExpression>();
+        private DvlSqlOrderByExpression _sqlOrderByExpression;
         private readonly string _connectionString;
 
         public DvlSqlSelectable(DvlSqlFromExpression sqlFromExpression, string connectionString)
@@ -28,6 +29,7 @@ namespace DVL_SQL_Test1.Concrete
             foreach (var joinExpression in this._sqlJoinExpressions)
                 joinExpression.Accept(commandBuilder);
             whereExpression.Accept(commandBuilder);
+            this._sqlOrderByExpression?.Accept(commandBuilder);
 
             return new SqlExecutor(new DvlSqlConnection(this._connectionString, builder.ToString()));
         }
@@ -39,13 +41,13 @@ namespace DVL_SQL_Test1.Concrete
 
             var selectExpression = new DvlSqlSelectExpression(this._sqlFromExpression);
             var whereExpression = GetOneWhereExpression(this._sqlWhereExpressions);
-            
+
             selectExpression.Accept(commandBuilder);
             foreach (var joinExpression in this._sqlJoinExpressions)
                 joinExpression.Accept(commandBuilder);
             whereExpression.Accept(commandBuilder);
 
-            return new SqlExecutor(new DvlSqlConnection(this._connectionString,builder.ToString()));
+            return new SqlExecutor(new DvlSqlConnection(this._connectionString, builder.ToString()));
         }
 
         public IDvlSelectable Where(DvlSqlBinaryExpression binaryExpression)
@@ -78,7 +80,27 @@ namespace DVL_SQL_Test1.Concrete
             return this;
         }
 
-        private static DvlSqlWhereExpression GetOneWhereExpression(IEnumerable<DvlSqlWhereExpression> whereExpressions) =>
+        public IDvlSelectable OrderBy(params string[] fields)
+        {
+            if (this._sqlOrderByExpression == null)
+                this._sqlOrderByExpression = new DvlSqlOrderByExpression(fields.Select(f => (f, Ascending: Ordering.ASC)));
+            else this._sqlOrderByExpression.AddRange(fields.Select(f => (f, Ascending: Ordering.ASC)));
+
+            return this;
+        }
+
+        public IDvlSelectable OrderByDescending(params string[] fields)
+        {
+            if (this._sqlOrderByExpression == null)
+                this._sqlOrderByExpression = new DvlSqlOrderByExpression(fields.Select(f => (f, Descending: Ordering.DESC)));
+            else this._sqlOrderByExpression.AddRange(fields.Select(f => (f, Descending: Ordering.DESC)));
+
+            return this;
+        }
+
+        private static DvlSqlWhereExpression
+            GetOneWhereExpression(IEnumerable<DvlSqlWhereExpression> whereExpressions) =>
             new DvlSqlWhereExpression(new DvlSqlAndExpression(whereExpressions.Select(ex => ex.InnerExpression)));
+
     }
 }
