@@ -14,7 +14,6 @@ namespace DVL_SQL_Test1.Concrete
     {
         private readonly IDvlSqlConnection _connection;
         private readonly DvlSqlSelectable _selectable;
-        private string _sqlString;
         private DvlSqlOrderByExpression _sqlOrderByExpression;
 
         public SqlExecutor(IDvlSqlConnection connection, DvlSqlSelectable selectable) =>
