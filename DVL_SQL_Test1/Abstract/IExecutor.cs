@@ -17,5 +17,7 @@ namespace DVL_SQL_Test1.Abstract
             CommandBehavior behavior = CommandBehavior.Default, CancellationToken cancellationToken = default);
 
         TResult FirstOrDefault<TResult>();
+        IExecutor OrderBy(params string[] fields);
+        IExecutor OrderByDescending(params string[] fields);
     }
 }

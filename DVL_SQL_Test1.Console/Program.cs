@@ -68,10 +68,10 @@ namespace DVL_SQL_Test1.Console
                         ComparisonExp(ConstantExp("STATUS"), SqlComparisonOperator.Equality, ConstantExp(1))
                     )
                 )
-                .OrderBy("AMOUNT")
-                .OrderBy("RESTRICT_CODE")
                 //.Where(ComparisonExp(ConstantExp("STATUS"), SqlComparisonOperator.Equality, ConstantExp(1)))
                 .Select("STATUS","AMOUNT","RESTRICT_CODE")
+                .OrderBy("AMOUNT")
+                .OrderBy("RESTRICT_CODE")
                 .ToListAsync(r =>
                         new Cl
                         {

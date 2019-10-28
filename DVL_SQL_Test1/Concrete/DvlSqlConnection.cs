@@ -10,28 +10,28 @@ namespace DVL_SQL_Test1.Concrete
     {
         private readonly List<SqlCommand> _commands = new List<SqlCommand>();
         private readonly string _connectionString;
-        private readonly string _sqlString;
+        //private readonly string _sqlString;
 
-        public DvlSqlConnection(string connectionString, string sqlString) =>
-            (this._connectionString, this._sqlString) = (connectionString, sqlString);
+        public DvlSqlConnection(string connectionString) =>
+            this._connectionString = connectionString;
 
         public void Dispose()
         {
             this._commands.Clear();
         }
 
-        private DvlSqlCommand CreateCommand(SqlConnection connection)
+        private DvlSqlCommand CreateCommand(SqlConnection connection, string sqlString)
         {
-            var command = new SqlCommand(this._sqlString, connection);
+            var command = new SqlCommand(sqlString, connection);
             this._commands.Add(command);
             return new DvlSqlCommand(command);
         }
 
-        public async Task<TResult> ConnectAsync<TResult>(Func<IDvlSqlCommand, Task<TResult>> func)
+        public async Task<TResult> ConnectAsync<TResult>(Func<IDvlSqlCommand, Task<TResult>> func, string sqlString)
         {
             await using var connection = new SqlConnection(this._connectionString);
             await connection.OpenAsync();
-            return await func(CreateCommand(connection));
+            return await func(CreateCommand(connection, sqlString));
         }
     }
 }
