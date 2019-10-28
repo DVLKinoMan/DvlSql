@@ -111,6 +111,7 @@ namespace DVL_SQL_Test1.Concrete
                 });
 
             expression.RightExpression.Accept(this);
+            this._command.Append(" ");
         }
 
         public void Visit<TValue>(DvlSqlConstantExpression<TValue> expression)
@@ -123,6 +124,22 @@ namespace DVL_SQL_Test1.Concrete
             this._command.Append($"FROM {expression.TableName} ");
             if (expression.WithNoLock)
                 this._command.Append("WITH(NOLOCK) ");
+        }
+
+        public void Visit(DvlSqlJoinExpression expression)
+        {
+            string joinCommand = expression switch
+            {
+                DvlSqlFullJoinExpression _ => "FULL OUTER JOIN ",
+                DvlSqlInnerJoinExpression _ => "INNER JOIN ",
+                DvlSqlLeftJoinExpression _ => "LEFT OUTER JOIN ",
+                DvlSqlRightJoinExpression _ => "RIGHT OUTER JOIN ",
+                _=>throw new NotImplementedException("JoinExpression not implemented")
+            };
+
+            this._command.Append($"{joinCommand} {expression.TableName} ");
+            this._command.Append("ON ");
+            expression.ComparisonExpression.Accept(this);
         }
     }
 }

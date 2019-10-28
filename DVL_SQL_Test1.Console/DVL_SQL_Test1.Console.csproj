@@ -6,6 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="SqlR" Version="0.10.0" />
+    <PackageReference Include="SqlR.Predicate" Version="0.0.13" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\DVL_SQL_Test1\DVL_SQL_Test1.csproj" />
   </ItemGroup>
 
