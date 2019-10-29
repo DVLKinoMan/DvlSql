@@ -12,8 +12,11 @@ namespace DVL_SQL_Test1.Concrete
 
         public IOrderable OrderByDescending(params string[] fields) => this._selectable.OrderByDescending(fields);
 
-        public IExecutor Select(int? topNum = null, params string[] parameterNames) => this._selectable.Select(topNum, parameterNames);
+        public IExecutor Select(params string[] parameterNames) => this._selectable.Select(parameterNames);
 
-        public IExecutor Select(int? topNum = null) => this._selectable.Select(topNum);
+        public IExecutor Select() => this._selectable.Select();
+
+        public IExecutor SelectTop(int count, params string[] parameterNames) =>
+            this._selectable.SelectTop(count, parameterNames);
     }
 }

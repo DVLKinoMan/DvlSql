@@ -73,8 +73,8 @@ namespace DVL_SQL_Test1.Console
                 .OrderBy("B1.AMOUNT")
                 .OrderByDescending("B2.RESTRICT_CODE")
                 //.Where(ComparisonExp(ConstantExp("STATUS"), SqlComparisonOperator.Equality, ConstantExp(1)))
-                .Select(null, "B1.STATUS", "B1.AMOUNT", "B1.RESTRICT_CODE")
-                .SingleAsync(r =>
+                .SelectTop(4,"B1.STATUS", "B1.AMOUNT", "B1.RESTRICT_CODE")
+                .ToListAsync(r =>
                         new Cl
                         {
                             Status = (byte)r["STATUS"],

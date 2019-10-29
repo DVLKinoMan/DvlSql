@@ -40,16 +40,24 @@ namespace DVL_SQL_Test1.Concrete
             return this;
         }
 
-        public IExecutor Select(int? topNum = null, params string[] parameterNames)
+        public IExecutor Select(params string[] parameterNames)
         {
-            this._sqlSelectExpression = new DvlSqlSelectExpression(this._sqlFromExpression, parameterNames, topNum);
+            this._sqlSelectExpression = new DvlSqlSelectExpression(this._sqlFromExpression, parameterNames);
 
             return new SqlExecutor(new DvlSqlConnection(this._connectionString), this);
         }
 
-        public IExecutor Select(int? topNum = null)
+        public IExecutor Select()
         {
-            this._sqlSelectExpression = new DvlSqlSelectExpression(this._sqlFromExpression, topNum);
+            this._sqlSelectExpression = new DvlSqlSelectExpression(this._sqlFromExpression);
+
+            return new SqlExecutor(new DvlSqlConnection(this._connectionString), this);
+        }
+
+
+        public IExecutor SelectTop(int count, params string[] parameterNames)
+        {
+            this._sqlSelectExpression = new DvlSqlSelectExpression(this._sqlFromExpression, parameterNames, count);
 
             return new SqlExecutor(new DvlSqlConnection(this._connectionString), this);
         }

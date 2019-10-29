@@ -4,8 +4,9 @@ namespace DVL_SQL_Test1.Abstract
 {
     public interface IDvlSelectable
     {
-        IExecutor Select(int? topNum = null, params string[] parameterNames);
-        IExecutor Select(int? topNum = null);
+        IExecutor Select(params string[] parameterNames);
+        IExecutor Select();
+        IExecutor SelectTop(int count, params string[] parameterNames);
         IWhereable Where(DvlSqlBinaryExpression binaryExpression);
         IDvlSelectable Join(string tableName, DvlSqlComparisonExpression compExpression);
         IDvlSelectable FullJoin(string tableName, DvlSqlComparisonExpression compExpression);

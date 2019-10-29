@@ -64,7 +64,7 @@ namespace DVL_SQL_Test1.Concrete
             if (expression.Top != null)
                 this._command.Append($"TOP {expression.Top} ");
 
-            if (expression.ParameterNames == null)
+            if (expression.ParameterNames == null || !expression.ParameterNames.Any())
             {
                 this._command.Append("* ");
                 goto end;
