@@ -5,6 +5,7 @@ namespace DVL_SQL_Test1.Expressions
 {
     public class DvlSqlSelectExpression : DvlSqlExpression
     {
+        public int? Top { get; set; }
         public IEnumerable<string> ParameterNames { get; }
         public DvlSqlFromExpression FromExpression { get; }
 

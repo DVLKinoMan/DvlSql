@@ -1,6 +1,7 @@
 ﻿using DVL_SQL_Test1.Abstract;
 using DVL_SQL_Test1.Expressions;
 using System;
+using System.Linq;
 using System.Text;
 
 namespace DVL_SQL_Test1.Concrete
@@ -60,6 +61,9 @@ namespace DVL_SQL_Test1.Concrete
         {
             this._command.Append("SELECT ");
 
+            if (expression.Top != null)
+                this._command.Append($"TOP {expression.Top} ");
+
             if (expression.ParameterNames == null)
             {
                 this._command.Append("* ");
@@ -86,6 +90,9 @@ namespace DVL_SQL_Test1.Concrete
 
         public void Visit(DvlSqlWhereExpression expression)
         {
+            if (expression.InnerExpression is DvlSqlAndExpression andExp && !andExp.InnerExpressions.Any())
+                return;
+
             this._command.Append("WHERE ");
 
             expression.InnerExpression.Accept(this);

@@ -34,6 +34,13 @@ namespace DVL_SQL_Test1.Concrete
             return builder.ToString();
         }
 
+        public DvlSqlSelectable WithSelectTop(int num)
+        {
+            if (this._sqlSelectExpression != null)
+                this._sqlSelectExpression.Top = num;
+            return this;
+        }
+
         public IExecutor Select(params string[] parameterNames)
         {
             this._sqlSelectExpression = new DvlSqlSelectExpression(this._sqlFromExpression, parameterNames);

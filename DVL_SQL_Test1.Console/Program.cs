@@ -38,65 +38,91 @@ namespace DVL_SQL_Test1.Console
 
             //Stopwatch watch = new Stopwatch();
             //watch.Start();
-            var list = ExecuteDvlSql(connString);
+            ExecuteDvlSql(@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = CoreApi");
             //watch.Stop();
             //var seconds1 = watch.ElapsedMilliseconds;
 
-
+            ExecuteSqlR(
+                @"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = CoreApi");
             //watch.Reset();
             //watch.Start();
             //ExecuteSqlR(connString);
             //watch.Stop();
             //var seconds2 = watch.ElapsedMilliseconds;
 
-            foreach (var l in list)
-            {
-                System.Console.WriteLine(l);
-            }
+            //foreach (var l in list)
+            //{
+            //    System.Console.WriteLine(l);
+            //}
 
             //System.Console.WriteLine($"My Execution time: {seconds1}; SqlR Execution time: {seconds2}");
         }
 
-        public static List<Cl> ExecuteDvlSql(string connString)
+        public static void ExecuteDvlSql(string connString)
         {
+            //var list = new DvlSql(connString)
+            //    .From("nbe.BANK_DATA", true)
+            //    .Where(
+            //        AndExp(
+            //            ComparisonExp(ConstantExp("AMOUNT"), SqlComparisonOperator.Less, ConstantExp(350000)),
+            //            //ComparisonExp(ConstantExp("ADD_DATE"), SqlComparisonOperator.Less, ConstantExp(new DateTime(2012, 1, 1)))
+            //            ComparisonExp(ConstantExp("STATUS"), SqlComparisonOperator.Equality, ConstantExp(1))
+            //        )
+            //    )
+            //    //.Where(ComparisonExp(ConstantExp("STATUS"), SqlComparisonOperator.Equality, ConstantExp(1)))
+            //    .Select("STATUS", "AMOUNT", "RESTRICT_CODE")
+            //    .OrderBy("AMOUNT")
+            //    .OrderByDescending("RESTRICT_CODE")
+            //    .ToListAsync(r =>
+            //            new Cl
+            //            {
+            //                Status = (byte)r["STATUS"],
+            //                Amount = (decimal)r["AMOUNT"],
+            //                RestrictCode = (string)r["RESTRICT_CODE"]
+            //            }
+            //    ).Result;
+
             var list = new DvlSql(connString)
-                .From("nbe.BANK_DATA", true)
-                .Where(
-                    AndExp(
-                        ComparisonExp(ConstantExp("AMOUNT"), SqlComparisonOperator.Less, ConstantExp(350000)),
-                        //ComparisonExp(ConstantExp("ADD_DATE"), SqlComparisonOperator.Less, ConstantExp(new DateTime(2012, 1, 1)))
-                        ComparisonExp(ConstantExp("STATUS"), SqlComparisonOperator.Equality, ConstantExp(1))
-                    )
-                )
-                //.Where(ComparisonExp(ConstantExp("STATUS"), SqlComparisonOperator.Equality, ConstantExp(1)))
-                .Select("STATUS","AMOUNT","RESTRICT_CODE")
-                .OrderBy("AMOUNT")
-                .OrderByDescending("RESTRICT_CODE")
-                .ToListAsync(r =>
-                        new Cl
-                        {
-                            Status = (byte) r["STATUS"],
-                            Amount = (decimal) r["AMOUNT"],
-                            RestrictCode = (string) r["RESTRICT_CODE"]
-                        }
+                .From("dbo.Words", true)
+                .Where(AndExp())
+                .Select()
+                .OrderByDescending("WordId")
+                .FirstOrDefault(r =>
+                    new
+                    {
+                        WordId = (int)r["WordId"],
+                        Text = (string)r["Text"]
+                    }
                 ).Result;
 
-            return list;
+            //return list;
         }
         
         public static void ExecuteSqlR(string connString)
         {
+            //var sqlr = SqlR.SqlR.Sql(connString);
+            //var resList = sqlr.Query(
+            //        @"SELECT s.AMOUNT AS AM1, s.REC_ID AS REC1, s1.REC_ID AS REC2, s1.AMOUNT AS AM2 FROM nbe.BANK_DATA s1 WITH(NOLOCK) INNER JOIN  nbe.BANK_DATA s ON s.REC_ID <> s1.REC_ID INNER JOIN  nbe.BANK_DATA s3 ON s.REC_ID <> s3.REC_ID WHERE s.AMOUNT < 350000  AND s1.STATUS = 1 ",
+            //        new List<SqlRParameter>(),
+            //        AsList(r => new Cl2
+            //        {
+            //            Amount = r["AM1"] is DBNull ? 0 : (decimal) r["AM1"],
+            //            Amount2 = r["AM2"] is DBNull ? 0 : (decimal) r["AM2"],
+            //            REC1 = (int) r["REC1"],
+            //            REC2 = (int) r["REC2"]
+            //        })
+            //        , SqlRQueryHint.SingleRecord)
+            //    .ExecuteAsync().Result;
             var sqlr = SqlR.SqlR.Sql(connString);
             var resList = sqlr.Query(
-                    @"SELECT s.AMOUNT AS AM1, s.REC_ID AS REC1, s1.REC_ID AS REC2, s1.AMOUNT AS AM2 FROM nbe.BANK_DATA s1 WITH(NOLOCK) INNER JOIN  nbe.BANK_DATA s ON s.REC_ID <> s1.REC_ID INNER JOIN  nbe.BANK_DATA s3 ON s.REC_ID <> s3.REC_ID WHERE s.AMOUNT < 350000  AND s1.STATUS = 1 ",
+                    @"SELECT * FROM dbo.Words",
                     new List<SqlRParameter>(),
-                    AsList(r => new Cl2
+                    AsList(r => new
                     {
-                        Amount = r["AM1"] is DBNull ? 0 : (decimal) r["AM1"],
-                        Amount2 = r["AM2"] is DBNull ? 0 : (decimal) r["AM2"],
-                        REC1 = (int) r["REC1"],
-                        REC2 = (int) r["REC2"]
-                    }))
+                        REC1 = (int)r["WordId"],
+                        REC2 = (string)r["Text"]
+                    })
+                    , SqlRQueryHint.SingleResult)
                 .ExecuteAsync().Result;
         }
     }

@@ -24,9 +24,12 @@ namespace DVL_SQL_Test1.Concrete
             throw new NotImplementedException();
         }
 
-        public async Task<List<TResult>> ToListAsync<TResult>(Func<SqlDataReader, TResult> selectorFunc)
+        public async Task<List<TResult>> ToListAsync<TResult>(Func<SqlDataReader, TResult> selectorFunc,
+            int? timeout = default,
+            CommandBehavior behavior = CommandBehavior.Default, CancellationToken cancellationToken = default)
         {
-            return await this._connection.ConnectAsync(dvlCommand => dvlCommand.ExecuteReaderAsync(ConverterFunc),
+            return await this._connection.ConnectAsync(
+                dvlCommand => dvlCommand.ExecuteReaderAsync(ConverterFunc, timeout, behavior, cancellationToken),
                 this._selectable.GetSqlString(this._sqlOrderByExpression));
 
             List<TResult> ConverterFunc(SqlDataReader reader)
@@ -56,9 +59,40 @@ namespace DVL_SQL_Test1.Concrete
             }
         }
 
-        public TResult FirstOrDefault<TResult>()
+        public async Task<TResult> First<TResult>(int? timeout = default, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await First(ConverterFunc, timeout, cancellationToken);
+
+            static TResult ConverterFunc(SqlDataReader reader) => reader[0] is TResult res ? res : throw new ArgumentException("TResult");
+        }
+
+        public async Task<TResult> First<TResult>(Func<SqlDataReader, TResult> readerFunc, int? timeout = default, CancellationToken cancellationToken = default)
+        {
+            return await this._connection.ConnectAsync(
+                dvlCommand =>
+                    dvlCommand.ExecuteReaderAsync(ConverterFunc, timeout, cancellationToken: cancellationToken),
+                this._selectable.WithSelectTop(1).GetSqlString(this._sqlOrderByExpression));
+
+            TResult ConverterFunc(SqlDataReader reader) => reader.Read() ? readerFunc(reader) : throw new InvalidOperationException("There was no element in sequence");
+        }
+
+        public async Task<TResult> FirstOrDefault<TResult>(int? timeout = default,
+            CancellationToken cancellationToken = default)
+        {
+            return await FirstOrDefault(ConverterFunc, timeout, cancellationToken);
+
+            static TResult ConverterFunc(SqlDataReader reader) => reader[0] is TResult res ? res : throw new ArgumentException("TResult");
+        }
+
+        public async Task<TResult> FirstOrDefault<TResult>(Func<SqlDataReader, TResult> readerFunc,
+            int? timeout = default, CancellationToken cancellationToken = default)
+        {
+            return await this._connection.ConnectAsync(
+                dvlCommand =>
+                    dvlCommand.ExecuteReaderAsync(ConverterFunc, timeout, cancellationToken: cancellationToken),
+                this._selectable.WithSelectTop(1).GetSqlString(this._sqlOrderByExpression));
+
+            TResult ConverterFunc(SqlDataReader reader) => reader.Read() ? readerFunc(reader) : default;
         }
 
         public IExecutor OrderBy(params string[] fields)
@@ -79,5 +113,38 @@ namespace DVL_SQL_Test1.Concrete
             return this;
         }
 
+        public async Task<TResult> Single<TResult>(int? timeout = null, CancellationToken cancellationToken = default)
+        {
+            return await Single(ConverterFunc, timeout, cancellationToken);
+
+            static TResult ConverterFunc(SqlDataReader reader) => reader[0] is TResult res ? res : throw new ArgumentException("TResult");
+        }
+
+        public async Task<TResult> Single<TResult>(Func<SqlDataReader, TResult> readerFunc, int? timeout = null, CancellationToken cancellationToken = default)
+        {
+            return await this._connection.ConnectAsync(
+                dvlCommand =>
+                    dvlCommand.ExecuteReaderAsync(ConverterFunc, timeout, cancellationToken: cancellationToken),
+                this._selectable.GetSqlString(this._sqlOrderByExpression));
+
+            TResult ConverterFunc(SqlDataReader reader) => reader.RecordsAffected == 1 && reader.Read() ? readerFunc(reader) : throw new InvalidOperationException("There was no element in sequence or there was more than 1 elements");
+        }
+
+        public async Task<TResult> SingleOrDefault<TResult>(int? timeout = null, CancellationToken cancellationToken = default)
+        {
+            return await SingleOrDefault(ConverterFunc, timeout, cancellationToken);
+
+            static TResult ConverterFunc(SqlDataReader reader) => reader[0] is TResult res ? res : throw new ArgumentException("TResult");
+        }
+
+        public async Task<TResult> SingleOrDefault<TResult>(Func<SqlDataReader, TResult> readerFunc, int? timeout = null, CancellationToken cancellationToken = default)
+        {
+            return await this._connection.ConnectAsync(
+                dvlCommand =>
+                    dvlCommand.ExecuteReaderAsync(ConverterFunc, timeout, cancellationToken: cancellationToken),
+                this._selectable.GetSqlString(this._sqlOrderByExpression));
+
+            TResult ConverterFunc(SqlDataReader reader) => reader.RecordsAffected == 1 && reader.Read() ? readerFunc(reader) : default;
+        }
     }
 }
