@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace DVL_SQL_Test1.Concrete
 {
-    public class SqlExecutor : IExecutor
+    public class DvlSqlExecutor : IDvlSqlExecutor
     {
         private readonly IDvlSqlConnection _connection;
-        private readonly DvlSqlSelectable _selectable;
+        private readonly DvlSelect _selectable;
 
-        public SqlExecutor(IDvlSqlConnection connection, DvlSqlSelectable selectable) =>
+        public DvlSqlExecutor(IDvlSqlConnection connection, DvlSelect selectable) =>
             (this._connection, this._selectable) = (connection, selectable);
 
         public (int, bool) Execute()

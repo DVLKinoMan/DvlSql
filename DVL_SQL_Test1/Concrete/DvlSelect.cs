@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DVL_SQL_Test1.Concrete
 {
-    public class DvlSqlSelectable : IDvlSelectable
+    public class DvlSelect : IDvlSelect
     {
         private readonly DvlSqlFromExpression _sqlFromExpression;
         private DvlSqlWhereExpression _sqlWhereExpression;
@@ -16,7 +16,7 @@ namespace DVL_SQL_Test1.Concrete
         private DvlSqlOrderByExpression _sqlOrderByExpression;
         private readonly string _connectionString;
 
-        public DvlSqlSelectable(DvlSqlFromExpression sqlFromExpression, string connectionString)
+        public DvlSelect(DvlSqlFromExpression sqlFromExpression, string connectionString)
             => (this._sqlFromExpression, this._connectionString) = (sqlFromExpression, connectionString);
 
         public string GetSqlString()
@@ -33,83 +33,83 @@ namespace DVL_SQL_Test1.Concrete
             return builder.ToString();
         }
 
-        public DvlSqlSelectable WithSelectTop(int num)
+        public DvlSelect WithSelectTop(int num)
         {
             if (this._sqlSelectExpression != null)
                 this._sqlSelectExpression.Top = num;
             return this;
         }
 
-        public IExecutor Select(params string[] parameterNames)
+        public IDvlSqlExecutor Select(params string[] parameterNames)
         {
             this._sqlSelectExpression = new DvlSqlSelectExpression(this._sqlFromExpression, parameterNames);
 
-            return new SqlExecutor(new DvlSqlConnection(this._connectionString), this);
+            return new DvlSqlExecutor(new DvlSqlConnection(this._connectionString), this);
         }
 
-        public IExecutor Select()
+        public IDvlSqlExecutor Select()
         {
             this._sqlSelectExpression = new DvlSqlSelectExpression(this._sqlFromExpression);
 
-            return new SqlExecutor(new DvlSqlConnection(this._connectionString), this);
+            return new DvlSqlExecutor(new DvlSqlConnection(this._connectionString), this);
         }
 
 
-        public IExecutor SelectTop(int count, params string[] parameterNames)
+        public IDvlSqlExecutor SelectTop(int count, params string[] parameterNames)
         {
             this._sqlSelectExpression = new DvlSqlSelectExpression(this._sqlFromExpression, parameterNames, count);
 
-            return new SqlExecutor(new DvlSqlConnection(this._connectionString), this);
+            return new DvlSqlExecutor(new DvlSqlConnection(this._connectionString), this);
         }
 
-        public IWhereable Where(DvlSqlBinaryExpression binaryExpression)
+        public IDvlWhere Where(DvlSqlBinaryExpression binaryExpression)
         {
             this._sqlWhereExpression = new DvlSqlWhereExpression(binaryExpression);
-            return new Whereable(this);
+            return new DvlWhere(this);
         }
 
-        public IDvlSelectable Join(string tableName, DvlSqlComparisonExpression compExpression)
+        public IDvlSelect Join(string tableName, DvlSqlComparisonExpression compExpression)
         {
             this._sqlJoinExpressions.Add(new DvlSqlInnerJoinExpression(tableName, compExpression));
             return this;
         }
 
-        public IDvlSelectable FullJoin(string tableName, DvlSqlComparisonExpression compExpression)
+        public IDvlSelect FullJoin(string tableName, DvlSqlComparisonExpression compExpression)
         {
             this._sqlJoinExpressions.Add(new DvlSqlInnerJoinExpression(tableName, compExpression));
             return this;
         }
 
-        public IDvlSelectable LeftJoin(string tableName, DvlSqlComparisonExpression compExpression)
+        public IDvlSelect LeftJoin(string tableName, DvlSqlComparisonExpression compExpression)
         {
             this._sqlJoinExpressions.Add(new DvlSqlLeftJoinExpression(tableName, compExpression));
             return this;
         }
 
-        public IDvlSelectable RightJoin(string tableName, DvlSqlComparisonExpression compExpression)
+        public IDvlSelect RightJoin(string tableName, DvlSqlComparisonExpression compExpression)
         {
             this._sqlJoinExpressions.Add(new DvlSqlRightJoinExpression(tableName, compExpression));
             return this;
         }
 
-        public IOrderable OrderBy(params string[] fields)
+        public IDvlOrderBy OrderBy(params string[] fields)
         {
 
             if (this._sqlOrderByExpression == null)
                 this._sqlOrderByExpression = new DvlSqlOrderByExpression(fields.Select(f => (f, Ascending: Ordering.ASC)));
             else this._sqlOrderByExpression.AddRange(fields.Select(f => (f, Ascending: Ordering.ASC)));
 
-            return new Orderable(this);
+            return new DvlOrderBy(this);
         }
 
-        public IOrderable OrderByDescending(params string[] fields)
+        public IDvlOrderBy OrderByDescending(params string[] fields)
         {
 
             if (this._sqlOrderByExpression == null)
                 this._sqlOrderByExpression = new DvlSqlOrderByExpression(fields.Select(f => (f, Descending: Ordering.DESC)));
             else this._sqlOrderByExpression.AddRange(fields.Select(f => (f, Descending: Ordering.DESC)));
 
-            return new Orderable(this);
+            return new DvlOrderBy(this);
         }
     }
 }
