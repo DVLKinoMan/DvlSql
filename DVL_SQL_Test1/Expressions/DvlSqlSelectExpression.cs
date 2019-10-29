@@ -9,10 +9,10 @@ namespace DVL_SQL_Test1.Expressions
         public IEnumerable<string> ParameterNames { get; }
         public DvlSqlFromExpression FromExpression { get; }
 
-        public DvlSqlSelectExpression(DvlSqlFromExpression expression) => this.FromExpression = expression;
+        public DvlSqlSelectExpression(DvlSqlFromExpression expression, int? top = null) => (this.FromExpression, this.Top) = (expression, top);
 
-        public DvlSqlSelectExpression(DvlSqlFromExpression expression, IEnumerable<string> parameterNames) =>
-            (this.FromExpression, this.ParameterNames) = (expression, parameterNames);
+        public DvlSqlSelectExpression(DvlSqlFromExpression expression, IEnumerable<string> parameterNames, int? top = null) =>
+            (this.FromExpression, this.ParameterNames, this.Top) = (expression, parameterNames, top);
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
 

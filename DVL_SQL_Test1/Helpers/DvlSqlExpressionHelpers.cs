@@ -34,10 +34,10 @@ namespace DVL_SQL_Test1.Helpers
         public static DvlSqlInExpression InExp(string parameterName, params DvlSqlExpression[] innerExpressions) =>
             new DvlSqlInExpression(parameterName, innerExpressions);
 
-        public static DvlSqlSelectExpression SelectExp(DvlSqlFromExpression fromExp) =>
-            new DvlSqlSelectExpression(fromExp);
+        public static DvlSqlSelectExpression SelectExp(DvlSqlFromExpression fromExp, int? topNum = null) =>
+            new DvlSqlSelectExpression(fromExp, topNum);
 
-        public static DvlSqlSelectExpression SelectExp(DvlSqlFromExpression fromExp, params string[] paramNames) =>
-            new DvlSqlSelectExpression(fromExp, paramNames);
+        public static DvlSqlSelectExpression SelectExp(DvlSqlFromExpression fromExp, int? topNum = null, params string[] paramNames) =>
+            new DvlSqlSelectExpression(fromExp, paramNames, topNum);
     }
 }
