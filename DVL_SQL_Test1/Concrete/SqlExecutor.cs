@@ -106,10 +106,12 @@ namespace DVL_SQL_Test1.Concrete
                     dvlCommand.ExecuteReaderAsync(ConverterFunc, timeout, cancellationToken: cancellationToken),
                 this._selectable.GetSqlString());
 
-            TResult ConverterFunc(SqlDataReader reader) => reader.RecordsAffected == 1 && reader.Read()
-                ? readerFunc(reader)
-                : throw new InvalidOperationException(
-                    "There was no element in sequence or there was more than 1 elements");
+            TResult ConverterFunc(SqlDataReader reader) => IsSingleDataReader(reader, readerFunc) switch
+            {
+                (true, var value) => value,
+                _ => throw new InvalidOperationException(
+                    "There was no element in sequence or there was more than 1 elements")
+            };
         }
 
         public async Task<TResult> SingleOrDefaultAsync<TResult>(int? timeout = null, CancellationToken cancellationToken = default)
@@ -126,7 +128,20 @@ namespace DVL_SQL_Test1.Concrete
                     dvlCommand.ExecuteReaderAsync(ConverterFunc, timeout, cancellationToken: cancellationToken),
                 this._selectable.GetSqlString());
 
-            TResult ConverterFunc(SqlDataReader reader) => reader.RecordsAffected == 1 && reader.Read() ? readerFunc(reader) : default;
+            TResult ConverterFunc(SqlDataReader reader) => IsSingleDataReader(reader, readerFunc) switch
+            {
+                (true, var value) => value,
+                _ => default
+            };
+        }
+
+        private (bool isSingle, TResult result) IsSingleDataReader<TResult>(SqlDataReader reader, Func<SqlDataReader, TResult> func)
+        {
+            if (!reader.Read())
+                return (default, default);
+
+            var firstValue = func(reader);
+            return reader.Read() ? (false, firstReader: firstValue) : (true, firstReader: firstValue);
         }
     }
 }
