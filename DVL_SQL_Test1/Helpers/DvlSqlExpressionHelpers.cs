@@ -37,6 +37,9 @@ namespace DVL_SQL_Test1.Helpers
         public static DvlSqlSelectExpression SelectExp(DvlSqlFromExpression fromExp, int? topNum = null) =>
             new DvlSqlSelectExpression(fromExp, topNum);
 
+        public static DvlSqlFromExpression FromExp(string tableName, bool withNoLock = false) =>
+            new DvlSqlFromExpression(tableName, withNoLock);
+
         public static DvlSqlSelectExpression SelectExp(DvlSqlFromExpression fromExp, int? topNum = null, params string[] paramNames) =>
             new DvlSqlSelectExpression(fromExp, paramNames, topNum);
     }

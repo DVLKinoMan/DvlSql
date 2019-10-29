@@ -62,10 +62,11 @@ namespace DVL_SQL_Test1.Console
         {
             var list = new DvlSql(connString)
                 .From("nbe.BANK_DATA AS B1", true)
-                .Join("nbe.BANK_DATA AS B2", ComparisonExp(ConstantExp("B1.REC_ID"), SqlComparisonOperator.Different, ConstantExp("B2.REC_ID")))
+                .Join("nbe.BANK_DATA AS B2", ComparisonExp(ConstantExp("B1.REC_ID"), SqlComparisonOperator.Equality, ConstantExp("B2.REC_ID")))
                 .Where(
                     AndExp(
-                        ComparisonExp(ConstantExp("B1.AMOUNT"), SqlComparisonOperator.Equality, ConstantExp(20.70))
+                        ComparisonExp(ConstantExp("B1.AMOUNT"), SqlComparisonOperator.Less, ConstantExp(35000)),
+                        InExp("B1.REC_ID", SelectExp(FromExp("nbe.BANK_DATA"), 4, "REC_ID"))
                         //ComparisonExp(ConstantExp("ADD_DATE"), SqlComparisonOperator.Less, ConstantExp(new DateTime(2012, 1, 1)))
                         //ComparisonExp(ConstantExp("B1.STATUS"), SqlComparisonOperator.Equality, ConstantExp(1))
                     )
@@ -73,8 +74,9 @@ namespace DVL_SQL_Test1.Console
                 .OrderBy("B1.AMOUNT")
                 .OrderByDescending("B2.RESTRICT_CODE")
                 //.Where(ComparisonExp(ConstantExp("STATUS"), SqlComparisonOperator.Equality, ConstantExp(1)))
-                .SelectTop(4,"B1.STATUS", "B1.AMOUNT", "B1.RESTRICT_CODE")
-                .FirstOrDefaultAsync(r =>
+                //.SelectTop(4,"B1.STATUS", "B1.AMOUNT", "B1.RESTRICT_CODE")
+                .Select("B1.STATUS", "B1.AMOUNT", "B1.RESTRICT_CODE")
+                .ToListAsync(r =>
                         new Cl
                         {
                             Status = (byte)r["STATUS"],
