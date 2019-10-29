@@ -114,10 +114,7 @@ namespace DVL_SQL_Test1.Concrete
             this._command.Append(" ");
         }
 
-        public void Visit<TValue>(DvlSqlConstantExpression<TValue> expression)
-        {
-            this._command.Append(expression.StringValue);
-        }
+        public void Visit<TValue>(DvlSqlConstantExpression<TValue> expression) => this._command.Append(expression.StringValue);
 
         public void Visit(DvlSqlFromExpression expression)
         {

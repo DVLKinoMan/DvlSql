@@ -71,7 +71,7 @@ namespace DVL_SQL_Test1.Console
                 //.Where(ComparisonExp(ConstantExp("STATUS"), SqlComparisonOperator.Equality, ConstantExp(1)))
                 .Select("STATUS","AMOUNT","RESTRICT_CODE")
                 .OrderBy("AMOUNT")
-                .OrderBy("RESTRICT_CODE")
+                .OrderByDescending("RESTRICT_CODE")
                 .ToListAsync(r =>
                         new Cl
                         {

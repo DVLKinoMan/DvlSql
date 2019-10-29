@@ -7,10 +7,7 @@ namespace DVL_SQL_Test1.Expressions
         public string TableName { get; set; }
         public DvlSqlComparisonExpression ComparisonExpression { get; set; }
 
-        public override void Accept(ISqlExpressionVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
+        public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
     }
 
     public class DvlSqlFullJoinExpression : DvlSqlJoinExpression

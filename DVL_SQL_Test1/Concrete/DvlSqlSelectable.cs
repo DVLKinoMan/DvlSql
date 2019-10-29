@@ -1,5 +1,4 @@
-﻿using System;
-using DVL_SQL_Test1.Abstract;
+﻿using DVL_SQL_Test1.Abstract;
 using DVL_SQL_Test1.Expressions;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,55 +11,40 @@ namespace DVL_SQL_Test1.Concrete
         private readonly DvlSqlFromExpression _sqlFromExpression;
         private readonly List<DvlSqlWhereExpression> _sqlWhereExpressions = new List<DvlSqlWhereExpression>();
         private readonly List<DvlSqlJoinExpression> _sqlJoinExpressions = new List<DvlSqlJoinExpression>();
-        //private DvlSqlOrderByExpression _sqlOrderByExpression;
-        private readonly string _connectionString;
 
-        public Func<DvlSqlOrderByExpression, StringBuilder> func;
+        private DvlSqlSelectExpression _sqlSelectExpression;
+        private readonly string _connectionString;
 
         public DvlSqlSelectable(DvlSqlFromExpression sqlFromExpression, string connectionString)
             => (this._sqlFromExpression, this._connectionString) = (sqlFromExpression, connectionString);
 
+        public string GetSqlString(DvlSqlOrderByExpression orderByExpression = null)
+        {
+            var builder = new StringBuilder();
+            var commandBuilder = new DvlSqlCommandBuilder(builder);
+
+            var whereExpression = GetOneWhereExpression(this._sqlWhereExpressions);
+
+            this._sqlSelectExpression.Accept(commandBuilder);
+            foreach (var joinExpression in this._sqlJoinExpressions)
+                joinExpression.Accept(commandBuilder);
+            whereExpression.Accept(commandBuilder);
+            orderByExpression?.Accept(commandBuilder);
+
+            return builder.ToString();
+        }
+
         public IExecutor Select(params string[] parameterNames)
         {
-            func = (DvlSqlOrderByExpression orderByExpression) =>
-            {
-                var builder = new StringBuilder();
-                var commandBuilder = new DvlSqlCommandBuilder(builder);
-
-                var selectExpression = new DvlSqlSelectExpression(this._sqlFromExpression, parameterNames);
-                var whereExpression = GetOneWhereExpression(this._sqlWhereExpressions);
-
-                selectExpression.Accept(commandBuilder);
-                foreach (var joinExpression in this._sqlJoinExpressions)
-                    joinExpression.Accept(commandBuilder);
-                whereExpression.Accept(commandBuilder);
-                orderByExpression?.Accept(commandBuilder);
-
-                return builder;
-            };
+            this._sqlSelectExpression = new DvlSqlSelectExpression(this._sqlFromExpression, parameterNames);
 
             return new SqlExecutor(new DvlSqlConnection(this._connectionString), this);
         }
 
         public IExecutor Select()
         {
-            func = (DvlSqlOrderByExpression orderByExpression) =>
-            {
-                var builder = new StringBuilder();
-                var commandBuilder = new DvlSqlCommandBuilder(builder);
+            this._sqlSelectExpression = new DvlSqlSelectExpression(this._sqlFromExpression);
 
-                var selectExpression = new DvlSqlSelectExpression(this._sqlFromExpression);
-                var whereExpression = GetOneWhereExpression(this._sqlWhereExpressions);
-
-                selectExpression.Accept(commandBuilder);
-                foreach (var joinExpression in this._sqlJoinExpressions)
-                    joinExpression.Accept(commandBuilder);
-                whereExpression.Accept(commandBuilder);
-                orderByExpression?.Accept(commandBuilder);
-
-                return builder;
-            };
-            
             return new SqlExecutor(new DvlSqlConnection(this._connectionString), this);
         }
 

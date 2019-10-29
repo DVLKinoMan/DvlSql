@@ -27,7 +27,7 @@ namespace DVL_SQL_Test1.Concrete
         public async Task<List<TResult>> ToListAsync<TResult>(Func<SqlDataReader, TResult> selectorFunc)
         {
             return await this._connection.ConnectAsync(dvlCommand => dvlCommand.ExecuteReaderAsync(ConverterFunc),
-                this._selectable.func(this._sqlOrderByExpression).ToString());
+                this._selectable.GetSqlString(this._sqlOrderByExpression));
 
             List<TResult> ConverterFunc(SqlDataReader reader)
             {
@@ -44,7 +44,7 @@ namespace DVL_SQL_Test1.Concrete
         {
             return await this._connection.ConnectAsync(
                 dvlCommand => dvlCommand.ExecuteReaderAsync(ConverterFunc, timeout, behavior, cancellationToken),
-                this._selectable.func(this._sqlOrderByExpression).ToString());
+                this._selectable.GetSqlString(this._sqlOrderByExpression));
 
             static List<TResult> ConverterFunc(SqlDataReader reader)
             {
