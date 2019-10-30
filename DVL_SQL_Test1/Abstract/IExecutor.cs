@@ -9,7 +9,7 @@ namespace DVL_SQL_Test1.Abstract
 {
     public interface IExecutor
     {
-        (int, bool) Execute();
+        (int, bool) Execute(); 
 
         Task<List<TResult>> ToListAsync<TResult>(Func<SqlDataReader, TResult> reader, int? timeout = default,
             CommandBehavior behavior = CommandBehavior.Default, CancellationToken cancellationToken = default);
