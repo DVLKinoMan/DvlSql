@@ -21,6 +21,12 @@ namespace DVL_SQL_Test1.Expressions
 
         public void AddRange(IEnumerable<(string column, Ordering ordering)> @params) => this.Params.AddRange(@params);
 
+        public DvlSqlOrderByExpression WithRoot(bool isRoot)
+        {
+            this.IsRoot = isRoot;
+            return this;
+        }
+
         public override void Accept(ISqlExpressionVisitor visitor)
         {
             visitor.Visit(this);

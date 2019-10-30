@@ -15,8 +15,8 @@ namespace DVL_SQL_Test1.Helpers
         //    return list;
         //}
 
-        public static DvlSqlWhereExpression WhereExp(DvlSqlBinaryExpression innerExpression) =>
-            new DvlSqlWhereExpression(innerExpression);
+        public static DvlSqlWhereExpression WhereExp(DvlSqlBinaryExpression innerExpression, bool isRoot = false) =>
+            new DvlSqlWhereExpression(innerExpression).WithRoot(isRoot);
 
         public static DvlSqlAndExpression AndExp(params DvlSqlExpression[] innerExpressions) =>
             new DvlSqlAndExpression(innerExpressions);
@@ -34,14 +34,15 @@ namespace DVL_SQL_Test1.Helpers
         public static DvlSqlInExpression InExp(string parameterName, params DvlSqlExpression[] innerExpressions) =>
             new DvlSqlInExpression(parameterName, innerExpressions);
 
-        public static DvlSqlSelectExpression SelectExp(DvlSqlFromExpression fromExp, int? topNum = null) =>
-            new DvlSqlSelectExpression(fromExp, topNum);
+        public static DvlSqlSelectExpression SelectExp(DvlSqlFromExpression fromExp, int? topNum = null,
+            bool isRoot = false) =>
+            new DvlSqlSelectExpression(fromExp, topNum).WithRoot(isRoot);
 
         public static DvlSqlFromExpression FromExp(string tableName, bool withNoLock = false) =>
             new DvlSqlFromExpression(tableName, withNoLock);
 
         public static DvlSqlSelectExpression SelectExp(DvlSqlFromExpression fromExp, int? topNum = null, params string[] paramNames) =>
-            new DvlSqlSelectExpression(fromExp, paramNames, topNum);
+            new DvlSqlSelectExpression(fromExp, paramNames, topNum).WithRoot(false);
 
         public static DvlSqlLikeExpression LikeExp(string field, string pattern) => new DvlSqlLikeExpression(field, pattern);
 

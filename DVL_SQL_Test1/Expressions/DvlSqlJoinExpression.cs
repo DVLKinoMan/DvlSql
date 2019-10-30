@@ -8,6 +8,12 @@ namespace DVL_SQL_Test1.Expressions
         public new bool IsRoot { get; set; } = true;
         public DvlSqlComparisonExpression ComparisonExpression { get; set; }
 
+        public DvlSqlJoinExpression WithRoot(bool isRoot)
+        {
+            this.IsRoot = isRoot;
+            return this;
+        }
+
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
     }
 
