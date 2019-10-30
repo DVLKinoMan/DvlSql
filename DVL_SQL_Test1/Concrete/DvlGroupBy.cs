@@ -8,15 +8,12 @@ namespace DVL_SQL_Test1.Concrete
 
         public DvlGroupBy(IDvlSelect select) => this._select = select;
 
-        public IDvlSqlExecutor Select(params string[] parameterNames) => this._select.Select(parameterNames);
+        public IDvlOrderBy Select(params string[] parameterNames) => this._select.Select(parameterNames);
 
-        public IDvlSqlExecutor Select() => this._select.Select();
+        public IDvlOrderBy Select() => this._select.Select();
 
-        public IDvlSqlExecutor SelectTop(int count, params string[] parameterNames) =>
+        public IDvlOrderBy SelectTop(int count, params string[] parameterNames) =>
             this._select.SelectTop(count, parameterNames);
 
-        public IDvlOrderBy OrderBy(params string[] fields) => this._select.OrderBy(fields);
-
-        public IDvlOrderBy OrderByDescending(params string[] fields) => this._select.OrderByDescending(fields);
     }
 }

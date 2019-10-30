@@ -2,10 +2,8 @@
 {
     public interface IDvlGroupBy
     {
-        IDvlSqlExecutor Select(params string[] parameterNames);
-        IDvlSqlExecutor Select();
-        IDvlSqlExecutor SelectTop(int count, params string[] parameterNames);
-        IDvlOrderBy OrderBy(params string[] fields);
-        IDvlOrderBy OrderByDescending(params string[] fields);
+        IDvlOrderBy Select(params string[] parameterNames);
+        IDvlOrderBy Select();
+        IDvlOrderBy SelectTop(int count, params string[] parameterNames);
     }
 }

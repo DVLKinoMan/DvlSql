@@ -10,7 +10,6 @@ namespace DVL_SQL_Test1.Concrete
     {
         private readonly List<SqlCommand> _commands = new List<SqlCommand>();
         private readonly string _connectionString;
-        //private readonly string _sqlString;
 
         public DvlSqlConnection(string connectionString) =>
             this._connectionString = connectionString;

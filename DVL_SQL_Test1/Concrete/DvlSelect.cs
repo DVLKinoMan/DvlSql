@@ -1,4 +1,5 @@
-﻿using DVL_SQL_Test1.Abstract;
+﻿using System;
+using DVL_SQL_Test1.Abstract;
 using DVL_SQL_Test1.Expressions;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,26 +43,25 @@ namespace DVL_SQL_Test1.Concrete
             return this;
         }
 
-        public IDvlSqlExecutor Select(params string[] parameterNames)
+        public IDvlOrderBy Select(params string[] parameterNames)
         {
             this._sqlSelectExpression = new DvlSqlSelectExpression(this._sqlFromExpression, parameterNames);
 
-            return new DvlSqlExecutor(new DvlSqlConnection(this._connectionString), this);
+            return new DvlOrderBy(this, new DvlSqlExecutor(new DvlSqlConnection(this._connectionString), this));
         }
 
-        public IDvlSqlExecutor Select()
+        public IDvlOrderBy Select()
         {
             this._sqlSelectExpression = new DvlSqlSelectExpression(this._sqlFromExpression);
 
-            return new DvlSqlExecutor(new DvlSqlConnection(this._connectionString), this);
+            return new DvlOrderBy(this, new DvlSqlExecutor(new DvlSqlConnection(this._connectionString), this));
         }
 
-
-        public IDvlSqlExecutor SelectTop(int count, params string[] parameterNames)
+        public IDvlOrderBy SelectTop(int count, params string[] parameterNames)
         {
             this._sqlSelectExpression = new DvlSqlSelectExpression(this._sqlFromExpression, parameterNames, count);
 
-            return new DvlSqlExecutor(new DvlSqlConnection(this._connectionString), this);
+            return new DvlOrderBy(this, new DvlSqlExecutor(new DvlSqlConnection(this._connectionString), this));
         }
 
         public IDvlWhere Where(DvlSqlBinaryExpression binaryExpression)
@@ -94,24 +94,22 @@ namespace DVL_SQL_Test1.Concrete
             return this;
         }
 
-        public IDvlOrderBy OrderBy(params string[] fields)
+        public IDvlOrderBy OrderBy(IDvlOrderBy orderBy, params string[] fields)
         {
-
             if (this._sqlOrderByExpression == null)
                 this._sqlOrderByExpression = new DvlSqlOrderByExpression(fields.Select(f => (f, Ascending: Ordering.ASC)));
             else this._sqlOrderByExpression.AddRange(fields.Select(f => (f, Ascending: Ordering.ASC)));
 
-            return new DvlOrderBy(this);
+            return orderBy;
         }
 
-        public IDvlOrderBy OrderByDescending(params string[] fields)
+        public IDvlOrderBy OrderByDescending(IDvlOrderBy orderBy, params string[] fields)
         {
-
             if (this._sqlOrderByExpression == null)
                 this._sqlOrderByExpression = new DvlSqlOrderByExpression(fields.Select(f => (f, Descending: Ordering.DESC)));
             else this._sqlOrderByExpression.AddRange(fields.Select(f => (f, Descending: Ordering.DESC)));
 
-            return new DvlOrderBy(this);
+            return orderBy;
         }
 
         public IDvlGroupBy GroupBy(params string[] parameterNames)
