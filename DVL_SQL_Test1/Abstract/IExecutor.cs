@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DVL_SQL_Test1.Abstract
 {
-    public interface IDvlSqlExecutor
+    public interface IExecutor
     {
         (int, bool) Execute();
 

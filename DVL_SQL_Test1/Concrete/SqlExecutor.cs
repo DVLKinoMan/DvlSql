@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace DVL_SQL_Test1.Concrete
 {
-    public class DvlSqlExecutor : IDvlSqlExecutor
+    public class SqlExecutor : IExecutor
     {
         private readonly IDvlSqlConnection _connection;
-        private readonly DvlSelect _selectable;
+        private readonly SqlSelector _selector;
 
-        public DvlSqlExecutor(IDvlSqlConnection connection, DvlSelect selectable) =>
-            (this._connection, this._selectable) = (connection, selectable);
+        public SqlExecutor(IDvlSqlConnection connection, SqlSelector selector) =>
+            (this._connection, this._selector) = (connection, selector);
 
         public (int, bool) Execute()
         {
@@ -27,7 +27,7 @@ namespace DVL_SQL_Test1.Concrete
         {
             return await this._connection.ConnectAsync(
                 dvlCommand => dvlCommand.ExecuteReaderAsync(ConverterFunc, timeout, behavior, cancellationToken),
-                this._selectable.GetSqlString());
+                this._selector.GetSqlString());
 
             List<TResult> ConverterFunc(SqlDataReader reader)
             {
@@ -44,7 +44,7 @@ namespace DVL_SQL_Test1.Concrete
         {
             return await this._connection.ConnectAsync(
                 dvlCommand => dvlCommand.ExecuteReaderAsync(ConverterFunc, timeout, behavior, cancellationToken),
-                this._selectable.GetSqlString());
+                this._selector.GetSqlString());
 
             static List<TResult> ConverterFunc(SqlDataReader reader)
             {
@@ -68,7 +68,7 @@ namespace DVL_SQL_Test1.Concrete
             return await this._connection.ConnectAsync(
                 dvlCommand =>
                     dvlCommand.ExecuteReaderAsync(ConverterFunc, timeout, cancellationToken: cancellationToken),
-                this._selectable.WithSelectTop(1).GetSqlString());
+                this._selector.WithSelectTop(1).GetSqlString());
 
             TResult ConverterFunc(SqlDataReader reader) => reader.Read() ? readerFunc(reader) : throw new InvalidOperationException("There was no element in sequence");
         }
@@ -87,7 +87,7 @@ namespace DVL_SQL_Test1.Concrete
             return await this._connection.ConnectAsync(
                 dvlCommand =>
                     dvlCommand.ExecuteReaderAsync(ConverterFunc, timeout, cancellationToken: cancellationToken),
-                this._selectable.WithSelectTop(1).GetSqlString());
+                this._selector.WithSelectTop(1).GetSqlString());
 
             TResult ConverterFunc(SqlDataReader reader) => reader.Read() ? readerFunc(reader) : default;
         }
@@ -104,7 +104,7 @@ namespace DVL_SQL_Test1.Concrete
             return await this._connection.ConnectAsync(
                 dvlCommand =>
                     dvlCommand.ExecuteReaderAsync(ConverterFunc, timeout, cancellationToken: cancellationToken),
-                this._selectable.GetSqlString());
+                this._selector.GetSqlString());
 
             TResult ConverterFunc(SqlDataReader reader) => IsSingleDataReader(reader, readerFunc) switch
             {
@@ -126,7 +126,7 @@ namespace DVL_SQL_Test1.Concrete
             return await this._connection.ConnectAsync(
                 dvlCommand =>
                     dvlCommand.ExecuteReaderAsync(ConverterFunc, timeout, cancellationToken: cancellationToken),
-                this._selectable.GetSqlString());
+                this._selector.GetSqlString());
 
             TResult ConverterFunc(SqlDataReader reader) => IsSingleDataReader(reader, readerFunc) switch
             {
@@ -135,7 +135,7 @@ namespace DVL_SQL_Test1.Concrete
             };
         }
 
-        private (bool isSingle, TResult result) IsSingleDataReader<TResult>(SqlDataReader reader, Func<SqlDataReader, TResult> func)
+        private static (bool isSingle, TResult result) IsSingleDataReader<TResult>(SqlDataReader reader, Func<SqlDataReader, TResult> func)
         {
             if (!reader.Read())
                 return (default, default);

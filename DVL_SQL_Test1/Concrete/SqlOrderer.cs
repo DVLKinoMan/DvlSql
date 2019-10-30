@@ -8,16 +8,16 @@ using DVL_SQL_Test1.Abstract;
 
 namespace DVL_SQL_Test1.Concrete
 {
-    public class DvlOrderBy : IDvlOrderBy
+    public class SqlOrderer : IOrderer
     {
-        private readonly DvlSelect _selectable;
-        private readonly IDvlSqlExecutor _executor;
+        private readonly SqlSelector _selector;
+        private readonly IExecutor _executor;
 
-        public DvlOrderBy(DvlSelect selectable, IDvlSqlExecutor executor) => (this._selectable, this._executor) = (selectable, executor);
+        public SqlOrderer(SqlSelector selector, IExecutor executor) => (this._selector, this._executor) = (selector, executor);
 
-        public IDvlOrderBy OrderBy(params string[] fields) => this._selectable.OrderBy(this, fields);
+        public IOrderer OrderBy(params string[] fields) => this._selector.OrderBy(this, fields);
 
-        public IDvlOrderBy OrderByDescending(params string[] fields) => this._selectable.OrderByDescending(this, fields);
+        public IOrderer OrderByDescending(params string[] fields) => this._selector.OrderByDescending(this, fields);
 
         public (int, bool) Execute() => this._executor.Execute();
 
