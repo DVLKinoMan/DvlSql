@@ -2,6 +2,6 @@
 {
     public abstract class DvlSqlBinaryExpression : DvlSqlExpression
     {
-
+        public bool Not { get; set; } = false;
     }
 }

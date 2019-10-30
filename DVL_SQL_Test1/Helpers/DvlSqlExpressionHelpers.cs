@@ -42,5 +42,18 @@ namespace DVL_SQL_Test1.Helpers
 
         public static DvlSqlSelectExpression SelectExp(DvlSqlFromExpression fromExp, int? topNum = null, params string[] paramNames) =>
             new DvlSqlSelectExpression(fromExp, paramNames, topNum);
+
+        public static DvlSqlLikeExpression LikeExp(string field, string pattern) => new DvlSqlLikeExpression(field, pattern);
+
+        public static DvlSqlNotExpression NotExp(DvlSqlBinaryExpression binaryExpression) =>
+            new DvlSqlNotExpression(binaryExpression);
+
+        public static DvlSqlNotExpression NotInExp(string parameterName, params DvlSqlExpression[] innerExpressions) => NotExp(InExp(parameterName, innerExpressions));
+
+        public static DvlSqlNotExpression NotLikeExp(string field, string pattern) => NotExp(LikeExp(field, pattern));
+
+        public static DvlSqlIsNullExpression IsNullExp(DvlSqlExpression expression) => new DvlSqlIsNullExpression(expression);
+
+        public static DvlSqlNotExpression IsNotNullExp(DvlSqlExpression expression) => NotExp(IsNullExp(expression));
     }
 }

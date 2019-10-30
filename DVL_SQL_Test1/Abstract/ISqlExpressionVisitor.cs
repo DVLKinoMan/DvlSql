@@ -15,5 +15,8 @@ namespace DVL_SQL_Test1.Abstract
         void Visit(DvlSqlJoinExpression expression);
         void Visit(DvlSqlOrderByExpression expression);
         void Visit(DvlSqlGroupByExpression expression);
+        void Visit(DvlSqlNotExpression expression);
+        void Visit(DvlSqlLikeExpression expression);
+        void Visit(DvlSqlIsNullExpression expression);
     }
 }

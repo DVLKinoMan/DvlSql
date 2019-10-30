@@ -14,7 +14,7 @@ namespace DVL_SQL_Test1.Concrete
 
         public void Visit(DvlSqlInExpression expression)
         {
-            this._command.Append($"{expression.ParameterName} IN (");
+            this._command.Append($"{expression.ParameterName}{(expression.Not ? " NOT" : "")} IN (");
 
             bool isEmpty = true;
 
@@ -33,28 +33,28 @@ namespace DVL_SQL_Test1.Concrete
 
         public void Visit(DvlSqlOrExpression expression)
         {
-            const string or = " OR ";
+            string op = expression.Not ? " AND " : " OR ";
 
             foreach (var innerExpression in expression.InnerExpressions)
             {
                 innerExpression.Accept(this);
-                this._command.Append(or);
+                this._command.Append(op);
             }
 
-            this._command.Remove(this._command.Length - or.Length, or.Length);
+            this._command.Remove(this._command.Length - op.Length, op.Length);
         }
 
         public void Visit(DvlSqlAndExpression expression)
         {
-            const string and = " AND ";
+            string op = expression.Not ? " OR " : " AND ";
 
             foreach (var innerExpression in expression.InnerExpressions)
             {
                 innerExpression.Accept(this);
-                this._command.Append(and);
+                this._command.Append(op);
             }
 
-            this._command.Remove(this._command.Length - and.Length, and.Length);
+            this._command.Remove(this._command.Length - op.Length, op.Length);
         }
 
         public void Visit(DvlSqlSelectExpression expression)
@@ -103,7 +103,7 @@ namespace DVL_SQL_Test1.Concrete
             expression.LeftExpression.Accept(this);
 
             this._command.Append(
-                expression.ComparisonOperator switch
+                (expression.Not ? GetNotExp(expression.ComparisonOperator) : expression.ComparisonOperator) switch
                 {
                     SqlComparisonOperator.Equality => " = ",
                     SqlComparisonOperator.Greater => " > ",
@@ -119,6 +119,20 @@ namespace DVL_SQL_Test1.Concrete
 
             expression.RightExpression.Accept(this);
             this._command.Append(" ");
+
+            static SqlComparisonOperator GetNotExp(SqlComparisonOperator op) => op switch
+            {
+                SqlComparisonOperator.Different => SqlComparisonOperator.Equality,
+                SqlComparisonOperator.Equality => SqlComparisonOperator.Different,
+                SqlComparisonOperator.Less => SqlComparisonOperator.Greater,
+                SqlComparisonOperator.Greater => SqlComparisonOperator.Less,
+                SqlComparisonOperator.GreaterOrEqual => SqlComparisonOperator.LessOrEqual,
+                SqlComparisonOperator.LessOrEqual => SqlComparisonOperator.GreaterOrEqual,
+                SqlComparisonOperator.NotLess => SqlComparisonOperator.NotGreater,
+                SqlComparisonOperator.NotGreater => SqlComparisonOperator.NotLess,
+                SqlComparisonOperator.NotEquality => SqlComparisonOperator.Equality,
+                _ => throw new NotImplementedException("ComparisonOperator not implemented")
+            };
         }
 
         public void Visit<TValue>(DvlSqlConstantExpression<TValue> expression) => this._command.Append(expression.StringValue);
@@ -164,6 +178,24 @@ namespace DVL_SQL_Test1.Concrete
 
             if (expression.ParameterNames.Count != 0)
                 this._command.Remove(this._command.Length - 2, 2);
+        }
+
+        public void Visit(DvlSqlNotExpression expression)
+        {
+            expression.BinaryExpression.Not = true;
+            expression.BinaryExpression.Accept(this);
+        }
+
+        public void Visit(DvlSqlLikeExpression expression)
+        {
+            string likeStr = expression.Not ? "NOT LIKE" : "LIKE";
+            this._command.Append($"{expression.Field} {likeStr} '{expression.Pattern}' ");
+        }
+
+        public void Visit(DvlSqlIsNullExpression expression)
+        {
+            expression.Expression.Accept(this);
+            this._command.Append(expression.Not ? " IS NOT NULL " : " IS NULL ");
         }
     }
 }
