@@ -15,6 +15,7 @@ namespace DVL_SQL_Test1.Concrete
         private DvlSqlSelectExpression _sqlSelectExpression;
         private DvlSqlOrderByExpression _sqlOrderByExpression;
         private readonly string _connectionString;
+        private DvlSqlGroupByExpression _sqlGroupByExpression;
 
         public DvlSelect(DvlSqlFromExpression sqlFromExpression, string connectionString)
             => (this._sqlFromExpression, this._connectionString) = (sqlFromExpression, connectionString);
@@ -28,6 +29,7 @@ namespace DVL_SQL_Test1.Concrete
             foreach (var joinExpression in this._sqlJoinExpressions)
                 joinExpression.Accept(commandBuilder);
             this._sqlWhereExpression?.Accept(commandBuilder);
+            this._sqlGroupByExpression?.Accept(commandBuilder);
             this._sqlOrderByExpression?.Accept(commandBuilder);
 
             return builder.ToString();
@@ -110,6 +112,13 @@ namespace DVL_SQL_Test1.Concrete
             else this._sqlOrderByExpression.AddRange(fields.Select(f => (f, Descending: Ordering.DESC)));
 
             return new DvlOrderBy(this);
+        }
+
+        public IDvlGroupBy GroupBy(params string[] parameterNames)
+        {
+            this._sqlGroupByExpression = new DvlSqlGroupByExpression(parameterNames);
+
+            return new DvlGroupBy(this);
         }
     }
 }

@@ -5,6 +5,7 @@ namespace DVL_SQL_Test1.Expressions
     public abstract class DvlSqlJoinExpression : DvlSqlExpression
     {
         public string TableName { get; set; }
+        public new bool IsRoot { get; set; } = true;
         public DvlSqlComparisonExpression ComparisonExpression { get; set; }
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);

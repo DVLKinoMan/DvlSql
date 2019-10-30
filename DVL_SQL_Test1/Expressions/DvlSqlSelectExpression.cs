@@ -8,6 +8,7 @@ namespace DVL_SQL_Test1.Expressions
         public int? Top { get; set; }
         public IEnumerable<string> ParameterNames { get; }
         public DvlSqlFromExpression FromExpression { get; }
+        public new bool IsRoot { get; set; } = false;
 
         public DvlSqlSelectExpression(DvlSqlFromExpression expression, int? top = null) => (this.FromExpression, this.Top) = (expression, top);
 

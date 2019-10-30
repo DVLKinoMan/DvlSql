@@ -59,7 +59,7 @@ namespace DVL_SQL_Test1.Concrete
 
         public void Visit(DvlSqlSelectExpression expression)
         {
-            this._command.Append("SELECT ");
+            this._command.Append(expression.IsRoot ? $"{Environment.NewLine}SELECT " : " SELECT ");
 
             if (expression.Top != null)
                 this._command.Append($"TOP {expression.Top} ");
@@ -93,7 +93,7 @@ namespace DVL_SQL_Test1.Concrete
             if (expression.InnerExpression is DvlSqlAndExpression andExp && !andExp.InnerExpressions.Any())
                 return;
 
-            this._command.Append("WHERE ");
+            this._command.Append(expression.IsRoot ? $"{Environment.NewLine}WHERE " : " WHERE ");
 
             expression.InnerExpression.Accept(this);
         }
@@ -141,18 +141,28 @@ namespace DVL_SQL_Test1.Concrete
                 _=>throw new NotImplementedException("JoinExpression not implemented")
             };
 
-            this._command.Append($"{joinCommand} {expression.TableName} ");
-            this._command.Append("ON ");
+            this._command.Append(expression.IsRoot ? $"{Environment.NewLine}{joinCommand} {expression.TableName} ON " : $" {joinCommand} {expression.TableName} ON ");
             expression.ComparisonExpression.Accept(this);
         }
 
         public void Visit(DvlSqlOrderByExpression expression)
         {
-            this._command.Append("ORDER BY ");
+            this._command.Append(expression.IsRoot ? $"{Environment.NewLine}ORDER BY " : " ORDER BY ");
             foreach (var (column, ordering) in expression.Params)
                 this._command.Append($"{column} {ordering}, ");
 
             if (expression.Params.Count != 0)
+                this._command.Remove(this._command.Length - 2, 2);
+        }
+
+        public void Visit(DvlSqlGroupByExpression expression)
+        {
+            this._command.Append(expression.IsRoot ? $"{Environment.NewLine}GROUP BY " : " GROUP BY ");
+
+            foreach (var parameterName in expression.ParameterNames)
+                this._command.Append($"{parameterName}, ");
+
+            if (expression.ParameterNames.Count != 0)
                 this._command.Remove(this._command.Length - 2, 2);
         }
     }

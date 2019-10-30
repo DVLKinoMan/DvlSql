@@ -8,6 +8,7 @@ namespace DVL_SQL_Test1.Concrete
 
         public DvlWhere(IDvlSelect selectable) => this._selectable = selectable;
 
+        public IDvlGroupBy GroupBy(params string[] parameterNames) => this._selectable.GroupBy(parameterNames);
         public IDvlOrderBy OrderBy(params string[] fields) => this._selectable.OrderBy(fields);
 
         public IDvlOrderBy OrderByDescending(params string[] fields) => this._selectable.OrderByDescending(fields);

@@ -32,6 +32,7 @@ namespace DVL_SQL_Test1.Expressions
 
     public abstract class DvlSqlExpression
     {
+        public bool IsRoot { get; set; } = false;
         public abstract void Accept(ISqlExpressionVisitor visitor);
     }
 }

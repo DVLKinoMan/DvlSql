@@ -14,5 +14,6 @@ namespace DVL_SQL_Test1.Abstract
         void Visit(DvlSqlFromExpression expression);
         void Visit(DvlSqlJoinExpression expression);
         void Visit(DvlSqlOrderByExpression expression);
+        void Visit(DvlSqlGroupByExpression expression);
     }
 }

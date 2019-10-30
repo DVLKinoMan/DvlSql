@@ -8,6 +8,7 @@ using static DVL_SQL_Test1.Helpers.DvlSqlExpressionHelpers;
 using System.Diagnostics;
 using SqlR;
 using static SqlR.Functions;
+using System.Linq;
 
 namespace DVL_SQL_Test1.Console
 {
@@ -71,17 +72,20 @@ namespace DVL_SQL_Test1.Console
                         //ComparisonExp(ConstantExp("B1.STATUS"), SqlComparisonOperator.Equality, ConstantExp(1))
                     )
                 )
-                .OrderBy("B1.AMOUNT")
-                .OrderByDescending("B2.RESTRICT_CODE")
+                .GroupBy("B1.AMOUNT")
+                //.OrderBy("B1.AMOUNT")
+                .OrderByDescending("[Count]")
                 //.Where(ComparisonExp(ConstantExp("STATUS"), SqlComparisonOperator.Equality, ConstantExp(1)))
                 //.SelectTop(4,"B1.STATUS", "B1.AMOUNT", "B1.RESTRICT_CODE")
-                .Select("B1.STATUS", "B1.AMOUNT", "B1.RESTRICT_CODE")
+                //.Select("B1.STATUS", "B1.AMOUNT", "B1.RESTRICT_CODE")
+                .Select("B1.AMOUNT", "COUNT(*) AS [Count]")
                 .ToListAsync(r =>
-                        new Cl
+                        new 
                         {
-                            Status = (byte)r["STATUS"],
+                            //Status = (byte)r["STATUS"],
                             Amount = (decimal)r["AMOUNT"],
-                            RestrictCode = (string)r["RESTRICT_CODE"]
+                            //RestrictCode = (string)r["RESTRICT_CODE"]
+                            Count = (int)r["Count"]
                         }
                 ).Result;
 

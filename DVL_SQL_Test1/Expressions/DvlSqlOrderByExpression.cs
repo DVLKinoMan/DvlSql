@@ -15,7 +15,7 @@ namespace DVL_SQL_Test1.Expressions
         public List<(string column, Ordering ordering)> Params { get; set; }
 
         public DvlSqlOrderByExpression(IEnumerable<(string column, Ordering ordering)> @params) =>
-            this.Params = @params.ToList();
+            (this.Params, this.IsRoot) = (@params.ToList(), true);
 
         public void Add((string column, Ordering ordering) param) => this.Params.Add(param);
 

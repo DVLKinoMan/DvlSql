@@ -14,5 +14,6 @@ namespace DVL_SQL_Test1.Abstract
         IDvlSelect RightJoin(string tableName, DvlSqlComparisonExpression compExpression);
         IDvlOrderBy OrderBy(params string[] fields);
         IDvlOrderBy OrderByDescending(params string[] fields);
+        IDvlGroupBy GroupBy(params string[] parameterNames);
     }
 }
