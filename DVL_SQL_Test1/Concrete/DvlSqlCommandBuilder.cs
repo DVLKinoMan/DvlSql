@@ -102,6 +102,12 @@ namespace DVL_SQL_Test1.Concrete
 
             if (expression.ParameterNames.Count != 0)
                 this._command.Remove(this._command.Length - 2, 2);
+
+            if (expression.BinaryExpression != null)
+            {
+                this._command.Append($"{Environment.NewLine}HAVING ");
+                expression.BinaryExpression.Accept(this);
+            }
         }
 
         #region BinaryExpressions

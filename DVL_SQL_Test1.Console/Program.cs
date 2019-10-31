@@ -76,6 +76,7 @@ namespace DVL_SQL_Test1.Console
                     )
                 )
                 .GroupBy("B1.AMOUNT")
+                .Having(ComparisonExp(ConstantExp("Count(*)"), SqlComparisonOperator.GreaterOrEqual, ConstantExp("2")))
                 //.Where(ComparisonExp(ConstantExp("STATUS"), SqlComparisonOperator.Equality, ConstantExp(1)))
                 //.SelectTop(4,"B1.STATUS", "B1.AMOUNT", "B1.RESTRICT_CODE")
                 //.Select("B1.STATUS", "B1.AMOUNT", "B1.RESTRICT_CODE")

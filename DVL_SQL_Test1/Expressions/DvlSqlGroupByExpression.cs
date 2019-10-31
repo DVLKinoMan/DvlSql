@@ -7,6 +7,7 @@ namespace DVL_SQL_Test1.Expressions
     public class DvlSqlGroupByExpression : DvlSqlExpression
     {
         public List<string> ParameterNames;
+        public DvlSqlBinaryExpression BinaryExpression { get; set; }
 
         public DvlSqlGroupByExpression(IEnumerable<string> parameterNames) => (this.ParameterNames, this.IsRoot) = (parameterNames.ToList(), true);
 

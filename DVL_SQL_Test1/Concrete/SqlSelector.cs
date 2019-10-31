@@ -116,5 +116,12 @@ namespace DVL_SQL_Test1.Concrete
 
             return new SqlGrouper(this);
         }
+
+        public ISelectable Having(ISelectable select, DvlSqlBinaryExpression binaryExpression)
+        {
+            this._sqlGroupByExpression.BinaryExpression = binaryExpression;
+
+            return select;
+        }
     }
 }
