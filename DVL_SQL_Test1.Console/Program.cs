@@ -10,6 +10,7 @@ using SqlR;
 using static SqlR.Functions;
 using static DVL_SQL_Test1.Helpers.DvlSqlAggregateFunctionHelpers;
 using System.Linq;
+using DVL_SQL_Test1.Abstract;
 using DVL_SQL_Test1.Extensions;
 
 namespace DVL_SQL_Test1.Console
@@ -59,6 +60,20 @@ namespace DVL_SQL_Test1.Console
             //}
 
             //System.Console.WriteLine($"My Execution time: {seconds1}; SqlR Execution time: {seconds2}");
+            var k = (5, 3, 3);
+
+            System.Console.WriteLine(k.GetType());
+
+            IDvlSql sql = new DvlSql("");
+            sql.InsertInto(((string, DateTime, string) k) => ("tableName", Columns("col1", "col2", "col3")))
+                .Values(("col1", new DateTime(), "col3"), ("col1", new DateTime(), "col3"), ("col1", new DateTime(), "col3"))
+                .ExecuteAsync();
+
+            IEnumerable<string> Columns(params string[] cols)
+            {
+                foreach (var col in cols)
+                    yield return col;
+            }
         }
 
         public static void ExecuteDvlSql(string connString)

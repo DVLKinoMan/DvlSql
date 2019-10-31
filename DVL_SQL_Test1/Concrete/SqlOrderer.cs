@@ -11,15 +11,13 @@ namespace DVL_SQL_Test1.Concrete
     public class SqlOrderer : IOrderer
     {
         private readonly SqlSelector _selector;
-        private readonly IExecutable _executor;
+        private readonly ISelectExecutable _executor;
 
-        public SqlOrderer(SqlSelector selector, IExecutable executor) => (this._selector, this._executor) = (selector, executor);
+        public SqlOrderer(SqlSelector selector, ISelectExecutable executor) => (this._selector, this._executor) = (selector, executor);
 
         public IOrderer OrderBy(params string[] fields) => this._selector.OrderBy(this, fields);
 
         public IOrderer OrderByDescending(params string[] fields) => this._selector.OrderByDescending(this, fields);
-
-        public (int, bool) Execute() => this._executor.Execute();
 
         public Task<List<TResult>> ToListAsync<TResult>(Func<SqlDataReader, TResult> reader, int? timeout = null,
             CommandBehavior behavior = CommandBehavior.Default, CancellationToken cancellationToken = default) =>

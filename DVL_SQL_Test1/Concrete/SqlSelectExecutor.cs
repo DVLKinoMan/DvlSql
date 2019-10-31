@@ -8,18 +8,13 @@ using System.Threading.Tasks;
 
 namespace DVL_SQL_Test1.Concrete
 {
-    public class SqlExecutor : IExecutable
+    public class SqlSelectExecutor : ISelectExecutable
     {
         private readonly IDvlSqlConnection _connection;
         private readonly SqlSelector _selector;
 
-        public SqlExecutor(IDvlSqlConnection connection, SqlSelector selector) =>
+        public SqlSelectExecutor(IDvlSqlConnection connection, SqlSelector selector) =>
             (this._connection, this._selector) = (connection, selector);
-
-        public (int, bool) Execute()
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task<List<TResult>> ToListAsync<TResult>(Func<SqlDataReader, TResult> selectorFunc,
             int? timeout = default,

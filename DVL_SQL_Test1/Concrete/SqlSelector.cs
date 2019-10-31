@@ -45,21 +45,21 @@ namespace DVL_SQL_Test1.Concrete
         {
             this._sqlSelectExpression = new DvlSqlSelectExpression(this._sqlFromExpression, parameterNames);
 
-            return new SqlOrderer(this, new SqlExecutor(new DvlSqlConnection(this._connectionString), this));
+            return new SqlOrderer(this, new SqlSelectExecutor(new DvlSqlConnection(this._connectionString), this));
         }
 
         public IOrderer Select()
         {
             this._sqlSelectExpression = new DvlSqlSelectExpression(this._sqlFromExpression);
 
-            return new SqlOrderer(this, new SqlExecutor(new DvlSqlConnection(this._connectionString), this));
+            return new SqlOrderer(this, new SqlSelectExecutor(new DvlSqlConnection(this._connectionString), this));
         }
 
         public IOrderer SelectTop(int count, params string[] parameterNames)
         {
             this._sqlSelectExpression = new DvlSqlSelectExpression(this._sqlFromExpression, parameterNames, count);
 
-            return new SqlOrderer(this, new SqlExecutor(new DvlSqlConnection(this._connectionString), this));
+            return new SqlOrderer(this, new SqlSelectExecutor(new DvlSqlConnection(this._connectionString), this));
         }
 
         public IFilter Where(DvlSqlBinaryExpression binaryExpression)

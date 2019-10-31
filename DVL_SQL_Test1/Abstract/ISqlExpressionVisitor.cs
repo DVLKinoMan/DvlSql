@@ -18,5 +18,7 @@ namespace DVL_SQL_Test1.Abstract
         void Visit(DvlSqlNotExpression expression);
         void Visit(DvlSqlLikeExpression expression);
         void Visit(DvlSqlIsNullExpression expression);
+        void Visit<TParam>(DvlSqlInsertIntoExpression<TParam> expression);
+        void Visit(DvlSqlInsertIntoSelectExpression expression);
     }
 }

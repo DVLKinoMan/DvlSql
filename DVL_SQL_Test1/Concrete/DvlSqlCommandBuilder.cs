@@ -110,6 +110,58 @@ namespace DVL_SQL_Test1.Concrete
             }
         }
 
+        /// <summary>
+        /// todo will not work on Values
+        /// </summary>
+        /// <typeparam name="TParam"></typeparam>
+        /// <param name="expression"></param>
+        public void Visit<TParam>(DvlSqlInsertIntoExpression<TParam> expression)
+        {
+            this._command.TrimEnd();
+            this._command.Append(expression.IsRoot ? $"{Environment.NewLine}INSERT INTO {expression.TableName}" : $" INSERT INTO {expression.TableName}");
+
+            this._command.Append(" ( ");
+
+            foreach (var column in expression.Columns)
+                this._command.Append($"{column}, ");
+
+            if (expression.Columns.Any())
+                this._command.Remove(this._command.Length - 2, 2);
+
+            this._command.Append(" )");
+
+            this._command.Append($"{Environment.NewLine}VALUES ( ");
+            foreach (var value in expression.Values)
+                this._command.Append($"{Environment.NewLine}{value}, ");
+
+            if (expression.Columns.Any())
+                this._command.Remove(this._command.Length - 2, 2);
+
+            this._command.Append(" )");
+        }
+
+        /// <summary>
+        /// todo
+        /// </summary>
+        /// <param name="expression"></param>
+        public void Visit(DvlSqlInsertIntoSelectExpression expression)
+        {
+            this._command.TrimEnd();
+            this._command.Append(expression.IsRoot ? $"{Environment.NewLine}INSERT INTO {expression.TableName}" : $" INSERT INTO {expression.TableName}");
+
+            this._command.Append(" ( ");
+
+            foreach (var column in expression.Columns)
+                this._command.Append($"{column}, ");
+
+            if (expression.Columns.Any())
+                this._command.Remove(this._command.Length - 2, 2);
+
+            this._command.Append(" )");
+
+            expression.SelectExpression?.Accept(this);
+        }
+
         #region BinaryExpressions
 
         public void Visit(DvlSqlInExpression expression)
