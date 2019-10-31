@@ -2,10 +2,11 @@
 {
     public static class DvlSqlAggregateFunctionHelpers
     {
-        public static string Avg(string param) => $"AVG({param})";
-        public static string Count(string param = "*") => $"COUNT({param})";
-        public static string Max(string param) => $"MAX({param})";
-        public static string Min(string param) => $"MIN({param})";
-        public static string Sum(string param) => $"SUM({param})";
+        public static string AvgExp(string param) => $"AVG({param})";
+        public static string CountExp(string param = "*") => $"COUNT({param})";
+        public static string MaxExp(string param) => $"MAX({param})";
+        public static string MinExp(string param) => $"MIN({param})";
+        public static string SumExp(string param) => $"SUM({param})";
+        public static string AsExp(string field, string @as) => $"{field} AS {@as}";
     }
 }

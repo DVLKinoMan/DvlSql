@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DVL_SQL_Test1.Abstract
 {
-    public interface IExecutor
+    public interface IExecutable
     {
         (int, bool) Execute(); 
 
@@ -32,6 +32,5 @@ namespace DVL_SQL_Test1.Abstract
         Task<TResult> FirstOrDefaultAsync<TResult>(int? timeout = default, CancellationToken cancellationToken = default);
 
         Task<TResult> FirstOrDefaultAsync<TResult>(Func<SqlDataReader, TResult> reader, int? timeout = default, CancellationToken cancellationToken = default);
-
     }
 }

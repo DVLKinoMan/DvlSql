@@ -2,6 +2,6 @@
 {
     public static class DvlSqlExtensions
     {
-        public static string As(this string field, string @as) => $"{field} AS {@as}";
+
     }
 }

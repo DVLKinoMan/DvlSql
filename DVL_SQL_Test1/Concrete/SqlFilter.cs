@@ -10,11 +10,11 @@ namespace DVL_SQL_Test1.Concrete
 
         public IGrouper GroupBy(params string[] parameterNames) => this._selector.GroupBy(parameterNames);
 
-        public IExecutor Select(params string[] parameterNames) => this._selector.Select(parameterNames);
+        public IOrderer Select(params string[] parameterNames) => this._selector.Select(parameterNames);
 
-        public IExecutor Select() => this._selector.Select();
+        public IOrderer Select() => this._selector.Select();
 
-        public IExecutor SelectTop(int count, params string[] parameterNames) =>
+        public IOrderer SelectTop(int count, params string[] parameterNames) =>
             this._selector.SelectTop(count, parameterNames);
     }
 }

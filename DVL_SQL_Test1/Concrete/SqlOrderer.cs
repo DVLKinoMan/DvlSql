@@ -11,9 +11,9 @@ namespace DVL_SQL_Test1.Concrete
     public class SqlOrderer : IOrderer
     {
         private readonly SqlSelector _selector;
-        private readonly IExecutor _executor;
+        private readonly IExecutable _executor;
 
-        public SqlOrderer(SqlSelector selector, IExecutor executor) => (this._selector, this._executor) = (selector, executor);
+        public SqlOrderer(SqlSelector selector, IExecutable executor) => (this._selector, this._executor) = (selector, executor);
 
         public IOrderer OrderBy(params string[] fields) => this._selector.OrderBy(this, fields);
 

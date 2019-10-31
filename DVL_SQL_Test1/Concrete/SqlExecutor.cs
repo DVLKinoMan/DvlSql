@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DVL_SQL_Test1.Concrete
 {
-    public class SqlExecutor : IExecutor
+    public class SqlExecutor : IExecutable
     {
         private readonly IDvlSqlConnection _connection;
         private readonly SqlSelector _selector;

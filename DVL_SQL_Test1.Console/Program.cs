@@ -64,12 +64,12 @@ namespace DVL_SQL_Test1.Console
         public static void ExecuteDvlSql(string connString)
         {
             var list = new DvlSql(connString)
-                .From("nbe.BANK_DATA".As("B1"), true)
-                .Join("nbe.BANK_DATA".As("B2"), ComparisonExp(ConstantExp("B1.REC_ID"), SqlComparisonOperator.Equality, ConstantExp("B2.REC_ID")))
+                .From(AsExp("nbe.BANK_DATA", "B1"), true)
+                .Join(AsExp("nbe.BANK_DATA","B2"), ComparisonExp(ConstantExp("B1.REC_ID"), SqlComparisonOperator.Equality, ConstantExp("B2.REC_ID")))
                 .Where(
                     AndExp(
                         ComparisonExp(ConstantExp("B1.AMOUNT"), SqlComparisonOperator.Less, ConstantExp(35000)),
-                        NotInExp("B1.REC_ID", SelectExp(FromExp("nbe.BANK_DATA"), 4, "REC_ID")),
+                        NotInExp("B1.REC_ID", SelectTopExp(FromExp("nbe.BANK_DATA"), 4, "REC_ID")),
                         NotLikeExp("B1.RESTRICT_CODE","%dd%")
                         //ComparisonExp(ConstantExp("ADD_DATE"), SqlComparisonOperator.Less, ConstantExp(new DateTime(2012, 1, 1)))
                         //ComparisonExp(ConstantExp("B1.STATUS"), SqlComparisonOperator.Equality, ConstantExp(1))
@@ -79,9 +79,9 @@ namespace DVL_SQL_Test1.Console
                 //.Where(ComparisonExp(ConstantExp("STATUS"), SqlComparisonOperator.Equality, ConstantExp(1)))
                 //.SelectTop(4,"B1.STATUS", "B1.AMOUNT", "B1.RESTRICT_CODE")
                 //.Select("B1.STATUS", "B1.AMOUNT", "B1.RESTRICT_CODE")
-                .Select("B1.AMOUNT", Count().As("[Count]"))
+                .Select("B1.AMOUNT", AsExp(CountExp(), "[CountExp]"))
                 //.OrderBy("B1.AMOUNT")
-                .OrderByDescending("[Count]", "AMOUNT")
+                .OrderByDescending("[CountExp]", "AMOUNT")
                 //.OrderBy()
                 .ToListAsync(r =>
                         new 
@@ -89,7 +89,7 @@ namespace DVL_SQL_Test1.Console
                             //Status = (byte)r["STATUS"],
                             Amount = (decimal)r["AMOUNT"],
                             //RestrictCode = (string)r["RESTRICT_CODE"]
-                            Count = (int)r["Count"]
+                            Count = (int)r["CountExp"]
                         }
                 ).Result;
 

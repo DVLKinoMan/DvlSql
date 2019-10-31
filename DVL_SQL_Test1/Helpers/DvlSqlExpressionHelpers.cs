@@ -41,7 +41,10 @@ namespace DVL_SQL_Test1.Helpers
         public static DvlSqlFromExpression FromExp(string tableName, bool withNoLock = false) =>
             new DvlSqlFromExpression(tableName, withNoLock);
 
-        public static DvlSqlSelectExpression SelectExp(DvlSqlFromExpression fromExp, int? topNum = null, params string[] paramNames) =>
+        public static DvlSqlSelectExpression SelectExp(DvlSqlFromExpression fromExp, params string[] paramNames) =>
+            new DvlSqlSelectExpression(fromExp, paramNames).WithRoot(false);
+
+        public static DvlSqlSelectExpression SelectTopExp(DvlSqlFromExpression fromExp, int topNum, params string[] paramNames) =>
             new DvlSqlSelectExpression(fromExp, paramNames, topNum).WithRoot(false);
 
         public static DvlSqlLikeExpression LikeExp(string field, string pattern) => new DvlSqlLikeExpression(field, pattern);
