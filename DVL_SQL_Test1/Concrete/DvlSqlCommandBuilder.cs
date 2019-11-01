@@ -2,8 +2,10 @@
 using DVL_SQL_Test1.Expressions;
 using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using static DVL_SQL_Test1.Extensions.SystemExtensions;
+using DVL_SQL_Test1.Helpers;
 
 namespace DVL_SQL_Test1.Concrete
 {
@@ -110,12 +112,7 @@ namespace DVL_SQL_Test1.Concrete
             }
         }
 
-        /// <summary>
-        /// todo will not work on Values
-        /// </summary>
-        /// <typeparam name="TParam"></typeparam>
-        /// <param name="expression"></param>
-        public void Visit<TParam>(DvlSqlInsertIntoExpression<TParam> expression)
+        public void Visit<TParam>(DvlSqlInsertIntoExpression<TParam> expression) where TParam : ITuple
         {
             this._command.TrimEnd();
             this._command.Append(expression.IsRoot ? $"{Environment.NewLine}INSERT INTO {expression.TableName}" : $" INSERT INTO {expression.TableName}");
@@ -130,20 +127,22 @@ namespace DVL_SQL_Test1.Concrete
 
             this._command.Append(" )");
 
-            this._command.Append($"{Environment.NewLine}VALUES ( ");
+            this._command.Append($"{Environment.NewLine}VALUES");
             foreach (var value in expression.Values)
-                this._command.Append($"{Environment.NewLine}{value}, ");
+            {
+                this._command.Append($"{Environment.NewLine}( ");
 
-            if (expression.Columns.Any())
+                for (int i = 0; i < value.Length; i++)
+                    this._command.Append($"{DvlSqlHelpers.GetDefaultSqlString(value[i])}, ");
+
                 this._command.Remove(this._command.Length - 2, 2);
+                this._command.Append(" ),");
+            }
 
-            this._command.Append(" )");
+            if (expression.Values.Any())
+                this._command.Remove(this._command.Length - 1, 1);
         }
 
-        /// <summary>
-        /// todo
-        /// </summary>
-        /// <param name="expression"></param>
         public void Visit(DvlSqlInsertIntoSelectExpression expression)
         {
             this._command.TrimEnd();

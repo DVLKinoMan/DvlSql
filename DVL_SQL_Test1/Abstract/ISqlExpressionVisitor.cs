@@ -1,4 +1,5 @@
-﻿using DVL_SQL_Test1.Expressions;
+﻿using System.Runtime.CompilerServices;
+using DVL_SQL_Test1.Expressions;
 
 namespace DVL_SQL_Test1.Abstract
 {
@@ -18,7 +19,7 @@ namespace DVL_SQL_Test1.Abstract
         void Visit(DvlSqlNotExpression expression);
         void Visit(DvlSqlLikeExpression expression);
         void Visit(DvlSqlIsNullExpression expression);
-        void Visit<TParam>(DvlSqlInsertIntoExpression<TParam> expression);
+        void Visit<TParam>(DvlSqlInsertIntoExpression<TParam> expression) where TParam : ITuple;
         void Visit(DvlSqlInsertIntoSelectExpression expression);
     }
 }

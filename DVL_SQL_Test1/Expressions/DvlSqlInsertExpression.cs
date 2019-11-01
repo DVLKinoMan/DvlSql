@@ -1,5 +1,6 @@
 ﻿using DVL_SQL_Test1.Abstract;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace DVL_SQL_Test1.Expressions
 {
@@ -8,15 +9,14 @@ namespace DVL_SQL_Test1.Expressions
         public string TableName { get; set; }
 
         public IEnumerable<string> Columns { get; set; }
-
     }
 
-    public class DvlSqlInsertIntoExpression<TParam> : DvlSqlInsertExpression
+    public class DvlSqlInsertIntoExpression<TParam> : DvlSqlInsertExpression where TParam : ITuple
     {
         public IEnumerable<TParam> Values { get; set; }
 
-        public DvlSqlInsertIntoExpression(string tableName, IEnumerable<string> columns, IEnumerable<TParam> values) =>
-            (this.TableName, this.Columns, this.Values, this.IsRoot) = (tableName, columns, values, true);
+        public DvlSqlInsertIntoExpression(string tableName, IEnumerable<string> columns) =>
+            (this.TableName, this.Columns, this.IsRoot) = (tableName, columns, true);
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
     }
@@ -25,8 +25,8 @@ namespace DVL_SQL_Test1.Expressions
     {
         public DvlSqlSelectExpression SelectExpression { get; set; }
 
-        public DvlSqlInsertIntoSelectExpression(string tableName, IEnumerable<string> columns, DvlSqlSelectExpression selectExpression) =>
-            (this.TableName, this.Columns, this.SelectExpression, this.IsRoot) = (tableName, columns, selectExpression, false);
+        public DvlSqlInsertIntoSelectExpression(string tableName, IEnumerable<string> columns) =>
+            (this.TableName, this.Columns, this.IsRoot) = (tableName, columns, false);
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
     }

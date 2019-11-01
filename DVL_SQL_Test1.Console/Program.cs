@@ -10,6 +10,7 @@ using SqlR;
 using static SqlR.Functions;
 using static DVL_SQL_Test1.Helpers.DvlSqlAggregateFunctionHelpers;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using DVL_SQL_Test1.Abstract;
 using DVL_SQL_Test1.Extensions;
 
@@ -42,12 +43,12 @@ namespace DVL_SQL_Test1.Console
 
             //Stopwatch watch = new Stopwatch();
             //watch.Start();
-            ExecuteDvlSql(connString);//@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = CoreApi");
-            //watch.Stop();
-            //var seconds1 = watch.ElapsedMilliseconds;
+            //ExecuteDvlSql(connString);//@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = CoreApi");
+            ////watch.Stop();
+            ////var seconds1 = watch.ElapsedMilliseconds;
 
-            ExecuteSqlR(
-                @"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = CoreApi");
+            //ExecuteSqlR(
+            //    @"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = CoreApi");
             //watch.Reset();
             //watch.Start();
             //ExecuteSqlR(connString);
@@ -64,10 +65,13 @@ namespace DVL_SQL_Test1.Console
 
             System.Console.WriteLine(k.GetType());
 
-            IDvlSql sql = new DvlSql("");
-            sql.InsertInto(((string, DateTime, string) k) => ("tableName", Columns("col1", "col2", "col3")))
-                .Values(("col1", new DateTime(), "col3"), ("col1", new DateTime(), "col3"), ("col1", new DateTime(), "col3"))
-                .ExecuteAsync();
+            IDvlSql sql = new DvlSql(@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = CoreApi");
+            var someres = sql
+                //.InsertInto<(int, string)>("dbo.Words", Columns("Amount", "Text"))
+                //.Values((42,"newVal1"), (43, "newVal2"), (44, "newVal3"))
+                .InsertInto("dbo.Words", Columns("Amount", "Text"))
+                .SelectStatement(SelectExp(FromExp("dbo.Words"), 2))
+                .ExecuteAsync().Result;
 
             IEnumerable<string> Columns(params string[] cols)
             {

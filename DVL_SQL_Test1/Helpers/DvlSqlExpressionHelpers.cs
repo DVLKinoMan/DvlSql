@@ -4,17 +4,6 @@ namespace DVL_SQL_Test1.Helpers
 {
     public static class DvlSqlExpressionHelpers
     {
-        //public static List<TResult> AsList<TResult>(SqlDataReader reader, Func<IDataRecord, TResult> recordSelector)
-        //{
-        //    var list =new List<TResult>();
-        //    while (reader.Read())
-        //    {
-        //        list.Add(recordSelector((IDataRecord)reader));
-        //    }
-
-        //    return list;
-        //}
-
         public static DvlSqlWhereExpression WhereExp(DvlSqlBinaryExpression innerExpression, bool isRoot = false) =>
             new DvlSqlWhereExpression(innerExpression).WithRoot(isRoot);
 
