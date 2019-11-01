@@ -31,5 +31,12 @@ namespace DVL_SQL_Test1.Concrete
 
             return new SqlInsertable(insertExpression, this._connectionString);
         }
+
+        public IDeletable DeleteFrom(string tableName)
+        {
+            var fromExpression = new DvlSqlFromExpression(tableName);
+
+            return new SqlDeletable(fromExpression, this._connectionString);
+        }
     }
 }

@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace DVL_SQL_Test1.Concrete
 {
-    public class SqlInsertExecutable : IInsertExecutable
+    public class SqlInsertDeleteExecutable : IInsertDeleteExecutable
     {
         private readonly IDvlSqlConnection _connection;
         private readonly Func<string> _sqlStringFunc;
 
-        public SqlInsertExecutable(IDvlSqlConnection connection, Func<string> sqlStringFunc) =>
+        public SqlInsertDeleteExecutable(IDvlSqlConnection connection, Func<string> sqlStringFunc) =>
             (this._connection, this._sqlStringFunc) = (connection, sqlStringFunc);
 
         public async Task<int> ExecuteAsync(int? timeout = default, CancellationToken cancellationToken = default) =>

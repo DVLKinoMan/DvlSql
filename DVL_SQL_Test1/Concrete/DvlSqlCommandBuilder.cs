@@ -171,6 +171,13 @@ namespace DVL_SQL_Test1.Concrete
             expression.SqlOrderByExpression?.Accept(this);
         }
 
+        public void Visit(DvlSqlDeleteExpression expression)
+        {
+            this._command.Append("DELETE ");
+            expression.FromExpression.Accept(this);
+            expression.WhereExpression?.Accept(this);
+        }
+
         #region BinaryExpressions
 
         public void Visit(DvlSqlInExpression expression)

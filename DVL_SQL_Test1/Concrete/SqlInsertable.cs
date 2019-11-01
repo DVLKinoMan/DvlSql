@@ -15,11 +15,11 @@ namespace DVL_SQL_Test1.Concrete
         public SqlInsertable(DvlSqlInsertIntoExpression<TParam> insertExpression, string connectionString) =>
             (this._insertExpression, this._connectionString) = (insertExpression, connectionString);
 
-        public IInsertExecutable Values(params TParam[] res)
+        public IInsertDeleteExecutable Values(params TParam[] res)
         {
             this._insertExpression.Values = res;
 
-            return new SqlInsertExecutable(new DvlSqlConnection(this._connectionString), GetSqlString);
+            return new SqlInsertDeleteExecutable(new DvlSqlConnection(this._connectionString), GetSqlString);
         }
 
         private string GetSqlString()
@@ -43,11 +43,11 @@ namespace DVL_SQL_Test1.Concrete
         public SqlInsertable(DvlSqlInsertIntoSelectExpression insertExpression, string connectionString) =>
             (this._insertWithSelectExpression, this._connectionString) = (insertExpression, connectionString);
 
-        public IInsertExecutable SelectStatement(DvlSqlFullSelectExpression selectExpression)
+        public IInsertDeleteExecutable SelectStatement(DvlSqlFullSelectExpression selectExpression)
         {
             this._insertWithSelectExpression.SelectExpression = selectExpression;
 
-            return new SqlInsertExecutable(new DvlSqlConnection(this._connectionString), GetSqlString);
+            return new SqlInsertDeleteExecutable(new DvlSqlConnection(this._connectionString), GetSqlString);
         }
 
         private string GetSqlString()

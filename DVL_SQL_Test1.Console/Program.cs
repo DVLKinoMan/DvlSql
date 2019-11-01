@@ -66,11 +66,14 @@ namespace DVL_SQL_Test1.Console
             System.Console.WriteLine(k.GetType());
 
             IDvlSql sql = new DvlSql(@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = CoreApi");
-            var someres = sql
-                //.InsertInto<(int, string)>("dbo.Words", Columns("Amount", "Text"))
-                //.Values((42,"newVal1"), (43, "newVal2"), (44, "newVal3"))
-                .InsertInto("dbo.Words", Columns("Amount", "Text"))
-                .SelectStatement(FullSelectExp(SelectTopExp(FromExp("dbo.Words"), 2, "Amount", "Text"),orderByExpression: OrderByExp(("Text", Ordering.ASC))))
+            //var someres = sql
+            //    //.InsertInto<(int, string)>("dbo.Words", Columns("Amount", "Text"))
+            //    //.Values((42,"newVal1"), (43, "newVal2"), (44, "newVal3"))
+            //    .InsertInto("dbo.Words", Columns("Amount", "Text"))
+            //    .SelectStatement(FullSelectExp(SelectTopExp(FromExp("dbo.Words"), 2, "Amount", "Text"),orderByExpression: OrderByExp(("Text", Ordering.ASC))))
+            //    .ExecuteAsync().Result;
+            var rows = sql.DeleteFrom("dbo.Words")
+                .Where(ComparisonExp(ConstantExp("Text"), SqlComparisonOperator.Equality, ConstantExp("'any'")))
                 .ExecuteAsync().Result;
 
             IEnumerable<string> Columns(params string[] cols)
