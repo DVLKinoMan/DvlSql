@@ -1,4 +1,5 @@
 ﻿using DVL_SQL_Test1.Expressions;
+using System.Collections.Generic;
 
 namespace DVL_SQL_Test1.Helpers
 {
@@ -33,20 +34,34 @@ namespace DVL_SQL_Test1.Helpers
         public static DvlSqlSelectExpression SelectExp(DvlSqlFromExpression fromExp, params string[] paramNames) =>
             new DvlSqlSelectExpression(fromExp, paramNames).WithRoot(false);
 
-        public static DvlSqlSelectExpression SelectTopExp(DvlSqlFromExpression fromExp, int topNum, params string[] paramNames) =>
+        public static DvlSqlSelectExpression SelectTopExp(DvlSqlFromExpression fromExp, int topNum,
+            params string[] paramNames) =>
             new DvlSqlSelectExpression(fromExp, paramNames, topNum).WithRoot(false);
 
-        public static DvlSqlLikeExpression LikeExp(string field, string pattern) => new DvlSqlLikeExpression(field, pattern);
+        public static DvlSqlLikeExpression LikeExp(string field, string pattern) =>
+            new DvlSqlLikeExpression(field, pattern);
 
         public static DvlSqlNotExpression NotExp(DvlSqlBinaryExpression binaryExpression) =>
             new DvlSqlNotExpression(binaryExpression);
 
-        public static DvlSqlNotExpression NotInExp(string parameterName, params DvlSqlExpression[] innerExpressions) => NotExp(InExp(parameterName, innerExpressions));
+        public static DvlSqlNotExpression NotInExp(string parameterName, params DvlSqlExpression[] innerExpressions) =>
+            NotExp(InExp(parameterName, innerExpressions));
 
         public static DvlSqlNotExpression NotLikeExp(string field, string pattern) => NotExp(LikeExp(field, pattern));
 
-        public static DvlSqlIsNullExpression IsNullExp(DvlSqlExpression expression) => new DvlSqlIsNullExpression(expression);
+        public static DvlSqlIsNullExpression IsNullExp(DvlSqlExpression expression) =>
+            new DvlSqlIsNullExpression(expression);
 
         public static DvlSqlNotExpression IsNotNullExp(DvlSqlExpression expression) => NotExp(IsNullExp(expression));
+
+        public static DvlSqlFullSelectExpression FullSelectExp(
+            DvlSqlSelectExpression selectExpression,
+            List<DvlSqlJoinExpression> sqlJoinExpressions = null, DvlSqlWhereExpression sqlWhereExpression = null,
+            DvlSqlGroupByExpression groupByExpression = null, DvlSqlOrderByExpression orderByExpression = null) =>
+            new DvlSqlFullSelectExpression(selectExpression.FromExpression, sqlJoinExpressions, sqlWhereExpression, groupByExpression,
+                selectExpression, orderByExpression);
+
+        public static DvlSqlOrderByExpression OrderByExp(params (string column, Ordering ordering)[] @params) =>
+            new DvlSqlOrderByExpression(@params);
     }
 }

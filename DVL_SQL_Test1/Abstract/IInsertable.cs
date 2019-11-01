@@ -13,6 +13,6 @@ namespace DVL_SQL_Test1.Abstract
     // ReSharper disable once IdentifierTypo
     public interface IInsertable
     {
-        IInsertExecutable SelectStatement(DvlSqlSelectExpression selectExpression);
+        IInsertExecutable SelectStatement(DvlSqlFullSelectExpression selectExpression);
     }
 }

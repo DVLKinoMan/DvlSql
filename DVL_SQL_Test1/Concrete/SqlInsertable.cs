@@ -43,7 +43,7 @@ namespace DVL_SQL_Test1.Concrete
         public SqlInsertable(DvlSqlInsertIntoSelectExpression insertExpression, string connectionString) =>
             (this._insertWithSelectExpression, this._connectionString) = (insertExpression, connectionString);
 
-        public IInsertExecutable SelectStatement(DvlSqlSelectExpression selectExpression)
+        public IInsertExecutable SelectStatement(DvlSqlFullSelectExpression selectExpression)
         {
             this._insertWithSelectExpression.SelectExpression = selectExpression;
 

@@ -21,5 +21,6 @@ namespace DVL_SQL_Test1.Abstract
         void Visit(DvlSqlIsNullExpression expression);
         void Visit<TParam>(DvlSqlInsertIntoExpression<TParam> expression) where TParam : ITuple;
         void Visit(DvlSqlInsertIntoSelectExpression expression);
+        void Visit(DvlSqlFullSelectExpression expression);
     }
 }

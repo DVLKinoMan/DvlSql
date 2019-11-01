@@ -161,6 +161,16 @@ namespace DVL_SQL_Test1.Concrete
             expression.SelectExpression?.Accept(this);
         }
 
+        public void Visit(DvlSqlFullSelectExpression expression)
+        {
+            expression.SqlSelectExpression.Accept(this);
+            foreach (var joinExpression in expression.SqlJoinExpressions)
+                joinExpression.Accept(this);
+            expression.SqlWhereExpression?.Accept(this);
+            expression.SqlGroupByExpression?.Accept(this);
+            expression.SqlOrderByExpression?.Accept(this);
+        }
+
         #region BinaryExpressions
 
         public void Visit(DvlSqlInExpression expression)

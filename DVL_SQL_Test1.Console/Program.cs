@@ -70,7 +70,7 @@ namespace DVL_SQL_Test1.Console
                 //.InsertInto<(int, string)>("dbo.Words", Columns("Amount", "Text"))
                 //.Values((42,"newVal1"), (43, "newVal2"), (44, "newVal3"))
                 .InsertInto("dbo.Words", Columns("Amount", "Text"))
-                .SelectStatement(SelectExp(FromExp("dbo.Words"), 2))
+                .SelectStatement(FullSelectExp(SelectTopExp(FromExp("dbo.Words"), 2, "Amount", "Text"),orderByExpression: OrderByExp(("Text", Ordering.ASC))))
                 .ExecuteAsync().Result;
 
             IEnumerable<string> Columns(params string[] cols)

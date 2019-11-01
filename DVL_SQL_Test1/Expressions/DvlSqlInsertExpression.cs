@@ -23,7 +23,7 @@ namespace DVL_SQL_Test1.Expressions
 
     public class DvlSqlInsertIntoSelectExpression : DvlSqlInsertExpression
     {
-        public DvlSqlSelectExpression SelectExpression { get; set; }
+        public DvlSqlFullSelectExpression SelectExpression { get; set; }
 
         public DvlSqlInsertIntoSelectExpression(string tableName, IEnumerable<string> columns) =>
             (this.TableName, this.Columns, this.IsRoot) = (tableName, columns, false);
