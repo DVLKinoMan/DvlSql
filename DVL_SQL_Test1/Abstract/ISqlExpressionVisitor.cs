@@ -23,5 +23,6 @@ namespace DVL_SQL_Test1.Abstract
         void Visit(DvlSqlInsertIntoSelectExpression expression);
         void Visit(DvlSqlFullSelectExpression expression);
         void Visit(DvlSqlDeleteExpression expression);
+        void Visit(DvlSqlUpdateExpression expression);
     }
 }

@@ -38,5 +38,12 @@ namespace DVL_SQL_Test1.Concrete
 
             return new SqlDeletable(fromExpression, this._connectionString);
         }
+
+        public IUpdateSetable Update(string tableName)
+        {
+            var updateExpression = new DvlSqlUpdateExpression(tableName);
+
+            return  new SqlUpdateSetable(this._connectionString, updateExpression);
+        }
     }
 }

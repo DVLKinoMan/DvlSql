@@ -178,6 +178,17 @@ namespace DVL_SQL_Test1.Concrete
             expression.WhereExpression?.Accept(this);
         }
 
+        public void Visit(DvlSqlUpdateExpression expression)
+        {
+            this._command.Append($"UPDATE {expression.TableName}");
+            this._command.Append($"{Environment.NewLine}SET ");
+            foreach (var (col, val) in expression.Values)
+                this._command.Append($"{col} = {val}, ");
+
+            this._command.Remove(this._command.Length - 2, 2);
+            expression.WhereExpression?.Accept(this);
+        }
+
         #region BinaryExpressions
 
         public void Visit(DvlSqlInExpression expression)

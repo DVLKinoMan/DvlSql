@@ -9,5 +9,6 @@ namespace DVL_SQL_Test1.Abstract
         IInsertable<TRes> InsertInto<TRes>(string tableName, IEnumerable<string> cols) where TRes : ITuple;
         IInsertable InsertInto(string tableName, IEnumerable<string> cols);
         IDeletable DeleteFrom(string tableName);
+        IUpdateSetable Update(string tableName);
     }
 }

@@ -72,8 +72,12 @@ namespace DVL_SQL_Test1.Console
             //    .InsertInto("dbo.Words", Columns("Amount", "Text"))
             //    .SelectStatement(FullSelectExp(SelectTopExp(FromExp("dbo.Words"), 2, "Amount", "Text"),orderByExpression: OrderByExp(("Text", Ordering.ASC))))
             //    .ExecuteAsync().Result;
-            var rows = sql.DeleteFrom("dbo.Words")
-                .Where(ComparisonExp(ConstantExp("Text"), SqlComparisonOperator.Equality, ConstantExp("'any'")))
+            //var rows = sql.DeleteFrom("dbo.Words")
+            //    .Where(ComparisonExp(ConstantExp("Text"), SqlComparisonOperator.Equality, ConstantExp("'any'")))
+            //    .ExecuteAsync().Result;
+
+            var rows2 = sql.Update("dbo.Words")
+                .Set(("Amount", 0))
                 .ExecuteAsync().Result;
 
             IEnumerable<string> Columns(params string[] cols)

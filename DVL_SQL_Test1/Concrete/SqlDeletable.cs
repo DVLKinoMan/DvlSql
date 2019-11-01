@@ -16,8 +16,8 @@ namespace DVL_SQL_Test1.Concrete
             (this._deleteExpression, this._connectionString) =
             (new DvlSqlDeleteExpression(fromExpression), connectionString);
 
-        public Task<int> ExecuteAsync(int? timeout = default, CancellationToken cancellationToken = default) =>
-            this._deleteExecutable.ExecuteAsync(timeout, cancellationToken);
+        public async Task<int> ExecuteAsync(int? timeout = default, CancellationToken cancellationToken = default) =>
+            await this._deleteExecutable.ExecuteAsync(timeout, cancellationToken);
 
         private string GetSqlString()
         {
