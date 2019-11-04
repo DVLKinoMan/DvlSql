@@ -2,7 +2,7 @@
 
 namespace DVL_SQL_Test1.Expressions
 {
-    public class DvlSqlWhereExpression : DvlSqlExpression
+    public class DvlSqlWhereExpression : DvlSqlExpressionWithParameters
     {
         public DvlSqlBinaryExpression InnerExpression { get; }
 

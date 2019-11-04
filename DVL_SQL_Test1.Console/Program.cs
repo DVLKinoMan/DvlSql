@@ -7,8 +7,9 @@ using DVL_SQL_Test1.Expressions;
 using static DVL_SQL_Test1.Helpers.DvlSqlExpressionHelpers;
 using System.Diagnostics;
 using SqlR;
-using static SqlR.Functions;
+//using static SqlR.Functions;
 using static DVL_SQL_Test1.Helpers.DvlSqlAggregateFunctionHelpers;
+using static DVL_SQL_Test1.Helpers.DvlSqlHelpers;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using DVL_SQL_Test1.Abstract;
@@ -43,7 +44,7 @@ namespace DVL_SQL_Test1.Console
 
             //Stopwatch watch = new Stopwatch();
             //watch.Start();
-            //ExecuteDvlSql(connString);//@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = CoreApi");
+            ExecuteDvlSql(connString);//@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = CoreApi");
             ////watch.Stop();
             ////var seconds1 = watch.ElapsedMilliseconds;
 
@@ -77,7 +78,7 @@ namespace DVL_SQL_Test1.Console
             //    .ExecuteAsync().Result;
 
             var rows2 = sql.Update("dbo.Words")
-                .Set(("Amount", 0))
+                .Set(("isSome", true))
                 .ExecuteAsync().Result;
 
             IEnumerable<string> Columns(params string[] cols)
@@ -96,10 +97,10 @@ namespace DVL_SQL_Test1.Console
                     AndExp(
                         ComparisonExp(ConstantExp("B1.AMOUNT"), SqlComparisonOperator.Less, ConstantExp(35000)),
                         NotInExp("B1.REC_ID", SelectTopExp(FromExp("nbe.BANK_DATA"), 4, "REC_ID")),
-                        NotLikeExp("B1.RESTRICT_CODE","%dd%")
-                        //ComparisonExp(ConstantExp("ADD_DATE"), SqlComparisonOperator.Less, ConstantExp(new DateTime(2012, 1, 1)))
-                        //ComparisonExp(ConstantExp("B1.STATUS"), SqlComparisonOperator.Equality, ConstantExp(1))
-                    )
+                        NotLikeExp("B1.RESTRICT_CODE","%dd%"),
+                        ComparisonExp(ConstantExp("B1.ADD_DATE"), SqlComparisonOperator.Greater, ConstantExp("@date"))
+                    //ComparisonExp(ConstantExp("B1.STATUS"), SqlComparisonOperator.Equality, ConstantExp(1))
+                    ), Params(Param("@date", new DateTime(2012, 1, 1)))
                 )
                 .GroupBy("B1.AMOUNT")
                 .Having(ComparisonExp(ConstantExp("Count(*)"), SqlComparisonOperator.GreaterOrEqual, ConstantExp("2")))
@@ -153,16 +154,16 @@ namespace DVL_SQL_Test1.Console
             //        , SqlRQueryHint.SingleRecord)
             //    .ExecuteAsync().Result;
             var sqlr = SqlR.SqlR.Sql(connString);
-            var resList = sqlr.Query(
-                    @"SELECT * FROM dbo.Words",
-                    new List<SqlRParameter>(),
-                    AsList(r => new
-                    {
-                        REC1 = (int)r["WordId"],
-                        REC2 = (string)r["Text"]
-                    })
-                    , SqlRQueryHint.SingleResult)
-                .ExecuteAsync().Result;
+            //var resList = sqlr.Query(
+            //        @"SELECT * FROM dbo.Words",
+            //        new List<SqlRParameter>(),
+            //        AsList(r => new
+            //        {
+            //            REC1 = (int)r["WordId"],
+            //            REC2 = (string)r["Text"]
+            //        })
+            //        , SqlRQueryHint.SingleResult)
+            //    .ExecuteAsync().Result;
         }
     }
 }

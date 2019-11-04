@@ -1,17 +1,19 @@
-﻿using DVL_SQL_Test1.Abstract;
+﻿using System.Collections.Generic;
+using DVL_SQL_Test1.Abstract;
 using DVL_SQL_Test1.Expressions;
 using System.Linq;
 using System.Text;
+using DVL_SQL_Test1.Models;
 
 namespace DVL_SQL_Test1.Concrete
 {
     public class SqlSelector : ISelector
     {
         private readonly string _connectionString;
-        private readonly DvlSqlFullSelectExpression _fullSelectExpression;
+        private readonly DvlSqlFullSelectExpression _fullSelectExpression = new DvlSqlFullSelectExpression();
 
         public SqlSelector(DvlSqlFromExpression sqlFromExpression, string connectionString)
-            => (this._fullSelectExpression, this._fullSelectExpression.SqlFromExpression, this._connectionString) = (new DvlSqlFullSelectExpression(), sqlFromExpression, connectionString);
+            => (this._fullSelectExpression.SqlFromExpression, this._connectionString) = (sqlFromExpression, connectionString);
 
         public string GetSqlString()
         {
@@ -21,6 +23,11 @@ namespace DVL_SQL_Test1.Concrete
             this._fullSelectExpression.Accept(commandBuilder);
 
             return builder.ToString();
+        }
+
+        public IEnumerable<DvlSqlParameter> GetDvlSqlParameters()
+        {
+            return this._fullSelectExpression.SqlWhereExpression.Parameters;
         }
 
         public SqlSelector WithSelectTop(int num)
@@ -54,6 +61,12 @@ namespace DVL_SQL_Test1.Concrete
         public IFilter Where(DvlSqlBinaryExpression binaryExpression)
         {
             this._fullSelectExpression.SqlWhereExpression = new DvlSqlWhereExpression(binaryExpression);
+            return new SqlFilter(this);
+        }
+
+        public IFilter Where(DvlSqlBinaryExpression binaryExpression, IEnumerable<DvlSqlParameter> @params)
+        {
+            this._fullSelectExpression.SqlWhereExpression = new DvlSqlWhereExpression(binaryExpression).WithParameters(@params) as DvlSqlWhereExpression;
             return new SqlFilter(this);
         }
 

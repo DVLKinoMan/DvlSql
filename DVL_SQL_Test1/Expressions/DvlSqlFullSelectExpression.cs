@@ -16,7 +16,7 @@ namespace DVL_SQL_Test1.Expressions
             sqlWhereExpression, groupByExpression, selectExpression, orderByExpression);
 
         public DvlSqlFromExpression SqlFromExpression { get; set; }
-        public List<DvlSqlJoinExpression> SqlJoinExpressions { get; set; }
+        public List<DvlSqlJoinExpression> SqlJoinExpressions { get; set; } = new List<DvlSqlJoinExpression>();
         public DvlSqlWhereExpression SqlWhereExpression { get; set; }
         public DvlSqlGroupByExpression SqlGroupByExpression { get; set; }
         public DvlSqlSelectExpression SqlSelectExpression { get; set; }
