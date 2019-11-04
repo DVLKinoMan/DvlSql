@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace DVL_SQL_Test1.Expressions
 {
-    public class DvlSqlGroupByExpression : DvlSqlExpression
+    public class DvlSqlGroupByExpression : DvlSqlExpressionWithParameters
     {
         public List<string> ParameterNames;
         public DvlSqlBinaryExpression BinaryExpression { get; set; }

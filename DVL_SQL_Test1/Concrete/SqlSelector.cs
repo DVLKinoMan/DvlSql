@@ -125,5 +125,12 @@ namespace DVL_SQL_Test1.Concrete
 
             return select;
         }
+
+        public ISelectable Having(ISelectable select, DvlSqlBinaryExpression binaryExpression, IEnumerable<DvlSqlParameter> @params)
+        {
+            this._fullSelectExpression.SqlGroupByExpression.BinaryExpression = binaryExpression;
+            this._fullSelectExpression.SqlGroupByExpression.WithParameters(@params);
+            return select;
+        }
     }
 }

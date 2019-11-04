@@ -1,5 +1,7 @@
-﻿using DVL_SQL_Test1.Abstract;
+﻿using System.Collections.Generic;
+using DVL_SQL_Test1.Abstract;
 using DVL_SQL_Test1.Expressions;
+using DVL_SQL_Test1.Models;
 
 namespace DVL_SQL_Test1.Concrete
 {
@@ -10,6 +12,8 @@ namespace DVL_SQL_Test1.Concrete
         public SqlGrouper(SqlSelector selector) => this._selector = selector;
 
         public ISelectable Having(DvlSqlBinaryExpression binaryExpression) => this._selector.Having(this, binaryExpression);
+
+        public ISelectable Having(DvlSqlBinaryExpression binaryExpression, IEnumerable<DvlSqlParameter> @params) => this._selector.Having(this, binaryExpression, @params);
 
         public IOrderer Select(params string[] parameterNames) => this._selector.Select(parameterNames);
 
