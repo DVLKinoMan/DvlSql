@@ -9,6 +9,10 @@ namespace DVL_SQL_Test1.Models
         {
         }
 
+        public DvlSqlParameter(DvlSqlType<TValue> type) : base(CreateParameter(type.Name, type))
+        {
+        }
+
         private static SqlParameter CreateParameter(string name, DvlSqlType<TValue> type)
         {
             var param = new SqlParameter(name.WithAlpha(), type.SqlDbType)

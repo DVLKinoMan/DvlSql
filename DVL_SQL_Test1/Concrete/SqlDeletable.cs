@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using DVL_SQL_Test1.Abstract;
 using DVL_SQL_Test1.Expressions;
 using System.Text;
@@ -14,9 +15,13 @@ namespace DVL_SQL_Test1.Concrete
         private readonly DvlSqlDeleteExpression _deleteExpression;
         private IInsertDeleteExecutable _deleteExecutable;
 
-        public SqlDeletable(DvlSqlFromExpression fromExpression, string connectionString) =>
+        public SqlDeletable(DvlSqlFromExpression fromExpression, string connectionString)
+        {
             (this._deleteExpression, this._connectionString) =
-            (new DvlSqlDeleteExpression(fromExpression), connectionString);
+                (new DvlSqlDeleteExpression(fromExpression), connectionString);
+            this._deleteExecutable = new SqlInsertDeleteExecutable(new DvlSqlConnection(this._connectionString),
+                GetSqlString, GetDvlSqlParameters);
+        }
 
         public async Task<int> ExecuteAsync(int? timeout = default, CancellationToken cancellationToken = default) =>
             await this._deleteExecutable.ExecuteAsync(timeout, cancellationToken);
@@ -45,6 +50,6 @@ namespace DVL_SQL_Test1.Concrete
                 new SqlInsertDeleteExecutable(new DvlSqlConnection(this._connectionString), GetSqlString, GetDvlSqlParameters);
         }
 
-        private IEnumerable<DvlSqlParameter> GetDvlSqlParameters() => this._deleteExpression.WhereExpression.Parameters;
+        private IEnumerable<DvlSqlParameter> GetDvlSqlParameters() => this._deleteExpression.WhereExpression?.Parameters ?? Enumerable.Empty<DvlSqlParameter>();
     }
 }

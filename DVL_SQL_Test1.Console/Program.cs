@@ -46,7 +46,7 @@ namespace DVL_SQL_Test1.Console
 
             //Stopwatch watch = new Stopwatch();
             //watch.Start();
-            ExecuteDvlSql(connString);//@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = CoreApi");
+            //ExecuteDvlSql(connString);//@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = CoreApi");
             ////watch.Stop();
             ////var seconds1 = watch.ElapsedMilliseconds;
 
@@ -73,69 +73,11 @@ namespace DVL_SQL_Test1.Console
                 .Where(ComparisonExp(ConstantExp("Text"), SqlComparisonOperator.Equality, ConstantExp("'any'")))
                 .ExecuteAsync().Result;
 
-            //var rows2 = sql.Update("dbo.Words")
-            //    .Set(("isSome", Bit(true)))
-            //    .ExecuteAsync().Result;
-            //var type = typeof(int);
-            //new DvlSqlType<typeof(type) > ("name", (type)1);
-            //DvlSqlType<int>.
-            //var k2 = (DvlSqlType)Activator.CreateInstance(typeof(DvlSqlType), new object[] { "adafs" });
-
             IEnumerable<string> Columns(params string[] cols)
             {
                 foreach (var col in cols)
                     yield return col;
             }
-        }
-
-        public static void ExecuteDvlSql(string connString)
-        {
-            //var list = new DvlSql(connString)
-            //    .From(AsExp("nbe.BANK_DATA", "B1"), true)
-            //    .Join(AsExp("nbe.BANK_DATA","B2"), ComparisonExp(ConstantExp("B1.REC_ID"), SqlComparisonOperator.Equality, ConstantExp("B2.REC_ID")))
-            //    .Where(
-            //        AndExp(
-            //            ComparisonExp(ConstantExp("B1.AMOUNT"), SqlComparisonOperator.Less, ConstantExp(35000)),
-            //            NotInExp("B1.REC_ID", SelectTopExp(FromExp("nbe.BANK_DATA"), 4, "REC_ID")),
-            //            NotLikeExp("B1.RESTRICT_CODE","%dd%"),
-            //            ComparisonExp(ConstantExp("B1.ADD_DATE"), SqlComparisonOperator.Greater, ConstantExp("@date"))
-            //        //ComparisonExp(ConstantExp("B1.STATUS"), SqlComparisonOperator.Equality, ConstantExp(1))
-            //        ), Params(Param("@date", new DateTime(2012, 1, 1)))
-            //    )
-            //    .GroupBy("B1.AMOUNT")
-            //    .Having(ComparisonExp(ConstantExp("Count(*)"), SqlComparisonOperator.GreaterOrEqual, ConstantExp("2")))
-            //    //.Where(ComparisonExp(ConstantExp("STATUS"), SqlComparisonOperator.Equality, ConstantExp(1)))
-            //    //.SelectTop(4,"B1.STATUS", "B1.AMOUNT", "B1.RESTRICT_CODE")
-            //    //.Select("B1.STATUS", "B1.AMOUNT", "B1.RESTRICT_CODE")
-            //    .Select("B1.AMOUNT", AsExp(CountExp(), "[CountExp]"))
-            //    //.OrderBy("B1.AMOUNT")
-            //    .OrderByDescending("[CountExp]", "AMOUNT")
-            //    //.OrderBy()
-            //    .ToListAsync(r =>
-            //            new 
-            //            {
-            //                //Status = (byte)r["STATUS"],
-            //                Amount = (decimal)r["AMOUNT"],
-            //                //RestrictCode = (string)r["RESTRICT_CODE"]
-            //                Count = (int)r["CountExp"]
-            //            }
-            //    ).Result;
-
-            //var list = new DvlSql(connString)
-            //    .From("dbo.Words", true)
-            //    .Where(AndExp())
-            //    .OrderByDescending("Text")
-            //    .OrderBy("")
-            //    .Select()
-            //    .ToListAsync(r =>
-            //        new
-            //        {
-            //            WordId = (int)r["WordId"],
-            //            Text = (string)r["Text"]
-            //        }
-            //    ).Result;
-
-            //return list;
         }
         
         public static void ExecuteSqlR(string connString)

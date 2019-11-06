@@ -5,7 +5,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using static DVL_SQL_Test1.Extensions.SystemExtensions;
-using DVL_SQL_Test1.Helpers;
 
 namespace DVL_SQL_Test1.Concrete
 {
@@ -174,7 +173,7 @@ namespace DVL_SQL_Test1.Concrete
 
         public void Visit(DvlSqlDeleteExpression expression)
         {
-            this._command.Append("DELETE ");
+            this._command.Append($"DELETE ");
             expression.FromExpression.Accept(this);
             expression.WhereExpression?.Accept(this);
         }
@@ -183,8 +182,8 @@ namespace DVL_SQL_Test1.Concrete
         {
             this._command.Append($"UPDATE {expression.TableName}");
             this._command.Append($"{Environment.NewLine}SET ");
-            for (int i = 0; i < expression.Values.Count; i++)
-                this._command.Append($"{expression.Columns[i]} = {expression.Values[i].Name}, ");
+            for (int i = 0; i < expression.DvlSqlParameters.Count; i++)
+                this._command.Append($"{expression.Columns[i]} = {expression.DvlSqlParameters[i].Name}, ");
 
             this._command.Remove(this._command.Length - 2, 2);
             expression.WhereExpression?.Accept(this);

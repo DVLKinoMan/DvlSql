@@ -46,6 +46,8 @@ namespace DVL_SQL_Test1.Concrete
             return builder.ToString();
         }
 
-        private IEnumerable<DvlSqlParameter> GetDvlSqlParameters() => this._updateExpression.Parameters.Union(this._updateExpression.WhereExpression?.Parameters);
+        private IEnumerable<DvlSqlParameter> GetDvlSqlParameters() =>
+            this._updateExpression.DvlSqlParameters.Union(this._updateExpression.WhereExpression?.Parameters ??
+                                                          Enumerable.Empty<DvlSqlParameter>());
     }
 }

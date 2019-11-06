@@ -1,16 +1,12 @@
-using System.Collections.Generic;
-using System.Data;
-using System.IO.Compression;
 using DVL_SQL_Test1.Abstract;
 using DVL_SQL_Test1.Concrete;
 using DVL_SQL_Test1.Expressions;
 using DVL_SQL_Test1.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
+using System.Data;
 
 using static DVL_SQL_Test1.Helpers.DvlSqlExpressionHelpers;
-using static DVL_SQL_Test1.Helpers.DvlSqlAggregateFunctionHelpers;
-using static DVL_SQL_Test1.Helpers.DvlSqlHelpers;
-using static DVL_SQL_Test1.Models.CustomDvlSqlType;
 
 namespace DVL_SQL_Test1.Tests
 {

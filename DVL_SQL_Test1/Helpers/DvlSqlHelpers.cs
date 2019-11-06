@@ -1,10 +1,9 @@
-﻿using System;
+﻿using DVL_SQL_Test1.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
-using DVL_SQL_Test1.Models;
 
 namespace DVL_SQL_Test1.Helpers
 {
@@ -24,9 +23,9 @@ namespace DVL_SQL_Test1.Helpers
 
         public static IEnumerable<DvlSqlParameter> Params(params DvlSqlParameter[] parameters) => parameters.Select(param => param);
 
-        //public static DvlSqlParameter Param<TValue>(string parameterName, TValue value) => new DvlSqlParameter<TValue>(parameterName, new DvlSqlType<TValue>(value));
+        public static DvlSqlParameter Param<TValue>(string parameterName, TValue value) => new DvlSqlParameter<TValue>(parameterName, new DvlSqlType<TValue>(parameterName, value));
 
-        //public static DvlSqlParameter Param<TValue>(string parameterName, DvlSqlType<TValue> dvlSqlType) => new DvlSqlParameter<TValue>(parameterName, dvlSqlType);
+        public static DvlSqlParameter Param<TValue>(string parameterName, DvlSqlType<TValue> dvlSqlType) => new DvlSqlParameter<TValue>(parameterName, dvlSqlType);
 
     }
 }
