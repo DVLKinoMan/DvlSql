@@ -1,5 +1,6 @@
 ﻿using DVL_SQL_Test1.Abstract;
 using DVL_SQL_Test1.Expressions;
+using DVL_SQL_Test1.Models;
 
 namespace DVL_SQL_Test1.Concrete
 {
@@ -12,7 +13,7 @@ namespace DVL_SQL_Test1.Concrete
         public SqlUpdateSetable(string connString, DvlSqlUpdateExpression updateExpression) =>
             (this._connString, this._updateExpression) = (connString, updateExpression);
 
-        public IUpdateable Set<TVal>((string, TVal) value)
+        public IUpdateable Set<TVal>((string, DvlSqlType<TVal>) value)
         {
             this._updateExpression.Add(value);
 

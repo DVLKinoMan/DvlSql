@@ -25,10 +25,7 @@ namespace DVL_SQL_Test1.Concrete
             return builder.ToString();
         }
 
-        public IEnumerable<DvlSqlParameter> GetDvlSqlParameters()
-        {
-            return this._fullSelectExpression.SqlWhereExpression.Parameters;
-        }
+        public IEnumerable<DvlSqlParameter> GetDvlSqlParameters() => this._fullSelectExpression.SqlWhereExpression.Parameters;
 
         public SqlSelector WithSelectTop(int num)
         {

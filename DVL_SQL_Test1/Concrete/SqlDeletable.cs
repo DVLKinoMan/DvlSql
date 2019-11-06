@@ -1,8 +1,10 @@
-﻿using DVL_SQL_Test1.Abstract;
+﻿using System.Collections.Generic;
+using DVL_SQL_Test1.Abstract;
 using DVL_SQL_Test1.Expressions;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using DVL_SQL_Test1.Models;
 
 namespace DVL_SQL_Test1.Concrete
 {
@@ -33,7 +35,16 @@ namespace DVL_SQL_Test1.Concrete
         {
             this._deleteExpression.WhereExpression = new DvlSqlWhereExpression(binaryExpression);
             return this._deleteExecutable =
-                new SqlInsertDeleteExecutable(new DvlSqlConnection(this._connectionString), GetSqlString);
+                new SqlInsertDeleteExecutable(new DvlSqlConnection(this._connectionString), GetSqlString, GetDvlSqlParameters);
         }
+
+        public IInsertDeleteExecutable Where(DvlSqlBinaryExpression binaryExpression, IEnumerable<DvlSqlParameter> @params)
+        {
+            this._deleteExpression.WhereExpression = new DvlSqlWhereExpression(binaryExpression).WithParameters(@params) as DvlSqlWhereExpression;
+            return this._deleteExecutable =
+                new SqlInsertDeleteExecutable(new DvlSqlConnection(this._connectionString), GetSqlString, GetDvlSqlParameters);
+        }
+
+        private IEnumerable<DvlSqlParameter> GetDvlSqlParameters() => this._deleteExpression.WhereExpression.Parameters;
     }
 }

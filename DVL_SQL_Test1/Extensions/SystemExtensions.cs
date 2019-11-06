@@ -23,5 +23,8 @@ namespace DVL_SQL_Test1.Extensions
 
             return sb;
         }
+
+        public static string WithAlpha(this string str) =>
+            !string.IsNullOrEmpty(str) && str.Length != 0 && str[0] != '@' ? $"@{str}" : str;
     }
 }

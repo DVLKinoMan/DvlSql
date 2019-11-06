@@ -122,18 +122,19 @@ namespace DVL_SQL_Test1.Concrete
             foreach (var column in expression.Columns)
                 this._command.Append($"{column}, ");
 
-            if (expression.Columns.Any())
+            if (expression.Columns.Length != 0)
                 this._command.Remove(this._command.Length - 2, 2);
 
             this._command.Append(" )");
 
             this._command.Append($"{Environment.NewLine}VALUES");
+            int count = 0;
             foreach (var value in expression.Values)
             {
                 this._command.Append($"{Environment.NewLine}( ");
 
-                for (int i = 0; i < value.Length; i++)
-                    this._command.Append($"{DvlSqlHelpers.GetDefaultSqlString(value[i])}, ");
+                for (int i = 0; i < value.Length; i++, count++)
+                    this._command.Append($"{expression.SqlParameters[count].Name}, ");
 
                 this._command.Remove(this._command.Length - 2, 2);
                 this._command.Append(" ),");
@@ -182,8 +183,8 @@ namespace DVL_SQL_Test1.Concrete
         {
             this._command.Append($"UPDATE {expression.TableName}");
             this._command.Append($"{Environment.NewLine}SET ");
-            foreach (var (col, val) in expression.Values)
-                this._command.Append($"{col} = {val}, ");
+            for (int i = 0; i < expression.Values.Count; i++)
+                this._command.Append($"{expression.Columns[i]} = {expression.Values[i].Name}, ");
 
             this._command.Remove(this._command.Length - 2, 2);
             expression.WhereExpression?.Accept(this);

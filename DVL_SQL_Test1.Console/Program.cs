@@ -10,10 +10,12 @@ using SqlR;
 //using static SqlR.Functions;
 using static DVL_SQL_Test1.Helpers.DvlSqlAggregateFunctionHelpers;
 using static DVL_SQL_Test1.Helpers.DvlSqlHelpers;
+using static DVL_SQL_Test1.Models.CustomDvlSqlType;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using DVL_SQL_Test1.Abstract;
 using DVL_SQL_Test1.Extensions;
+using DVL_SQL_Test1.Models;
 
 namespace DVL_SQL_Test1.Console
 {
@@ -67,19 +69,17 @@ namespace DVL_SQL_Test1.Console
             System.Console.WriteLine(k.GetType());
 
             IDvlSql sql = new DvlSql(@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = CoreApi");
-            //var someres = sql
-            //    //.InsertInto<(int, string)>("dbo.Words", Columns("Amount", "Text"))
-            //    //.Values((42,"newVal1"), (43, "newVal2"), (44, "newVal3"))
-            //    .InsertInto("dbo.Words", Columns("Amount", "Text"))
-            //    .SelectStatement(FullSelectExp(SelectTopExp(FromExp("dbo.Words"), 2, "Amount", "Text"),orderByExpression: OrderByExp(("Text", Ordering.ASC))))
-            //    .ExecuteAsync().Result;
-            //var rows = sql.DeleteFrom("dbo.Words")
-            //    .Where(ComparisonExp(ConstantExp("Text"), SqlComparisonOperator.Equality, ConstantExp("'any'")))
-            //    .ExecuteAsync().Result;
-
-            var rows2 = sql.Update("dbo.Words")
-                .Set(("isSome", true))
+            var rows = sql.DeleteFrom("dbo.Words")
+                .Where(ComparisonExp(ConstantExp("Text"), SqlComparisonOperator.Equality, ConstantExp("'any'")))
                 .ExecuteAsync().Result;
+
+            //var rows2 = sql.Update("dbo.Words")
+            //    .Set(("isSome", Bit(true)))
+            //    .ExecuteAsync().Result;
+            //var type = typeof(int);
+            //new DvlSqlType<typeof(type) > ("name", (type)1);
+            //DvlSqlType<int>.
+            //var k2 = (DvlSqlType)Activator.CreateInstance(typeof(DvlSqlType), new object[] { "adafs" });
 
             IEnumerable<string> Columns(params string[] cols)
             {
@@ -90,36 +90,36 @@ namespace DVL_SQL_Test1.Console
 
         public static void ExecuteDvlSql(string connString)
         {
-            var list = new DvlSql(connString)
-                .From(AsExp("nbe.BANK_DATA", "B1"), true)
-                .Join(AsExp("nbe.BANK_DATA","B2"), ComparisonExp(ConstantExp("B1.REC_ID"), SqlComparisonOperator.Equality, ConstantExp("B2.REC_ID")))
-                .Where(
-                    AndExp(
-                        ComparisonExp(ConstantExp("B1.AMOUNT"), SqlComparisonOperator.Less, ConstantExp(35000)),
-                        NotInExp("B1.REC_ID", SelectTopExp(FromExp("nbe.BANK_DATA"), 4, "REC_ID")),
-                        NotLikeExp("B1.RESTRICT_CODE","%dd%"),
-                        ComparisonExp(ConstantExp("B1.ADD_DATE"), SqlComparisonOperator.Greater, ConstantExp("@date"))
-                    //ComparisonExp(ConstantExp("B1.STATUS"), SqlComparisonOperator.Equality, ConstantExp(1))
-                    ), Params(Param("@date", new DateTime(2012, 1, 1)))
-                )
-                .GroupBy("B1.AMOUNT")
-                .Having(ComparisonExp(ConstantExp("Count(*)"), SqlComparisonOperator.GreaterOrEqual, ConstantExp("2")))
-                //.Where(ComparisonExp(ConstantExp("STATUS"), SqlComparisonOperator.Equality, ConstantExp(1)))
-                //.SelectTop(4,"B1.STATUS", "B1.AMOUNT", "B1.RESTRICT_CODE")
-                //.Select("B1.STATUS", "B1.AMOUNT", "B1.RESTRICT_CODE")
-                .Select("B1.AMOUNT", AsExp(CountExp(), "[CountExp]"))
-                //.OrderBy("B1.AMOUNT")
-                .OrderByDescending("[CountExp]", "AMOUNT")
-                //.OrderBy()
-                .ToListAsync(r =>
-                        new 
-                        {
-                            //Status = (byte)r["STATUS"],
-                            Amount = (decimal)r["AMOUNT"],
-                            //RestrictCode = (string)r["RESTRICT_CODE"]
-                            Count = (int)r["CountExp"]
-                        }
-                ).Result;
+            //var list = new DvlSql(connString)
+            //    .From(AsExp("nbe.BANK_DATA", "B1"), true)
+            //    .Join(AsExp("nbe.BANK_DATA","B2"), ComparisonExp(ConstantExp("B1.REC_ID"), SqlComparisonOperator.Equality, ConstantExp("B2.REC_ID")))
+            //    .Where(
+            //        AndExp(
+            //            ComparisonExp(ConstantExp("B1.AMOUNT"), SqlComparisonOperator.Less, ConstantExp(35000)),
+            //            NotInExp("B1.REC_ID", SelectTopExp(FromExp("nbe.BANK_DATA"), 4, "REC_ID")),
+            //            NotLikeExp("B1.RESTRICT_CODE","%dd%"),
+            //            ComparisonExp(ConstantExp("B1.ADD_DATE"), SqlComparisonOperator.Greater, ConstantExp("@date"))
+            //        //ComparisonExp(ConstantExp("B1.STATUS"), SqlComparisonOperator.Equality, ConstantExp(1))
+            //        ), Params(Param("@date", new DateTime(2012, 1, 1)))
+            //    )
+            //    .GroupBy("B1.AMOUNT")
+            //    .Having(ComparisonExp(ConstantExp("Count(*)"), SqlComparisonOperator.GreaterOrEqual, ConstantExp("2")))
+            //    //.Where(ComparisonExp(ConstantExp("STATUS"), SqlComparisonOperator.Equality, ConstantExp(1)))
+            //    //.SelectTop(4,"B1.STATUS", "B1.AMOUNT", "B1.RESTRICT_CODE")
+            //    //.Select("B1.STATUS", "B1.AMOUNT", "B1.RESTRICT_CODE")
+            //    .Select("B1.AMOUNT", AsExp(CountExp(), "[CountExp]"))
+            //    //.OrderBy("B1.AMOUNT")
+            //    .OrderByDescending("[CountExp]", "AMOUNT")
+            //    //.OrderBy()
+            //    .ToListAsync(r =>
+            //            new 
+            //            {
+            //                //Status = (byte)r["STATUS"],
+            //                Amount = (decimal)r["AMOUNT"],
+            //                //RestrictCode = (string)r["RESTRICT_CODE"]
+            //                Count = (int)r["CountExp"]
+            //            }
+            //    ).Result;
 
             //var list = new DvlSql(connString)
             //    .From("dbo.Words", true)
@@ -166,4 +166,12 @@ namespace DVL_SQL_Test1.Console
             //    .ExecuteAsync().Result;
         }
     }
+
+    //public class IDvlSqlFactory<T>
+    //{
+    //    DvlSqlType<T> Create(string name, T inst)
+    //    {
+    //        return new DvlSqlType<T>(name, inst);
+    //    }
+    //}
 }

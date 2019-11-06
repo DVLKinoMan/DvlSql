@@ -1,7 +1,9 @@
 ﻿using DVL_SQL_Test1.Abstract;
 using DVL_SQL_Test1.Expressions;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using DVL_SQL_Test1.Models;
 
 namespace DVL_SQL_Test1.Concrete
 {
@@ -18,16 +20,17 @@ namespace DVL_SQL_Test1.Concrete
             return new SqlSelector(fromExpression, this._connectionString);
         }
 
-        public IInsertable<TRes> InsertInto<TRes>(string tableName, IEnumerable<string> cols) where TRes : ITuple
+        public IInsertable<TRes> InsertInto<TRes>(string tableName, params (string col, DvlSqlType sqlType)[] types)
+            where TRes : ITuple
         {
-            var insertExpression = new DvlSqlInsertIntoExpression<TRes>(tableName, cols);
+            var insertExpression = new DvlSqlInsertIntoExpression<TRes>(tableName, types);
 
             return new SqlInsertable<TRes>(insertExpression, this._connectionString);
         }
 
         public IInsertable InsertInto(string tableName, IEnumerable<string> cols)
         {
-            var insertExpression = new DvlSqlInsertIntoSelectExpression(tableName, cols);
+            var insertExpression = new DvlSqlInsertIntoSelectExpression(tableName, cols.ToArray());
 
             return new SqlInsertable(insertExpression, this._connectionString);
         }

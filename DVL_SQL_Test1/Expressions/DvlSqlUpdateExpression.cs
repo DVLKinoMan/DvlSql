@@ -1,20 +1,26 @@
 ﻿using DVL_SQL_Test1.Abstract;
+using DVL_SQL_Test1.Models;
 using System.Collections.Generic;
-using DVL_SQL_Test1.Helpers;
 
 namespace DVL_SQL_Test1.Expressions
 {
-    public class DvlSqlUpdateExpression : DvlSqlExpression
+    public class DvlSqlUpdateExpression : DvlSqlExpressionWithParameters
     {
         public string TableName { get; set; }
         public DvlSqlWhereExpression WhereExpression { get; set; }
-        public List<(string columnName, string value)> Values { get; set; } = new List<(string columnName, string value)>();
+        public List<DvlSqlParameter> Values { get; set; } = new List<DvlSqlParameter>();
+
+        public List<string> Columns { get; set; } = new List<string>();
 
         public DvlSqlUpdateExpression(string tableName) =>
             this.TableName = tableName;
 
-        public void Add<TVal>((string columnName, TVal val) val) =>
-            this.Values.Add((val.columnName, DvlSqlHelpers.GetDefaultSqlString(val.val)));
+        public void Add<TVal>((string columnName, DvlSqlType<TVal> val) val)
+        {
+            var (columnName, dvlSqlType) = val;
+            this.Columns.Add(columnName);
+            this.Values.Add(new DvlSqlParameter<TVal>($"@{columnName}", dvlSqlType));
+        }
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
     }
