@@ -28,7 +28,7 @@ namespace DVL_SQL_Test1.Tests
                         ComparisonExp(ConstantExp("B1.AMOUNT"), SqlComparisonOperator.Less, ConstantExp(35000)),
                         NotInExp("B1.REC_ID", SelectTopExp(FromExp("nbe.BANK_DATA"), 4, "REC_ID")),
                         NotLikeExp("B1.RESTRICT_CODE", "%dd%"),
-                        ComparisonExp(ConstantExp("B1.ADD_DATE"), SqlComparisonOperator.Greater, ConstantExp("@date"))
+                        ConstantExp("B1.ADD_DATE") > ConstantExp("@date")
                     //ComparisonExp(ConstantExp("B1.STATUS"), SqlComparisonOperator.Equality, ConstantExp(1))
                     ), Params(Param("@date", new DateTime(2012, 1, 1)))
                 )
