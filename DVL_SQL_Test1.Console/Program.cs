@@ -44,34 +44,7 @@ namespace DVL_SQL_Test1.Console
             string connString =
                 "Data Source=SQL; Initial Catalog=BANK2000; Connection Timeout=30; User Id=b2000; Password=1234; Application Name = CoreApi";
 
-            //Stopwatch watch = new Stopwatch();
-            //watch.Start();
-            //ExecuteDvlSql(connString);//@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = CoreApi");
-            ////watch.Stop();
-            ////var seconds1 = watch.ElapsedMilliseconds;
-
-            //ExecuteSqlR(
-            //    @"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = CoreApi");
-            //watch.Reset();
-            //watch.Start();
-            //ExecuteSqlR(connString);
-            //watch.Stop();
-            //var seconds2 = watch.ElapsedMilliseconds;
-
-            //foreach (var l in list)
-            //{
-            //    System.Console.WriteLine(l);
-            //}
-
-            //System.Console.WriteLine($"My Execution time: {seconds1}; SqlR Execution time: {seconds2}");
-            var k = (5, 3, 3);
-
-            System.Console.WriteLine(k.GetType());
-
-            IDvlSql sql = new DvlSql(@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = CoreApi");
-            var rows = sql.DeleteFrom("dbo.Words")
-                .Where(ComparisonExp(ConstantExp("Text"), SqlComparisonOperator.Equality, ConstantExp("'any'")))
-                .ExecuteAsync().Result;
+            IDvlSql sql = new DvlSql(connString);
 
             IEnumerable<string> Columns(params string[] cols)
             {
@@ -109,11 +82,4 @@ namespace DVL_SQL_Test1.Console
         }
     }
 
-    //public class IDvlSqlFactory<T>
-    //{
-    //    DvlSqlType<T> Create(string name, T inst)
-    //    {
-    //        return new DvlSqlType<T>(name, inst);
-    //    }
-    //}
 }
