@@ -45,7 +45,7 @@ namespace DVL_SQL_Test1.Tests
                 .Set(("bigint", BigInt(1111111111)))
                 .Set(("xml", Xml("<xml></xml>")))
                 .Set(("Date", DateTime(System.DateTime.Now)))
-                .Where(ComparisonExp(ConstantExp("Amount"), SqlComparisonOperator.Equality, ConstantExp("@amount")),
+                .Where(ConstantExp("Amount") == ConstantExp("@amount"),
                     Param("@amount", Decimal(new decimal(42))))
                 .ExecuteAsync().Result;
         }

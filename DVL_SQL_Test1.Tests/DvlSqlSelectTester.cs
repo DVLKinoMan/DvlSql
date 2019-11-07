@@ -27,29 +27,66 @@ namespace DVL_SQL_Test1.Tests
                         !InExp("B1.REC_ID", SelectTopExp(FromExp("nbe.BANK_DATA"), 4, "REC_ID")) &
                         !LikeExp("B1.RESTRICT_CODE", "%dd%") &
                         ConstantExp("B1.ADD_DATE") > ConstantExp("@date")
-                    //ComparisonExp(ConstantExp("B1.STATUS"), SqlComparisonOperator.Equality, ConstantExp(1))
                     , Params(Param("@date", new DateTime(2012, 1, 1)))
                 )
                 .GroupBy("B1.AMOUNT")
                 .Having(ConstantExp("Count(*)") >= ConstantExp("2"))
-                //.Where(ComparisonExp(ConstantExp("STATUS"), SqlComparisonOperator.Equality, ConstantExp(1)))
-                //.SelectTop(4,"B1.STATUS", "B1.AMOUNT", "B1.RESTRICT_CODE")
-                //.Select("B1.STATUS", "B1.AMOUNT", "B1.RESTRICT_CODE")
                 .Select("B1.AMOUNT", AsExp(CountExp(), "[CountExp]"))
-                //.OrderBy("B1.AMOUNT")
                 .OrderByDescending("[CountExp]", "AMOUNT")
-                //.OrderBy()
                 .ToListAsync(r =>
                         new
                         {
-                            //Status = (byte)r["STATUS"],
                             Amount = (decimal)r["AMOUNT"],
-                            //RestrictCode = (string)r["RESTRICT_CODE"]
                             Count = (int)r["CountExp"]
                         }
                 ).Result;
 
             Assert.AreEqual(list.Count, 5);
+        }
+
+        [TestMethod]
+        public void TestMethod2()
+        {
+            string constring =
+                @"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1";
+
+            int first = new DvlSql(constring)
+                .From("dbo.Words")
+                .Where(IsNullExp(ConstantExp("Date")))
+                .SelectTop(1)
+                .OrderByDescending("Amount")
+                .FirstOrDefaultAsync(r => (int) r["Amount"])
+                .Result;
+        }
+
+        [TestMethod]
+        public void TestMethod3()
+        {
+            string constring =
+                @"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1";
+
+            int first = new DvlSql(constring)
+                .From("dbo.Words")
+                .Where(IsNullExp(ConstantExp("Date")))
+                .SelectTop(1, "Amount")
+                .OrderByDescending("Amount")
+                .FirstAsync(r => (int)r["Amount"])
+                .Result;
+        }
+
+        [TestMethod]
+        public void TestMethod4()
+        {
+            string constring =
+                @"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1";
+
+            var first = new DvlSql(constring)
+                .From("dbo.Words")
+                .Where(!IsNullExp(ConstantExp("Date")))
+                .SelectTop(1, "Amount", "Date")
+                .OrderByDescending("Amount")
+                .FirstAsync(r => new{ amount = (int)r["Amount"], date = (DateTime)r["Date"]})
+                .Result;
         }
     }
 }
