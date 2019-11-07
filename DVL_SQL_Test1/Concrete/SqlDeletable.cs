@@ -11,15 +11,15 @@ namespace DVL_SQL_Test1.Concrete
 {
     public class SqlDeletable : IDeletable
     {
-        private readonly string _connectionString;
+        private readonly IDvlSqlConnection _dvlSqlConnection;
         private readonly DvlSqlDeleteExpression _deleteExpression;
         private IInsertDeleteExecutable _deleteExecutable;
 
-        public SqlDeletable(DvlSqlFromExpression fromExpression, string connectionString)
+        public SqlDeletable(DvlSqlFromExpression fromExpression, IDvlSqlConnection dvlSqlConnection)
         {
-            (this._deleteExpression, this._connectionString) =
-                (new DvlSqlDeleteExpression(fromExpression), connectionString);
-            this._deleteExecutable = new SqlInsertDeleteExecutable(new DvlSqlConnection(this._connectionString),
+            (this._deleteExpression, this._dvlSqlConnection) =
+                (new DvlSqlDeleteExpression(fromExpression), dvlSqlConnection);
+            this._deleteExecutable = new SqlInsertDeleteExecutable(this._dvlSqlConnection,
                 GetSqlString, GetDvlSqlParameters);
         }
 
@@ -40,14 +40,14 @@ namespace DVL_SQL_Test1.Concrete
         {
             this._deleteExpression.WhereExpression = new DvlSqlWhereExpression(binaryExpression);
             return this._deleteExecutable =
-                new SqlInsertDeleteExecutable(new DvlSqlConnection(this._connectionString), GetSqlString, GetDvlSqlParameters);
+                new SqlInsertDeleteExecutable(this._dvlSqlConnection, GetSqlString, GetDvlSqlParameters);
         }
 
         public IInsertDeleteExecutable Where(DvlSqlBinaryExpression binaryExpression, IEnumerable<DvlSqlParameter> @params)
         {
             this._deleteExpression.WhereExpression = new DvlSqlWhereExpression(binaryExpression).WithParameters(@params) as DvlSqlWhereExpression;
             return this._deleteExecutable =
-                new SqlInsertDeleteExecutable(new DvlSqlConnection(this._connectionString), GetSqlString, GetDvlSqlParameters);
+                new SqlInsertDeleteExecutable(this._dvlSqlConnection, GetSqlString, GetDvlSqlParameters);
         }
 
         private IEnumerable<DvlSqlParameter> GetDvlSqlParameters() => this._deleteExpression.WhereExpression?.Parameters ?? Enumerable.Empty<DvlSqlParameter>();

@@ -13,11 +13,11 @@ namespace DVL_SQL_Test1.Concrete
     public class SqlInsertable<TParam> : IInsertable<TParam> where TParam : ITuple
     {
         private readonly DvlSqlInsertIntoExpression<TParam> _insertExpression;
-        private readonly string _connectionString;
+        private readonly IDvlSqlConnection _dvlSqlConnection;
 
         // ReSharper disable once IdentifierTypo
-        public SqlInsertable(DvlSqlInsertIntoExpression<TParam> insertExpression, string connectionString) =>
-            (this._insertExpression, this._connectionString) = (insertExpression, connectionString);
+        public SqlInsertable(DvlSqlInsertIntoExpression<TParam> insertExpression, IDvlSqlConnection dvlSqlConnection) =>
+            (this._insertExpression, this._dvlSqlConnection) = (insertExpression, dvlSqlConnection);
 
         public IInsertDeleteExecutable Values(params TParam[] @params)
         {
@@ -25,7 +25,7 @@ namespace DVL_SQL_Test1.Concrete
 
             this._insertExpression.SqlParameters = GetSqlParameters(@params, this._insertExpression.DvlSqlTypes).ToList();
 
-            return new SqlInsertDeleteExecutable(new DvlSqlConnection(this._connectionString), GetSqlString,
+            return new SqlInsertDeleteExecutable(this._dvlSqlConnection, GetSqlString,
                 GetDvlSqlParameters);
         }
 
@@ -67,18 +67,18 @@ namespace DVL_SQL_Test1.Concrete
     public class SqlInsertable : IInsertable
     {
         private readonly DvlSqlInsertIntoSelectExpression _insertWithSelectExpression;
-        private readonly string _connectionString;
+        private readonly IDvlSqlConnection _dvlSqlConnection;
 
         // ReSharper disable once IdentifierTypo
-        public SqlInsertable(DvlSqlInsertIntoSelectExpression insertExpression, string connectionString) =>
-            (this._insertWithSelectExpression, this._connectionString) = (insertExpression, connectionString);
+        public SqlInsertable(DvlSqlInsertIntoSelectExpression insertExpression, IDvlSqlConnection connectionString) =>
+            (this._insertWithSelectExpression, this._dvlSqlConnection) = (insertExpression, connectionString);
 
         public IInsertDeleteExecutable SelectStatement(DvlSqlFullSelectExpression selectExpression, params DvlSqlParameter[] @params)
         {
             this._insertWithSelectExpression.SelectExpression = selectExpression;
             this._insertWithSelectExpression.Parameters = @params;
 
-            return new SqlInsertDeleteExecutable(new DvlSqlConnection(this._connectionString), GetSqlString, GetDvlSqlParameters);
+            return new SqlInsertDeleteExecutable(this._dvlSqlConnection, GetSqlString, GetDvlSqlParameters);
         }
 
         private IEnumerable<DvlSqlParameter> GetDvlSqlParameters() => this._insertWithSelectExpression.Parameters;

@@ -25,7 +25,7 @@ namespace DVL_SQL_Test1.Tests
                 .Where(
                         ConstantExp("B1.AMOUNT") < ConstantExp(35000) &
                         !InExp("B1.REC_ID", SelectTopExp(FromExp("nbe.BANK_DATA"), 4, "REC_ID")) &
-                        !LikeExp("B1.RESTRICT_CODE", "%dd%") &
+                        !!!LikeExp("B1.RESTRICT_CODE", "%dd%") &
                         ConstantExp("B1.ADD_DATE") > ConstantExp("@date")
                     , Params(Param("@date", new DateTime(2012, 1, 1)))
                 )

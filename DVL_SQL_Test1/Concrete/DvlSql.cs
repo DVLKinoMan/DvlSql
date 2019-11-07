@@ -9,15 +9,15 @@ namespace DVL_SQL_Test1.Concrete
 {
     public class DvlSql : IDvlSql
     {
-        private readonly string _connectionString;
+        private readonly IDvlSqlConnection _dvlSqlConnection;
 
-        public DvlSql(string connectionString) => this._connectionString = connectionString;
+        public DvlSql(string connectionString) => this._dvlSqlConnection = new DvlSqlConnection(connectionString);
 
         public ISelector From(string tableName, bool withNoLock = false)
         {
             var fromExpression = new DvlSqlFromExpression(tableName, withNoLock);
 
-            return new SqlSelector(fromExpression, this._connectionString);
+            return new SqlSelector(fromExpression, this._dvlSqlConnection);
         }
 
         public IInsertable<TRes> InsertInto<TRes>(string tableName, params (string col, DvlSqlType sqlType)[] types)
@@ -25,28 +25,28 @@ namespace DVL_SQL_Test1.Concrete
         {
             var insertExpression = new DvlSqlInsertIntoExpression<TRes>(tableName, types);
 
-            return new SqlInsertable<TRes>(insertExpression, this._connectionString);
+            return new SqlInsertable<TRes>(insertExpression, this._dvlSqlConnection);
         }
 
         public IInsertable InsertInto(string tableName, IEnumerable<string> cols)
         {
             var insertExpression = new DvlSqlInsertIntoSelectExpression(tableName, cols.ToArray());
 
-            return new SqlInsertable(insertExpression, this._connectionString);
+            return new SqlInsertable(insertExpression, this._dvlSqlConnection);
         }
 
         public IDeletable DeleteFrom(string tableName)
         {
             var fromExpression = new DvlSqlFromExpression(tableName);
 
-            return new SqlDeletable(fromExpression, this._connectionString);
+            return new SqlDeletable(fromExpression, this._dvlSqlConnection);
         }
 
         public IUpdateSetable Update(string tableName)
         {
             var updateExpression = new DvlSqlUpdateExpression(tableName);
 
-            return  new SqlUpdateSetable(this._connectionString, updateExpression);
+            return  new SqlUpdateSetable(this._dvlSqlConnection, updateExpression);
         }
     }
 }

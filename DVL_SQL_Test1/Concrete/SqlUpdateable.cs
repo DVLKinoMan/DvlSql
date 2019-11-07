@@ -11,13 +11,13 @@ namespace DVL_SQL_Test1.Concrete
 {
     public class SqlUpdateable : IUpdateable
     {
-        private readonly string _connectionString;
+        private readonly IDvlSqlConnection _dvlSqlConnection;
         private readonly IUpdateSetable _updateSetable;
         private readonly DvlSqlUpdateExpression _updateExpression;
         private IInsertDeleteExecutable _updateExecutable;
 
-        public SqlUpdateable(string connectionString, DvlSqlUpdateExpression updateExpression, IUpdateSetable updateSetable) =>
-            (this._connectionString, this._updateExpression, this._updateSetable) = (connectionString, updateExpression,  updateSetable);
+        public SqlUpdateable(IDvlSqlConnection dvlSqlConnection, DvlSqlUpdateExpression updateExpression, IUpdateSetable updateSetable) =>
+            (this._dvlSqlConnection, this._updateExpression, this._updateSetable) = (dvlSqlConnection, updateExpression,  updateSetable);
 
         public IUpdateable Set<TVal>((string, DvlSqlType<TVal>) value) => this._updateSetable.Set(value);
 
@@ -34,7 +34,7 @@ namespace DVL_SQL_Test1.Concrete
         }
 
         public IInsertDeleteExecutable CreateDeleteExecutable() =>
-            new SqlInsertDeleteExecutable(new DvlSqlConnection(this._connectionString), GetSqlString, GetDvlSqlParameters);
+            new SqlInsertDeleteExecutable(this._dvlSqlConnection, GetSqlString, GetDvlSqlParameters);
 
         private string GetSqlString()
         {

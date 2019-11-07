@@ -6,12 +6,12 @@ namespace DVL_SQL_Test1.Concrete
 {
     public class SqlUpdateSetable : IUpdateSetable
     {
-        private readonly string _connString;
+        private readonly IDvlSqlConnection _dvlSqlConnection;
         private SqlUpdateable _sqlUpdateable;
         private readonly DvlSqlUpdateExpression _updateExpression;
 
-        public SqlUpdateSetable(string connString, DvlSqlUpdateExpression updateExpression) =>
-            (this._connString, this._updateExpression) = (connString, updateExpression);
+        public SqlUpdateSetable(IDvlSqlConnection dvlSqlConnection, DvlSqlUpdateExpression updateExpression) =>
+            (this._dvlSqlConnection, this._updateExpression) = (dvlSqlConnection, updateExpression);
 
         public IUpdateable Set<TVal>((string, DvlSqlType<TVal>) value)
         {
@@ -20,7 +20,7 @@ namespace DVL_SQL_Test1.Concrete
             if (this._sqlUpdateable != null)
                 return this._sqlUpdateable;
 
-            return this._sqlUpdateable = new SqlUpdateable(this._connString, this._updateExpression, this);
+            return this._sqlUpdateable = new SqlUpdateable(this._dvlSqlConnection, this._updateExpression, this);
         }
     }
 }

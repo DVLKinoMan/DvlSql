@@ -9,11 +9,11 @@ namespace DVL_SQL_Test1.Concrete
 {
     public class SqlSelector : ISelector
     {
-        private readonly string _connectionString;
+        private readonly IDvlSqlConnection _dvlSqlConnection;
         private readonly DvlSqlFullSelectExpression _fullSelectExpression = new DvlSqlFullSelectExpression();
 
-        public SqlSelector(DvlSqlFromExpression sqlFromExpression, string connectionString)
-            => (this._fullSelectExpression.SqlFromExpression, this._connectionString) = (sqlFromExpression, connectionString);
+        public SqlSelector(DvlSqlFromExpression sqlFromExpression, IDvlSqlConnection dvlSqlConnection)
+            => (this._fullSelectExpression.SqlFromExpression, this._dvlSqlConnection) = (sqlFromExpression, dvlSqlConnection);
 
         public string GetSqlString()
         {
@@ -38,21 +38,21 @@ namespace DVL_SQL_Test1.Concrete
         {
             this._fullSelectExpression.SqlSelectExpression = new DvlSqlSelectExpression(this._fullSelectExpression.SqlFromExpression, parameterNames);
 
-            return new SqlOrderer(this, new SqlSelectExecutor(new DvlSqlConnection(this._connectionString), this));
+            return new SqlOrderer(this, new SqlSelectExecutor(this._dvlSqlConnection, this));
         }
 
         public IOrderer Select()
         {
             this._fullSelectExpression.SqlSelectExpression = new DvlSqlSelectExpression(this._fullSelectExpression.SqlFromExpression);
 
-            return new SqlOrderer(this, new SqlSelectExecutor(new DvlSqlConnection(this._connectionString), this));
+            return new SqlOrderer(this, new SqlSelectExecutor(this._dvlSqlConnection, this));
         }
 
         public IOrderer SelectTop(int count, params string[] parameterNames)
         {
             this._fullSelectExpression.SqlSelectExpression = new DvlSqlSelectExpression(this._fullSelectExpression.SqlFromExpression, parameterNames, count);
 
-            return new SqlOrderer(this, new SqlSelectExecutor(new DvlSqlConnection(this._connectionString), this));
+            return new SqlOrderer(this, new SqlSelectExecutor(this._dvlSqlConnection, this));
         }
 
         public IFilter Where(DvlSqlBinaryExpression binaryExpression)
