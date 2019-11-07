@@ -4,12 +4,12 @@ namespace DVL_SQL_Test1.Expressions
 {
     public class DvlSqlComparisonExpression : DvlSqlBinaryExpression
     {
-        public DvlSqlExpression LeftExpression { get; }
+        public DvlSqlConstantExpression LeftExpression { get; }
         public SqlComparisonOperator ComparisonOperator { get; }
-        public DvlSqlExpression RightExpression { get; }
+        public DvlSqlConstantExpression RightExpression { get; }
 
-        public DvlSqlComparisonExpression(DvlSqlExpression leftExpression, SqlComparisonOperator comparisonOperator,
-            DvlSqlExpression rightExpression) => (this.LeftExpression, this.ComparisonOperator, this.RightExpression) =
+        public DvlSqlComparisonExpression(DvlSqlConstantExpression leftExpression, SqlComparisonOperator comparisonOperator,
+            DvlSqlConstantExpression rightExpression) => (this.LeftExpression, this.ComparisonOperator, this.RightExpression) =
             (leftExpression, comparisonOperator, rightExpression);
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);

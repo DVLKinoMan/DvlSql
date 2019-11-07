@@ -1,6 +1,5 @@
 ﻿using DVL_SQL_Test1.Abstract;
 using DVL_SQL_Test1.Concrete;
-using DVL_SQL_Test1.Expressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using static DVL_SQL_Test1.Helpers.DvlSqlExpressionHelpers;
@@ -20,7 +19,7 @@ namespace DVL_SQL_Test1.Tests
         public void TestMethod1()
         {
             var rows = _sql.DeleteFrom("dbo.Words")
-                .Where(ComparisonExp(ConstantExp("Text"), SqlComparisonOperator.Equality, ConstantExp("@text")),
+                .Where(ConstantExp("Text") == ConstantExp("@text"),
                     Params(Param("@text", NVarCharMax("New Text"))))
                 .ExecuteAsync().Result;
         }

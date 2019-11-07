@@ -2,7 +2,7 @@
 
 namespace DVL_SQL_Test1.Expressions
 {
-    public class DvlSqlNotExpression : DvlSqlExpression
+    public class DvlSqlNotExpression : DvlSqlBinaryExpression
     {
         public DvlSqlBinaryExpression BinaryExpression;
 

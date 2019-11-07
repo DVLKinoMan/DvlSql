@@ -5,10 +5,10 @@ namespace DVL_SQL_Test1.Expressions
 {
     public class DvlSqlOrExpression : DvlSqlBinaryExpression
     {
-        public IEnumerable<DvlSqlExpression> InnerExpressions { get; }
+        public IEnumerable<DvlSqlBinaryExpression> InnerExpressions { get; }
 
-        public DvlSqlOrExpression(params DvlSqlExpression[] innerExpressions) =>
-            this.InnerExpressions = innerExpressions;
+        public DvlSqlOrExpression(params DvlSqlBinaryExpression[] binaryExpressions) =>
+            this.InnerExpressions = binaryExpressions;
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
     }

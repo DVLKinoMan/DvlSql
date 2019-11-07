@@ -278,7 +278,7 @@ namespace DVL_SQL_Test1.Concrete
 
         public void Visit(DvlSqlNotExpression expression)
         {
-            expression.BinaryExpression.Not = true;
+            expression.BinaryExpression.Not = !expression.Not;
             expression.BinaryExpression.Accept(this);
         }
 

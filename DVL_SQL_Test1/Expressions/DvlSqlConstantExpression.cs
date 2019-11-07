@@ -1,9 +1,59 @@
-﻿using DVL_SQL_Test1.Abstract;
+﻿using System.Collections.Generic;
+using DVL_SQL_Test1.Abstract;
 
 namespace DVL_SQL_Test1.Expressions
 {
-    public class DvlSqlConstantExpression<TValue> : DvlSqlExpression
+    public abstract class DvlSqlConstantExpression : DvlSqlExpression
     {
+        protected bool Equals(DvlSqlConstantExpression other) => throw new System.NotImplementedException();
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            return obj.GetType() == this.GetType() && Equals((DvlSqlConstantExpression) obj);
+        }
+
+        public override int GetHashCode() => throw new System.NotImplementedException();
+
+        public static DvlSqlComparisonExpression operator ==(DvlSqlConstantExpression lhs,
+            DvlSqlConstantExpression rhs) =>
+            new DvlSqlComparisonExpression(lhs, SqlComparisonOperator.Equality, rhs);
+
+        public static DvlSqlComparisonExpression operator !=(DvlSqlConstantExpression lhs,
+            DvlSqlConstantExpression rhs) =>
+            new DvlSqlComparisonExpression(lhs, SqlComparisonOperator.Different, rhs);
+
+        public static DvlSqlComparisonExpression operator >(DvlSqlConstantExpression lhs,
+            DvlSqlConstantExpression rhs) =>
+            new DvlSqlComparisonExpression(lhs, SqlComparisonOperator.Greater, rhs);
+
+        public static DvlSqlComparisonExpression operator >=(DvlSqlConstantExpression lhs,
+            DvlSqlConstantExpression rhs) =>
+            new DvlSqlComparisonExpression(lhs, SqlComparisonOperator.GreaterOrEqual, rhs);
+
+        public static DvlSqlComparisonExpression operator <(DvlSqlConstantExpression lhs,
+            DvlSqlConstantExpression rhs) =>
+            new DvlSqlComparisonExpression(lhs, SqlComparisonOperator.Less, rhs);
+
+        public static DvlSqlComparisonExpression operator <=(DvlSqlConstantExpression lhs,
+            DvlSqlConstantExpression rhs) =>
+            new DvlSqlComparisonExpression(lhs, SqlComparisonOperator.LessOrEqual, rhs);
+    }
+
+    public class DvlSqlConstantExpression<TValue> : DvlSqlConstantExpression
+    {
+        protected bool Equals(DvlSqlConstantExpression<TValue> other) => EqualityComparer<TValue>.Default.Equals(this.Value, other.Value);
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            return obj.GetType() == this.GetType() && Equals((DvlSqlConstantExpression<TValue>) obj);
+        }
+
+        public override int GetHashCode() => EqualityComparer<TValue>.Default.GetHashCode(Value);
+
         private TValue Value { get; }
 
         public string StringValue => this.Value.ToString();
@@ -11,25 +61,5 @@ namespace DVL_SQL_Test1.Expressions
         public DvlSqlConstantExpression(TValue value) => this.Value = value;
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
-
-        public static DvlSqlComparisonExpression operator == (DvlSqlConstantExpression<TValue> lhs, DvlSqlConstantExpression<TValue> rhs)
-        {
-            return new DvlSqlComparisonExpression(lhs, SqlComparisonOperator.Equality, rhs);
-        }
-
-        public static DvlSqlComparisonExpression operator !=(DvlSqlConstantExpression<TValue> lhs, DvlSqlConstantExpression<TValue> rhs)
-        {
-            return new DvlSqlComparisonExpression(lhs, SqlComparisonOperator.Different, rhs);
-        }
-
-        public static DvlSqlComparisonExpression operator > (DvlSqlConstantExpression<TValue> lhs, DvlSqlConstantExpression<TValue> rhs)
-        {
-            return new DvlSqlComparisonExpression(lhs, SqlComparisonOperator.Greater, rhs);
-        }
-
-        public static DvlSqlComparisonExpression operator <(DvlSqlConstantExpression<TValue> lhs, DvlSqlConstantExpression<TValue> rhs)
-        {
-            return new DvlSqlComparisonExpression(lhs, SqlComparisonOperator.Less, rhs);
-        }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using DVL_SQL_Test1.Abstract;
 using DVL_SQL_Test1.Concrete;
-using DVL_SQL_Test1.Expressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
@@ -22,18 +21,17 @@ namespace DVL_SQL_Test1.Tests
         {
             var list = _sql
                 .From(AsExp("nbe.BANK_DATA", "B1"), true)
-                .Join(AsExp("nbe.BANK_DATA", "B2"), ComparisonExp(ConstantExp("B1.REC_ID"), SqlComparisonOperator.Equality, ConstantExp("B2.REC_ID")))
+                .Join(AsExp("nbe.BANK_DATA", "B2"), ConstantExp("B1.REC_ID") == ConstantExp("B2.REC_ID"))
                 .Where(
-                    AndExp(
-                        ComparisonExp(ConstantExp("B1.AMOUNT"), SqlComparisonOperator.Less, ConstantExp(35000)),
-                        NotInExp("B1.REC_ID", SelectTopExp(FromExp("nbe.BANK_DATA"), 4, "REC_ID")),
-                        NotLikeExp("B1.RESTRICT_CODE", "%dd%"),
+                        ConstantExp("B1.AMOUNT") < ConstantExp(35000) &
+                        !InExp("B1.REC_ID", SelectTopExp(FromExp("nbe.BANK_DATA"), 4, "REC_ID")) &
+                        !LikeExp("B1.RESTRICT_CODE", "%dd%") &
                         ConstantExp("B1.ADD_DATE") > ConstantExp("@date")
                     //ComparisonExp(ConstantExp("B1.STATUS"), SqlComparisonOperator.Equality, ConstantExp(1))
-                    ), Params(Param("@date", new DateTime(2012, 1, 1)))
+                    , Params(Param("@date", new DateTime(2012, 1, 1)))
                 )
                 .GroupBy("B1.AMOUNT")
-                .Having(ComparisonExp(ConstantExp("Count(*)"), SqlComparisonOperator.GreaterOrEqual, ConstantExp("2")))
+                .Having(ConstantExp("Count(*)") >= ConstantExp("2"))
                 //.Where(ComparisonExp(ConstantExp("STATUS"), SqlComparisonOperator.Equality, ConstantExp(1)))
                 //.SelectTop(4,"B1.STATUS", "B1.AMOUNT", "B1.RESTRICT_CODE")
                 //.Select("B1.STATUS", "B1.AMOUNT", "B1.RESTRICT_CODE")
@@ -51,7 +49,7 @@ namespace DVL_SQL_Test1.Tests
                         }
                 ).Result;
 
-            Assert.Equals(list.Count, 5);
+            Assert.AreEqual(list.Count, 5);
         }
     }
 }
