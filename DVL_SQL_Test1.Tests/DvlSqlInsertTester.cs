@@ -22,7 +22,8 @@ namespace DVL_SQL_Test1.Tests
         [TestMethod]
         public void TestMethod1()
         {
-            var affectedRows = _sql
+            // ReSharper disable once UnusedVariable
+            var affectedRows = this._sql
                 .InsertInto("dbo.Words", Columns("Amount", "Text"))
                 .SelectStatement(FullSelectExp(SelectTopExp(FromExp("dbo.Words"), 2, "Amount", "Text"),
                     orderByExpression: OrderByExp(("Text", Ordering.ASC))))
@@ -34,7 +35,8 @@ namespace DVL_SQL_Test1.Tests
         [TestMethod]
         public void TestMethod2()
         {
-            var affectedRows = _sql
+            // ReSharper disable once UnusedVariable
+            var affectedRows = this._sql
                 .InsertInto<(int, string)>("dbo.Words", ("Amount", new DvlSqlType(SqlDbType.Decimal)), ("Text", new DvlSqlType(SqlDbType.NVarChar)))
                 .Values((42, "newVal1"), (43, "newVal2"), (44, "newVal3"))
                 .ExecuteAsync().Result;
@@ -45,7 +47,8 @@ namespace DVL_SQL_Test1.Tests
         [TestMethod]
         public void TestMethod3()
         {
-            var affectedRows = _sql
+            // ReSharper disable once UnusedVariable
+            var affectedRows = this._sql
                 .InsertInto("dbo.Words", Columns("Amount", "Text"))
                 .SelectStatement(FullSelectExp(SelectTopExp(FromExp("dbo.Words"), 2, "Amount", "Text"),
                         orderByExpression: OrderByExp(("Text", Ordering.ASC)),

@@ -19,7 +19,7 @@ namespace DVL_SQL_Test1.Tests
         [TestMethod]
         public void TestMethod1()
         {
-            var rows2 = _sql.Update("dbo.Words")
+            var rows2 = this._sql.Update("dbo.Words")
                 .Set(("money", Money(new decimal(2.11))))
                 .ExecuteAsync().Result;
         }
@@ -27,7 +27,7 @@ namespace DVL_SQL_Test1.Tests
         [TestMethod]
         public void TestMethod2()
         {
-            var rows2 = _sql.Update("dbo.Words")
+            var rows2 = this._sql.Update("dbo.Words")
                 .Set(("money", Money(new decimal(3.11))))
                 .Where(ComparisonExp(ConstantExp("Amount"), SqlComparisonOperator.Equality, ConstantExp("@amount")),
                     Param("@amount", Decimal(new decimal(42))))
@@ -38,7 +38,7 @@ namespace DVL_SQL_Test1.Tests
         [TestMethod]
         public void TestMethod3()
         {
-            var rows2 = _sql.Update("dbo.Words")
+            var rows2 = this._sql.Update("dbo.Words")
                 .Set(("money", Money(new decimal(3.11))))
                 .Set(("isSome", Bit(true)))
                 .Set(("floatNumber", Float(1.222)))

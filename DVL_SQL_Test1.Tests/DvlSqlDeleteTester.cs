@@ -18,7 +18,7 @@ namespace DVL_SQL_Test1.Tests
         [TestMethod]
         public void TestMethod1()
         {
-            var rows = _sql.DeleteFrom("dbo.Words")
+            var rows = this._sql.DeleteFrom("dbo.Words")
                 .Where(ConstantExp("Text") == ConstantExp("@text"),
                     Params(Param("@text", NVarCharMax("New Text"))))
                 .ExecuteAsync().Result;
@@ -27,7 +27,7 @@ namespace DVL_SQL_Test1.Tests
         [TestMethod]
         public void TestMethod2()
         {
-            var rows = _sql.DeleteFrom("dbo.Words")
+            var rows = this._sql.DeleteFrom("dbo.Words")
                 .ExecuteAsync().Result;
         }
     }

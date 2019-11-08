@@ -15,10 +15,7 @@ namespace DVL_SQL_Test1.Concrete
         public DvlSqlConnection(string connectionString) =>
             this._connectionString = connectionString;
 
-        public void Dispose()
-        {
-            this._commands.Clear();
-        }
+        public void Dispose() => this._commands.Clear();
 
         private DvlSqlCommand CreateCommand(CommandType commandType, SqlConnection connection, string sqlString, params SqlParameter[] parameters)
         {

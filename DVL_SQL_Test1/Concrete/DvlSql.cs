@@ -4,6 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using DVL_SQL_Test1.Models;
+using System;
+using System.Data;
+using System.Data.SqlClient;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace DVL_SQL_Test1.Concrete
 {
@@ -46,7 +51,26 @@ namespace DVL_SQL_Test1.Concrete
         {
             var updateExpression = new DvlSqlUpdateExpression(tableName);
 
-            return  new SqlUpdateSetable(this._dvlSqlConnection, updateExpression);
+            return new SqlUpdateSetable(this._dvlSqlConnection, updateExpression);
         }
+
+        public async Task<int> ExecuteProcedureAsync(string procedureName, int? timeout = default,
+            CommandBehavior behavior = CommandBehavior.Default, CancellationToken cancellationToken = default,
+            params DvlSqlParameter[] parameters) =>
+            await this._dvlSqlConnection.ConnectAsync(
+                dvlCommand => dvlCommand.ExecuteNonQueryAsync(timeout, cancellationToken),
+                procedureName,
+                CommandType.StoredProcedure,
+                parameters: parameters.Select(param => param.SqlParameter).ToArray());
+
+        public async Task<TResult> ExecuteProcedureAsync<TResult>(string procedureName,
+            Func<SqlDataReader, TResult> reader, int? timeout = default,
+            CommandBehavior behavior = CommandBehavior.Default, CancellationToken cancellationToken = default,
+            params DvlSqlParameter[] parameters) =>
+            await this._dvlSqlConnection.ConnectAsync(
+                dvlCommand => dvlCommand.ExecuteReaderAsync(reader, timeout, behavior, cancellationToken),
+                procedureName,
+                CommandType.StoredProcedure,
+                parameters: parameters.Select(param => param.SqlParameter).ToArray());
     }
 }

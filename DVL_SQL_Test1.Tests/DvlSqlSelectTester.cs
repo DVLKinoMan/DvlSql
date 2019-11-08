@@ -19,7 +19,7 @@ namespace DVL_SQL_Test1.Tests
         [TestMethod]
         public void TestMethod1()
         {
-            var list = _sql
+            var list = this._sql
                 .From(AsExp("nbe.BANK_DATA", "B1"), true)
                 .Join(AsExp("nbe.BANK_DATA", "B2"), ConstantExp("B1.REC_ID") == ConstantExp("B2.REC_ID"))
                 .Where(

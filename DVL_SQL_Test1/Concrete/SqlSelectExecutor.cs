@@ -7,6 +7,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using static DVL_SQL_Test1.Helpers.DvlSqldatareaderHelpers;
+
 namespace DVL_SQL_Test1.Concrete
 {
     public class SqlSelectExecutor : ISelectExecutable
@@ -26,14 +28,7 @@ namespace DVL_SQL_Test1.Concrete
                 this._selector.GetSqlString(),
                 parameters: this._selector.GetDvlSqlParameters().Select(dvlSql => dvlSql.SqlParameter).ToArray());
 
-            List<TResult> ConverterFunc(SqlDataReader reader)
-            {
-                var list = new List<TResult>();
-                while (reader.Read())
-                    list.Add(selectorFunc(reader));
-
-                return list;
-            }
+            List<TResult> ConverterFunc(SqlDataReader reader) => AsList(reader, selectorFunc);
         }
 
         public async Task<List<TResult>> ToListAsync<TResult>(int? timeout = default,
@@ -44,14 +39,7 @@ namespace DVL_SQL_Test1.Concrete
                 this._selector.GetSqlString(),
                 parameters: this._selector.GetDvlSqlParameters().Select(dvlSql => dvlSql.SqlParameter).ToArray());
 
-            static List<TResult> ConverterFunc(SqlDataReader reader)
-            {
-                var list = new List<TResult>();
-                while (reader.Read())
-                    list.Add((TResult) reader[0]);
-
-                return list;
-            }
+            static List<TResult> ConverterFunc(SqlDataReader reader) => AsList(reader, r => (TResult)r[0]);
         }
 
         public async Task<TResult> FirstAsync<TResult>(int? timeout = default, CancellationToken cancellationToken = default)
@@ -69,7 +57,7 @@ namespace DVL_SQL_Test1.Concrete
                 this._selector.WithSelectTop(1).GetSqlString(),
                 parameters: this._selector.GetDvlSqlParameters().Select(dvlSql => dvlSql.SqlParameter).ToArray());
 
-            TResult ConverterFunc(SqlDataReader reader) => reader.Read() ? readerFunc(reader) : throw new InvalidOperationException("There was no element in sequence");
+            TResult ConverterFunc(SqlDataReader reader) => First(reader, readerFunc);
         }
 
         public async Task<TResult> FirstOrDefaultAsync<TResult>(int? timeout = default,
@@ -89,7 +77,7 @@ namespace DVL_SQL_Test1.Concrete
                 this._selector.WithSelectTop(1).GetSqlString(),
                 parameters: this._selector.GetDvlSqlParameters().Select(dvlSql => dvlSql.SqlParameter).ToArray());
 
-            TResult ConverterFunc(SqlDataReader reader) => reader.Read() ? readerFunc(reader) : default;
+            TResult ConverterFunc(SqlDataReader reader) => FirstOrDefault(reader, readerFunc);
         }
 
         public async Task<TResult> SingleAsync<TResult>(int? timeout = null, CancellationToken cancellationToken = default)
@@ -107,12 +95,7 @@ namespace DVL_SQL_Test1.Concrete
                 this._selector.GetSqlString(),
                 parameters: this._selector.GetDvlSqlParameters().Select(dvlSql => dvlSql.SqlParameter).ToArray());
 
-            TResult ConverterFunc(SqlDataReader reader) => IsSingleDataReader(reader, readerFunc) switch
-            {
-                (true, var value) => value,
-                _ => throw new InvalidOperationException(
-                    "There was no element in sequence or there was more than 1 elements")
-            };
+            TResult ConverterFunc(SqlDataReader reader) => Single(reader, readerFunc);
         }
 
         public async Task<TResult> SingleOrDefaultAsync<TResult>(int? timeout = null, CancellationToken cancellationToken = default)
@@ -130,20 +113,7 @@ namespace DVL_SQL_Test1.Concrete
                 this._selector.GetSqlString(),
                 parameters: this._selector.GetDvlSqlParameters().Select(dvlSql => dvlSql.SqlParameter).ToArray());
 
-            TResult ConverterFunc(SqlDataReader reader) => IsSingleDataReader(reader, readerFunc) switch
-            {
-                (true, var value) => value,
-                _ => default
-            };
-        }
-
-        private static (bool isSingle, TResult result) IsSingleDataReader<TResult>(SqlDataReader reader, Func<SqlDataReader, TResult> func)
-        {
-            if (!reader.Read())
-                return (default, default);
-
-            var firstValue = func(reader);
-            return reader.Read() ? (false, firstReader: firstValue) : (true, firstReader: firstValue);
+            TResult ConverterFunc(SqlDataReader reader) => SingleOrDefault(reader, readerFunc);
         }
     }
 }
