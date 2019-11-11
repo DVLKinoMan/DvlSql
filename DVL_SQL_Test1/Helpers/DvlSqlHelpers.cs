@@ -21,11 +21,18 @@ namespace DVL_SQL_Test1.Helpers
                 _ => value.ToString()
             };
 
-        public static IEnumerable<DvlSqlParameter> Params(params DvlSqlParameter[] parameters) => parameters.Select(param => param);
+        public static IEnumerable<DvlSqlParameter> Params(params DvlSqlParameter[] parameters) =>
+            parameters.Select(param => param);
 
-        public static DvlSqlParameter Param<TValue>(string parameterName, TValue value) => new DvlSqlParameter<TValue>(parameterName, new DvlSqlType<TValue>(parameterName, value));
+        public static DvlSqlParameter Param<TValue>(string parameterName, TValue value) => new DvlSqlParameter<TValue>(
+            parameterName,
+            new DvlSqlType<TValue>(parameterName, value));
 
-        public static DvlSqlParameter Param<TValue>(string parameterName, DvlSqlType<TValue> dvlSqlType) => new DvlSqlParameter<TValue>(parameterName, dvlSqlType);
+        public static DvlSqlParameter Param<TValue>(string parameterName, DvlSqlType<TValue> dvlSqlType) =>
+            new DvlSqlParameter<TValue>(parameterName, dvlSqlType);
+
+        public static OutputDvlSqlParameter OutputParam(string parameterName, DvlSqlType dvlSqlType) =>
+            new OutputDvlSqlParameter(parameterName, dvlSqlType);
 
     }
 }

@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace DVL_SQL_Test1.Abstract
 {
-    public interface IDvlSql : IProcedureExecutable
+    public interface IDvlSql : IProcedure
     {
         ISelector From(string tableName, bool withNoLock = false);
 
