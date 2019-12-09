@@ -24,8 +24,9 @@ namespace DVL_SQL_Test1.Concrete
                 CommandType = commandType
             };
 
-            foreach (var parameter in parameters)
-                command.Parameters.Add(parameter);
+            if(parameters!=null)
+                foreach (var parameter in parameters)
+                    command.Parameters.Add(parameter);
 
             this._commands.Add(command);
 

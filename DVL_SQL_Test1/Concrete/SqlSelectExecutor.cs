@@ -25,14 +25,14 @@ namespace DVL_SQL_Test1.Concrete
             await this._connection.ConnectAsync(
                 dvlCommand => dvlCommand.ExecuteReaderAsync(AsList(selectorFunc), timeout, behavior, cancellationToken),
                 this._selector.GetSqlString(),
-                parameters: this._selector.GetDvlSqlParameters().Select(dvlSql => dvlSql.SqlParameter).ToArray());
+                parameters: this._selector.GetDvlSqlParameters()?.Select(dvlSql => dvlSql.SqlParameter).ToArray());
 
         public async Task<List<TResult>> ToListAsync<TResult>(int? timeout = default,
             CommandBehavior behavior = CommandBehavior.Default, CancellationToken cancellationToken = default) =>
             await this._connection.ConnectAsync(
                 dvlCommand => dvlCommand.ExecuteReaderAsync(AsList(r => (TResult)r[0]), timeout, behavior, cancellationToken),
                 this._selector.GetSqlString(),
-                parameters: this._selector.GetDvlSqlParameters().Select(dvlSql => dvlSql.SqlParameter).ToArray());
+                parameters: this._selector.GetDvlSqlParameters()?.Select(dvlSql => dvlSql.SqlParameter).ToArray());
 
         public async Task<TResult> FirstAsync<TResult>(int? timeout = default,
             CancellationToken cancellationToken = default) =>
@@ -45,7 +45,7 @@ namespace DVL_SQL_Test1.Concrete
                 dvlCommand =>
                     dvlCommand.ExecuteReaderAsync(First(readerFunc), timeout, cancellationToken: cancellationToken),
                 this._selector.WithSelectTop(1).GetSqlString(),
-                parameters: this._selector.GetDvlSqlParameters().Select(dvlSql => dvlSql.SqlParameter).ToArray());
+                parameters: this._selector.GetDvlSqlParameters()?.Select(dvlSql => dvlSql.SqlParameter).ToArray());
 
         public async Task<TResult> FirstOrDefaultAsync<TResult>(int? timeout = default,
             CancellationToken cancellationToken = default) =>
@@ -59,7 +59,7 @@ namespace DVL_SQL_Test1.Concrete
                 dvlCommand =>
                     dvlCommand.ExecuteReaderAsync(FirstOrDefault(readerFunc), timeout, cancellationToken: cancellationToken),
                 this._selector.WithSelectTop(1).GetSqlString(),
-                parameters: this._selector.GetDvlSqlParameters().Select(dvlSql => dvlSql.SqlParameter).ToArray());
+                parameters: this._selector.GetDvlSqlParameters()?.Select(dvlSql => dvlSql.SqlParameter).ToArray());
 
         public async Task<TResult>
             SingleAsync<TResult>(int? timeout = null, CancellationToken cancellationToken = default) =>
@@ -72,7 +72,7 @@ namespace DVL_SQL_Test1.Concrete
                 dvlCommand =>
                     dvlCommand.ExecuteReaderAsync(Single(readerFunc), timeout, cancellationToken: cancellationToken),
                 this._selector.GetSqlString(),
-                parameters: this._selector.GetDvlSqlParameters().Select(dvlSql => dvlSql.SqlParameter).ToArray());
+                parameters: this._selector.GetDvlSqlParameters()?.Select(dvlSql => dvlSql.SqlParameter).ToArray());
 
         public async Task<TResult> SingleOrDefaultAsync<TResult>(int? timeout = null,
             CancellationToken cancellationToken = default) =>
@@ -87,6 +87,6 @@ namespace DVL_SQL_Test1.Concrete
                     dvlCommand.ExecuteReaderAsync(SingleOrDefault(readerFunc), timeout,
                         cancellationToken: cancellationToken),
                 this._selector.GetSqlString(),
-                parameters: this._selector.GetDvlSqlParameters().Select(dvlSql => dvlSql.SqlParameter).ToArray());
+                parameters: this._selector.GetDvlSqlParameters()?.Select(dvlSql => dvlSql.SqlParameter).ToArray());
     }
 }
