@@ -73,9 +73,23 @@ namespace DVL_SQL_Test1.Concrete
             return this;
         }
 
+        public ISelector Join(string tableName, string firstTableMatchingCol, string secondTableMatchingCol)
+        {
+            this._fullSelectExpression.SqlJoinExpressions.Add(new DvlSqlInnerJoinExpression(tableName,
+                new DvlSqlConstantExpression<string>(firstTableMatchingCol) == new DvlSqlConstantExpression<string>(secondTableMatchingCol)));
+            return this;
+        }
+
         public ISelector FullJoin(string tableName, DvlSqlComparisonExpression compExpression)
         {
             this._fullSelectExpression.SqlJoinExpressions.Add(new DvlSqlInnerJoinExpression(tableName, compExpression));
+            return this;
+        }
+
+        public ISelector FullJoin(string tableName, string firstTableMatchingCol, string secondTableMatchingCol)
+        {
+            this._fullSelectExpression.SqlJoinExpressions.Add(new DvlSqlInnerJoinExpression(tableName,
+                new DvlSqlConstantExpression<string>(firstTableMatchingCol) == new DvlSqlConstantExpression<string>(secondTableMatchingCol)));
             return this;
         }
 
@@ -85,9 +99,23 @@ namespace DVL_SQL_Test1.Concrete
             return this;
         }
 
+        public ISelector LeftJoin(string tableName, string firstTableMatchingCol, string secondTableMatchingCol)
+        {
+            this._fullSelectExpression.SqlJoinExpressions.Add(new DvlSqlLeftJoinExpression(tableName,
+                new DvlSqlConstantExpression<string>(firstTableMatchingCol) == new DvlSqlConstantExpression<string>(secondTableMatchingCol)));
+            return this;
+        }
+
         public ISelector RightJoin(string tableName, DvlSqlComparisonExpression compExpression)
         {
             this._fullSelectExpression.SqlJoinExpressions.Add(new DvlSqlRightJoinExpression(tableName, compExpression));
+            return this;
+        }
+
+        public ISelector RightJoin(string tableName, string firstTableMatchingCol, string secondTableMatchingCol)
+        {
+            this._fullSelectExpression.SqlJoinExpressions.Add(new DvlSqlRightJoinExpression(tableName,
+                new DvlSqlConstantExpression<string>(firstTableMatchingCol) == new DvlSqlConstantExpression<string>(secondTableMatchingCol)));
             return this;
         }
 
