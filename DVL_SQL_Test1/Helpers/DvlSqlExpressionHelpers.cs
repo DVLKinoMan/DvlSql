@@ -11,6 +11,9 @@ namespace DVL_SQL_Test1.Helpers
         public static DvlSqlAndExpression AndExp(params DvlSqlBinaryExpression[] innerExpressions) =>
             new DvlSqlAndExpression(innerExpressions);
 
+        public static DvlSqlAndExpression AndExp(IEnumerable<DvlSqlBinaryExpression> innerExpressions) =>
+            new DvlSqlAndExpression(innerExpressions);
+
         public static DvlSqlComparisonExpression ComparisonExp(DvlSqlConstantExpression leftExp, SqlComparisonOperator op,
             DvlSqlConstantExpression rightExp)
             => new DvlSqlComparisonExpression(leftExp, op, rightExp);
