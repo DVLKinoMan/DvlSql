@@ -27,6 +27,11 @@ namespace DVL_SQL_Test1.Concrete
             CommandBehavior behavior = CommandBehavior.Default, CancellationToken cancellationToken = default) =>
             this._executor.ToListAsync<TResult>(timeout, behavior, cancellationToken);
 
+        public Task<Dictionary<TKey, List<TValue>>> ToDictionaryAsync<TKey, TValue>(
+            Func<SqlDataReader, TKey> keySelector, Func<SqlDataReader, TValue> valueSelector, int? timeout = null,
+            CommandBehavior behavior = CommandBehavior.Default, CancellationToken cancellationToken = default) =>
+            this._executor.ToDictionaryAsync(keySelector, valueSelector, timeout, behavior, cancellationToken);
+    
         public Task<TResult> FirstAsync<TResult>(int? timeout = null, CancellationToken cancellationToken = default) =>
             this._executor.FirstAsync<TResult>(timeout, cancellationToken);
 
@@ -56,6 +61,5 @@ namespace DVL_SQL_Test1.Concrete
         public Task<TResult> FirstOrDefaultAsync<TResult>(Func<SqlDataReader, TResult> reader, int? timeout = null,
             CancellationToken cancellationToken = default) =>
             this._executor.FirstOrDefaultAsync(reader, timeout, cancellationToken);
-
-    }
+     }
 }

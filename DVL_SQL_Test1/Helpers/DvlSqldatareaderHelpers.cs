@@ -16,6 +16,23 @@ namespace DVL_SQL_Test1.Helpers
             return list;
         };
 
+        public static Func<SqlDataReader, Dictionary<TKey, List<TValue>>> AsDictionary<TKey, TValue>(
+            Func<SqlDataReader, TKey> keySelector, Func<SqlDataReader, TValue> valueSelector) =>
+            reader =>
+            {
+                var dict = new Dictionary<TKey, List<TValue>>();
+                while (reader.Read())
+                {
+                    var key = keySelector(reader);
+                    var value = valueSelector(reader);
+                    if (!dict.TryGetValue(key, out var collection))
+                        dict.Add(key, new List<TValue>() {value});
+                    else collection.Add(value);
+                }
+
+                return dict;
+            };
+
         public static Func<SqlDataReader, TResult> First<TResult>(Func<SqlDataReader, TResult> selector) =>
             reader => reader.Read()
                 ? selector(reader)

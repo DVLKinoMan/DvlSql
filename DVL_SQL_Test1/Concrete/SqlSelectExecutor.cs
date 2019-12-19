@@ -34,6 +34,17 @@ namespace DVL_SQL_Test1.Concrete
                 this._selector.GetSqlString(),
                 parameters: this._selector.GetDvlSqlParameters()?.Select(dvlSql => dvlSql.SqlParameter).ToArray());
 
+        public async Task<Dictionary<TKey, List<TValue>>> ToDictionaryAsync<TKey, TValue>(
+            Func<SqlDataReader, TKey> keySelector,
+            Func<SqlDataReader, TValue> valueSelector,
+            int? timeout = default,
+            CommandBehavior behavior = CommandBehavior.Default, CancellationToken cancellationToken = default) =>
+            await this._connection.ConnectAsync(
+                dvlCommand => dvlCommand.ExecuteReaderAsync(AsDictionary(keySelector, valueSelector), timeout, behavior,
+                    cancellationToken),
+                this._selector.GetSqlString(),
+                parameters: this._selector.GetDvlSqlParameters()?.Select(dvlSql => dvlSql.SqlParameter).ToArray());
+
         public async Task<TResult> FirstAsync<TResult>(int? timeout = default,
             CancellationToken cancellationToken = default) =>
             await FirstAsync(reader => reader[0] is TResult res ? res : throw new ArgumentException("TResult"),

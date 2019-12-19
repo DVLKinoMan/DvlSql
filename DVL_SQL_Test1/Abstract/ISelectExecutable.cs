@@ -15,6 +15,12 @@ namespace DVL_SQL_Test1.Abstract
         Task<List<TResult>> ToListAsync<TResult>(int? timeout = default,
             CommandBehavior behavior = CommandBehavior.Default, CancellationToken cancellationToken = default);
 
+        Task<Dictionary<TKey, List<TValue>>> ToDictionaryAsync<TKey, TValue>(
+            Func<SqlDataReader, TKey> keySelector,
+            Func<SqlDataReader, TValue> valueSelector,
+            int? timeout = default,
+            CommandBehavior behavior = CommandBehavior.Default, CancellationToken cancellationToken = default);
+
         Task<TResult> FirstAsync<TResult>(int? timeout = default, CancellationToken cancellationToken = default);
 
         Task<TResult> FirstAsync<TResult>(Func<SqlDataReader, TResult> reader, int? timeout = default, CancellationToken cancellationToken = default);
