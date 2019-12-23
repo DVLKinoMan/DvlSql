@@ -1,8 +1,8 @@
-﻿using DVL_SQL_Test1.Abstract;
-using DVL_SQL_Test1.Expressions;
-using DVL_SQL_Test1.Models;
+﻿using Dvl_Sql.Abstract;
+using Dvl_Sql.Expressions;
+using Dvl_Sql.Models;
 
-namespace DVL_SQL_Test1.Concrete
+namespace Dvl_Sql.Concrete
 {
     public class SqlUpdateSetable : IUpdateSetable
     {

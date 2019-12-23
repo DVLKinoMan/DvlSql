@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 
-namespace DVL_SQL_Test1.Helpers
+namespace Dvl_Sql.Helpers
 {
     public static class DvlSqlDataReaderHelpers
     {

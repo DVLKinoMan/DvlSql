@@ -1,4 +1,4 @@
-﻿namespace DVL_SQL_Test1.Expressions
+﻿namespace Dvl_Sql.Expressions
 {
     public abstract class DvlSqlBinaryExpression : DvlSqlExpression
     {

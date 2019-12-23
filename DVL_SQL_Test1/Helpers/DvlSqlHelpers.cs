@@ -1,11 +1,11 @@
-﻿using DVL_SQL_Test1.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.Linq;
+using Dvl_Sql.Models;
 
-namespace DVL_SQL_Test1.Helpers
+namespace Dvl_Sql.Helpers
 {
     public static class DvlSqlHelpers
     {

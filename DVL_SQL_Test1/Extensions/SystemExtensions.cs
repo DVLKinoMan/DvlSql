@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace DVL_SQL_Test1.Extensions
+namespace Dvl_Sql.Extensions
 {
     public static class SystemExtensions
     {

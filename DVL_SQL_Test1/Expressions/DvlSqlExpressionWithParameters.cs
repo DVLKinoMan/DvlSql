@@ -1,7 +1,7 @@
-﻿using DVL_SQL_Test1.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Dvl_Sql.Models;
 
-namespace DVL_SQL_Test1.Expressions
+namespace Dvl_Sql.Expressions
 {
     public abstract class DvlSqlExpressionWithParameters: DvlSqlExpression
     {

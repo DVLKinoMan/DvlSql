@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-using DVL_SQL_Test1.Extensions;
+using Dvl_Sql.Extensions;
 
-namespace DVL_SQL_Test1.Models
+namespace Dvl_Sql.Models
 {
     public sealed class DvlSqlParameter<TValue> : DvlSqlParameter
     {

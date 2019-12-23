@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29411.108
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DVL_SQL_Test1", "DVL_SQL_Test1\DVL_SQL_Test1.csproj", "{88937F58-6989-49BB-BF5C-B15003B56B87}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dvl_Sql", "DVL_SQL_Test1\Dvl_Sql.csproj", "{88937F58-6989-49BB-BF5C-B15003B56B87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DVL_SQL_Test1.Tests", "DVL_SQL_Test1.Tests\DVL_SQL_Test1.Tests.csproj", "{46B4A240-2298-401C-8435-75844DB114B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dvl_Sql.Tests", "DVL_SQL_Test1.Tests\Dvl_Sql.Tests.csproj", "{46B4A240-2298-401C-8435-75844DB114B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

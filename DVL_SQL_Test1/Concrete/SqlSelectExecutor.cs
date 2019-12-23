@@ -1,15 +1,14 @@
-﻿using DVL_SQL_Test1.Abstract;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Dvl_Sql.Abstract;
+using static Dvl_Sql.Helpers.DvlSqlDataReaderHelpers;
 
-using static DVL_SQL_Test1.Helpers.DvlSqlDataReaderHelpers;
-
-namespace DVL_SQL_Test1.Concrete
+namespace Dvl_Sql.Concrete
 {
     public class SqlSelectExecutor : ISelectExecutable
     {

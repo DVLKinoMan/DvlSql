@@ -3,7 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 
-namespace DVL_SQL_Test1.Abstract
+namespace Dvl_Sql.Abstract
 {
     public interface IDvlSqlConnection
     {

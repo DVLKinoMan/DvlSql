@@ -1,7 +1,7 @@
-﻿using DVL_SQL_Test1.Expressions;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Dvl_Sql.Expressions;
 
-namespace DVL_SQL_Test1.Helpers
+namespace Dvl_Sql.Helpers
 {
     public static class DvlSqlExpressionHelpers
     {

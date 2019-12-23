@@ -1,10 +1,10 @@
-﻿using DVL_SQL_Test1.Abstract;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using DVL_SQL_Test1.Models;
+using Dvl_Sql.Abstract;
+using Dvl_Sql.Models;
 
-namespace DVL_SQL_Test1.Expressions
+namespace Dvl_Sql.Expressions
 {
     public abstract class DvlSqlInsertExpression : DvlSqlExpressionWithParameters
     {

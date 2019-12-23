@@ -1,6 +1,6 @@
-﻿using DVL_SQL_Test1.Models;
+﻿using Dvl_Sql.Models;
 
-namespace DVL_SQL_Test1.Abstract
+namespace Dvl_Sql.Abstract
 {
     public interface IProcedure
     {

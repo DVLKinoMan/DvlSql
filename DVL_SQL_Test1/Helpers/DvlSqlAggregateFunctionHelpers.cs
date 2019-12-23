@@ -1,4 +1,4 @@
-﻿namespace DVL_SQL_Test1.Helpers
+﻿namespace Dvl_Sql.Helpers
 {
     public static class DvlSqlAggregateFunctionHelpers
     {

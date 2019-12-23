@@ -1,12 +1,12 @@
-﻿using DVL_SQL_Test1.Abstract;
-using DVL_SQL_Test1.Expressions;
-using System;
+﻿using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
-using static DVL_SQL_Test1.Extensions.SystemExtensions;
+using Dvl_Sql.Abstract;
+using Dvl_Sql.Expressions;
+using static Dvl_Sql.Extensions.SystemExtensions;
 
-namespace DVL_SQL_Test1.Concrete
+namespace Dvl_Sql.Concrete
 {
     public class DvlSqlCommandBuilder : ISqlExpressionVisitor
     {

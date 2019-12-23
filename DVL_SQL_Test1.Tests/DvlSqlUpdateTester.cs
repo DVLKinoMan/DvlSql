@@ -1,13 +1,13 @@
-﻿using DVL_SQL_Test1.Abstract;
-using DVL_SQL_Test1.Concrete;
-using DVL_SQL_Test1.Expressions;
+﻿using Dvl_Sql.Abstract;
+using Dvl_Sql.Concrete;
+using Dvl_Sql.Expressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using static DVL_SQL_Test1.Helpers.DvlSqlExpressionHelpers;
-using static DVL_SQL_Test1.Helpers.DvlSqlHelpers;
-using static DVL_SQL_Test1.Models.CustomDvlSqlType;
+using static Dvl_Sql.Helpers.DvlSqlExpressionHelpers;
+using static Dvl_Sql.Helpers.DvlSqlHelpers;
+using static Dvl_Sql.Models.CustomDvlSqlType;
 
-namespace DVL_SQL_Test1.Tests
+namespace Dvl_Sql.Tests
 {
     [TestClass]
     public class DvlSqlUpdateTester

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using DVL_SQL_Test1.Abstract;
+using Dvl_Sql.Abstract;
 
-namespace DVL_SQL_Test1.Expressions
+namespace Dvl_Sql.Expressions
 {
     public enum Ordering
     {

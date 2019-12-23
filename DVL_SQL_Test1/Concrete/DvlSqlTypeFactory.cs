@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using DVL_SQL_Test1.Models;
+using Dvl_Sql.Models;
 
-namespace DVL_SQL_Test1.Concrete
+namespace Dvl_Sql.Concrete
 {
     public class DvlSqlTypeFactory
     {

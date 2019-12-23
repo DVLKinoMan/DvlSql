@@ -1,13 +1,12 @@
-﻿using DVL_SQL_Test1.Abstract;
-using DVL_SQL_Test1.Concrete;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using Dvl_Sql.Abstract;
+using Dvl_Sql.Concrete;
+using static Dvl_Sql.Helpers.DvlSqlAggregateFunctionHelpers;
+using static Dvl_Sql.Helpers.DvlSqlExpressionHelpers;
+using static Dvl_Sql.Helpers.DvlSqlHelpers;
 
-using static DVL_SQL_Test1.Helpers.DvlSqlAggregateFunctionHelpers;
-using static DVL_SQL_Test1.Helpers.DvlSqlExpressionHelpers;
-using static DVL_SQL_Test1.Helpers.DvlSqlHelpers;
-
-namespace DVL_SQL_Test1.Tests
+namespace Dvl_Sql.Tests
 {
     [TestClass]
     public class DvlSqlSelectTester

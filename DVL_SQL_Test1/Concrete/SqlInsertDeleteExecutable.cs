@@ -1,12 +1,12 @@
-﻿using DVL_SQL_Test1.Abstract;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using DVL_SQL_Test1.Models;
+using Dvl_Sql.Abstract;
+using Dvl_Sql.Models;
 
-namespace DVL_SQL_Test1.Concrete
+namespace Dvl_Sql.Concrete
 {
     public class SqlInsertDeleteExecutable : IInsertDeleteExecutable
     {

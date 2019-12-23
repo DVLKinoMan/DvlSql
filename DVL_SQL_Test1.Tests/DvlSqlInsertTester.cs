@@ -1,14 +1,13 @@
-using DVL_SQL_Test1.Abstract;
-using DVL_SQL_Test1.Concrete;
-using DVL_SQL_Test1.Expressions;
-using DVL_SQL_Test1.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Data;
+using Dvl_Sql.Abstract;
+using Dvl_Sql.Concrete;
+using Dvl_Sql.Expressions;
+using Dvl_Sql.Models;
+using static Dvl_Sql.Helpers.DvlSqlExpressionHelpers;
 
-using static DVL_SQL_Test1.Helpers.DvlSqlExpressionHelpers;
-
-namespace DVL_SQL_Test1.Tests
+namespace Dvl_Sql.Tests
 {
     [TestClass]
     public class DvlSqlInsertTester
