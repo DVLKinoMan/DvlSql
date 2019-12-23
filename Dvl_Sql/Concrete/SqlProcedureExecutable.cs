@@ -9,7 +9,7 @@ using Dvl_Sql.Models;
 
 namespace Dvl_Sql.Concrete
 {
-    public class SqlProcedureExecutable : IProcedureExecutable
+    internal class SqlProcedureExecutable : IProcedureExecutable
     {
         private readonly IDvlSqlConnection _dvlSqlConnection;
         private readonly string _procedureName;

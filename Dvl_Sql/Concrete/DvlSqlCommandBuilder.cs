@@ -8,7 +8,7 @@ using static Dvl_Sql.Extensions.SystemExtensions;
 
 namespace Dvl_Sql.Concrete
 {
-    public class DvlSqlCommandBuilder : ISqlExpressionVisitor
+    internal class DvlSqlCommandBuilder : ISqlExpressionVisitor
     {
         private readonly StringBuilder _command;
 

@@ -10,7 +10,7 @@ using static Dvl_Sql.Helpers.DvlSqlDataReaderHelpers;
 
 namespace Dvl_Sql.Concrete
 {
-    public class SqlSelectExecutor : ISelectExecutable
+    internal class SqlSelectExecutor : ISelectExecutable
     {
         private readonly IDvlSqlConnection _connection;
         private readonly SqlSelector _selector;

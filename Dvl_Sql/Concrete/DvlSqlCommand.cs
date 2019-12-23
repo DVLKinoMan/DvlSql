@@ -10,7 +10,7 @@ namespace Dvl_Sql.Concrete
     /// <summary>
     /// todo maybe sqlcommand will have timeout and cancellationtoken already
     /// </summary>
-    public class DvlSqlCommand : IDvlSqlCommand //: IDvlSqlCommand<TResult>
+    internal class DvlSqlCommand : IDvlSqlCommand //: IDvlSqlCommand<TResult>
     {
         private readonly SqlCommand _sqlCommand;
 

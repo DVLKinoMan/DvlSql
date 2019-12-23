@@ -8,7 +8,7 @@ using Dvl_Sql.Abstract;
 
 namespace Dvl_Sql.Concrete
 {
-    public class SqlOrderer : IOrderer
+    internal class SqlOrderer : IOrderer
     {
         private readonly SqlSelector _selector;
         private readonly ISelectExecutable _executor;

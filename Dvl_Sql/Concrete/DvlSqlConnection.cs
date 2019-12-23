@@ -7,7 +7,7 @@ using Dvl_Sql.Abstract;
 
 namespace Dvl_Sql.Concrete
 {
-    public class DvlSqlConnection : IDvlSqlConnection, IDisposable
+    internal class DvlSqlConnection : IDvlSqlConnection, IDisposable
     {
         private readonly List<SqlCommand> _commands = new List<SqlCommand>();
         private readonly string _connectionString;

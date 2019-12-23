@@ -10,7 +10,7 @@ using Dvl_Sql.Models;
 namespace Dvl_Sql.Concrete
 {
     // ReSharper disable once IdentifierTypo
-    public class SqlInsertable<TParam> : IInsertable<TParam> where TParam : ITuple
+    internal class SqlInsertable<TParam> : IInsertable<TParam> where TParam : ITuple
     {
         private readonly DvlSqlInsertIntoExpression<TParam> _insertExpression;
         private readonly IDvlSqlConnection _dvlSqlConnection;
@@ -64,7 +64,7 @@ namespace Dvl_Sql.Concrete
     }
 
     // ReSharper disable once IdentifierTypo
-    public class SqlInsertable : IInsertable
+    internal class SqlInsertable : IInsertable
     {
         private readonly DvlSqlInsertIntoSelectExpression _insertWithSelectExpression;
         private readonly IDvlSqlConnection _dvlSqlConnection;

@@ -9,7 +9,7 @@ using Dvl_Sql.Models;
 
 namespace Dvl_Sql.Concrete
 {
-    public class SqlDeletable : IDeletable
+    internal class SqlDeletable : IDeletable
     {
         private readonly IDvlSqlConnection _dvlSqlConnection;
         private readonly DvlSqlDeleteExpression _deleteExpression;

@@ -8,7 +8,7 @@ using Dvl_Sql.Models;
 
 namespace Dvl_Sql.Concrete
 {
-    public class SqlInsertDeleteExecutable : IInsertDeleteExecutable
+    internal class SqlInsertDeleteExecutable : IInsertDeleteExecutable
     {
         private readonly IDvlSqlConnection _connection;
         private readonly Func<string> _sqlStringFunc;

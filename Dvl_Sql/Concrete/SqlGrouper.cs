@@ -5,7 +5,7 @@ using Dvl_Sql.Models;
 
 namespace Dvl_Sql.Concrete
 {
-    public class SqlGrouper : IGrouper
+    internal class SqlGrouper : IGrouper
     {
         private readonly SqlSelector _selector;
 

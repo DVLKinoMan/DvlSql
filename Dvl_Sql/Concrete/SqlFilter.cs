@@ -2,7 +2,7 @@
 
 namespace Dvl_Sql.Concrete
 {
-    public class SqlFilter : IFilter
+    internal class SqlFilter : IFilter
     {
         private readonly ISelector _selector;
 

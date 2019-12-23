@@ -4,7 +4,7 @@ using Dvl_Sql.Models;
 
 namespace Dvl_Sql.Concrete
 {
-    public class SqlUpdateSetable : IUpdateSetable
+    internal class SqlUpdateSetable : IUpdateSetable
     {
         private readonly IDvlSqlConnection _dvlSqlConnection;
         private SqlUpdateable _sqlUpdateable;
