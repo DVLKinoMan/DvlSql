@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DVL_SQL_Test1\Dvl_Sql.csproj" />
+    <ProjectReference Include="..\Dvl_Sql\Dvl_Sql.csproj" />
   </ItemGroup>
 
 </Project>
