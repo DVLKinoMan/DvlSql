@@ -20,7 +20,9 @@ namespace Dvl_Sql.Tests
         {
             var rows = this._sql.DeleteFrom("dbo.Words")
                 .Where(ConstantExp("Text") == ConstantExp("@text"),
-                    Params(Param("@text", NVarCharMax("New Text"))))
+                    Params(
+                        Param("@text", NVarCharMax("New Text"))
+                    ))
                 .ExecuteAsync().Result;
         }
 
