@@ -29,7 +29,7 @@ namespace Dvl_Sql.Tests
         {
             var rows2 = this._sql.Update("dbo.Words")
                 .Set(("money", Money(new decimal(3.11))))
-                .Where(ComparisonExp(ConstantExp("Amount"), SqlComparisonOperator.Equality, ConstantExp("@amount")),
+                .Where(ConstantExp("Amount") == ConstantExp("@amount"),
                     Param("@amount", Decimal(new decimal(42))))
                 .ExecuteAsync().Result;
         }
