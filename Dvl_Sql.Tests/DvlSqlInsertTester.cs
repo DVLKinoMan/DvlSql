@@ -2,7 +2,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Data;
 using Dvl_Sql.Abstract;
-using Dvl_Sql.Concrete;
 using Dvl_Sql.Expressions;
 using Dvl_Sql.Models;
 using static Dvl_Sql.Helpers.DvlSqlExpressionHelpers;
@@ -13,8 +12,7 @@ namespace Dvl_Sql.Tests
     public class DvlSqlInsertTester
     {
         private readonly IDvlSql _sql =
-            new DvlSql(
-                @"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1");
+            IDvlSql.DefaultDvlSql(@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1");
 
         private static IEnumerable<string> Columns(params string[] cols) => cols;
 

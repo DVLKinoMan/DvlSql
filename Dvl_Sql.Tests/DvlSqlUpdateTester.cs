@@ -1,5 +1,4 @@
 ﻿using Dvl_Sql.Abstract;
-using Dvl_Sql.Concrete;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using static Dvl_Sql.Helpers.DvlSqlExpressionHelpers;
@@ -12,8 +11,7 @@ namespace Dvl_Sql.Tests
     public class DvlSqlUpdateTester
     {
         private readonly IDvlSql _sql =
-            new DvlSql(
-                @"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1");
+            IDvlSql.DefaultDvlSql(@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1");
 
         [TestMethod]
         public void TestMethod1()

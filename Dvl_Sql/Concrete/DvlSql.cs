@@ -7,7 +7,7 @@ using Dvl_Sql.Models;
 
 namespace Dvl_Sql.Concrete
 {
-    public class DvlSql : IDvlSql
+    internal class DvlSql : IDvlSql
     {
         private readonly IDvlSqlConnection _dvlSqlConnection;
 
