@@ -19,17 +19,17 @@ namespace Dvl_Sql.Expressions
         public DvlSqlType[] DvlSqlTypes { get; set; }
         public List<DvlSqlParameter> SqlParameters { get; set; } = new List<DvlSqlParameter>();
 
-        public DvlSqlInsertIntoExpression(string tableName, params (string col, DvlSqlType type)[] types)
+        public DvlSqlInsertIntoExpression(string tableName, params DvlSqlType[] types)
         {
             this.TableName = tableName;
             this.IsRoot = true;
-            this.Columns = types.Select(t => t.col).ToArray();
-            this.DvlSqlTypes = types.Select(t => t.type).ToArray();
+            this.Columns = types.Select(t => t.Name).ToArray();
+            this.DvlSqlTypes = types;
 
-            for (int i = 0; i < this.DvlSqlTypes.Length; i++)
-                this.DvlSqlTypes[i].Name = this.DvlSqlTypes[i].Name == null
-                    ? $"{this.Columns[i]}"
-                    : $"{this.DvlSqlTypes[i].Name}";
+            //for (int i = 0; i < this.DvlSqlTypes.Length; i++)
+            //    this.DvlSqlTypes[i].Name = this.DvlSqlTypes[i].Name == null
+            //        ? $"{this.Columns[i]}"
+            //        : $"{this.DvlSqlTypes[i].Name}";
         }
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);

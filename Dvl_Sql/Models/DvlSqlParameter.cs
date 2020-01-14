@@ -7,22 +7,24 @@ namespace Dvl_Sql.Models
 {
     public sealed class DvlSqlParameter<TValue> : DvlSqlParameter
     {
-        public DvlSqlParameter(string name, DvlSqlType<TValue> type) : base(CreateParameter(name, type))
+        public DvlSqlParameter(string name, DvlSqlType type) : base(CreateParameter(name, type))
         {
         }
 
-        public DvlSqlParameter(DvlSqlType<TValue> type) : base(
+        public DvlSqlParameter(DvlSqlType type) : base(
             CreateParameter(type.Name, type))
         {
         }
 
-        private static SqlParameter CreateParameter(string name, DvlSqlType<TValue> type)
+        private static SqlParameter CreateParameter(string name, DvlSqlType type)
         {
             var param = new SqlParameter(name.WithAlpha(), type.SqlDbType)
             {
-                Value = type.Value,
                 Direction = ParameterDirection.Input
             };
+
+            if (type is DvlSqlType<TValue> dvlSqlTypeValue)
+                param.Value = dvlSqlTypeValue.Value;
 
             if (type.Size != null)
                 param.Size = type.Size.Value;

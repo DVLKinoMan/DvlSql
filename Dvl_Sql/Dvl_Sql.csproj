@@ -11,6 +11,8 @@
     <PackageTags>dsl, sql, Ado.Net, Linq</PackageTags>
     <AssemblyVersion>1.0.1.0</AssemblyVersion>
     <Version>1.0.1</Version>
+    <Company />
+    <Authors>David Dvali</Authors>
   </PropertyGroup>
 
   <ItemGroup>

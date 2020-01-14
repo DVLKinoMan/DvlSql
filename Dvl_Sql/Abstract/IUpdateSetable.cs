@@ -4,6 +4,6 @@ namespace Dvl_Sql.Abstract
 {
     public interface IUpdateSetable
     {
-        IUpdateable Set<TVal>((string, DvlSqlType<TVal>) value);
+        IUpdateable Set<TVal>(DvlSqlType<TVal> value);
     }
 }

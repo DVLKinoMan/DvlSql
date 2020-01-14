@@ -19,7 +19,7 @@ namespace Dvl_Sql.Concrete
         public SqlUpdateable(IDvlSqlConnection dvlSqlConnection, DvlSqlUpdateExpression updateExpression, IUpdateSetable updateSetable) =>
             (this._dvlSqlConnection, this._updateExpression, this._updateSetable) = (dvlSqlConnection, updateExpression,  updateSetable);
 
-        public IUpdateable Set<TVal>((string, DvlSqlType<TVal>) value) => this._updateSetable.Set(value);
+        public IUpdateable Set<TVal>(DvlSqlType<TVal> value) => this._updateSetable.Set(value);
 
         public async Task<int> ExecuteAsync(int? timeout = default, CancellationToken cancellationToken = default) =>
             this._updateExecutable != null

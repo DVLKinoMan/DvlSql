@@ -9,7 +9,7 @@ namespace Dvl_Sql.Abstract
     {
         ISelector From(string tableName, bool withNoLock = false);
 
-        IInsertable<TRes> InsertInto<TRes>(string tableName, params (string col, DvlSqlType sqlType)[] types)
+        IInsertable<TRes> InsertInto<TRes>(string tableName, params DvlSqlType[] types)
             where TRes : ITuple;
 
         IInsertable InsertInto(string tableName, IEnumerable<string> cols);

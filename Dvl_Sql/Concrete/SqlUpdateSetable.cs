@@ -13,7 +13,7 @@ namespace Dvl_Sql.Concrete
         public SqlUpdateSetable(IDvlSqlConnection dvlSqlConnection, DvlSqlUpdateExpression updateExpression) =>
             (this._dvlSqlConnection, this._updateExpression) = (dvlSqlConnection, updateExpression);
 
-        public IUpdateable Set<TVal>((string, DvlSqlType<TVal>) value)
+        public IUpdateable Set<TVal>(DvlSqlType<TVal> value)
         {
             this._updateExpression.Add(value);
 

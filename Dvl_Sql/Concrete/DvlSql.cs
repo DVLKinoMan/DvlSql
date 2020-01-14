@@ -20,7 +20,7 @@ namespace Dvl_Sql.Concrete
             return new SqlSelector(fromExpression, this._dvlSqlConnection);
         }
 
-        public IInsertable<TRes> InsertInto<TRes>(string tableName, params (string col, DvlSqlType sqlType)[] types)
+        public IInsertable<TRes> InsertInto<TRes>(string tableName, params DvlSqlType[] types)
             where TRes : ITuple
         {
             var insertExpression = new DvlSqlInsertIntoExpression<TRes>(tableName, types);

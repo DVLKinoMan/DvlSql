@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using Dvl_Sql.Abstract;
 using Dvl_Sql.Expressions;
+using Dvl_Sql.Extensions;
 using Dvl_Sql.Models;
 
 namespace Dvl_Sql.Concrete
@@ -42,7 +43,7 @@ namespace Dvl_Sql.Concrete
                         Activator.CreateInstance(type,
                             new object[] {param[i], types[i]});
                     var type2 = typeof(DvlSqlParameter<>).MakeGenericType(param[i].GetType());
-                    string name = $"{types[i].Name}{count}";
+                    string name = $"{types[i].Name.WithAlpha()}{count}";
                     yield return (DvlSqlParameter) Activator.CreateInstance(type2, new object[] {name, dvlSqlType});
                 }
 

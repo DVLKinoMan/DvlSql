@@ -15,11 +15,10 @@ namespace Dvl_Sql.Expressions
         public DvlSqlUpdateExpression(string tableName) =>
             this.TableName = tableName;
 
-        public void Add<TVal>((string columnName, DvlSqlType<TVal> val) val)
+        public void Add<TVal>(DvlSqlType<TVal> val)
         {
-            var (columnName, dvlSqlType) = val;
-            this.Columns.Add(columnName);
-            this.DvlSqlParameters.Add(new DvlSqlParameter<TVal>(dvlSqlType.Name ?? columnName, dvlSqlType));
+            this.Columns.Add(val.Name);
+            this.DvlSqlParameters.Add(new DvlSqlParameter<TVal>(val.Name, val));
         }
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);

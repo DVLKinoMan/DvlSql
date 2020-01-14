@@ -183,7 +183,7 @@ namespace Dvl_Sql.Concrete
             this._command.Append($"UPDATE {expression.TableName}");
             this._command.Append($"{Environment.NewLine}SET ");
             for (int i = 0; i < expression.DvlSqlParameters.Count; i++)
-                this._command.Append($"{expression.Columns[i]} = {expression.DvlSqlParameters[i].Name}, ");
+                this._command.Append($"{expression.Columns[i].WithAlpha()} = {expression.DvlSqlParameters[i].Name.WithAlpha()}, ");
 
             this._command.Remove(this._command.Length - 2, 2);
             expression.WhereExpression?.Accept(this);
