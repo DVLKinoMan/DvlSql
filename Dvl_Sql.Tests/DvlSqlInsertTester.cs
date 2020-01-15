@@ -44,8 +44,8 @@ namespace Dvl_Sql.Tests
             // ReSharper disable once UnusedVariable
             var affectedRows = this._sql
                 .InsertInto<(int, string)>("dbo.Words", 
-                    Decimal("Amount"),
-                    NVarChar("Text",100))
+                    DecimalType("Amount"),
+                    NVarCharType("Text",100))
                 .Values(
                     (42, "newVal1"),
                     (43, "newVal2"),
@@ -77,26 +77,26 @@ namespace Dvl_Sql.Tests
         {
             var dvlSql =
                 IDvlSql.DefaultDvlSql(
-                    "Server=docker2;Database=ManualConfirmation;User Id=sa;Password=Pa$$w0rd;Application Name=B7.ManualConfirmation.Api;");
+                    "Server=docker2;Database=ManagerConfirmation;User Id=sa;Password=Pa$$w0rd;Application Name=B7.ManualConfirmation.Api;");
             //@"Data Source=docker2; Initial Catalog=ManualConfirmation; Connection Timeout=30;User Id = sa; Password = Pa$$w0rd; Application Name =  B7.ManualConfirmation.Api");
 
             var insert = @"INSERT INTO dbo.[User] (UserId, FirstName, LastName, MobileNumber, Status, DeviceId)
             VALUES (@userId, @firstName, @lastName, @mobileNumber, @status, @deviceId)";
 
             var rows = dvlSql.InsertInto<(int, string, string, string, int, int)>(
-                    "[ManualConfirmation].[confirmation].[Users]",
-                    Int("userId"),
-                    NVarChar("firstName", 100),
-                    NVarChar("lastName", 100),
-                    NVarChar("mobileNumber", 20),
-                    TinyInt("status"),
-                    NVarChar("deviceId", 100))
+                    "[ManagerConfirmation].[confirmation].[Users]",
+                    IntType("userId"),
+                    NVarCharType("firstName", 100),
+                    NVarCharType("lastName", 100),
+                    NVarCharType("mobileNumber", 20),
+                    TinyIntType("status"),
+                    NVarCharType("deviceId", 100))
                 .Values(
                     (2, "ass", "ass", "ass", 1, 1)
                 )
                 .ExecuteAsync().Result;
 
-            var k = dvlSql.DeleteFrom("[ManualConfirmation].[confirmation].[Users]")
+            var k = dvlSql.DeleteFrom("[ManagerConfirmation].[confirmation].[Users]")
                 .Where(ConstantExp("UserId") == ConstantExp(2))
                 .ExecuteAsync().Result;
 

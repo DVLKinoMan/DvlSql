@@ -10,14 +10,11 @@ namespace Dvl_Sql.Expressions
         public DvlSqlWhereExpression WhereExpression { get; set; }
         public List<DvlSqlParameter> DvlSqlParameters { get; set; } = new List<DvlSqlParameter>();
 
-        public List<string> Columns { get; set; } = new List<string>();
-
         public DvlSqlUpdateExpression(string tableName) =>
             this.TableName = tableName;
 
         public void Add<TVal>(DvlSqlType<TVal> val)
         {
-            this.Columns.Add(val.Name);
             this.DvlSqlParameters.Add(new DvlSqlParameter<TVal>(val.Name, val));
         }
 
