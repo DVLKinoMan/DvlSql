@@ -9,8 +9,8 @@
     <RepositoryUrl>https://github.com/DVLKinoMan/DvlSql</RepositoryUrl>
     <Description>DSL for Working with SQL (Select, Update, Insert, Delete, Executing Stored procedures)</Description>
     <PackageTags>dsl, sql, Ado.Net, Linq</PackageTags>
-    <AssemblyVersion>1.0.1.0</AssemblyVersion>
-    <Version>1.0.1</Version>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
+    <Version>1.1.0</Version>
     <Company />
     <Authors>David Dvali</Authors>
   </PropertyGroup>
