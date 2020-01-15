@@ -34,8 +34,8 @@ var personInfo = dvl_sql.From("Persons")
 //using Dvl_Sql.Models;
 //Inserting word and there meanings in table
 var affectedRows1 = dvl_sql.InsertInto<(string, string)>("dbo.Words",
-                                ("Text", new DvlSqlType(SqlDbType.NVarChar)),
-                                ("Meaning", new DvlSqlType(SqlDbType.NVarChar))
+                                NVarCharType("Text", 50),
+                                NVarCharType("Meaning", 1000)
                             )
                             .Values(
                                 ("Pyramid", "Egypt sculpture"),
@@ -49,8 +49,8 @@ var affectedRows1 = dvl_sql.InsertInto<(string, string)>("dbo.Words",
 //using static Dvl_Sql.Helpers.DvlSqlHelpers;
 //Update product Price and UpdatedDate which price is 2.11
 var affectedRows2 = dvl_sql.Update("dbo.Products")
-                            .Set(("Price", Money(new decimal(3.11))))
-                            .Set(("UpdatedDate", DateTime(System.DateTime.Now)))
+                            .Set(Money("Price",new decimal(3.11)))
+                            .Set(DateTime("UpdatedDate", System.DateTime.Now))
                             //Update more columns if you want
                             .Where(ConstantExp("Price") == ConstantExp("@price"),
                                 Param("@price", Decimal(new decimal(2.11))))
