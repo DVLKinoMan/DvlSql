@@ -1,5 +1,5 @@
 # DvlSql 
-DSL for Working with SQL (Select, Update, Insert, Delete, Executing Stored procedures).
+DSL for Working with SQL (Select, Update, Insert, Delete, Executing Stored procedures). Default implementation for working with Microsoft Sql.
 # Descirption
 DvlSql is DSL on C# for working with sql. It has default implementation which can be used to make complex select, 
 update, insert, delete statmenets with fluent interface. It also supports stored procedures execution. It's interface can be used to
