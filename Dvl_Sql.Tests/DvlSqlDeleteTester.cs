@@ -1,8 +1,8 @@
 ﻿using Dvl_Sql.Abstract;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using static Dvl_Sql.Helpers.DvlSqlExpressionHelpers;
-using static Dvl_Sql.Helpers.DvlSqlHelpers;
+using static Dvl_Sql.Extensions.Expressions.ExpressionHelpers;
+using static Dvl_Sql.Extensions.Types.TypeHelpers;
 
 namespace Dvl_Sql.Tests
 {

@@ -2,7 +2,7 @@
 
 namespace Dvl_Sql.Extensions
 {
-    public static class SystemExtensions
+    internal static class SystemExtensions
     {
         public static StringBuilder TrimEnd(this StringBuilder sb, bool leftOneWhiteSpace = false)
         {

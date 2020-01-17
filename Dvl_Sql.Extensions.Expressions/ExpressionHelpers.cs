@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Dvl_Sql.Expressions;
 
-namespace Dvl_Sql.Helpers
+namespace Dvl_Sql.Extensions.Expressions
 {
-    public static class DvlSqlExpressionHelpers
+    public static partial class ExpressionHelpers
     {
         public static DvlSqlWhereExpression WhereExp(DvlSqlBinaryExpression innerExpression, bool isRoot = false) =>
             new DvlSqlWhereExpression(innerExpression).WithRoot(isRoot);

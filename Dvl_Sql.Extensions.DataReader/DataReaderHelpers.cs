@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 
-namespace Dvl_Sql.Helpers
+namespace Dvl_Sql.Extensions.DataReader
 {
-    public static class DvlSqlDataReaderHelpers
+    public static class DataReaderHelpers
     {
         public static Func<SqlDataReader, List<TResult>> AsList<TResult>(Func<SqlDataReader, TResult> selector) =>
             reader =>

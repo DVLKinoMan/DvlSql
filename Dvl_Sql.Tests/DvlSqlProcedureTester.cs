@@ -3,8 +3,8 @@ using Dvl_Sql.Abstract;
 using Dvl_Sql.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using static Dvl_Sql.Helpers.DvlSqlDataReaderHelpers;
-using static Dvl_Sql.Helpers.DvlSqlHelpers;
+using static Dvl_Sql.Extensions.DataReader.DataReaderHelpers;
+using static Dvl_Sql.Extensions.Types.TypeHelpers;
 
 namespace Dvl_Sql.Tests
 {

@@ -1,6 +1,6 @@
-﻿namespace Dvl_Sql.Helpers
+﻿namespace Dvl_Sql.Extensions.Expressions
 {
-    public static class DvlSqlAggregateFunctionHelpers
+    public static partial class ExpressionHelpers
     {
         public static string AvgExp(string param) => $"AVG({param})";
         public static string CountExp(string param = "*") => $"COUNT({param})";

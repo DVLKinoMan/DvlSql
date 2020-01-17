@@ -6,7 +6,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Dvl_Sql.Abstract;
-using static Dvl_Sql.Helpers.DvlSqlDataReaderHelpers;
+
+using static Dvl_Sql.Extensions.DataReader.DataReaderHelpers;
 
 namespace Dvl_Sql.Concrete
 {

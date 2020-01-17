@@ -4,14 +4,28 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DvlSql" Version="1.1.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.4.0" />
     <PackageReference Include="MSTest.TestFramework" Version="1.4.0" />
     <PackageReference Include="coverlet.collector" Version="1.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Dvl_Sql.Extensions.DataReader\Dvl_Sql.Extensions.DataReader.csproj" />
+    <ProjectReference Include="..\Dvl_Sql.Extensions.Expressions\Dvl_Sql.Extensions.Expressions.csproj" />
+    <ProjectReference Include="..\Dvl_Sql.Extensions.Sql\Dvl_Sql.Extensions.Types.csproj" />
+    <ProjectReference Include="..\Dvl_Sql\Dvl_Sql.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Dvl_Sql">
+      <HintPath>..\Dvl_Sql\bin\Debug\netstandard2.1\Dvl_Sql.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
