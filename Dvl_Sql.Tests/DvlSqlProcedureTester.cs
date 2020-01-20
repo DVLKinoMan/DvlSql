@@ -23,7 +23,7 @@ namespace Dvl_Sql.Tests
         [TestMethod]
         public void TestMethod2()
         {
-            var outputParam = OutputParam("count", new DvlSqlType(SqlDbType.Int));
+            var outputParam = OutputParam("count", IntType());
             var res = this._sql.Procedure("SomeProc2",
                     Param("amount", 42),
                     outputParam)

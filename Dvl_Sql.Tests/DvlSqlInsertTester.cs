@@ -65,7 +65,7 @@ namespace Dvl_Sql.Tests
                 .SelectStatement(FullSelectExp(SelectTopExp(FromExp("dbo.Words"), 2, "Amount", "Text"),
                         orderByExpression: OrderByExp(("Text", Ordering.ASC)),
                         sqlWhereExpression: WhereExp(ConstantExp("Amount") == ConstantExp("@amount"))),
-                    new DvlSqlParameter<int>("amount", new DvlSqlType<int>("@amount", 42, SqlDbType.Decimal))
+                    Param("amount", Decimal(42))
                 )
                 .ExecuteAsync().Result;
 

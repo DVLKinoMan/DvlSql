@@ -14,11 +14,17 @@ namespace Dvl_Sql.Extensions.Types
         public static DvlSqlType BitType(string name) =>
             new DvlSqlType(name, SqlDbType.Bit);
 
+        public static DvlSqlType BitType() =>
+            new DvlSqlType(SqlDbType.Bit);
+
         public static DvlSqlType<byte[]> Binary(string name, byte[] value) =>
             new DvlSqlType<byte[]>(name, value, SqlDbType.Binary);
 
         public static DvlSqlType BinaryType(string name) =>
             new DvlSqlType(name, SqlDbType.Binary);
+
+        public static DvlSqlType BinaryType() =>
+            new DvlSqlType(SqlDbType.Binary);
 
         public static DvlSqlType<byte[]> Binary(byte[] value) =>
             new DvlSqlType<byte[]>(value, SqlDbType.Binary);
@@ -29,6 +35,9 @@ namespace Dvl_Sql.Extensions.Types
         public static DvlSqlType VarBinaryType(string name) =>
             new DvlSqlType(name, SqlDbType.VarBinary);
 
+        public static DvlSqlType VarBinaryType() =>
+            new DvlSqlType(SqlDbType.VarBinary);
+
         public static DvlSqlType<byte[]> VarBinary(byte[] value) =>
             new DvlSqlType<byte[]>(value, SqlDbType.VarBinary);
 
@@ -37,6 +46,9 @@ namespace Dvl_Sql.Extensions.Types
 
         public static DvlSqlType ImageType(string name) =>
             new DvlSqlType(name, SqlDbType.Image);
+
+        public static DvlSqlType ImageType() =>
+            new DvlSqlType(SqlDbType.Image);
 
         public static DvlSqlType<byte[]> Image(byte[] value) =>
             new DvlSqlType<byte[]>(value, SqlDbType.Image);

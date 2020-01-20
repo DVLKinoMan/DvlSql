@@ -12,6 +12,9 @@ namespace Dvl_Sql.Extensions.Types
         public static DvlSqlType NVarCharType(string name, int size) =>
             new DvlSqlType(name, SqlDbType.NVarChar, size);
 
+        public static DvlSqlType NVarCharType(int size) =>
+            new DvlSqlType(SqlDbType.NVarChar, size);
+
         public static DvlSqlType<string> NVarCharMax(string name, string value) =>
             NVarChar(name, value, -1);
 
@@ -21,11 +24,17 @@ namespace Dvl_Sql.Extensions.Types
         public static DvlSqlType NVarCharMaxType(string name) =>
             new DvlSqlType(name, SqlDbType.NVarChar);
 
+        public static DvlSqlType NVarCharMaxType() =>
+            new DvlSqlType(SqlDbType.NVarChar);
+
         public static DvlSqlType<string> VarChar(string name, string value, int size) =>
             new DvlSqlType<string>(name, value, SqlDbType.VarChar, size);
 
         public static DvlSqlType VarCharType(string name, int size) =>
             new DvlSqlType(name, SqlDbType.VarChar, size);
+
+        public static DvlSqlType VarCharType(int size) =>
+            new DvlSqlType(SqlDbType.VarChar, size);
 
         public static DvlSqlType<string> VarChar(string value, int size) =>
             new DvlSqlType<string>(value, SqlDbType.VarChar, size);
@@ -36,6 +45,9 @@ namespace Dvl_Sql.Extensions.Types
         public static DvlSqlType VarCharMaxType(string name) =>
             VarCharType(name, -1);
 
+        public static DvlSqlType VarCharMaxType() =>
+            VarCharType(-1);
+
         public static DvlSqlType<string> VarCharMax(string name, string value) =>
             VarChar(name, value, -1);
 
@@ -44,6 +56,9 @@ namespace Dvl_Sql.Extensions.Types
 
         public static DvlSqlType CharType(string name, int size) =>
             new DvlSqlType(name, SqlDbType.Char, size);
+
+        public static DvlSqlType CharType(int size) =>
+            new DvlSqlType(SqlDbType.Char, size);
 
         public static DvlSqlType<string> Char(string value, int size) =>
             new DvlSqlType<string>(value, SqlDbType.Char, size);
@@ -57,6 +72,9 @@ namespace Dvl_Sql.Extensions.Types
         public static DvlSqlType CharMaxType(string name) =>
             Char(name, -1);
 
+        public static DvlSqlType CharMaxType() =>
+            CharType(-1);
+
         public static DvlSqlType<string> NChar(string name, string value, int size) =>
             new DvlSqlType<string>(name, value, SqlDbType.NChar, size);
 
@@ -65,6 +83,9 @@ namespace Dvl_Sql.Extensions.Types
 
         public static DvlSqlType NCharType(string name, int size) =>
             new DvlSqlType(name, SqlDbType.NChar, size);
+
+        public static DvlSqlType NCharType(int size) =>
+            new DvlSqlType(SqlDbType.NChar, size);
 
         public static DvlSqlType<string> NCharMax(string name, string value) =>
             NChar(name, value, -1);
@@ -75,12 +96,18 @@ namespace Dvl_Sql.Extensions.Types
         public static DvlSqlType NCharMaxType(string name) =>
             NCharType(name, -1);
 
+        public static DvlSqlType NCharMaxType() =>
+            NCharType(-1);
+
         public static DvlSqlType<string> Text(string name, string value) => value.Length <= Math.Pow(2, 31) - 1
             ? new DvlSqlType<string>(name, value, SqlDbType.Text)
             : throw new ArgumentException("value length not allowed");
 
         public static DvlSqlType TextType(string name) =>
             new DvlSqlType(name, SqlDbType.Text);
+
+        public static DvlSqlType TextType() =>
+            new DvlSqlType(SqlDbType.Text);
 
         public static DvlSqlType<string> Text(string value) => value.Length <= Math.Pow(2, 31) - 1
             ? new DvlSqlType<string>(value, SqlDbType.Text)
@@ -92,6 +119,9 @@ namespace Dvl_Sql.Extensions.Types
 
         public static DvlSqlType NTextType(string name) =>
             new DvlSqlType(name, SqlDbType.NText);
+
+        public static DvlSqlType NTextType() =>
+            new DvlSqlType(SqlDbType.NText);
 
         public static DvlSqlType<string> NText(string value) => value.Length <= Math.Pow(2, 30) - 1
             ? new DvlSqlType<string>(value, SqlDbType.NText)

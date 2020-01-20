@@ -11,6 +11,9 @@ namespace Dvl_Sql.Extensions.Types
         public static DvlSqlType MoneyType(string name) =>
             new DvlSqlType(name, SqlDbType.Money);
 
+        public static DvlSqlType MoneyType() =>
+            new DvlSqlType(SqlDbType.Money);
+
         public static DvlSqlType<decimal> Money(decimal value) =>
             new DvlSqlType<decimal>(value, SqlDbType.Money);
 
@@ -19,6 +22,9 @@ namespace Dvl_Sql.Extensions.Types
 
         public static DvlSqlType SmallMoneyType(string name) =>
             new DvlSqlType(name, SqlDbType.SmallMoney);
+
+        public static DvlSqlType SmallMoneyType() =>
+            new DvlSqlType(SqlDbType.SmallMoney);
 
         public static DvlSqlType<decimal> SmallMoney(decimal value) =>
             new DvlSqlType<decimal>(value, SqlDbType.SmallMoney);

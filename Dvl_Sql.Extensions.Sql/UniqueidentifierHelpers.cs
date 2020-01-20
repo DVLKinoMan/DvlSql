@@ -12,6 +12,9 @@ namespace Dvl_Sql.Extensions.Types
         public static DvlSqlType UniqueIdentifierType(string name) =>
             new DvlSqlType(name, SqlDbType.UniqueIdentifier);
 
+        public static DvlSqlType UniqueIdentifierType() =>
+            new DvlSqlType(SqlDbType.UniqueIdentifier);
+
         public static DvlSqlType<Guid> UniqueIdentifier(Guid value) =>
             new DvlSqlType<Guid>(value, SqlDbType.UniqueIdentifier);
     }
