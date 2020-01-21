@@ -9,15 +9,16 @@
     <RepositoryUrl>https://github.com/DVLKinoMan/DvlSql</RepositoryUrl>
     <Description>DSL for Working with SQL (Select, Update, Insert, Delete, Executing Stored procedures)</Description>
     <PackageTags>dsl, sql, Ado.Net, Linq</PackageTags>
-    <AssemblyVersion>1.2.0.0</AssemblyVersion>
-    <Version>1.2.0</Version>
+    <AssemblyVersion>1.3.0.0</AssemblyVersion>
+    <Version>1.3.0</Version>
     <Company />
     <Authors>David Dvali</Authors>
     <LangVersion>8.0</LangVersion>
+    <PackageReleaseNotes>Move Extensions in different packages</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Data.SqlClient" Version="4.7.0" />
+    <PackageReference Include="DvlSql.Extensions.DataReader" Version="1.2.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,10 +26,6 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Dvl_Sql.Extensions.DataReader\Dvl_Sql.Extensions.DataReader.csproj" />
   </ItemGroup>
 
 </Project>
