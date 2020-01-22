@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dvl_Sql.Abstract
 {
-    public interface IDvlSqlCommand
+    public interface IDvlSqlCommand : IDisposable
     {
         Task<int> ExecuteNonQueryAsync(int? timeout = default, CancellationToken cancellationToken = default);
 

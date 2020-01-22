@@ -81,5 +81,34 @@ namespace Dvl_Sql.Tests
 
             //Assert.ThrowsException<Exception>(first.Result);
         }
+
+        [TestMethod]
+        public void TestMethod5()
+        {
+            var where = _sql1
+                .From(AsExp("nbe.BANK_DATA", "B1"), true)
+                .Join(AsExp("nbe.BANK_DATA", "B2"), ConstantExp("B1.REC_ID") == ConstantExp("B2.REC_ID"))
+                .Where(
+                    ConstantExp("B1.AMOUNT") < ConstantExp(35000) &
+                    !InExp("B1.REC_ID", SelectTopExp(FromExp("nbe.BANK_DATA"), 4, "REC_ID")) &
+                    !!!LikeExp("B1.RESTRICT_CODE", "%dd%") &
+                    ConstantExp("B1.ADD_DATE") > ConstantExp("@date")
+                    , Params(Param("@date", new DateTime(2012, 1, 1)))
+                );
+
+            var list1 = where.Select().ToListAsync(r => new
+            {
+                Amount = (decimal) r["AMOUNT"],
+                Count = (DateTime) r["ADD_DATE"]
+            }).Result;
+
+            var list2 = where.SelectTop(11)
+                .OrderByDescending("B1.AMOUNT")
+                .ToListAsync(r => new
+                {
+                    Amount = (decimal) r["AMOUNT"],
+                    Count = (DateTime) r["ADD_DATE"]
+                }).Result;
+        }
     }
 }

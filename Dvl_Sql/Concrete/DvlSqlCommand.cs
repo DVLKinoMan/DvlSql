@@ -37,12 +37,13 @@ namespace Dvl_Sql.Concrete
             if (timeout != null)
                 WithTimeout(this._sqlCommand, (int) timeout);
 
-            var reader = await this._sqlCommand.ExecuteReaderAsync(behavior, cancellationToken);
+            await using var reader = await this._sqlCommand.ExecuteReaderAsync(behavior, cancellationToken);
 
             return converterFunc(reader);
         }
 
-        public async Task<TResult> ExecuteScalarAsync<TResult>(Func<object, TResult> converterFunc, int? timeout = default, CancellationToken cancellationToken = default)
+        public async Task<TResult> ExecuteScalarAsync<TResult>(Func<object, TResult> converterFunc, 
+            int? timeout = default, CancellationToken cancellationToken = default)
         {
             if (timeout != null)
                 WithTimeout(this._sqlCommand, (int)timeout);
@@ -50,6 +51,12 @@ namespace Dvl_Sql.Concrete
             var result = await this._sqlCommand.ExecuteScalarAsync(cancellationToken);
 
             return converterFunc(result);
+        }
+
+        public void Dispose()
+        {
+            _sqlCommand?.Dispose();
+            this._sqlCommand?.Parameters.Clear();
         }
     }
 }

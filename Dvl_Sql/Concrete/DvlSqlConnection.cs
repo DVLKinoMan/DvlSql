@@ -7,7 +7,7 @@ using Dvl_Sql.Abstract;
 
 namespace Dvl_Sql.Concrete
 {
-    internal class DvlSqlConnection : IDvlSqlConnection, IDisposable
+    internal class DvlSqlConnection : IDvlSqlConnection
     {
         private readonly List<SqlCommand> _commands = new List<SqlCommand>();
         private readonly string _connectionString;
@@ -17,7 +17,8 @@ namespace Dvl_Sql.Concrete
 
         public void Dispose() => this._commands.Clear();
 
-        private DvlSqlCommand CreateCommand(CommandType commandType, SqlConnection connection, string sqlString, params SqlParameter[] parameters)
+        private DvlSqlCommand CreateCommand(CommandType commandType, SqlConnection connection, 
+            string sqlString, params SqlParameter[] parameters)
         {
             var command = new SqlCommand(sqlString, connection)
             {
@@ -33,11 +34,13 @@ namespace Dvl_Sql.Concrete
             return new DvlSqlCommand(command);
         }
 
-        public async Task<TResult> ConnectAsync<TResult>(Func<IDvlSqlCommand, Task<TResult>> func, string sqlString, CommandType commandType = CommandType.Text, params SqlParameter[] parameters )
+        public async Task<TResult> ConnectAsync<TResult>(Func<IDvlSqlCommand, Task<TResult>> func, string sqlString, 
+            CommandType commandType = CommandType.Text, params SqlParameter[] parameters )
         {
             await using var connection = new SqlConnection(this._connectionString);
             await connection.OpenAsync();
-            return await func(CreateCommand(commandType, connection, sqlString, parameters));
+            using var command = CreateCommand(commandType, connection, sqlString, parameters);
+            return await func(command);
         }
     }
 }

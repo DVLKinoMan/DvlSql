@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
@@ -9,9 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DvlSql" Version="1.3.0" />
-    <PackageReference Include="DvlSql.Extensions.Expressions" Version="1.3.0" />
-    <PackageReference Include="DvlSql.Extensions.Types" Version="1.3.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.4.0" />
     <PackageReference Include="MSTest.TestFramework" Version="1.4.0" />
@@ -19,8 +16,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Dvl_Sql">
-      <HintPath>..\Dvl_Sql\bin\Debug\netstandard2.1\Dvl_Sql.dll</HintPath>
+    <ProjectReference Include="..\Dvl_Sql\Dvl_Sql.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Dvl_Sql.Extensions.Expressions">
+      <HintPath>..\..\Dvl_Sql.Extensions.Expressions\Dvl_Sql.Extensions.Expressions\bin\Debug\netstandard2.1\Dvl_Sql.Extensions.Expressions.dll</HintPath>
+    </Reference>
+    <Reference Include="Dvl_Sql.Extensions.Types">
+      <HintPath>..\..\Dvl_Sql.Extensions.Types\Dvl_Sql.Extensions.Types\bin\Debug\netstandard2.1\Dvl_Sql.Extensions.Types.dll</HintPath>
     </Reference>
   </ItemGroup>
 
