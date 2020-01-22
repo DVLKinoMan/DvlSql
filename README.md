@@ -2,7 +2,7 @@
 DSL for Working with SQL (Select, Update, Insert, Delete, Executing Stored procedures). Default implementation for working with Microsoft Sql.
 # Descirption
 DvlSql is DSL on C# for working with sql. It has default implementation which can be used to make complex select, 
-update, insert, delete statmenets with fluent interface. It also supports stored procedures execution. It's interface can be used to
+update, insert, delete statements with fluent interface. It also supports stored procedures execution. It's interface can be used to
 create custom implementation.
 
 # How to use - Examples
@@ -19,7 +19,7 @@ List<int> ids = dvl_sql.From("tableName")
                         .ToListAsync(r => (int) r["id"])
                         .Result;
 
-//using static Dvl_Sql.Helpers.DvlSqlExpressionHelpers (For Expressions)
+//using static Dvl_Sql.Extensions.Expressions.ExpressionHelpers; (For Expressions)
 //Select top 100 youngest persons Name and Age, whose names contains david and are living in Tbilisi
 var personInfo = dvl_sql.From("Persons")
                         .Join("Addresses", ConstantExp("Persons.Id") == ConstantExp("Addresses.PersonId"))
@@ -44,9 +44,9 @@ var affectedRows1 = dvl_sql.InsertInto<(string, string)>("dbo.Words",
                             )
                             .ExecuteAsync().Result;
 
-//using static Dvl_Sql.Helpers.DvlSqlExpressionHelpers
+//using static Dvl_Sql.Extensions.Expressions.ExpressionHelpers;
 //using static Dvl_Sql.Models.CustomDvlSqlType;
-//using static Dvl_Sql.Helpers.DvlSqlHelpers;
+//using static Dvl_Sql.Extensions.Types.TypeHelpers;
 //Update product Price and UpdatedDate which price is 2.11
 var affectedRows2 = dvl_sql.Update("dbo.Products")
                             .Set(Money("Price",new decimal(3.11)))
@@ -56,9 +56,9 @@ var affectedRows2 = dvl_sql.Update("dbo.Products")
                                 Param("@price", Decimal(new decimal(2.11))))
                             .ExecuteAsync().Result;
 
-//using static Dvl_Sql.Helpers.DvlSqlExpressionHelpers
+//using static Dvl_Sql.Extensions.Expressions.ExpressionHelpers;
 //using static Dvl_Sql.Models.CustomDvlSqlType;
-//using static Dvl_Sql.Helpers.DvlSqlHelpers;
+//using static Dvl_Sql.Extensions.Types.TypeHelpers;
 //Delete all words which contains test 
 var affectedRows3 = dvl_sql.DeleteFrom("dbo.Words")
                             .Where(LikeExp("Text", "%test%"))
