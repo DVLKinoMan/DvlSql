@@ -46,7 +46,7 @@ namespace Dvl_Sql.Concrete
         {
             var updateExpression = new DvlSqlUpdateExpression(tableName);
 
-            return new SqlUpdateSetable(this._dvlSqlConnection, updateExpression);
+            return new SqlUpdateable(this._dvlSqlConnection, updateExpression);
         }
 
         public IProcedureExecutable Procedure(string procedureName, params DvlSqlParameter[] parameters) =>

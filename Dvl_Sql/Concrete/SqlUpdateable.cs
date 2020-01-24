@@ -12,14 +12,18 @@ namespace Dvl_Sql.Concrete
     internal class SqlUpdateable : IUpdateable
     {
         private readonly IDvlSqlConnection _dvlSqlConnection;
-        private readonly IUpdateSetable _updateSetable;
         private readonly DvlSqlUpdateExpression _updateExpression;
         private IInsertDeleteExecutable _updateExecutable;
 
-        public SqlUpdateable(IDvlSqlConnection dvlSqlConnection, DvlSqlUpdateExpression updateExpression, IUpdateSetable updateSetable) =>
-            (this._dvlSqlConnection, this._updateExpression, this._updateSetable) = (dvlSqlConnection, updateExpression,  updateSetable);
+        public SqlUpdateable(IDvlSqlConnection dvlSqlConnection, DvlSqlUpdateExpression updateExpression) =>
+            (this._dvlSqlConnection, this._updateExpression) = (dvlSqlConnection, updateExpression);
 
-        public IUpdateable Set<TVal>(DvlSqlType<TVal> value) => this._updateSetable.Set(value);
+        public IUpdateable Set<TVal>(DvlSqlType<TVal> value)
+        {
+            this._updateExpression.Add(value);
+
+            return this;
+        }
 
         public async Task<int> ExecuteAsync(int? timeout = default, CancellationToken cancellationToken = default) =>
             this._updateExecutable != null
