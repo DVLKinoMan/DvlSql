@@ -38,26 +38,27 @@ namespace Dvl_Sql.Concrete
         {
             this._fullSelectExpression.SqlSelectExpression = new DvlSqlSelectExpression(this._fullSelectExpression.SqlFromExpression, parameterNames);
 
-            return new SqlOrderer(this, new SqlSelectExecutor(this._dvlSqlConnection, this));
+            return new SqlOrderer(this._dvlSqlConnection, this);
         }
 
         public IOrderer Select()
         {
             this._fullSelectExpression.SqlSelectExpression = new DvlSqlSelectExpression(this._fullSelectExpression.SqlFromExpression);
 
-            return new SqlOrderer(this, new SqlSelectExecutor(this._dvlSqlConnection, this));
+            return new SqlOrderer(this._dvlSqlConnection, this);
         }
 
         public IOrderer SelectTop(int count, params string[] parameterNames)
         {
             this._fullSelectExpression.SqlSelectExpression = new DvlSqlSelectExpression(this._fullSelectExpression.SqlFromExpression, parameterNames, count);
 
-            return new SqlOrderer(this, new SqlSelectExecutor(this._dvlSqlConnection, this));
+            return new SqlOrderer(this._dvlSqlConnection, this);
         }
 
         public IFilter Where(DvlSqlBinaryExpression binaryExpression)
         {
             this._fullSelectExpression.SqlWhereExpression = new DvlSqlWhereExpression(binaryExpression);
+
             return this;
         }
 
