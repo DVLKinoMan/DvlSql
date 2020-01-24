@@ -7,7 +7,7 @@ using Dvl_Sql.Models;
 
 namespace Dvl_Sql.Concrete
 {
-    internal class SqlSelector : ISelector, IFilter
+    internal class SqlSelector : ISelector, IFilter, IGrouper
     {
         private readonly IDvlSqlConnection _dvlSqlConnection;
         private readonly DvlSqlFullSelectExpression _fullSelectExpression = new DvlSqlFullSelectExpression();
@@ -141,21 +141,22 @@ namespace Dvl_Sql.Concrete
         {
             this._fullSelectExpression.SqlGroupByExpression = new DvlSqlGroupByExpression(parameterNames);
 
-            return new SqlGrouper(this);
+            return this;
         }
 
-        public ISelectable Having(ISelectable select, DvlSqlBinaryExpression binaryExpression)
+        public ISelectable Having(DvlSqlBinaryExpression binaryExpression)
         {
             this._fullSelectExpression.SqlGroupByExpression.BinaryExpression = binaryExpression;
 
-            return select;
+            return this;
         }
 
-        public ISelectable Having(ISelectable select, DvlSqlBinaryExpression binaryExpression, IEnumerable<DvlSqlParameter> @params)
+        public ISelectable Having(DvlSqlBinaryExpression binaryExpression, IEnumerable<DvlSqlParameter> @params)
         {
             this._fullSelectExpression.SqlGroupByExpression.BinaryExpression = binaryExpression;
             this._fullSelectExpression.SqlGroupByExpression.WithParameters(@params);
-            return select;
+
+            return this;
         }
     }
 }
