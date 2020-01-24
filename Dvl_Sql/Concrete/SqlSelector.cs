@@ -7,7 +7,7 @@ using Dvl_Sql.Models;
 
 namespace Dvl_Sql.Concrete
 {
-    internal class SqlSelector : ISelector
+    internal class SqlSelector : ISelector, IFilter
     {
         private readonly IDvlSqlConnection _dvlSqlConnection;
         private readonly DvlSqlFullSelectExpression _fullSelectExpression = new DvlSqlFullSelectExpression();
@@ -58,13 +58,13 @@ namespace Dvl_Sql.Concrete
         public IFilter Where(DvlSqlBinaryExpression binaryExpression)
         {
             this._fullSelectExpression.SqlWhereExpression = new DvlSqlWhereExpression(binaryExpression);
-            return new SqlFilter(this);
+            return this;
         }
 
         public IFilter Where(DvlSqlBinaryExpression binaryExpression, IEnumerable<DvlSqlParameter> @params)
         {
             this._fullSelectExpression.SqlWhereExpression = new DvlSqlWhereExpression(binaryExpression).WithParameters(@params) as DvlSqlWhereExpression;
-            return new SqlFilter(this);
+            return this;
         }
 
         public ISelector Join(string tableName, DvlSqlComparisonExpression compExpression)
