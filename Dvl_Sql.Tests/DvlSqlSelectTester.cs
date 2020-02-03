@@ -1,13 +1,13 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
+using System.Text.RegularExpressions;
 using Dvl_Sql.Abstract;
-
+using NUnit.Framework;
 using static Dvl_Sql.Extensions.Expressions.ExpressionHelpers;
 using static Dvl_Sql.Extensions.Types.TypeHelpers;
 
 namespace Dvl_Sql.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class DvlSqlSelectTester
     {
         private readonly IDvlSql _sql1 =
@@ -17,10 +17,12 @@ namespace Dvl_Sql.Tests
         private readonly IDvlSql _sql2 =
             IDvlSql.DefaultDvlSql(@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1");
 
-        [TestMethod]
+        private string GetWithoutEscapeCharacters(string s) => Regex.Replace(s, @"[^\r\n]", " ");
+        
+        [Test]
         public void TestMethod1()
         {
-            var list = this._sql1
+            var select = this._sql1
                 .From(AsExp("nbe.BANK_DATA", "B1"), true)
                 .Join(AsExp("nbe.BANK_DATA", "B2"), ConstantExp("B1.REC_ID") == ConstantExp("B2.REC_ID"))
                 .Where(
@@ -34,55 +36,80 @@ namespace Dvl_Sql.Tests
                 .Having(ConstantExp("Count(*)") >= ConstantExp("2"))
                 .Select("B1.AMOUNT", AsExp(CountExp(), "[CountExp]"))
                 .OrderByDescending("[CountExp]", "AMOUNT")
-                .ToListAsync(r =>
-                        new
-                        {
-                            Amount = (decimal)r["AMOUNT"],
-                            Count = (int)r["CountExp"]
-                        }
-                ).Result;
+                .ToString();
 
-            Assert.AreEqual(list.Count, 5);
+            string expectedSelect = GetWithoutEscapeCharacters(
+                @"
+SELECT B1.AMOUNT, COUNT(*) AS [CountExp] FROM nbe.BANK_DATA AS B1 WITH(NOLOCK)
+INNER JOIN  nbe.BANK_DATA AS B2 ON B1.REC_ID = B2.REC_ID
+WHERE B1.AMOUNT < 35000 AND B1.REC_ID NOT IN ( SELECT TOP 4 REC_ID FROM nbe.BANK_DATA ) AND B1.RESTRICT_CODE NOT LIKE '%dd%' AND B1.ADD_DATE > @date
+GROUP BY B1.AMOUNT
+HAVING Count(*) >= 2
+ORDER BY [CountExp] DESC, AMOUNT DESC");
+
+            Assert.That(GetWithoutEscapeCharacters(select), Is.EqualTo(expectedSelect));
         }
 
-        [TestMethod]
+        [Test]
         public void TestMethod2()
         {
-            int first = this._sql2
+            string actualSelect = this._sql2
                 .From("dbo.Words")
                 .Where(IsNullExp(ConstantExp("Date")))
                 .SelectTop(1)
                 .OrderByDescending("Amount")
-                .FirstOrDefaultAsync(r => (int) r["Amount"])
-                .Result;
+                .ToString();
+            // .FirstOrDefaultAsync(r => (int) r["Amount"])
+            // .Result;
+
+            string expectedSelect = GetWithoutEscapeCharacters(@"
+SELECT TOP 1 * FROM dbo.Words
+WHERE Date IS NULL
+ORDER BY Amount DESC");
+            
+            Assert.That(GetWithoutEscapeCharacters(actualSelect),Is.EqualTo(expectedSelect));
         }
 
-        [TestMethod]
+        [Test]
         public void TestMethod3()
         {
-            int first = this._sql2
+            string actualSelect = this._sql2
                 .From("dbo.Words")
                 .Where(IsNullExp(ConstantExp("Date")))
                 .SelectTop(1, "Amount")
                 .OrderByDescending("Amount")
-                .FirstAsync(r => (int)r["Amount"])
-                .Result;
+                .ToString();
+            // .FirstAsync(r => (int)r["Amount"])
+            // .Result;
+            
+            string expectedSelect = GetWithoutEscapeCharacters(@"
+SELECT TOP 1 Amount FROM dbo.Words
+WHERE Date IS NULL
+ORDER BY Amount DESC");
+            
+            Assert.That(GetWithoutEscapeCharacters(actualSelect),Is.EqualTo(expectedSelect));
         }
 
-        [TestMethod]
+        [Test]
         public void TestMethod4()
         {
-            var first = this._sql2
+            var actualSelect = this._sql2
                 .From("dbo.Words")
                 .Where(!IsNullExp(ConstantExp("Date")))
                 .SelectTop(1, "Amount", "Date")
                 .OrderByDescending("Amount")
-                .FirstAsync(r => new {amount = (int) r["Amount"], date = (DateTime) r["Date"]});
+                .ToString();
+            // .FirstAsync(r => new {amount = (int) r["Amount"], date = (DateTime) r["Date"]});
 
-            //Assert.ThrowsException<Exception>(first.Result);
+            string expectedSelect = GetWithoutEscapeCharacters(@"
+SELECT TOP 1 Amount, Date FROM dbo.Words
+WHERE Date IS NOT NULL
+ORDER BY Amount DESC");
+            
+            Assert.That(GetWithoutEscapeCharacters(actualSelect),Is.EqualTo(expectedSelect));
         }
 
-        [TestMethod]
+        [Test]
         public void TestMethod5()
         {
             var where = _sql1
@@ -96,19 +123,40 @@ namespace Dvl_Sql.Tests
                     , Params(Param("@date", new DateTime(2012, 1, 1)))
                 );
 
-            var list1 = where.Select().ToListAsync(r => new
-            {
-                Amount = (decimal) r["AMOUNT"],
-                Count = (DateTime) r["ADD_DATE"]
-            }).Result;
+            var actualSelect1 = where.Select()
+                //     .ToListAsync(r => new
+                // {
+                //     Amount = (decimal) r["AMOUNT"],
+                //     Count = (DateTime) r["ADD_DATE"]
+                // }).Result;
+                .ToString();
 
-            var list2 = where.SelectTop(11)
+            var actualSelect2 = where.SelectTop(11)
                 .OrderByDescending("B1.AMOUNT")
-                .ToListAsync(r => new
+                // .ToListAsync(r => new
+                // {
+                //     Amount = (decimal) r["AMOUNT"],
+                //     Count = (DateTime) r["ADD_DATE"]
+                // }).Result;
+                .ToString();
+            
+            string expectedSelect1 = GetWithoutEscapeCharacters(@"
+SELECT * FROM nbe.BANK_DATA AS B1 WITH(NOLOCK)
+INNER JOIN  nbe.BANK_DATA AS B2 ON B1.REC_ID = B2.REC_ID
+WHERE B1.AMOUNT < 35000 AND B1.REC_ID NOT IN ( SELECT TOP 4 REC_ID FROM nbe.BANK_DATA ) AND B1.RESTRICT_CODE NOT LIKE '%dd%' AND B1.ADD_DATE > @date");
+            
+            string expectedSelect2 = GetWithoutEscapeCharacters(@"
+SELECT TOP 11 * FROM nbe.BANK_DATA AS B1 WITH(NOLOCK)
+INNER JOIN  nbe.BANK_DATA AS B2 ON B1.REC_ID = B2.REC_ID
+WHERE B1.AMOUNT < 35000 AND B1.REC_ID NOT IN ( SELECT TOP 4 REC_ID FROM nbe.BANK_DATA ) AND B1.RESTRICT_CODE NOT LIKE '%dd%' AND B1.ADD_DATE > @date
+ORDER BY B1.AMOUNT DESC");
+            
+            Assert.Multiple(
+                () =>
                 {
-                    Amount = (decimal) r["AMOUNT"],
-                    Count = (DateTime) r["ADD_DATE"]
-                }).Result;
+                    Assert.That(GetWithoutEscapeCharacters(actualSelect1),Is.EqualTo(expectedSelect1));
+                    Assert.That(GetWithoutEscapeCharacters(actualSelect2),Is.EqualTo(expectedSelect2));
+                });
         }
     }
 }

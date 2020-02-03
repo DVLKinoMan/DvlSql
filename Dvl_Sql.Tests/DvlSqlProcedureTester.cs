@@ -1,26 +1,24 @@
-﻿using System.Data;
-using Dvl_Sql.Abstract;
-using Dvl_Sql.Models;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+﻿using Dvl_Sql.Abstract;
+using NUnit.Framework;
 using static Dvl_Sql.Extensions.DataReader.DataReaderHelpers;
 using static Dvl_Sql.Extensions.Types.TypeHelpers;
 
 namespace Dvl_Sql.Tests
 {
-    [TestClass]
+    //todo: procedure tests
+    [TestFixture]
     public class DvlSqlProcedureTester
     {
         private readonly IDvlSql _sql =
             IDvlSql.DefaultDvlSql(@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1");
 
-        [TestMethod]
+        [Test]
         public void TestMethod1()
         {
             var res = this._sql.Procedure("someProc").ExecuteAsync(AsList(r => (string) r["Text"])).Result;
         }
 
-        [TestMethod]
+        [Test]
         public void TestMethod2()
         {
             var outputParam = OutputParam("count", IntType());
