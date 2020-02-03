@@ -20,13 +20,13 @@ namespace Dvl_Sql.Concrete
             (this._deleteExpression, this._dvlSqlConnection) =
                 (new DvlSqlDeleteExpression(fromExpression), dvlSqlConnection);
             this._deleteExecutable = new SqlInsertDeleteExecutable(this._dvlSqlConnection,
-                GetSqlString, GetDvlSqlParameters);
+                ToString, GetDvlSqlParameters);
         }
 
         public async Task<int> ExecuteAsync(int? timeout = default, CancellationToken cancellationToken = default) =>
             await this._deleteExecutable.ExecuteAsync(timeout, cancellationToken);
 
-        private string GetSqlString()
+        public override string ToString()
         {
             var builder = new StringBuilder();
             var commandBuilder = new DvlSqlCommandBuilder(builder);
@@ -40,14 +40,14 @@ namespace Dvl_Sql.Concrete
         {
             this._deleteExpression.WhereExpression = new DvlSqlWhereExpression(binaryExpression);
             return this._deleteExecutable =
-                new SqlInsertDeleteExecutable(this._dvlSqlConnection, GetSqlString, GetDvlSqlParameters);
+                new SqlInsertDeleteExecutable(this._dvlSqlConnection, ToString, GetDvlSqlParameters);
         }
 
         public IInsertDeleteExecutable Where(DvlSqlBinaryExpression binaryExpression, IEnumerable<DvlSqlParameter> @params)
         {
             this._deleteExpression.WhereExpression = new DvlSqlWhereExpression(binaryExpression).WithParameters(@params) as DvlSqlWhereExpression;
             return this._deleteExecutable =
-                new SqlInsertDeleteExecutable(this._dvlSqlConnection, GetSqlString, GetDvlSqlParameters);
+                new SqlInsertDeleteExecutable(this._dvlSqlConnection, ToString, GetDvlSqlParameters);
         }
 
         private IEnumerable<DvlSqlParameter> GetDvlSqlParameters() => this._deleteExpression.WhereExpression?.Parameters ?? Enumerable.Empty<DvlSqlParameter>();

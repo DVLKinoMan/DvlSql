@@ -21,5 +21,7 @@ namespace Dvl_Sql.Concrete
             await this._connection.ConnectAsync(
                 dvlCommand => dvlCommand.ExecuteNonQueryAsync(timeout, cancellationToken), this._sqlStringFunc(),
                 parameters: this._getDvlSqlParameters()?.Select(param => param.SqlParameter).ToArray());
+
+        public override string ToString() => this._sqlStringFunc();
     }
 }

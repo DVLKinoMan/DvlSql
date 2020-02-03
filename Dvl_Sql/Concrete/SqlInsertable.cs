@@ -26,7 +26,7 @@ namespace Dvl_Sql.Concrete
 
             this._insertExpression.SqlParameters = GetSqlParameters(@params, this._insertExpression.DvlSqlTypes).ToList();
 
-            return new SqlInsertDeleteExecutable(this._dvlSqlConnection, GetSqlString,
+            return new SqlInsertDeleteExecutable(this._dvlSqlConnection, ToString,
                 GetDvlSqlParameters);
         }
 
@@ -51,7 +51,7 @@ namespace Dvl_Sql.Concrete
             }
         }
 
-        private string GetSqlString()
+        public override string ToString()
         {
             var builder = new StringBuilder();
             var commandBuilder = new DvlSqlCommandBuilder(builder);
@@ -79,12 +79,12 @@ namespace Dvl_Sql.Concrete
             this._insertWithSelectExpression.SelectExpression = selectExpression;
             this._insertWithSelectExpression.Parameters = @params;
 
-            return new SqlInsertDeleteExecutable(this._dvlSqlConnection, GetSqlString, GetDvlSqlParameters);
+            return new SqlInsertDeleteExecutable(this._dvlSqlConnection, ToString, GetDvlSqlParameters);
         }
 
         private IEnumerable<DvlSqlParameter> GetDvlSqlParameters() => this._insertWithSelectExpression.Parameters;
 
-        private string GetSqlString()
+        public override string ToString()
         {
             var builder = new StringBuilder();
             var commandBuilder = new DvlSqlCommandBuilder(builder);

@@ -38,9 +38,9 @@ namespace Dvl_Sql.Concrete
         }
 
         public IInsertDeleteExecutable CreateDeleteExecutable() =>
-            new SqlInsertDeleteExecutable(this._dvlSqlConnection, GetSqlString, GetDvlSqlParameters);
+            new SqlInsertDeleteExecutable(this._dvlSqlConnection, ToString, GetDvlSqlParameters);
 
-        private string GetSqlString()
+        public override string ToString()
         {
             var builder = new StringBuilder();
             var commandBuilder = new DvlSqlCommandBuilder(builder);

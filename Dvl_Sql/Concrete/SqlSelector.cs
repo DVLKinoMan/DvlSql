@@ -15,7 +15,7 @@ namespace Dvl_Sql.Concrete
         public SqlSelector(DvlSqlFromExpression sqlFromExpression, IDvlSqlConnection dvlSqlConnection)
             => (this._fullSelectExpression.SqlFromExpression, this._dvlSqlConnection) = (sqlFromExpression, dvlSqlConnection);
 
-        public string GetSqlString()
+        public override string ToString()
         {
             var builder = new StringBuilder();
             var commandBuilder = new DvlSqlCommandBuilder(builder);
