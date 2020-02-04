@@ -21,13 +21,4 @@
     <ProjectReference Include="..\Dvl_Sql\Dvl_Sql.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="Dvl_Sql.Extensions.Expressions">
-      <HintPath>..\..\Dvl_Sql.Extensions.Expressions\Dvl_Sql.Extensions.Expressions\bin\Debug\netstandard2.1\Dvl_Sql.Extensions.Expressions.dll</HintPath>
-    </Reference>
-    <Reference Include="Dvl_Sql.Extensions.Types">
-      <HintPath>..\..\Dvl_Sql.Extensions.Types\Dvl_Sql.Extensions.Types\bin\Debug\netstandard2.1\Dvl_Sql.Extensions.Types.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>

@@ -3,8 +3,8 @@ using System.Text.RegularExpressions;
 using Dvl_Sql.Abstract;
 using Dvl_Sql.Expressions;
 using NUnit.Framework;
-using static Dvl_Sql.Extensions.Expressions.ExpressionHelpers;
-using static Dvl_Sql.Extensions.Types.TypeHelpers;
+using static Dvl_Sql.Extensions.Expressions;
+using static Dvl_Sql.Extensions.SqlType;
 
 namespace Dvl_Sql.Tests
 {

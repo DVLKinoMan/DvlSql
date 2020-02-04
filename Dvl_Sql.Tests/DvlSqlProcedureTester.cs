@@ -1,7 +1,7 @@
 ﻿using Dvl_Sql.Abstract;
 using NUnit.Framework;
-using static Dvl_Sql.Extensions.DataReader.DataReaderHelpers;
-using static Dvl_Sql.Extensions.Types.TypeHelpers;
+using static Dvl_Sql.Extensions.DataReader;
+using static Dvl_Sql.Extensions.SqlType;
 
 namespace Dvl_Sql.Tests
 {

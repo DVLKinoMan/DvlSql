@@ -41,7 +41,7 @@ namespace Dvl_Sql.Models
             dvlSqlType.Size, dvlSqlType.Precision, dvlSqlType.Scale) => this.Value = value;
 
         public DvlSqlType(string name, TValue value, int? size = null, byte? precision = null, byte? scale = null) :
-            base(name, SqlTypeExtensions.DefaultMap(value), size, precision, scale) =>
+            base(name, SqlType.DefaultMap(value), size, precision, scale) =>
             this.Value = value;
 
         public DvlSqlType(string name, TValue value, SqlDbType dbType, int? size = null, byte? precision = null,
