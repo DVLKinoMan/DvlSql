@@ -1,6 +1,6 @@
 ﻿namespace Dvl_Sql.Abstract
 {
-    public interface IOrderer : IOrderable, ISelectExecutable
+    public interface IOrderer : IOrderExecutable, IUnionable
     {
 
     }

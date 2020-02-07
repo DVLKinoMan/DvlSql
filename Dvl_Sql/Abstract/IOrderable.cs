@@ -3,7 +3,7 @@
     // ReSharper disable once IdentifierTypo
     public interface IOrderable
     {
-        IOrderer OrderBy(params string[] fields);
-        IOrderer OrderByDescending(params string[] fields);
+        IOrderExecutable OrderBy(params string[] fields);
+        IOrderExecutable OrderByDescending(params string[] fields);
     }
 }

@@ -158,5 +158,54 @@ ORDER BY B1.AMOUNT DESC");
                     Assert.That(GetWithoutEscapeCharacters(actualSelect2),Is.EqualTo(expectedSelect2));
                 });
         }
+
+        [Test]
+        public void Select_With_Union()
+        {
+            var actualSelect = this._sql2
+                .From("dbo.Words")
+                .Where(!IsNullExp(ConstantExp("Date")))
+                .SelectTop(1, "Amount", "Date")
+                .Union()
+                .From("dbo.Sentences")
+                .Select()
+                .ToString();
+            // .FirstAsync(r => new {amount = (int) r["Amount"], date = (DateTime) r["Date"]});
+
+            string expectedSelect = GetWithoutEscapeCharacters(@"
+SELECT TOP 1 Amount, Date FROM dbo.Words
+WHERE Date IS NOT NULL
+UNION
+SELECT * FROM dbo.Sentences");
+            
+            Assert.That(GetWithoutEscapeCharacters(actualSelect),Is.EqualTo(expectedSelect));
+        }
+        
+        [Test]
+        public void Select_With_UnionAll()
+        {
+            var actualSelect = this._sql2
+                .From("dbo.Words")
+                .Where(!IsNullExp(ConstantExp("Date")))
+                .SelectTop(1, "Amount", "Date")
+                .Union()
+                .From("dbo.Sentences")
+                .Select()
+                .UnionAll()
+                .From("dbo.Sentences")
+                .Select()
+                .ToString();
+            // .FirstAsync(r => new {amount = (int) r["Amount"], date = (DateTime) r["Date"]});
+
+            string expectedSelect = GetWithoutEscapeCharacters(@"
+SELECT TOP 1 Amount, Date FROM dbo.Words
+WHERE Date IS NOT NULL
+UNION
+SELECT * FROM dbo.Sentences
+UNION ALL
+SELECT * FROM dbo.Sentences");
+            
+            Assert.That(GetWithoutEscapeCharacters(actualSelect),Is.EqualTo(expectedSelect));
+        }
     }
 }

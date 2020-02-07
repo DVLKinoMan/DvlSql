@@ -189,6 +189,17 @@ namespace Dvl_Sql.Concrete
             expression.WhereExpression?.Accept(this);
         }
 
+        public void Visit(DvlSqlUnionExpression expression)
+        {
+            foreach (var (selectExpression, type) in expression)
+            {
+                selectExpression.Accept(this);
+                this._command.TrimEnd();
+                if (type != null)
+                    this._command.AppendLine($"{Environment.NewLine}{(type == UnionType.Union ? "UNION" : "UNION ALL")}");
+            }
+        }
+
         #region BinaryExpressions
 
         public void Visit(DvlSqlInExpression expression)

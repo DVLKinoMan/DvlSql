@@ -18,9 +18,9 @@ namespace Dvl_Sql.Concrete
 
         public SqlOrderer(IDvlSqlConnection connection, SqlSelector selector) => (this._connection, this._selector) = (connection, selector);
 
-        public IOrderer OrderBy(params string[] fields) => this._selector.OrderBy(this, fields);
+        public IOrderExecutable OrderBy(params string[] fields) => this._selector.OrderBy(this, fields);
 
-        public IOrderer OrderByDescending(params string[] fields) => this._selector.OrderByDescending(this, fields);
+        public IOrderExecutable OrderByDescending(params string[] fields) => this._selector.OrderByDescending(this, fields);
 
         public async Task<List<TResult>> ToListAsync<TResult>(Func<SqlDataReader, TResult> selectorFunc,
             int? timeout = default,
@@ -104,5 +104,9 @@ namespace Dvl_Sql.Concrete
                 parameters: this._selector.GetDvlSqlParameters()?.Select(dvlSql => dvlSql.SqlParameter).ToArray());
 
         public override string ToString() => this._selector.ToString();
+
+        public IFromable Union() => this._selector.Union();
+        public IFromable UnionAll() => this._selector.UnionAll();
+        
     }
 }
