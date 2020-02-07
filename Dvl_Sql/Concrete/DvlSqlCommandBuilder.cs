@@ -163,12 +163,12 @@ namespace Dvl_Sql.Concrete
 
         public void Visit(DvlSqlFullSelectExpression expression)
         {
-            expression.SqlSelectExpression.Accept(this);
-            foreach (var joinExpression in expression.SqlJoinExpressions)
+            expression.SelectExpression.Accept(this);
+            foreach (var joinExpression in expression.JoinExpressions)
                 joinExpression.Accept(this);
-            expression.SqlWhereExpression?.Accept(this);
-            expression.SqlGroupByExpression?.Accept(this);
-            expression.SqlOrderByExpression?.Accept(this);
+            expression.WhereExpression?.Accept(this);
+            expression.GroupByExpression?.Accept(this);
+            expression.OrderByExpression?.Accept(this);
         }
 
         public void Visit(DvlSqlDeleteExpression expression)
