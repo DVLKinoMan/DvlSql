@@ -50,13 +50,21 @@ ORDER BY Text ASC");
         {
             // ReSharper disable once UnusedVariable
             var actualInsert = this._sql
-                .InsertInto<(int, string)>("dbo.Words",
+                .InsertInto<int, string,int, string,int, string,int,string, int, string>("dbo.Words",
+                    DecimalType("Amount"),
+                    NVarCharType("Text", 100),
+                    DecimalType("Amount"),
+                    NVarCharType("Text", 100),
+                    DecimalType("Amount"),
+                    NVarCharType("Text", 100),
+                    DecimalType("Amount"),
+                    NVarCharType("Text", 100),
                     DecimalType("Amount"),
                     NVarCharType("Text", 100))
                 .Values(
-                    (42, "newVal1"),
-                    (43, "newVal2"),
-                    (44, "newVal3")
+                    (43, "newVal2", 42, "newVal1", 42, "newVal1", 42, "newVal1", 42, "newVal1"),
+                    (44, "newVal3", 42, "newVal1", 42, "newVal1", 42, "newVal1", 42, "newVal1"),
+                    (42, "newVal1", 42, "newVal1", 42, "newVal1", 42, "newVal1", 42, "newVal1")
                 )
                 // .ExecuteAsync().Result;
                 .ToString();
