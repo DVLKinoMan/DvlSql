@@ -14,7 +14,7 @@ namespace Dvl_Sql.Concrete
     {
         protected DvlSqlInsertIntoExpression<TParam> InsertExpression;
         protected IDvlSqlConnection DvlSqlConnection;
-        
+
         protected static IEnumerable<DvlSqlParameter> GetSqlParameters<TTuple>(TTuple[] @params, DvlSqlType[] types)
             where TTuple : ITuple
         {
@@ -45,14 +45,13 @@ namespace Dvl_Sql.Concrete
 
             return builder.ToString();
         }
-        
+
         protected IEnumerable<DvlSqlParameter> GetDvlSqlParameters() => this.InsertExpression.SqlParameters;
     }
-    
+
     // ReSharper disable once IdentifierTypo
     internal class SqlInsertable<TParam> : BaseInsertable<TParam>, IInsertable<TParam> where TParam : ITuple
     {
-
         // ReSharper disable once IdentifierTypo
         public SqlInsertable(DvlSqlInsertIntoExpression<TParam> insertExpression, IDvlSqlConnection dvlSqlConnection) =>
             (this.InsertExpression, this.DvlSqlConnection) = (insertExpression, dvlSqlConnection);
@@ -67,9 +66,9 @@ namespace Dvl_Sql.Concrete
                 GetDvlSqlParameters);
         }
     }
-    
-    internal class Insertable<T1, T2> : BaseInsertable<(T1,T2)>, IInsertable<T1, T2>
-    { 
+
+    internal class Insertable<T1, T2> : BaseInsertable<(T1, T2)>, IInsertable<T1, T2>
+    {
         // ReSharper disable once IdentifierTypo
         public Insertable(DvlSqlInsertIntoExpression<(T1, T2)> insertExpression, IDvlSqlConnection dvlSqlConnection) =>
             (this.InsertExpression, this.DvlSqlConnection) = (insertExpression, dvlSqlConnection);
@@ -82,13 +81,14 @@ namespace Dvl_Sql.Concrete
 
             return new SqlInsertDeleteExecutable(this.DvlSqlConnection, ToString,
                 GetDvlSqlParameters);
-        } 
+        }
     }
-    
-    internal class Insertable<T1, T2, T3> : BaseInsertable<(T1,T2, T3)>, IInsertable<T1, T2, T3>
-    { 
+
+    internal class Insertable<T1, T2, T3> : BaseInsertable<(T1, T2, T3)>, IInsertable<T1, T2, T3>
+    {
         // ReSharper disable once IdentifierTypo
-        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3)> insertExpression, IDvlSqlConnection dvlSqlConnection) =>
+        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3)> insertExpression,
+            IDvlSqlConnection dvlSqlConnection) =>
             (this.InsertExpression, this.DvlSqlConnection) = (insertExpression, dvlSqlConnection);
 
         public IInsertDeleteExecutable Values(params (T1 param1, T2 param2, T3 param3)[] @params)
@@ -99,13 +99,14 @@ namespace Dvl_Sql.Concrete
 
             return new SqlInsertDeleteExecutable(this.DvlSqlConnection, ToString,
                 GetDvlSqlParameters);
-        } 
-    } 
+        }
+    }
 
-    internal class Insertable<T1, T2, T3, T4> : BaseInsertable<(T1,T2, T3, T4)>, IInsertable<T1, T2, T3, T4>
-    { 
+    internal class Insertable<T1, T2, T3, T4> : BaseInsertable<(T1, T2, T3, T4)>, IInsertable<T1, T2, T3, T4>
+    {
         // ReSharper disable once IdentifierTypo
-        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4)> insertExpression, IDvlSqlConnection dvlSqlConnection) =>
+        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4)> insertExpression,
+            IDvlSqlConnection dvlSqlConnection) =>
             (this.InsertExpression, this.DvlSqlConnection) = (insertExpression, dvlSqlConnection);
 
         public IInsertDeleteExecutable Values(params (T1 param1, T2 param2, T3 param3, T4 param4)[] @params)
@@ -116,14 +117,16 @@ namespace Dvl_Sql.Concrete
 
             return new SqlInsertDeleteExecutable(this.DvlSqlConnection, ToString,
                 GetDvlSqlParameters);
-        } 
-    } 
-    
-    
-    internal class Insertable<T1, T2, T3, T4, T5> : BaseInsertable<(T1,T2, T3, T4, T5)>, IInsertable<T1, T2, T3, T4, T5>
-    { 
+        }
+    }
+
+
+    internal class Insertable<T1, T2, T3, T4, T5> : BaseInsertable<(T1, T2, T3, T4, T5)>,
+        IInsertable<T1, T2, T3, T4, T5>
+    {
         // ReSharper disable once IdentifierTypo
-        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5)> insertExpression, IDvlSqlConnection dvlSqlConnection) =>
+        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5)> insertExpression,
+            IDvlSqlConnection dvlSqlConnection) =>
             (this.InsertExpression, this.DvlSqlConnection) = (insertExpression, dvlSqlConnection);
 
         public IInsertDeleteExecutable Values(params (T1 param1, T2 param2, T3 param3, T4 param4, T5 param5)[] @params)
@@ -134,16 +137,19 @@ namespace Dvl_Sql.Concrete
 
             return new SqlInsertDeleteExecutable(this.DvlSqlConnection, ToString,
                 GetDvlSqlParameters);
-        } 
-    } 
-    
-    internal class Insertable<T1, T2, T3, T4, T5, T6> : BaseInsertable<(T1,T2, T3, T4, T5, T6)>, IInsertable<T1, T2, T3, T4, T5, T6>
-    { 
+        }
+    }
+
+    internal class Insertable<T1, T2, T3, T4, T5, T6> : BaseInsertable<(T1, T2, T3, T4, T5, T6)>,
+        IInsertable<T1, T2, T3, T4, T5, T6>
+    {
         // ReSharper disable once IdentifierTypo
-        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6)> insertExpression, IDvlSqlConnection dvlSqlConnection) =>
+        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6)> insertExpression,
+            IDvlSqlConnection dvlSqlConnection) =>
             (this.InsertExpression, this.DvlSqlConnection) = (insertExpression, dvlSqlConnection);
 
-        public IInsertDeleteExecutable Values(params (T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6)[] @params)
+        public IInsertDeleteExecutable Values(
+            params (T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6)[] @params)
         {
             this.InsertExpression.Values = @params;
 
@@ -151,16 +157,19 @@ namespace Dvl_Sql.Concrete
 
             return new SqlInsertDeleteExecutable(this.DvlSqlConnection, ToString,
                 GetDvlSqlParameters);
-        } 
-    } 
-    
-    internal class Insertable<T1, T2, T3, T4, T5, T6, T7> : BaseInsertable<(T1,T2, T3, T4, T5, T6, T7)>, IInsertable<T1, T2, T3, T4, T5, T6, T7>
-    { 
+        }
+    }
+
+    internal class Insertable<T1, T2, T3, T4, T5, T6, T7> : BaseInsertable<(T1, T2, T3, T4, T5, T6, T7)>,
+        IInsertable<T1, T2, T3, T4, T5, T6, T7>
+    {
         // ReSharper disable once IdentifierTypo
-        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7)> insertExpression, IDvlSqlConnection dvlSqlConnection) =>
+        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7)> insertExpression,
+            IDvlSqlConnection dvlSqlConnection) =>
             (this.InsertExpression, this.DvlSqlConnection) = (insertExpression, dvlSqlConnection);
 
-        public IInsertDeleteExecutable Values(params (T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7)[] @params)
+        public IInsertDeleteExecutable Values(
+            params (T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7)[] @params)
         {
             this.InsertExpression.Values = @params;
 
@@ -168,16 +177,19 @@ namespace Dvl_Sql.Concrete
 
             return new SqlInsertDeleteExecutable(this.DvlSqlConnection, ToString,
                 GetDvlSqlParameters);
-        } 
-    } 
-    
-    internal class Insertable<T1, T2, T3, T4, T5, T6, T7, T8> : BaseInsertable<(T1,T2, T3, T4, T5, T6, T7, T8)>, IInsertable<T1, T2, T3, T4, T5, T6, T7, T8>
-    { 
+        }
+    }
+
+    internal class Insertable<T1, T2, T3, T4, T5, T6, T7, T8> : BaseInsertable<(T1, T2, T3, T4, T5, T6, T7, T8)>,
+        IInsertable<T1, T2, T3, T4, T5, T6, T7, T8>
+    {
         // ReSharper disable once IdentifierTypo
-        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8)> insertExpression, IDvlSqlConnection dvlSqlConnection) =>
+        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8)> insertExpression,
+            IDvlSqlConnection dvlSqlConnection) =>
             (this.InsertExpression, this.DvlSqlConnection) = (insertExpression, dvlSqlConnection);
 
-        public IInsertDeleteExecutable Values(params (T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8)[] @params)
+        public IInsertDeleteExecutable Values(
+            params (T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8)[] @params)
         {
             this.InsertExpression.Values = @params;
 
@@ -185,16 +197,20 @@ namespace Dvl_Sql.Concrete
 
             return new SqlInsertDeleteExecutable(this.DvlSqlConnection, ToString,
                 GetDvlSqlParameters);
-        } 
-    } 
-    
-    internal class Insertable<T1, T2, T3, T4, T5, T6, T7, T8, T9> : BaseInsertable<(T1,T2, T3, T4, T5, T6, T7, T8, T9)>, IInsertable<T1, T2, T3, T4, T5, T6, T7, T8, T9>
-    { 
+        }
+    }
+
+    internal class Insertable<T1, T2, T3, T4, T5, T6, T7, T8, T9> :
+        BaseInsertable<(T1, T2, T3, T4, T5, T6, T7, T8, T9)>, IInsertable<T1, T2, T3, T4, T5, T6, T7, T8, T9>
+    {
         // ReSharper disable once IdentifierTypo
-        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8, T9)> insertExpression, IDvlSqlConnection dvlSqlConnection) =>
+        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8, T9)> insertExpression,
+            IDvlSqlConnection dvlSqlConnection) =>
             (this.InsertExpression, this.DvlSqlConnection) = (insertExpression, dvlSqlConnection);
 
-        public IInsertDeleteExecutable Values(params (T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8, T9 param9)[] @params)
+        public IInsertDeleteExecutable Values(
+            params (T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8, T9 param9)[]
+                @params)
         {
             this.InsertExpression.Values = @params;
 
@@ -202,16 +218,20 @@ namespace Dvl_Sql.Concrete
 
             return new SqlInsertDeleteExecutable(this.DvlSqlConnection, ToString,
                 GetDvlSqlParameters);
-        } 
-    } 
-    
-    internal class Insertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> : BaseInsertable<(T1,T2, T3, T4, T5, T6, T7, T8, T9, T10)>, IInsertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>
-    { 
+        }
+    }
+
+    internal class Insertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> :
+        BaseInsertable<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)>, IInsertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>
+    {
         // ReSharper disable once IdentifierTypo
-        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)> insertExpression, IDvlSqlConnection dvlSqlConnection) =>
+        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)> insertExpression,
+            IDvlSqlConnection dvlSqlConnection) =>
             (this.InsertExpression, this.DvlSqlConnection) = (insertExpression, dvlSqlConnection);
 
-        public IInsertDeleteExecutable Values(params (T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8, T9 param9, T10 param10)[] @params)
+        public IInsertDeleteExecutable Values(
+            params (T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8, T9 param9,
+                T10 param10)[] @params)
         {
             this.InsertExpression.Values = @params;
 
@@ -219,16 +239,21 @@ namespace Dvl_Sql.Concrete
 
             return new SqlInsertDeleteExecutable(this.DvlSqlConnection, ToString,
                 GetDvlSqlParameters);
-        } 
-    } 
-    
-    internal class Insertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> : BaseInsertable<(T1,T2, T3, T4, T5, T6, T7, T8, T9, T10, T11)>, IInsertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>
-    { 
+        }
+    }
+
+    internal class Insertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> :
+        BaseInsertable<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11)>,
+        IInsertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>
+    {
         // ReSharper disable once IdentifierTypo
-        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11)> insertExpression, IDvlSqlConnection dvlSqlConnection) =>
+        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11)> insertExpression,
+            IDvlSqlConnection dvlSqlConnection) =>
             (this.InsertExpression, this.DvlSqlConnection) = (insertExpression, dvlSqlConnection);
 
-        public IInsertDeleteExecutable Values(params (T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8, T9 param9, T10 param10, T11 param11)[] @params)
+        public IInsertDeleteExecutable Values(
+            params (T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8, T9 param9,
+                T10 param10, T11 param11)[] @params)
         {
             this.InsertExpression.Values = @params;
 
@@ -236,16 +261,22 @@ namespace Dvl_Sql.Concrete
 
             return new SqlInsertDeleteExecutable(this.DvlSqlConnection, ToString,
                 GetDvlSqlParameters);
-        } 
-    } 
-    
-    internal class Insertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> : BaseInsertable<(T1,T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12)>, IInsertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>
-    { 
+        }
+    }
+
+    internal class Insertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> :
+        BaseInsertable<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12)>,
+        IInsertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>
+    {
         // ReSharper disable once IdentifierTypo
-        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12)> insertExpression, IDvlSqlConnection dvlSqlConnection) =>
+        public Insertable(
+            DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12)> insertExpression,
+            IDvlSqlConnection dvlSqlConnection) =>
             (this.InsertExpression, this.DvlSqlConnection) = (insertExpression, dvlSqlConnection);
 
-        public IInsertDeleteExecutable Values(params (T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8, T9 param9, T10 param10, T11 param11, T12 param12)[] @params)
+        public IInsertDeleteExecutable Values(
+            params (T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8, T9 param9,
+                T10 param10, T11 param11, T12 param12)[] @params)
         {
             this.InsertExpression.Values = @params;
 
@@ -253,16 +284,22 @@ namespace Dvl_Sql.Concrete
 
             return new SqlInsertDeleteExecutable(this.DvlSqlConnection, ToString,
                 GetDvlSqlParameters);
-        } 
-    } 
-    
-    internal class Insertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> : BaseInsertable<(T1,T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13)>, IInsertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12,T13>
-    { 
+        }
+    }
+
+    internal class Insertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> :
+        BaseInsertable<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13)>,
+        IInsertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>
+    {
         // ReSharper disable once IdentifierTypo
-        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13)> insertExpression, IDvlSqlConnection dvlSqlConnection) =>
+        public Insertable(
+            DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13)> insertExpression,
+            IDvlSqlConnection dvlSqlConnection) =>
             (this.InsertExpression, this.DvlSqlConnection) = (insertExpression, dvlSqlConnection);
 
-        public IInsertDeleteExecutable Values(params (T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8, T9 param9, T10 param10, T11 param11, T12 param12, T13 param13)[] @params)
+        public IInsertDeleteExecutable Values(
+            params (T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8, T9 param9,
+                T10 param10, T11 param11, T12 param12, T13 param13)[] @params)
         {
             this.InsertExpression.Values = @params;
 
@@ -270,8 +307,77 @@ namespace Dvl_Sql.Concrete
 
             return new SqlInsertDeleteExecutable(this.DvlSqlConnection, ToString,
                 GetDvlSqlParameters);
-        } 
-    } 
+        }
+    }
+
+    internal class Insertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> :
+        BaseInsertable<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14)>,
+        IInsertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>
+    {
+        // ReSharper disable once IdentifierTypo
+        public Insertable(
+            DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14)> insertExpression,
+            IDvlSqlConnection dvlSqlConnection) =>
+            (this.InsertExpression, this.DvlSqlConnection) = (insertExpression, dvlSqlConnection);
+
+        public IInsertDeleteExecutable Values(
+            params (T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8, T9 param9,
+                T10 param10, T11 param11, T12 param12, T13 param13, T14 param14)[] @params)
+        {
+            this.InsertExpression.Values = @params;
+
+            this.InsertExpression.SqlParameters = GetSqlParameters(@params, this.InsertExpression.DvlSqlTypes).ToList();
+
+            return new SqlInsertDeleteExecutable(this.DvlSqlConnection, ToString,
+                GetDvlSqlParameters);
+        }
+    }
+
+    internal class Insertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> :
+        BaseInsertable<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15)>,
+        IInsertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>
+    {
+        // ReSharper disable once IdentifierTypo
+        public Insertable(
+            DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15)> insertExpression,
+            IDvlSqlConnection dvlSqlConnection) =>
+            (this.InsertExpression, this.DvlSqlConnection) = (insertExpression, dvlSqlConnection);
+
+        public IInsertDeleteExecutable Values(
+            params (T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8, T9 param9,
+                T10 param10, T11 param11, T12 param12, T13 param13, T14 param14, T15 param15)[] @params)
+        {
+            this.InsertExpression.Values = @params;
+
+            this.InsertExpression.SqlParameters = GetSqlParameters(@params, this.InsertExpression.DvlSqlTypes).ToList();
+
+            return new SqlInsertDeleteExecutable(this.DvlSqlConnection, ToString,
+                GetDvlSqlParameters);
+        }
+    }
+    
+    internal class Insertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> :
+        BaseInsertable<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16)>,
+        IInsertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>
+    {
+        // ReSharper disable once IdentifierTypo
+        public Insertable(
+            DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16)> insertExpression,
+            IDvlSqlConnection dvlSqlConnection) =>
+            (this.InsertExpression, this.DvlSqlConnection) = (insertExpression, dvlSqlConnection);
+
+        public IInsertDeleteExecutable Values(
+            params (T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8, T9 param9,
+                T10 param10, T11 param11, T12 param12, T13 param13, T14 param14, T15 param15, T16 param16)[] @params)
+        {
+            this.InsertExpression.Values = @params;
+
+            this.InsertExpression.SqlParameters = GetSqlParameters(@params, this.InsertExpression.DvlSqlTypes).ToList();
+
+            return new SqlInsertDeleteExecutable(this.DvlSqlConnection, ToString,
+                GetDvlSqlParameters);
+        }
+    }
     
     // ReSharper disable once IdentifierTypo
     internal class SqlInsertable : IInsertable
@@ -283,7 +389,8 @@ namespace Dvl_Sql.Concrete
         public SqlInsertable(DvlSqlInsertIntoSelectExpression insertExpression, IDvlSqlConnection connectionString) =>
             (this._insertWithSelectExpression, this._dvlSqlConnection) = (insertExpression, connectionString);
 
-        public IInsertDeleteExecutable SelectStatement(DvlSqlFullSelectExpression selectExpression, params DvlSqlParameter[] @params)
+        public IInsertDeleteExecutable SelectStatement(DvlSqlFullSelectExpression selectExpression,
+            params DvlSqlParameter[] @params)
         {
             this._insertWithSelectExpression.SelectExpression = selectExpression;
             this._insertWithSelectExpression.Parameters = @params;

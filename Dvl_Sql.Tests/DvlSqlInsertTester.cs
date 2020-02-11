@@ -50,21 +50,13 @@ ORDER BY Text ASC");
         {
             // ReSharper disable once UnusedVariable
             var actualInsert = this._sql
-                .InsertInto<int, string,int, string,int, string,int,string, int, string>("dbo.Words",
-                    DecimalType("Amount"),
-                    NVarCharType("Text", 100),
-                    DecimalType("Amount"),
-                    NVarCharType("Text", 100),
-                    DecimalType("Amount"),
-                    NVarCharType("Text", 100),
-                    DecimalType("Amount"),
-                    NVarCharType("Text", 100),
+                .InsertInto<int, string>("dbo.Words",
                     DecimalType("Amount"),
                     NVarCharType("Text", 100))
                 .Values(
-                    (43, "newVal2", 42, "newVal1", 42, "newVal1", 42, "newVal1", 42, "newVal1"),
-                    (44, "newVal3", 42, "newVal1", 42, "newVal1", 42, "newVal1", 42, "newVal1"),
-                    (42, "newVal1", 42, "newVal1", 42, "newVal1", 42, "newVal1", 42, "newVal1")
+                    (43, "newVal2"),
+                    (44, "newVal3"),
+                    (42, "newVal1")
                 )
                 // .ExecuteAsync().Result;
                 .ToString();
@@ -113,7 +105,7 @@ ORDER BY Text ASC");
             // var insert = @"INSERT INTO dbo.[User] (UserId, FirstName, LastName, MobileNumber, Status, DeviceId)
             // VALUES (@userId, @firstName, @lastName, @mobileNumber, @status, @deviceId)";
 
-            var actualInsert = dvlSql.InsertInto<(int, string, string, string, int, int)>(
+            var actualInsert = dvlSql.InsertInto<int, string, string, string, int, int>(
                     "[ManagerConfirmation].[confirmation].[Users]",
                     IntType("userId"),
                     NVarCharType("firstName", 100),
