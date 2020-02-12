@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 using Dvl_Sql.Abstract;
 using NUnit.Framework;
 using static Dvl_Sql.Extensions.Expressions;
@@ -12,8 +13,6 @@ namespace Dvl_Sql.Tests
         private readonly IDvlSql _sql =
             IDvlSql.DefaultDvlSql(@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1");
         
-        private string GetWithoutEscapeCharacters(string s) => Regex.Replace(s, @"[^\r\n]", " ");
-        
         [Test]
         public void TestMethod1()
         {
@@ -21,12 +20,11 @@ namespace Dvl_Sql.Tests
                 .Set(Money("money", new decimal(2.11)))
                 // .ExecuteAsync().Result;
                 .ToString();
-            
-            string expectedUpdate = GetWithoutEscapeCharacters(
-                @"UPDATE dbo.Words
-SET @money = @money");
 
-            Assert.That(GetWithoutEscapeCharacters(actualUpdate), Is.EqualTo(expectedUpdate));
+            string expectedUpdate = Regex.Escape(
+                $"UPDATE dbo.Words{Environment.NewLine}SET @money = @money");
+
+            Assert.That(Regex.Escape(actualUpdate), Is.EqualTo(expectedUpdate));
         }
 
         [Test]
@@ -39,12 +37,13 @@ SET @money = @money");
                 // .ExecuteAsync().Result;
                 .ToString();
             
-            string expectedUpdate = GetWithoutEscapeCharacters(
-                @"UPDATE dbo.Words
-SET @money = @money
-WHERE Amount = @amount ");
+            string expectedUpdate = Regex.Escape(
+                string.Format("UPDATE dbo.Words{0}" + 
+                              "SET @money = @money{0}" +
+                              "WHERE Amount = @amount ",
+                    Environment.NewLine));
 
-            Assert.That(GetWithoutEscapeCharacters(actualUpdate), Is.EqualTo(expectedUpdate));
+            Assert.That(Regex.Escape(actualUpdate), Is.EqualTo(expectedUpdate));
         }
 
         [Test]
@@ -62,12 +61,13 @@ WHERE Amount = @amount ");
                 // .ExecuteAsync().Result;
                 .ToString();
             
-            string expectedUpdate = GetWithoutEscapeCharacters(
-                @"UPDATE dbo.Words
-SET @money = @money, @isSome = @isSome, @floatNumber = @floatNumber, @bigint = @bigint, @xml = @xml, @Date = @Date
-WHERE Amount = @amount ");
+            string expectedUpdate = Regex.Escape(
+                string.Format("UPDATE dbo.Words{0}" +
+                              "SET @money = @money, @isSome = @isSome, @floatNumber = @floatNumber, @bigint = @bigint, @xml = @xml, @Date = @Date{0}" +
+                              "WHERE Amount = @amount ", 
+                    Environment.NewLine));
 
-            Assert.That(GetWithoutEscapeCharacters(actualUpdate), Is.EqualTo(expectedUpdate));
+            Assert.That(Regex.Escape(actualUpdate), Is.EqualTo(expectedUpdate));
         }
     }
 }

@@ -15,7 +15,9 @@ namespace Dvl_Sql.Tests
         [Test]
         public void TestMethod1()
         {
-            var res = this._sql.Procedure("someProc").ExecuteAsync(AsList(r => (string) r["Text"])).Result;
+            var res = this._sql.Procedure("someProc")
+                .ExecuteAsync(AsList(r => (string) r["Text"]))
+                .Result;
         }
 
         [Test]

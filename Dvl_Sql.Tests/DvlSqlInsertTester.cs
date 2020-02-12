@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Dvl_Sql.Abstract;
@@ -15,8 +16,6 @@ namespace Dvl_Sql.Tests
             IDvlSql.DefaultDvlSql(@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1");
 
         private static IEnumerable<string> Columns(params string[] cols) => cols;
-        
-        private string GetWithoutEscapeCharacters(string s) => Regex.Replace(s, @"[^\r\n]", " ");
         
         [Test]
         public void TestMethod1()
@@ -38,11 +37,10 @@ namespace Dvl_Sql.Tests
             
             //Assert.AreEqual(affectedRows, 2);
             
-            string expectedInsert = GetWithoutEscapeCharacters(
-                @" INSERT INTO dbo.Words ( Amount, Text ) SELECT TOP 2 Amount, Text FROM dbo.Words
-ORDER BY Text ASC");
+            string expectedInsert = Regex.Escape(
+                $" INSERT INTO dbo.Words ( Amount, Text ) SELECT TOP 2 Amount, Text FROM dbo.Words{Environment.NewLine}ORDER BY Text ASC");
 
-            Assert.That(GetWithoutEscapeCharacters(actualInsert), Is.EqualTo(expectedInsert));
+            Assert.That(Regex.Escape(actualInsert), Is.EqualTo(expectedInsert));
         }
 
         [Test]
@@ -62,15 +60,15 @@ ORDER BY Text ASC");
                 .ToString();
             
             //Assert.AreEqual(affectedRows, 3);
-            string expectedInsert = GetWithoutEscapeCharacters(
-                @"
-INSERT INTO dbo.Words ( Amount, Text )
-VALUES
-( @Amount1, @Text1 ),
-( @Amount2, @Text2 ),
-( @Amount3, @Text3 )");
+            string expectedInsert = Regex.Escape(
+                string.Format("{0}INSERT INTO dbo.Words ( Amount, Text ){0}" +
+                              "VALUES{0}" +
+                              "( @Amount1, @Text1 ),{0}" +
+                              "( @Amount2, @Text2 ),{0}" +
+                              "( @Amount3, @Text3 )", 
+                    Environment.NewLine));
 
-            Assert.That(GetWithoutEscapeCharacters(actualInsert), Is.EqualTo(expectedInsert));
+            Assert.That(Regex.Escape(actualInsert), Is.EqualTo(expectedInsert));
         }
 
         [Test]
@@ -87,11 +85,10 @@ VALUES
                 // .ExecuteAsync().Result;
                 .ToString();
             //Assert.AreEqual(affectedRows, 2);
-            string expectedInsert = GetWithoutEscapeCharacters(
-                @" INSERT INTO dbo.Words ( Amount, Text ) SELECT TOP 2 Amount, Text FROM dbo.Words WHERE Amount = @amount
-ORDER BY Text ASC");
+            string expectedInsert = Regex.Escape(
+                $" INSERT INTO dbo.Words ( Amount, Text ) SELECT TOP 2 Amount, Text FROM dbo.Words WHERE Amount = @amount{Environment.NewLine}ORDER BY Text ASC");
 
-            Assert.That(GetWithoutEscapeCharacters(actualInsert), Is.EqualTo(expectedInsert));
+            Assert.That(Regex.Escape(actualInsert), Is.EqualTo(expectedInsert));
         }
 
         [Test]
@@ -122,14 +119,15 @@ ORDER BY Text ASC");
             // var k = dvlSql.DeleteFrom("[ManagerConfirmation].[confirmation].[Users]")
             //     .Where(ConstantExp("UserId") == ConstantExp(2))
             //     .ExecuteAsync().Result;
-            
-            string expectedInsert = GetWithoutEscapeCharacters(
-                @"
-INSERT INTO [ManagerConfirmation].[confirmation].[Users] ( userId, firstName, lastName, mobileNumber, status, deviceId )
-VALUES
-( @userId1, @firstName1, @lastName1, @mobileNumber1, @status1, @deviceId1 )");
 
-            Assert.That(GetWithoutEscapeCharacters(actualInsert), Is.EqualTo(expectedInsert));
+            string expectedInsert = Regex.Escape(
+                string.Format(
+                    "{0}INSERT INTO [ManagerConfirmation].[confirmation].[Users] ( userId, firstName, lastName, mobileNumber, status, deviceId ){0}" +
+                    "VALUES{0}" +
+                    "( @userId1, @firstName1, @lastName1, @mobileNumber1, @status1, @deviceId1 )",
+                    Environment.NewLine));
+
+            Assert.That(Regex.Escape(actualInsert), Is.EqualTo(expectedInsert));
 
         }
     }

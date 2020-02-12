@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 using Dvl_Sql.Abstract;
 using NUnit.Framework;
 using static Dvl_Sql.Extensions.Expressions;
@@ -12,8 +13,6 @@ namespace Dvl_Sql.Tests
         private readonly IDvlSql _sql =
             IDvlSql.DefaultDvlSql(@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1");
 
-        private string GetWithoutEscapeCharacters(string s) => Regex.Replace(s, @"[^\r\n]", " ");
-        
         [Test]
         public void TestMethod1()
         {
@@ -25,11 +24,11 @@ namespace Dvl_Sql.Tests
                 // .ExecuteAsync().Result;
                 .ToString();
             
-            string expectedDelete = GetWithoutEscapeCharacters(
-                @"DELETE FROM dbo.Words
-WHERE Text = @text ");
+            string expectedDelete = Regex.Escape(
+                $"DELETE FROM dbo.Words{Environment.NewLine}" +
+                $"WHERE Text = @text ");
 
-            Assert.That(GetWithoutEscapeCharacters(actualDelete), Is.EqualTo(expectedDelete));
+            Assert.That(Regex.Escape(actualDelete), Is.EqualTo(expectedDelete));
         }
 
         [Test]
@@ -39,10 +38,10 @@ WHERE Text = @text ");
                 // .ExecuteAsync().Result;
                 .ToString();
             
-            string expectedDelete = GetWithoutEscapeCharacters(
+            string expectedDelete = Regex.Escape(
                 @"DELETE FROM dbo.Words ");
 
-            Assert.That(GetWithoutEscapeCharacters(actualDelete), Is.EqualTo(expectedDelete));
+            Assert.That(Regex.Escape(actualDelete), Is.EqualTo(expectedDelete));
         }
     }
 }
