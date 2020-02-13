@@ -36,17 +36,17 @@ namespace Dvl_Sql.Extensions
 
         public static DvlSqlSelectExpression SelectExp(DvlSqlFromExpression fromExp, int? topNum = null,
             bool isRoot = false) =>
-            new DvlSqlSelectExpression(fromExp, topNum).WithRoot(isRoot);
+            new DvlSqlSelectExpression(fromExp, topNum);//.WithRoot(isRoot);
 
         public static DvlSqlFromExpression FromExp(string tableName, bool withNoLock = false) =>
             new DvlSqlFromExpression(tableName, withNoLock);
 
         public static DvlSqlSelectExpression SelectExp(DvlSqlFromExpression fromExp, params string[] paramNames) =>
-            new DvlSqlSelectExpression(fromExp, paramNames).WithRoot(false);
+            new DvlSqlSelectExpression(fromExp, paramNames);//.WithRoot(false);
 
         public static DvlSqlSelectExpression SelectTopExp(DvlSqlFromExpression fromExp, int topNum,
             params string[] paramNames) =>
-            new DvlSqlSelectExpression(fromExp, paramNames, topNum).WithRoot(false);
+            new DvlSqlSelectExpression(fromExp, paramNames, topNum);//.WithRoot(false);
 
         public static DvlSqlLikeExpression LikeExp(string field, string pattern) =>
             new DvlSqlLikeExpression(field, pattern);

@@ -5,10 +5,10 @@ using NUnit.Framework;
 using static Dvl_Sql.Extensions.Expressions;
 using static Dvl_Sql.Extensions.SqlType;
 
-namespace Dvl_Sql.Tests
+namespace Dvl_Sql.Tests.Select
 {
     [TestFixture]
-    public class DvlSqlSelectTester
+    public class ComplexSelects
     {
         private readonly IDvlSql _sql1 =
             IDvlSql.DefaultDvlSql(
@@ -142,55 +142,6 @@ namespace Dvl_Sql.Tests
                     Assert.That(Regex.Escape(actualSelect1),Is.EqualTo(expectedSelect1));
                     Assert.That(Regex.Escape(actualSelect2),Is.EqualTo(expectedSelect2));
                 });
-        }
-
-        [Test]
-        public void Select_With_Union()
-        {
-            var actualSelect = this._sql2
-                .From("dbo.Words")
-                .Where(!IsNullExp(ConstantExp("Date")))
-                .SelectTop(1, "Amount", "Date")
-                .Union()
-                .From("dbo.Sentences")
-                .Select()
-                .ToString();
-
-            string expectedSelect = Regex.Escape(string.Format(
-                "SELECT TOP 1 Amount, Date FROM dbo.Words{0}" +
-                "WHERE Date IS NOT NULL{0}" +
-                "UNION{0}" +
-                "SELECT * FROM dbo.Sentences",
-                Environment.NewLine));
-            
-            Assert.That(Regex.Escape(actualSelect),Is.EqualTo(expectedSelect));
-        }
-        
-        [Test]
-        public void Select_With_UnionAll()
-        {
-            var actualSelect = this._sql2
-                .From("dbo.Words")
-                .Where(!IsNullExp(ConstantExp("Date")))
-                .SelectTop(1, "Amount", "Date")
-                .Union()
-                .From("dbo.Sentences")
-                .Select()
-                .UnionAll()
-                .From("dbo.Sentences")
-                .Select()
-                .ToString();
-
-            string expectedSelect = Regex.Escape(string.Format(
-                "SELECT TOP 1 Amount, Date FROM dbo.Words{0}" +
-                "WHERE Date IS NOT NULL{0}" +
-                "UNION{0}" + 
-                "SELECT * FROM dbo.Sentences{0}" + 
-                "UNION ALL{0}" +
-                "SELECT * FROM dbo.Sentences",
-                Environment.NewLine));
-
-            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
         }
         
     }

@@ -156,6 +156,9 @@ namespace Dvl_Sql.Concrete
 
         public void Visit(DvlSqlFullSelectExpression expression)
         {
+            if (expression.SelectExpression == null)
+                throw new ArgumentNullException("SelectExpression", "expression has no Select Expression");
+            
             expression.SelectExpression.Accept(this);
             foreach (var joinExpression in expression.JoinExpressions)
                 joinExpression.Accept(this);
