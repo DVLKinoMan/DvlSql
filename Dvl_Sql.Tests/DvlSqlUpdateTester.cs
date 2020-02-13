@@ -18,7 +18,6 @@ namespace Dvl_Sql.Tests
         {
             var actualUpdate = this._sql.Update("dbo.Words")
                 .Set(Money("money", new decimal(2.11)))
-                // .ExecuteAsync().Result;
                 .ToString();
 
             string expectedUpdate = Regex.Escape(
@@ -34,13 +33,12 @@ namespace Dvl_Sql.Tests
                 .Set(Money("money", new decimal(3.11)))
                 .Where(ConstantExp("Amount") == ConstantExp("@amount"),
                     Param("@amount", Decimal(new decimal(42))))
-                // .ExecuteAsync().Result;
                 .ToString();
             
             string expectedUpdate = Regex.Escape(
                 string.Format("UPDATE dbo.Words{0}" + 
                               "SET @money = @money{0}" +
-                              "WHERE Amount = @amount ",
+                              "WHERE Amount = @amount",
                     Environment.NewLine));
 
             Assert.That(Regex.Escape(actualUpdate), Is.EqualTo(expectedUpdate));
@@ -58,13 +56,12 @@ namespace Dvl_Sql.Tests
                 .Set(DateTime("Date", System.DateTime.Now))
                 .Where(ConstantExp("Amount") == ConstantExp("@amount"),
                     Param("@amount", Decimal(new decimal(42))))
-                // .ExecuteAsync().Result;
                 .ToString();
             
             string expectedUpdate = Regex.Escape(
                 string.Format("UPDATE dbo.Words{0}" +
                               "SET @money = @money, @isSome = @isSome, @floatNumber = @floatNumber, @bigint = @bigint, @xml = @xml, @Date = @Date{0}" +
-                              "WHERE Amount = @amount ", 
+                              "WHERE Amount = @amount", 
                     Environment.NewLine));
 
             Assert.That(Regex.Escape(actualUpdate), Is.EqualTo(expectedUpdate));

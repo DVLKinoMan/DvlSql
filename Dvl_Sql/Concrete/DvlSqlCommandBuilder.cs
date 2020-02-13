@@ -16,17 +16,15 @@ namespace Dvl_Sql.Concrete
 
         public void Visit(DvlSqlFromExpression expression)
         {
-            this._command.TrimEnd(true);
-            this._command.Append($"FROM {expression.TableName} ");
+            this._command.Append($"FROM {expression.TableName}");
             if (expression.WithNoLock)
-                this._command.Append("WITH(NOLOCK) ");
+                this._command.Append(" WITH(NOLOCK)");
         }
 
         public void Visit(DvlSqlSelectExpression expression)
         {
-            this._command.TrimEnd();
-            this._command.Append(expression.IsRoot ? $"{Environment.NewLine}SELECT " : " SELECT ");
-
+            this._command.Append("SELECT ");
+            
             if (expression.Top != null)
                 this._command.Append($"TOP {expression.Top} ");
 
@@ -58,7 +56,6 @@ namespace Dvl_Sql.Concrete
             if (expression.InnerExpression is DvlSqlAndExpression andExp && !andExp.InnerExpressions.Any())
                 return;
 
-            this._command.TrimEnd();
             this._command.Append(expression.IsRoot ? $"{Environment.NewLine}WHERE " : " WHERE ");
 
             expression.InnerExpression.Accept(this);
@@ -77,14 +74,12 @@ namespace Dvl_Sql.Concrete
                 _=>throw new NotImplementedException("JoinExpression not implemented")
             };
 
-            this._command.TrimEnd();
             this._command.Append(expression.IsRoot ? $"{Environment.NewLine}{joinCommand} {expression.TableName} ON " : $" {joinCommand} {expression.TableName} ON ");
             expression.ComparisonExpression.Accept(this);
         }
 
         public void Visit(DvlSqlOrderByExpression expression)
         {
-            this._command.TrimEnd();
             this._command.Append(expression.IsRoot ? $"{Environment.NewLine}ORDER BY " : " ORDER BY ");
             foreach (var (column, ordering) in expression.Params)
                 this._command.Append($"{column} {ordering}, ");
@@ -95,7 +90,6 @@ namespace Dvl_Sql.Concrete
 
         public void Visit(DvlSqlGroupByExpression expression)
         {
-            this._command.TrimEnd();
             this._command.Append(expression.IsRoot ? $"{Environment.NewLine}GROUP BY " : " GROUP BY ");
 
             foreach (var parameterName in expression.ParameterNames)
@@ -113,7 +107,6 @@ namespace Dvl_Sql.Concrete
 
         public void Visit<TParam>(DvlSqlInsertIntoExpression<TParam> expression) where TParam : ITuple
         {
-            this._command.TrimEnd();
             this._command.Append(expression.IsRoot ? $"{Environment.NewLine}INSERT INTO {expression.TableName}" : $" INSERT INTO {expression.TableName}");
 
             this._command.Append(" ( ");
@@ -145,7 +138,6 @@ namespace Dvl_Sql.Concrete
 
         public void Visit(DvlSqlInsertIntoSelectExpression expression)
         {
-            this._command.TrimEnd();
             this._command.Append(expression.IsRoot ? $"{Environment.NewLine}INSERT INTO {expression.TableName}" : $" INSERT INTO {expression.TableName}");
 
             this._command.Append(" ( ");
@@ -156,9 +148,10 @@ namespace Dvl_Sql.Concrete
             if (expression.Columns.Any())
                 this._command.Remove(this._command.Length - 2, 2);
 
-            this._command.Append(" )");
+            this._command.Append(" ) ");
 
             expression.SelectExpression?.Accept(this);
+            this._command.TrimEnd();
         }
 
         public void Visit(DvlSqlFullSelectExpression expression)
@@ -194,7 +187,6 @@ namespace Dvl_Sql.Concrete
             foreach (var (selectExpression, type) in expression)
             {
                 selectExpression.Accept(this);
-                this._command.TrimEnd();
                 if (type != null)
                     this._command.AppendLine($"{Environment.NewLine}{(type == UnionType.Union ? "UNION" : "UNION ALL")}");
             }
@@ -204,8 +196,7 @@ namespace Dvl_Sql.Concrete
 
         public void Visit(DvlSqlInExpression expression)
         {
-            this._command.TrimEnd(true);
-            this._command.Append($"{expression.ParameterName}{(expression.Not ? " NOT" : "")} IN (");
+            this._command.Append($"{expression.ParameterName}{(expression.Not ? " NOT" : "")} IN ( ");
 
             bool isEmpty = true;
 
@@ -219,7 +210,7 @@ namespace Dvl_Sql.Concrete
             if (!isEmpty)
                 this._command.Remove(this._command.Length - 2, 2);
 
-            this._command.Append(")");
+            this._command.Append(" )");
         }
 
         public void Visit(DvlSqlOrExpression expression)
@@ -229,7 +220,6 @@ namespace Dvl_Sql.Concrete
             foreach (var innerExpression in expression.InnerExpressions)
             {
                 innerExpression.Accept(this);
-                this._command.TrimEnd();
                 this._command.Append(op);
             }
 
@@ -243,7 +233,6 @@ namespace Dvl_Sql.Concrete
             foreach (var innerExpression in expression.InnerExpressions)
             {
                 innerExpression.Accept(this);
-                this._command.TrimEnd();
                 this._command.Append(op);
             }
 
@@ -270,7 +259,6 @@ namespace Dvl_Sql.Concrete
                 });
 
             expression.RightExpression.Accept(this);
-            this._command.Append(" ");
 
             static SqlComparisonOperator GetNotExp(SqlComparisonOperator op) => op switch
             {
@@ -295,15 +283,14 @@ namespace Dvl_Sql.Concrete
 
         public void Visit(DvlSqlLikeExpression expression)
         {
-            this._command.TrimEnd(true);
             string likeStr = expression.Not ? "NOT LIKE" : "LIKE";
-            this._command.Append($"{expression.Field} {likeStr} '{expression.Pattern}' ");
+            this._command.Append($"{expression.Field} {likeStr} '{expression.Pattern}'");
         }
 
         public void Visit(DvlSqlIsNullExpression expression)
         {
             expression.Expression.Accept(this);
-            this._command.Append(expression.Not ? " IS NOT NULL " : " IS NULL ");
+            this._command.Append(expression.Not ? " IS NOT NULL" : " IS NULL");
         }
 
         #endregion

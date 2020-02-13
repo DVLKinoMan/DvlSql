@@ -21,12 +21,11 @@ namespace Dvl_Sql.Tests
                     Params(
                         Param("@text", NVarCharMax("New Text"))
                     ))
-                // .ExecuteAsync().Result;
                 .ToString();
             
             string expectedDelete = Regex.Escape(
                 $"DELETE FROM dbo.Words{Environment.NewLine}" +
-                $"WHERE Text = @text ");
+                $"WHERE Text = @text");
 
             Assert.That(Regex.Escape(actualDelete), Is.EqualTo(expectedDelete));
         }
@@ -35,11 +34,10 @@ namespace Dvl_Sql.Tests
         public void TestMethod2()
         {
             var actualDelete = this._sql.DeleteFrom("dbo.Words")
-                // .ExecuteAsync().Result;
                 .ToString();
             
             string expectedDelete = Regex.Escape(
-                @"DELETE FROM dbo.Words ");
+                @"DELETE FROM dbo.Words");
 
             Assert.That(Regex.Escape(actualDelete), Is.EqualTo(expectedDelete));
         }

@@ -37,7 +37,7 @@ namespace Dvl_Sql.Tests
                 .ToString();
 
             string expectedSelect = Regex.Escape(
-                string.Format("{0}SELECT B1.AMOUNT, COUNT(*) AS [CountExp] FROM nbe.BANK_DATA AS B1 WITH(NOLOCK){0}" +
+                string.Format("SELECT B1.AMOUNT, COUNT(*) AS [CountExp] FROM nbe.BANK_DATA AS B1 WITH(NOLOCK){0}" +
                               "INNER JOIN  nbe.BANK_DATA AS B2 ON B1.REC_ID = B2.REC_ID{0}" +
                               "WHERE B1.AMOUNT < 35000 AND B1.REC_ID NOT IN ( SELECT TOP 4 REC_ID FROM nbe.BANK_DATA ) AND B1.RESTRICT_CODE NOT LIKE '%dd%' AND B1.ADD_DATE > @date{0}" +
                               "GROUP BY B1.AMOUNT{0}" +
@@ -57,10 +57,8 @@ namespace Dvl_Sql.Tests
                 .SelectTop(1)
                 .OrderByDescending("Amount")
                 .ToString();
-            // .FirstOrDefaultAsync(r => (int) r["Amount"])
-            // .Result;
 
-            string expectedSelect = Regex.Escape(string.Format("{0}SELECT TOP 1 * FROM dbo.Words{0}" +
+            string expectedSelect = Regex.Escape(string.Format("SELECT TOP 1 * FROM dbo.Words{0}" +
                                                                              "WHERE Date IS NULL{0}" +
                                                                              "ORDER BY Amount DESC", 
                 Environment.NewLine));
@@ -77,10 +75,8 @@ namespace Dvl_Sql.Tests
                 .SelectTop(1, "Amount")
                 .OrderByDescending("Amount")
                 .ToString();
-            // .FirstAsync(r => (int)r["Amount"])
-            // .Result;
             
-            string expectedSelect = Regex.Escape(string.Format("{0}SELECT TOP 1 Amount FROM dbo.Words{0}" +
+            string expectedSelect = Regex.Escape(string.Format("SELECT TOP 1 Amount FROM dbo.Words{0}" +
                                                                              "WHERE Date IS NULL{0}" +
                                                                              "ORDER BY Amount DESC", 
                 Environment.NewLine));
@@ -97,9 +93,8 @@ namespace Dvl_Sql.Tests
                 .SelectTop(1, "Amount", "Date")
                 .OrderByDescending("Amount")
                 .ToString();
-            // .FirstAsync(r => new {amount = (int) r["Amount"], date = (DateTime) r["Date"]});
 
-            string expectedSelect = Regex.Escape(string.Format("{0}SELECT TOP 1 Amount, Date FROM dbo.Words{0}" +
+            string expectedSelect = Regex.Escape(string.Format("SELECT TOP 1 Amount, Date FROM dbo.Words{0}" +
                                                                              "WHERE Date IS NOT NULL{0}" +
                                                                              "ORDER BY Amount DESC", 
                 Environment.NewLine));
@@ -122,30 +117,20 @@ namespace Dvl_Sql.Tests
                 );
 
             var actualSelect1 = where.Select()
-                //     .ToListAsync(r => new
-                // {
-                //     Amount = (decimal) r["AMOUNT"],
-                //     Count = (DateTime) r["ADD_DATE"]
-                // }).Result;
                 .ToString();
 
             var actualSelect2 = where.SelectTop(11)
                 .OrderByDescending("B1.AMOUNT")
-                // .ToListAsync(r => new
-                // {
-                //     Amount = (decimal) r["AMOUNT"],
-                //     Count = (DateTime) r["ADD_DATE"]
-                // }).Result;
                 .ToString();
 
             string expectedSelect1 = Regex.Escape(string.Format(
-                "{0}SELECT * FROM nbe.BANK_DATA AS B1 WITH(NOLOCK){0}" +
+                "SELECT * FROM nbe.BANK_DATA AS B1 WITH(NOLOCK){0}" +
                 "INNER JOIN  nbe.BANK_DATA AS B2 ON B1.REC_ID = B2.REC_ID{0}" +
                 "WHERE B1.AMOUNT < 35000 AND B1.REC_ID NOT IN ( SELECT TOP 4 REC_ID FROM nbe.BANK_DATA ) AND B1.RESTRICT_CODE NOT LIKE '%dd%' AND B1.ADD_DATE > @date",
                 Environment.NewLine));
 
             string expectedSelect2 = Regex.Escape(string.Format(
-                "{0}SELECT TOP 11 * FROM nbe.BANK_DATA AS B1 WITH(NOLOCK){0}" +
+                "SELECT TOP 11 * FROM nbe.BANK_DATA AS B1 WITH(NOLOCK){0}" +
                 "INNER JOIN  nbe.BANK_DATA AS B2 ON B1.REC_ID = B2.REC_ID{0}" +
                 "WHERE B1.AMOUNT < 35000 AND B1.REC_ID NOT IN ( SELECT TOP 4 REC_ID FROM nbe.BANK_DATA ) AND B1.RESTRICT_CODE NOT LIKE '%dd%' AND B1.ADD_DATE > @date{0}" +
                 "ORDER BY B1.AMOUNT DESC",
@@ -170,10 +155,12 @@ namespace Dvl_Sql.Tests
                 .From("dbo.Sentences")
                 .Select()
                 .ToString();
-            // .FirstAsync(r => new {amount = (int) r["Amount"], date = (DateTime) r["Date"]});
 
             string expectedSelect = Regex.Escape(string.Format(
-                "{0}SELECT TOP 1 Amount, Date FROM dbo.Words{0}WHERE Date IS NOT NULL{0}UNION{0}SELECT * FROM dbo.Sentences",
+                "SELECT TOP 1 Amount, Date FROM dbo.Words{0}" +
+                "WHERE Date IS NOT NULL{0}" +
+                "UNION{0}" +
+                "SELECT * FROM dbo.Sentences",
                 Environment.NewLine));
             
             Assert.That(Regex.Escape(actualSelect),Is.EqualTo(expectedSelect));
@@ -193,13 +180,18 @@ namespace Dvl_Sql.Tests
                 .From("dbo.Sentences")
                 .Select()
                 .ToString();
-            // .FirstAsync(r => new {amount = (int) r["Amount"], date = (DateTime) r["Date"]});
 
             string expectedSelect = Regex.Escape(string.Format(
-                "{0}SELECT TOP 1 Amount, Date FROM dbo.Words{0}WHERE Date IS NOT NULL{0}UNION{0}SELECT * FROM dbo.Sentences{0}UNION ALL{0}SELECT * FROM dbo.Sentences",
+                "SELECT TOP 1 Amount, Date FROM dbo.Words{0}" +
+                "WHERE Date IS NOT NULL{0}" +
+                "UNION{0}" + 
+                "SELECT * FROM dbo.Sentences{0}" + 
+                "UNION ALL{0}" +
+                "SELECT * FROM dbo.Sentences",
                 Environment.NewLine));
 
             Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
         }
+        
     }
 }
