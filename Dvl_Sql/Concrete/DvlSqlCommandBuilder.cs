@@ -67,10 +67,10 @@ namespace Dvl_Sql.Concrete
         {
             string joinCommand = expression switch
             {
-                DvlSqlFullJoinExpression _ => "FULL OUTER JOIN ",
-                DvlSqlInnerJoinExpression _ => "INNER JOIN ",
-                DvlSqlLeftJoinExpression _ => "LEFT OUTER JOIN ",
-                DvlSqlRightJoinExpression _ => "RIGHT OUTER JOIN ",
+                DvlSqlFullJoinExpression _ => "FULL OUTER JOIN",
+                DvlSqlInnerJoinExpression _ => "INNER JOIN",
+                DvlSqlLeftJoinExpression _ => "LEFT OUTER JOIN",
+                DvlSqlRightJoinExpression _ => "RIGHT OUTER JOIN",
                 _=>throw new NotImplementedException("JoinExpression not implemented")
             };
 

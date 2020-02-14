@@ -12,12 +12,11 @@ namespace Dvl_Sql.Tests.Select
             IDvlSql.DefaultDvlSql(
                 "test");
 
-        private string TableName = "dbo.Words";
-        
         [Test]
-        public void WithoutSelect()
+        [TestCase("dbo.Words")]
+        public void WithoutSelect(string tableName)
         {
-            var from = this._sql.From(TableName);
+            var from = this._sql.From(tableName);
 
             Assert.Throws(typeof(ArgumentNullException), () =>
             {
@@ -26,17 +25,18 @@ namespace Dvl_Sql.Tests.Select
         }
 
         [Test]
-        public void WithoutNoLock()
+        [TestCase("dbo.Words")]
+        public void WithoutNoLock(string tableName)
         {
-            var actualSelect1 = this._sql.From(TableName)
+            var actualSelect1 = this._sql.From(tableName)
                 .Select()
                 .ToString();
             
-            var actualSelect2 = this._sql.From(TableName, false)
+            var actualSelect2 = this._sql.From(tableName, false)
                 .Select()
                 .ToString();
 
-            var expectedSelect = Regex.Escape($"SELECT * FROM {TableName}");
+            var expectedSelect = Regex.Escape($"SELECT * FROM {tableName}");
             Assert.Multiple(() =>
             {
                 Assert.That(Regex.Escape(actualSelect1), Is.EqualTo(expectedSelect));
@@ -45,13 +45,14 @@ namespace Dvl_Sql.Tests.Select
         }
 
         [Test]
-        public void WithNoLock()
+        [TestCase("dbo.Words")]
+        public void WithNoLock(string tableName)
         {
-            var actualSelect = this._sql.From(TableName, true)
+            var actualSelect = this._sql.From(tableName, true)
                 .Select()
                 .ToString();
 
-            var expectedSelect = Regex.Escape($"SELECT * FROM {TableName} WITH(NOLOCK)");
+            var expectedSelect = Regex.Escape($"SELECT * FROM {tableName} WITH(NOLOCK)");
             Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
         }
     }

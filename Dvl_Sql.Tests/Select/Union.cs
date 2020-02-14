@@ -13,11 +13,9 @@ namespace Dvl_Sql.Tests.Select
                 "test");
 
         [Test]
-        public void Select_With_Union()
+        [TestCase("dbo.Words", "dbo.Sentences")]
+        public void Select_With_Union(string table1, string table2)
         {
-            string table1 = "dbo.Words";
-            string table2 = "dbo.Sentences";
-
             var actualSelect = this._sql
                 .From(table1)
                 .Select()
@@ -38,11 +36,9 @@ namespace Dvl_Sql.Tests.Select
         }
 
         [Test]
-        public void Select_With_UnionAll()
+        [TestCase("dbo.Words", "dbo.Sentences")]
+        public void Select_With_UnionAll(string table1, string table2)
         {
-            string table1 = "dbo.Words";
-            string table2 = "dbo.Sentences";
-
             var actualSelect = this._sql
                 .From(table1)
                 .Select()
@@ -64,11 +60,9 @@ namespace Dvl_Sql.Tests.Select
 
 
         [Test]
-        public void Select_With_UnionAndUnionAllCombinations()
+        [TestCase("dbo.Words", "dbo.Sentences")]
+        public void Select_With_UnionAndUnionAllCombinations(string table1, string table2)
         {
-            string table1 = "dbo.Words";
-            string table2 = "dbo.Sentences";
-
             var select = this._sql
                 .From(table1)
                 .Select();

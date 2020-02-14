@@ -95,13 +95,13 @@ namespace Dvl_Sql.Concrete
 
         public ISelector FullJoin(string tableName, DvlSqlComparisonExpression compExpression)
         {
-            this.CurrFullSelectExpression.JoinExpressions.Add(new DvlSqlInnerJoinExpression(tableName, compExpression));
+            this.CurrFullSelectExpression.JoinExpressions.Add(new DvlSqlFullJoinExpression(tableName, compExpression));
             return this;
         }
 
         public ISelector FullJoin(string tableName, string firstTableMatchingCol, string secondTableMatchingCol)
         {
-            this.CurrFullSelectExpression.JoinExpressions.Add(new DvlSqlInnerJoinExpression(tableName,
+            this.CurrFullSelectExpression.JoinExpressions.Add(new DvlSqlFullJoinExpression(tableName,
                 new DvlSqlConstantExpression<string>(firstTableMatchingCol) == new DvlSqlConstantExpression<string>(secondTableMatchingCol)));
             return this;
         }
