@@ -37,6 +37,8 @@ namespace Dvl_Sql.Concrete
             bool isEmpty = true;
             foreach (var parameterName in expression.ParameterNames)
             {
+                if(string.IsNullOrEmpty(parameterName))
+                    throw new ArgumentException("One of the parameters was null or empty","DvlSqlSelectExpression.ParameterNames");
                 isEmpty = false;
                 this._command.Append($"{parameterName}, ");
             }
