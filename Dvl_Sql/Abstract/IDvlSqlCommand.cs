@@ -10,7 +10,7 @@ namespace Dvl_Sql.Abstract
     {
         Task<int> ExecuteNonQueryAsync(int? timeout = default, CancellationToken cancellationToken = default);
 
-        Task<TResult> ExecuteReaderAsync<TResult>(Func<SqlDataReader, TResult> converterFunc, int? timeout = default,
+        Task<TResult> ExecuteReaderAsync<TResult>(Func<IDataReader, TResult> converterFunc, int? timeout = default,
             CommandBehavior behavior = CommandBehavior.Default, CancellationToken cancellationToken = default);
 
         Task<TResult> ExecuteScalarAsync<TResult>(Func<object, TResult> converterFunc, int? timeout = default, CancellationToken cancellationToken = default);

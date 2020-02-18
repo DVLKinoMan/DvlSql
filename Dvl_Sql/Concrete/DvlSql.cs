@@ -11,8 +11,12 @@ namespace Dvl_Sql.Concrete
     {
         private readonly IDvlSqlConnection _dvlSqlConnection;
 
-        public DvlSql(string connectionString) => this._dvlSqlConnection = new DvlSqlConnection(connectionString);
+        public DvlSql(string connectionString) => 
+            this._dvlSqlConnection = new DvlSqlConnection(connectionString);
 
+        public DvlSql(IDvlSqlConnection connection) =>
+            this._dvlSqlConnection = connection;
+        
         public ISelector From(string tableName, bool withNoLock = false)
         {
             var fromExpression = new DvlSqlFromExpression(tableName, withNoLock);

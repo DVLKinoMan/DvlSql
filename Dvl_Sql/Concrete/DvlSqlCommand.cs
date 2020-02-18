@@ -30,7 +30,7 @@ namespace Dvl_Sql.Concrete
             return await this._sqlCommand.ExecuteNonQueryAsync(cancellationToken);
         }
 
-        public async Task<TResult> ExecuteReaderAsync<TResult>(Func<SqlDataReader, TResult> converterFunc,
+        public async Task<TResult> ExecuteReaderAsync<TResult>(Func<IDataReader, TResult> converterFunc,
             int? timeout = default,
             CommandBehavior behavior = CommandBehavior.Default, CancellationToken cancellationToken = default)
         {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,7 +21,7 @@ namespace Dvl_Sql.Concrete
 
         public IOrderExecutable OrderByDescending(params string[] fields) => this._selector.OrderByDescending(this, fields);
 
-        public async Task<List<TResult>> ToListAsync<TResult>(Func<SqlDataReader, TResult> selectorFunc,
+        public async Task<List<TResult>> ToListAsync<TResult>(Func<IDataReader, TResult> selectorFunc,
             int? timeout = default,
             CommandBehavior behavior = CommandBehavior.Default, CancellationToken cancellationToken = default) =>
             await this._connection.ConnectAsync(
@@ -38,8 +37,8 @@ namespace Dvl_Sql.Concrete
                 parameters: this._selector.GetDvlSqlParameters()?.Select(dvlSql => dvlSql.SqlParameter).ToArray());
 
         public async Task<Dictionary<TKey, List<TValue>>> ToDictionaryAsync<TKey, TValue>(
-            Func<SqlDataReader, TKey> keySelector,
-            Func<SqlDataReader, TValue> valueSelector,
+            Func<IDataReader, TKey> keySelector,
+            Func<IDataReader, TValue> valueSelector,
             int? timeout = default,
             CommandBehavior behavior = CommandBehavior.Default, CancellationToken cancellationToken = default) =>
             await this._connection.ConnectAsync(
@@ -53,7 +52,7 @@ namespace Dvl_Sql.Concrete
             await FirstAsync(reader => reader[0] is TResult res ? res : throw new ArgumentException("TResult"),
                 timeout, cancellationToken);
 
-        public async Task<TResult> FirstAsync<TResult>(Func<SqlDataReader, TResult> readerFunc, int? timeout = default,
+        public async Task<TResult> FirstAsync<TResult>(Func<IDataReader, TResult> readerFunc, int? timeout = default,
             CancellationToken cancellationToken = default) =>
             await this._connection.ConnectAsync(
                 dvlCommand =>
@@ -67,7 +66,7 @@ namespace Dvl_Sql.Concrete
                 reader => reader[0] is TResult res ? res : throw new ArgumentException("TResult"), timeout,
                 cancellationToken);
 
-        public async Task<TResult> FirstOrDefaultAsync<TResult>(Func<SqlDataReader, TResult> readerFunc,
+        public async Task<TResult> FirstOrDefaultAsync<TResult>(Func<IDataReader, TResult> readerFunc,
             int? timeout = default, CancellationToken cancellationToken = default) =>
             await this._connection.ConnectAsync(
                 dvlCommand =>
@@ -80,7 +79,7 @@ namespace Dvl_Sql.Concrete
             await SingleAsync(reader => reader[0] is TResult res ? res : throw new ArgumentException("TResult"),
                 timeout, cancellationToken);
 
-        public async Task<TResult> SingleAsync<TResult>(Func<SqlDataReader, TResult> readerFunc, int? timeout = null,
+        public async Task<TResult> SingleAsync<TResult>(Func<IDataReader, TResult> readerFunc, int? timeout = null,
             CancellationToken cancellationToken = default) =>
             await this._connection.ConnectAsync(
                 dvlCommand =>
@@ -94,7 +93,7 @@ namespace Dvl_Sql.Concrete
                 reader => reader[0] is TResult res ? res : throw new ArgumentException("TResult"), timeout,
                 cancellationToken);
 
-        public async Task<TResult> SingleOrDefaultAsync<TResult>(Func<SqlDataReader, TResult> readerFunc,
+        public async Task<TResult> SingleOrDefaultAsync<TResult>(Func<IDataReader, TResult> readerFunc,
             int? timeout = null, CancellationToken cancellationToken = default) =>
             await this._connection.ConnectAsync(
                 dvlCommand =>

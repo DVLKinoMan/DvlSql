@@ -29,7 +29,7 @@ namespace Dvl_Sql.Concrete
                 CommandType.StoredProcedure,
                 parameters: this._parameters.Select(param => param.SqlParameter).ToArray());
 
-        public async Task<TResult> ExecuteAsync<TResult>(Func<SqlDataReader, TResult> reader,
+        public async Task<TResult> ExecuteAsync<TResult>(Func<IDataReader, TResult> reader,
             int? timeout = default,
             CommandBehavior behavior = CommandBehavior.Default, CancellationToken cancellationToken = default) =>
             await this._dvlSqlConnection.ConnectAsync(

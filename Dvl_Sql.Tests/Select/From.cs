@@ -18,10 +18,9 @@ namespace Dvl_Sql.Tests.Select
         {
             var from = this._sql.From(tableName);
 
-            Assert.Throws(typeof(ArgumentNullException), () =>
-            {
-                var s = @from.ToString();
-            });
+            Assert.Throws<ArgumentNullException>(() =>
+                @from.ToString()
+            );
         }
 
         [Test]

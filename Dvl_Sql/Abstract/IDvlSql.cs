@@ -81,5 +81,7 @@ namespace Dvl_Sql.Abstract
         IUpdateSetable Update(string tableName);
 
         public static IDvlSql DefaultDvlSql(string connectionString) => new DvlSql(connectionString);
+        
+        public static IDvlSql DefaultDvlSql(IDvlSqlConnection connection) => new DvlSql(connection);
     }
 }

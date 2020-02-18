@@ -11,7 +11,7 @@ namespace Dvl_Sql.Abstract
         Task<int> ExecuteAsync(int? timeout = default,
             CommandBehavior behavior = CommandBehavior.Default, CancellationToken cancellationToken = default);
 
-        Task<TResult> ExecuteAsync<TResult>(Func<SqlDataReader, TResult> reader,
+        Task<TResult> ExecuteAsync<TResult>(Func<IDataReader, TResult> reader,
             int? timeout = default,
             CommandBehavior behavior = CommandBehavior.Default, CancellationToken cancellationToken = default);
     }
