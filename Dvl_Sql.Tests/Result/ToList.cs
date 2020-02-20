@@ -4,6 +4,7 @@ using System.Data;
 using Dvl_Sql.Abstract;
 using Dvl_Sql.Tests.Classes;
 using NUnit.Framework;
+
 using static Dvl_Sql.Tests.Result.Helpers;
 
 namespace Dvl_Sql.Tests.Result
@@ -11,13 +12,31 @@ namespace Dvl_Sql.Tests.Result
     [TestFixture]
     public class ToList
     {
-        private readonly IDvlSql _sql =
-            IDvlSql.DefaultDvlSql(
-                "test");
-
         private string TableName = "dbo.Words";
 
-        private static readonly object[] ParametersForToList =
+        #region Parameters
+
+        private static readonly object[] ParametersWithoutFunc =
+            new[]
+            {
+                new object[]
+                {
+                    new List<int>() {1, 2, 3}, new List<int>() {1, 2, 3}
+                },
+                new object[]
+                {
+                    new List<string>() {"David", "Lasha", "SomeGuy"}, new List<string>() {"David", "Lasha", "SomeGuy"}
+                },
+                new object[]
+                {
+                    new List<SomeClass>()
+                        {new SomeClass(1, "David"), new SomeClass(2, "Lasha"), new SomeClass(3, "SomeGuy")},
+                    new List<SomeClass>()
+                        {new SomeClass(1, "David"), new SomeClass(2, "Lasha"), new SomeClass(3, "SomeGuy")}
+                }
+            };
+
+        private static readonly object[] ParametersWithFunc =
             new[]
             {
                 new object[]
@@ -45,8 +64,10 @@ namespace Dvl_Sql.Tests.Result
                 }
             };
 
+        #endregion
+
         [Test]
-        [TestCaseSource(nameof(ParametersForToList))]
+        [TestCaseSource(nameof(ParametersWithFunc))]
         public void TestToListWithFunc<T>(Func<IDataReader, T> func, List<T> data, List<T> expected)
         {
             var readerMoq = CreateDataReaderMock(data);
@@ -57,6 +78,23 @@ namespace Dvl_Sql.Tests.Result
                 .From(TableName)
                 .Select()
                 .ToListAsync(func)
+                .Result;
+
+            Assert.That(list, Is.EquivalentTo(expected));
+        }
+
+        [Test]
+        [TestCaseSource(nameof(ParametersWithoutFunc))]
+        public void TestToListWithoutFunc<T>(List<T> data, List<T> expected)
+        {
+            var readerMoq = CreateDataReaderMock(data);
+            var commandMoq = CreateSqlCommandMock<List<T>>(readerMoq);
+            var moq = CreateConnectionMock<List<T>>(commandMoq);
+
+            var list = IDvlSql.DefaultDvlSql(moq.Object)
+                .From(TableName)
+                .Select()
+                .ToListAsync<T>()
                 .Result;
 
             Assert.That(list, Is.EquivalentTo(expected));
