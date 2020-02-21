@@ -14,14 +14,14 @@ namespace Dvl_Sql.Tests.Result
         public static Mock<IDataReader> CreateDataReaderMock<T>(IList<T> list)
         {
             var readerMoq = new Mock<IDataReader>();
-            int index = 0;
+            int index = -1;
 
             readerMoq.Setup(reader => reader.Read())
+                .Callback(() => { index++; })
                 .Returns(() => index < list.Count);
-            // .Callback(() => { index++; });
 
             readerMoq.Setup(reader => reader[0])
-                .Returns(() => list[index++]);
+                .Returns(() => list[index]);
 
             return readerMoq;
         }
