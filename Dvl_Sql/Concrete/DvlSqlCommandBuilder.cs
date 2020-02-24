@@ -114,7 +114,7 @@ namespace Dvl_Sql.Concrete
 
         public void Visit<TParam>(DvlSqlInsertIntoExpression<TParam> expression) where TParam : ITuple
         {
-            this._command.Append(expression.IsRoot ? $"{Environment.NewLine}INSERT INTO {expression.TableName}" : $" INSERT INTO {expression.TableName}");
+            this._command.Append($"INSERT INTO {expression.TableName}");
 
             this._command.Append(" ( ");
 
@@ -145,7 +145,7 @@ namespace Dvl_Sql.Concrete
 
         public void Visit(DvlSqlInsertIntoSelectExpression expression)
         {
-            this._command.Append(expression.IsRoot ? $"{Environment.NewLine}INSERT INTO {expression.TableName}" : $" INSERT INTO {expression.TableName}");
+            this._command.Append($"INSERT INTO {expression.TableName}");
 
             this._command.Append(" ( ");
 

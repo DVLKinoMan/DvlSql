@@ -2,13 +2,14 @@
 using System.Text.RegularExpressions;
 using Dvl_Sql.Abstract;
 using NUnit.Framework;
+
 using static Dvl_Sql.Extensions.Expressions;
 using static Dvl_Sql.Extensions.SqlType;
 
-namespace Dvl_Sql.Tests
+namespace Dvl_Sql.Tests.Update
 {
     [TestFixture]
-    public class DvlSqlUpdateTester
+    public class Update
     {
         private readonly IDvlSql _sql =
             IDvlSql.DefaultDvlSql(@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1");
