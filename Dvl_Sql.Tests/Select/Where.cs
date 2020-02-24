@@ -17,7 +17,7 @@ namespace Dvl_Sql.Tests.Select
 
         [Test]
         [TestCase("Chars", 1)]
-        public void WhereWithIntConstantExpression(string colName, int value)
+        public void WithIntConstantExpression(string colName, int value)
         {
             var actualSelect = this._sql.From(TableName)
                 .Where(ConstantExp(colName) == ConstantExp(value))
@@ -34,7 +34,7 @@ namespace Dvl_Sql.Tests.Select
         
         [Test]
         [TestCase("Text","David")]
-        public void WhereWithStringConstantExpression(string colName, string value)
+        public void WithStringConstantExpression(string colName, string value)
         {
             var actualSelect = this._sql.From(TableName)
                 .Where(ConstantExp(colName) == ConstantExp(value))
@@ -51,7 +51,7 @@ namespace Dvl_Sql.Tests.Select
         
         [Test]
         [TestCase("Amount", 5.25)]
-        public void WhereWithDoubleConstantExpression(string colName, double value)
+        public void WithDoubleConstantExpression(string colName, double value)
         {
             var actualSelect = this._sql.From(TableName)
                 .Where(ConstantExp(colName) == ConstantExp(value))
@@ -67,7 +67,7 @@ namespace Dvl_Sql.Tests.Select
         }
         
         [Test]
-        public void WhereWithDateTimeConstantExpression()
+        public void WithDateTimeConstantExpression()
         {
             var dateTime = new DateTime(2019, 11, 11);
             var actualSelect = this._sql.From(TableName)
@@ -86,7 +86,7 @@ namespace Dvl_Sql.Tests.Select
         [Test]
         [TestCase("Amount", 5.25)]
         [TestCase("Number", 2.9)]
-        public void WhereWithGreaterExpression(string colName, double value)
+        public void WithGreaterExpression(string colName, double value)
         {
             var actualSelect = this._sql.From(TableName)
                 .Where(ConstantExp(colName) > ConstantExp(value))
@@ -103,7 +103,7 @@ namespace Dvl_Sql.Tests.Select
         
         [Test]
         [TestCase("text")]
-        public void WhereWithIsNullExpression(string fieldName)
+        public void WithIsNullExpression(string fieldName)
         {
             var actualSelect = this._sql.From(TableName)
                 .Where(IsNullExp(ConstantExp(fieldName)))
@@ -120,7 +120,7 @@ namespace Dvl_Sql.Tests.Select
         
         [Test]
         [TestCase("text")]
-        public void WhereWithIsNotNullExpression(string fieldName)
+        public void WithIsNotNullExpression(string fieldName)
         {
             var actualSelect1 = this._sql.From(TableName)
                 .Where(IsNotNullExp(ConstantExp(fieldName)))
@@ -146,7 +146,7 @@ namespace Dvl_Sql.Tests.Select
         
         [Test]
         [TestCase("Name","%d")]
-        public void WhereWithLikeExpression(string fieldName, string pattern)
+        public void WithLikeExpression(string fieldName, string pattern)
         {
             var actualSelect = this._sql.From(TableName)
                 .Where(LikeExp(fieldName, pattern))
@@ -163,7 +163,7 @@ namespace Dvl_Sql.Tests.Select
         
         [Test]
         [TestCase("Name","%d")]
-        public void WhereWithNotLikeExpression(string fieldName, string pattern)
+        public void WithNotLikeExpression(string fieldName, string pattern)
         {
             var actualSelect1 = this._sql.From(TableName)
                 .Where(NotLikeExp(fieldName, pattern))
@@ -190,7 +190,7 @@ namespace Dvl_Sql.Tests.Select
         
         [Test]
         [TestCase("Id")]
-        public void WhereWithInExpression(string col)
+        public void WithInExpression(string col)
         {
             var actualSelect = this._sql.From(TableName)
                 .Where(InExp(col, ConstantExp(1), ConstantExp(2), ConstantExp(3)))
@@ -207,7 +207,7 @@ namespace Dvl_Sql.Tests.Select
         
         [Test]
         [TestCase("Id", "dbo.Sentences")]
-        public void WhereWithInSelectExpression(string col, string tableName)
+        public void WithInSelectExpression(string col, string tableName)
         {
             var actualSelect = this._sql.From(TableName)
                 .Where(InExp(col, SelectExp(FromExp(tableName), col)))
@@ -217,6 +217,36 @@ namespace Dvl_Sql.Tests.Select
             var expectedSelect = Regex.Escape(
                 $"SELECT * FROM {TableName}{Environment.NewLine}" + 
                 $"WHERE {col} IN ( SELECT {col} FROM {tableName} )"
+            );
+            
+            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+        }
+        
+        [Test]
+        public void AndWithoutInnerExpressions()
+        {
+            var actualSelect = this._sql.From(TableName)
+                .Where(AndExp())
+                .Select()
+                .ToString();
+
+            var expectedSelect = Regex.Escape(
+                $"SELECT * FROM {TableName}"
+            );
+            
+            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+        }
+        
+        [Test]
+        public void OrWithoutInnerExpressions()
+        {
+            var actualSelect = this._sql.From(TableName)
+                .Where(OrExp())
+                .Select()
+                .ToString();
+
+            var expectedSelect = Regex.Escape(
+                $"SELECT * FROM {TableName}"
             );
             
             Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
@@ -257,5 +287,142 @@ namespace Dvl_Sql.Tests.Select
             
             Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
         }
+        
+        [Test]
+        [TestCase("Amount")]
+        public void NotEqualityWithConstantExpressions(string col1)
+        {
+            var actualSelect = this._sql.From(TableName)
+                .Where(!(ConstantExp(col1) == ConstantExp(5.25)))
+                .Select()
+                .ToString();
+
+            var expectedSelect = Regex.Escape(
+                $"SELECT * FROM {TableName}{Environment.NewLine}" +
+                $"WHERE {col1} <> 5.25"
+            );
+            
+            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+        }
+        
+        [Test]
+        [TestCase("Amount")]
+        public void NotLessWithConstantExpressions(string col1)
+        {
+            var actualSelect = this._sql.From(TableName)
+                .Where(!(ConstantExp(col1) < ConstantExp(5.25)))
+                .Select()
+                .ToString();
+
+            var expectedSelect = Regex.Escape(
+                $"SELECT * FROM {TableName}{Environment.NewLine}" +
+                $"WHERE {col1} >= 5.25"
+            );
+            
+            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+        }
+        
+        [Test]
+        [TestCase("Amount")]
+        public void NotGreaterWithConstantExpressions(string col1)
+        {
+            var actualSelect = this._sql.From(TableName)
+                .Where(!(ConstantExp(col1) > ConstantExp(5.25)))
+                .Select()
+                .ToString();
+
+            var expectedSelect = Regex.Escape(
+                $"SELECT * FROM {TableName}{Environment.NewLine}" +
+                $"WHERE {col1} <= 5.25"
+            );
+            
+            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+        }
+        
+        [Test]
+        [TestCase("Amount")]
+        public void NotLessOrEqualWithConstantExpressions(string col1)
+        {
+            var actualSelect = this._sql.From(TableName)
+                .Where(!(ConstantExp(col1) <= ConstantExp(5.25)))
+                .Select()
+                .ToString();
+
+            var expectedSelect = Regex.Escape(
+                $"SELECT * FROM {TableName}{Environment.NewLine}" +
+                $"WHERE {col1} > 5.25"
+            );
+            
+            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+        }
+        
+        [Test]
+        [TestCase("Amount")]
+        public void NotGreaterOrEqualWithConstantExpressions(string col1)
+        {
+            var actualSelect = this._sql.From(TableName)
+                .Where(!(ConstantExp(col1) >= ConstantExp(5.25)))
+                .Select()
+                .ToString();
+
+            var expectedSelect = Regex.Escape(
+                $"SELECT * FROM {TableName}{Environment.NewLine}" +
+                $"WHERE {col1} < 5.25"
+            );
+            
+            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+        }
+        
+        [Test]
+        [TestCase("Amount")]
+        public void NotNotGreaterWithConstantExpressions(string col1)
+        {
+            var actualSelect = this._sql.From(TableName)
+                .Where(!(ConstantExp(col1) !> ConstantExp(5.25)))
+                .Select()
+                .ToString();
+
+            var expectedSelect = Regex.Escape(
+                $"SELECT * FROM {TableName}{Environment.NewLine}" +
+                $"WHERE {col1} <= 5.25"
+            );
+            
+            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+        }
+        
+        [Test]
+        [TestCase("Amount")]
+        public void NotNotLessWithConstantExpressions(string col1)
+        {
+            var actualSelect = this._sql.From(TableName)
+                .Where(!(ConstantExp(col1) !< ConstantExp(5.25)))
+                .Select()
+                .ToString();
+
+            var expectedSelect = Regex.Escape(
+                $"SELECT * FROM {TableName}{Environment.NewLine}" +
+                $"WHERE {col1} >= 5.25"
+            );
+            
+            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+        }
+        
+        [Test]
+        [TestCase("Amount")]
+        public void NotNotEqualWithConstantExpressions(string col1)
+        {
+            var actualSelect = this._sql.From(TableName)
+                .Where(!(ConstantExp(col1) != ConstantExp(5.25)))
+                .Select()
+                .ToString();
+
+            var expectedSelect = Regex.Escape(
+                $"SELECT * FROM {TableName}{Environment.NewLine}" +
+                $"WHERE {col1} = 5.25"
+            );
+            
+            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+        }
+        
     }
 }

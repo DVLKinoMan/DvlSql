@@ -55,12 +55,17 @@ namespace Dvl_Sql.Concrete
 
         public void Visit(DvlSqlWhereExpression expression)
         {
-            if (expression.InnerExpression is DvlSqlAndExpression andExp && !andExp.InnerExpressions.Any())
-                return;
+            switch (expression.InnerExpression)
+            {
+                case DvlSqlAndExpression andExp when !andExp.InnerExpressions.Any():
+                case DvlSqlOrExpression orExp when !orExp.InnerExpressions.Any():
+                    return;
+                default:
+                    this._command.Append(expression.IsRoot ? $"{Environment.NewLine}WHERE " : " WHERE ");
 
-            this._command.Append(expression.IsRoot ? $"{Environment.NewLine}WHERE " : " WHERE ");
-
-            expression.InnerExpression.Accept(this);
+                    expression.InnerExpression.Accept(this);
+                    break;
+            }
         }
 
         public void Visit<TValue>(DvlSqlConstantExpression<TValue> expression) => this._command.Append(expression.StringValue);
@@ -269,12 +274,12 @@ namespace Dvl_Sql.Concrete
             {
                 SqlComparisonOperator.Different => SqlComparisonOperator.Equality,
                 SqlComparisonOperator.Equality => SqlComparisonOperator.Different,
-                SqlComparisonOperator.Less => SqlComparisonOperator.Greater,
-                SqlComparisonOperator.Greater => SqlComparisonOperator.Less,
-                SqlComparisonOperator.GreaterOrEqual => SqlComparisonOperator.LessOrEqual,
-                SqlComparisonOperator.LessOrEqual => SqlComparisonOperator.GreaterOrEqual,
-                SqlComparisonOperator.NotLess => SqlComparisonOperator.NotGreater,
-                SqlComparisonOperator.NotGreater => SqlComparisonOperator.NotLess,
+                SqlComparisonOperator.Less => SqlComparisonOperator.GreaterOrEqual,
+                SqlComparisonOperator.Greater => SqlComparisonOperator.LessOrEqual,
+                SqlComparisonOperator.GreaterOrEqual => SqlComparisonOperator.Less,
+                SqlComparisonOperator.LessOrEqual => SqlComparisonOperator.Greater,
+                SqlComparisonOperator.NotLess => SqlComparisonOperator.GreaterOrEqual,
+                SqlComparisonOperator.NotGreater => SqlComparisonOperator.LessOrEqual,
                 SqlComparisonOperator.NotEquality => SqlComparisonOperator.Equality,
                 _ => throw new NotImplementedException("ComparisonOperator not implemented")
             };
