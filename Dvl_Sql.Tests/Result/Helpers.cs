@@ -25,6 +25,21 @@ namespace Dvl_Sql.Tests.Result
 
             return readerMoq;
         }
+        
+        public static Mock<IDataReader> CreateDataReaderMock<T>(IList<T> list, Func<IDataReader, T> expressionFunc)
+        {
+            var readerMoq = new Mock<IDataReader>();
+            int index = -1;
+
+            readerMoq.Setup(reader => reader.Read())
+                .Callback(() => { index++; })
+                .Returns(() => index < list.Count);
+
+            readerMoq.Setup(r=> r[It.IsAny<string>()])
+                .Returns(() => list[index].ToString());
+
+            return readerMoq;
+        }
 
         public static Mock<IDvlSqlCommand> CreateSqlCommandMock<T>(Mock<IDataReader> readerMoq)
         {
@@ -40,15 +55,15 @@ namespace Dvl_Sql.Tests.Result
             return commandMoq;
         }
 
-        public static Mock<IDvlSqlConnection> CreateConnectionMock<T>(Mock<IDvlSqlCommand> commandMoq)
+        public static Mock<IDvlSqlConnection> CreateConnectionMock<T>(Mock<IDvlSqlCommand> commandMoq, CommandType commandType = CommandType.Text)
         {
             var moq = new Mock<IDvlSqlConnection>();
 
             moq.Setup(m => m.ConnectAsync(It.IsAny<Func<IDvlSqlCommand, Task<T>>>(),
-                    It.IsAny<string>(), It.Is<CommandType>(com => com == CommandType.Text),
+                    It.IsAny<string>(), It.Is<CommandType>(com => com == commandType),
                     It.IsAny<SqlParameter[]>()))
                 .Returns((Func<IDvlSqlCommand, Task<T>> func, string sqlString,
-                    CommandType commandType, SqlParameter[] parameters) => func(commandMoq.Object));
+                    CommandType type, SqlParameter[] parameters) => func(commandMoq.Object));
 
             return moq;
         }

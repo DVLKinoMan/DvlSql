@@ -1,11 +1,10 @@
-﻿using System;
+﻿using Dvl_Sql.Abstract;
+using Dvl_Sql.Models;
+using System;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Dvl_Sql.Abstract;
-using Dvl_Sql.Models;
 
 namespace Dvl_Sql.Concrete
 {
