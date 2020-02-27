@@ -33,7 +33,7 @@ var personInfo = dvl_sql.From("Persons")
 //using System.Data;
 //using Dvl_Sql.Models;
 //Inserting word and there meanings in table
-var affectedRows1 = dvl_sql.InsertInto<(string, string)>("dbo.Words",
+var affectedRows1 = dvl_sql.InsertInto<string, string>("dbo.Words",
                                 NVarCharType("Text", 50),
                                 NVarCharType("Meaning", 1000)
                             )
