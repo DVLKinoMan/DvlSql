@@ -24,7 +24,7 @@ namespace Dvl_Sql.Concrete
         public void Visit(DvlSqlSelectExpression expression)
         {
             this._command.Append("SELECT ");
-            
+
             if (expression.Top != null)
                 this._command.Append($"TOP {expression.Top} ");
 
@@ -37,8 +37,9 @@ namespace Dvl_Sql.Concrete
             bool isEmpty = true;
             foreach (var parameterName in expression.ParameterNames)
             {
-                if(string.IsNullOrEmpty(parameterName))
-                    throw new ArgumentException("One of the parameters was null or empty","DvlSqlSelectExpression.ParameterNames");
+                if (string.IsNullOrEmpty(parameterName))
+                    throw new ArgumentException("One of the parameters was null or empty",
+                        "DvlSqlSelectExpression.ParameterNames");
                 isEmpty = false;
                 this._command.Append($"{parameterName}, ");
             }
@@ -68,7 +69,8 @@ namespace Dvl_Sql.Concrete
             }
         }
 
-        public void Visit<TValue>(DvlSqlConstantExpression<TValue> expression) => this._command.Append(expression.StringValue);
+        public void Visit<TValue>(DvlSqlConstantExpression<TValue> expression) =>
+            this._command.Append(expression.StringValue);
 
         public void Visit(DvlSqlJoinExpression expression)
         {
@@ -78,10 +80,12 @@ namespace Dvl_Sql.Concrete
                 DvlSqlInnerJoinExpression _ => "INNER JOIN",
                 DvlSqlLeftJoinExpression _ => "LEFT OUTER JOIN",
                 DvlSqlRightJoinExpression _ => "RIGHT OUTER JOIN",
-                _=>throw new NotImplementedException("JoinExpression not implemented")
+                _ => throw new NotImplementedException("JoinExpression not implemented")
             };
 
-            this._command.Append(expression.IsRoot ? $"{Environment.NewLine}{joinCommand} {expression.TableName} ON " : $" {joinCommand} {expression.TableName} ON ");
+            this._command.Append(expression.IsRoot
+                ? $"{Environment.NewLine}{joinCommand} {expression.TableName} ON "
+                : $" {joinCommand} {expression.TableName} ON ");
             expression.ComparisonExpression.Accept(this);
         }
 
@@ -165,7 +169,7 @@ namespace Dvl_Sql.Concrete
         {
             if (expression.SelectExpression == null)
                 throw new ArgumentNullException("SelectExpression", "expression has no Select Expression");
-            
+
             expression.SelectExpression.Accept(this);
             foreach (var joinExpression in expression.JoinExpressions)
                 joinExpression.Accept(this);
@@ -198,7 +202,8 @@ namespace Dvl_Sql.Concrete
             {
                 selectExpression.Accept(this);
                 if (type != null)
-                    this._command.AppendLine($"{Environment.NewLine}{(type == UnionType.Union ? "UNION" : "UNION ALL")}");
+                    this._command.AppendLine(
+                        $"{Environment.NewLine}{(type == UnionType.Union ? "UNION" : "UNION ALL")}");
             }
         }
 
@@ -304,6 +309,5 @@ namespace Dvl_Sql.Concrete
         }
 
         #endregion
-
     }
 }

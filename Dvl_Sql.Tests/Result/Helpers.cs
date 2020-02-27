@@ -25,22 +25,13 @@ namespace Dvl_Sql.Tests.Result
 
             return readerMoq;
         }
-        
-        public static Mock<IDataReader> CreateDataReaderMock<T>(IList<T> list, Func<IDataReader, T> expressionFunc)
-        {
-            var readerMoq = new Mock<IDataReader>();
-            int index = -1;
 
-            readerMoq.Setup(reader => reader.Read())
-                .Callback(() => { index++; })
-                .Returns(() => index < list.Count);
-
-            readerMoq.Setup(r=> r[It.IsAny<string>()])
-                .Returns(() => list[index].ToString());
-
-            return readerMoq;
-        }
-
+        /// <summary>
+        /// Creates SqlCommandMock with ExecuteReaderAsync Setup
+        /// </summary>
+        /// <param name="readerMoq"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public static Mock<IDvlSqlCommand> CreateSqlCommandMock<T>(Mock<IDataReader> readerMoq)
         {
             var commandMoq = new Mock<IDvlSqlCommand>();
@@ -51,6 +42,23 @@ namespace Dvl_Sql.Tests.Result
                 .Returns((Func<IDataReader, T> func2, int? timeout,
                         CommandBehavior behavior, CancellationToken cancellationToken) =>
                     Task.FromResult(func2(readerMoq.Object)));
+
+            return commandMoq;
+        }
+
+        /// <summary>
+        /// Creates SqlCommandMock with ExecuteNonQueryAsync Setup
+        /// </summary>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        public static Mock<IDvlSqlCommand> CreateSqlCommandMock(int result)
+        {
+            var commandMoq = new Mock<IDvlSqlCommand>();
+
+            commandMoq.Setup(com => com.ExecuteNonQueryAsync(
+                    It.IsAny<int?>(), It.IsAny<CancellationToken>()))
+                .Returns(() =>
+                    Task.FromResult(result));
 
             return commandMoq;
         }
