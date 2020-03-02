@@ -82,7 +82,7 @@ namespace Dvl_Sql.Extensions
             new DvlSqlType<byte[]>(value, SqlDbType.Image);
         #endregion
         
-        #region Number
+        #region Money
         public static DvlSqlType<decimal> Money(string name, decimal value) =>
             new DvlSqlType<decimal>(name, value, SqlDbType.Money);
 
@@ -108,7 +108,7 @@ namespace Dvl_Sql.Extensions
             new DvlSqlType<decimal>(value, SqlDbType.SmallMoney);
         #endregion
         
-        #region Money
+        #region Number
         public static DvlSqlType<decimal> Decimal(string name, decimal value, byte? precision = null,
             byte? scale = null) => new DvlSqlType<decimal>(name, value, SqlDbType.Decimal, precision, scale);
 
@@ -145,6 +145,9 @@ namespace Dvl_Sql.Extensions
         public static DvlSqlType IntType() =>
             new DvlSqlType(SqlDbType.Int);
 
+        public static DvlSqlType<byte> TinyInt(string name, byte value) =>
+            new DvlSqlType<byte>(name, value, SqlDbType.TinyInt);
+        
         public static DvlSqlType<byte> TinyInt(byte value) =>
             new DvlSqlType<byte>(value, SqlDbType.TinyInt);
 
@@ -186,6 +189,9 @@ namespace Dvl_Sql.Extensions
         #region Text
         public static DvlSqlType<string> NVarChar(string name, string value, int size) =>
             new DvlSqlType<string>(name, value, SqlDbType.NVarChar, size);
+        
+        public static DvlSqlType<string> NVarChar(string value, int size) =>
+            new DvlSqlType<string>(value, SqlDbType.NVarChar, size);
 
         public static DvlSqlType NVarCharType(string name, int size) =>
             new DvlSqlType(name, SqlDbType.NVarChar, size);
@@ -197,13 +203,13 @@ namespace Dvl_Sql.Extensions
             NVarChar(name, value, -1);
 
         public static DvlSqlType<string> NVarCharMax(string value) =>
-            new DvlSqlType<string>(value, SqlDbType.NVarChar);
+            new DvlSqlType<string>(value, SqlDbType.NVarChar, -1);
 
         public static DvlSqlType NVarCharMaxType(string name) =>
-            new DvlSqlType(name, SqlDbType.NVarChar);
+            new DvlSqlType(name, SqlDbType.NVarChar, -1);
 
         public static DvlSqlType NVarCharMaxType() =>
-            new DvlSqlType(SqlDbType.NVarChar);
+            new DvlSqlType(SqlDbType.NVarChar, -1);
 
         public static DvlSqlType<string> VarChar(string name, string value, int size) =>
             new DvlSqlType<string>(name, value, SqlDbType.VarChar, size);
@@ -248,7 +254,7 @@ namespace Dvl_Sql.Extensions
             Char(value, -1);
 
         public static DvlSqlType CharMaxType(string name) =>
-            Char(name, -1);
+            CharType(name, -1);
 
         public static DvlSqlType CharMaxType() =>
             CharType(-1);
