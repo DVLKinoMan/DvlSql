@@ -26,5 +26,20 @@ namespace Dvl_Sql.Extensions
 
         public static string WithAlpha(this string str) =>
             !string.IsNullOrEmpty(str) && str.Length != 0 && str[0] != '@' ? $"@{str}" : str;
+
+        public static StringBuilder TrimIfLastCharacterIs(this StringBuilder sb, char character)
+        {
+            if (sb == null || sb.Length == 0)
+                return sb;
+            
+            int i = sb.Length - 1;
+            while (i > 0 && char.IsWhiteSpace(sb[i]))
+                i--;
+
+            if (i == 0 || sb[i] != character)
+                return sb;
+
+            return sb.TrimEnd();
+        }
     }
 }

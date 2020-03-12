@@ -264,7 +264,7 @@ namespace Dvl_Sql.Tests.Select
 
             var expectedSelect = Regex.Escape(
                 $"SELECT * FROM {TableName}{Environment.NewLine}" +
-                $"WHERE {col1} = 5.25 AND {col2} = 3"
+                $"WHERE ( {col1} = 5.25 AND {col2} = 3 )"
             );
             
             Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
@@ -282,7 +282,7 @@ namespace Dvl_Sql.Tests.Select
 
             var expectedSelect = Regex.Escape(
                 $"SELECT * FROM {TableName}{Environment.NewLine}" +
-                $"WHERE {col1} = 5.25 OR {col2} = 3"
+                $"WHERE ( {col1} = 5.25 OR {col2} = 3 )"
             );
             
             Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));

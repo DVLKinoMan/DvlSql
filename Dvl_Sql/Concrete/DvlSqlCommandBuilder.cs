@@ -239,6 +239,8 @@ namespace Dvl_Sql.Concrete
         {
             string op = expression.Not ? " AND " : " OR ";
 
+            this._command.TrimIfLastCharacterIs('(');
+            this._command.Append("( ");
             foreach (var innerExpression in expression.InnerExpressions)
             {
                 innerExpression.Accept(this);
@@ -246,12 +248,15 @@ namespace Dvl_Sql.Concrete
             }
 
             this._command.Remove(this._command.Length - op.Length, op.Length);
+            this._command.Append(this._command[^1] == ')'? ")" : " )");
         }
 
         public void Visit(DvlSqlAndExpression expression)
         {
             string op = expression.Not ? " OR " : " AND ";
 
+            this._command.TrimIfLastCharacterIs('(');
+            this._command.Append("( ");
             foreach (var innerExpression in expression.InnerExpressions)
             {
                 innerExpression.Accept(this);
@@ -259,6 +264,7 @@ namespace Dvl_Sql.Concrete
             }
 
             this._command.Remove(this._command.Length - op.Length, op.Length);
+            this._command.Append(this._command[^1] == ')'? ")" : " )");
         }
 
         public void Visit(DvlSqlComparisonExpression expression)
