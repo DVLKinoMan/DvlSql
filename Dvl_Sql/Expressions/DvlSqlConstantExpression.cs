@@ -39,6 +39,8 @@ namespace Dvl_Sql.Expressions
         public static DvlSqlComparisonExpression operator <=(DvlSqlConstantExpression lhs,
             DvlSqlConstantExpression rhs) =>
             new DvlSqlComparisonExpression(lhs, SqlComparisonOperator.LessOrEqual, rhs);
+        
+        public static implicit operator DvlSqlConstantExpression(string str) => new DvlSqlConstantExpression<string>(str);
     }
 
     public class DvlSqlConstantExpression<TValue> : DvlSqlConstantExpression
@@ -61,5 +63,6 @@ namespace Dvl_Sql.Expressions
         public DvlSqlConstantExpression(TValue value) => this.Value = value;
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
+        
     }
 }

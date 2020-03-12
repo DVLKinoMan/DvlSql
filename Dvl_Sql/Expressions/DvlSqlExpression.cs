@@ -34,5 +34,7 @@ namespace Dvl_Sql.Expressions
     {
         public bool IsRoot { get; protected set; } = false;
         public abstract void Accept(ISqlExpressionVisitor visitor);
+        
+        public static implicit operator DvlSqlExpression(string str) => new DvlSqlConstantExpression<string>(str);
     }
 }

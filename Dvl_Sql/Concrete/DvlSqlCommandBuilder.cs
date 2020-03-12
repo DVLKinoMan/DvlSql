@@ -207,6 +207,13 @@ namespace Dvl_Sql.Concrete
             }
         }
 
+        public void Visit(DvlSqlExistsExpression expression)
+        {
+            this._command.Append("EXISTS( ");
+            expression.Select.Accept(this);
+            this._command.Append(" )");
+        }
+
         #region BinaryExpressions
 
         public void Visit(DvlSqlInExpression expression)

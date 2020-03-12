@@ -73,6 +73,9 @@ namespace Dvl_Sql.Extensions
 
         public static DvlSqlOrderByExpression OrderByExp(params (string column, Ordering ordering)[] @params) =>
             new DvlSqlOrderByExpression(@params);
-        
+
+        public static DvlSqlExistsExpression ExistsExp(DvlSqlFullSelectExpression select) =>
+            new DvlSqlExistsExpression(select);
+
     }
 }

@@ -25,5 +25,6 @@ namespace Dvl_Sql.Abstract
         void Visit(DvlSqlDeleteExpression expression);
         void Visit(DvlSqlUpdateExpression expression);
         void Visit(DvlSqlUnionExpression expression);
+        void Visit(DvlSqlExistsExpression expression);
     }
 }

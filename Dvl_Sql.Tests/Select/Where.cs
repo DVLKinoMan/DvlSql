@@ -424,5 +424,21 @@ namespace Dvl_Sql.Tests.Select
             Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
         }
         
+        [Test]
+        [TestCase("OtherTable")]
+        public void WithExistsExpression(string tableName)
+        {
+            var actualSelect = this._sql.From(TableName)
+                .Where(ExistsExp(FullSelectExp(SelectExp(FromExp(tableName)))))
+                .Select()
+                .ToString();
+
+            var expectedSelect = Regex.Escape(
+                $"SELECT * FROM {TableName}{Environment.NewLine}" +
+                $"WHERE EXISTS( SELECT * FROM {tableName} )");
+            
+            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+        }
+        
     }
 }
