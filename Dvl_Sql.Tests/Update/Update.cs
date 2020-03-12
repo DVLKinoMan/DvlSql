@@ -32,7 +32,7 @@ namespace Dvl_Sql.Tests.Update
         {
             var actualUpdate = this._sql.Update("dbo.Words")
                 .Set(Money("money", new decimal(3.11)))
-                .Where(ConstantExp("Amount") == ConstantExp("@amount"),
+                .Where(ConstantExp("Amount") == "@amount",
                     Param("@amount", Decimal(new decimal(42))))
                 .ToString();
             
@@ -55,7 +55,7 @@ namespace Dvl_Sql.Tests.Update
                 .Set(BigInt("bigint", 1111111111))
                 .Set(Xml("xml", "<xml></xml>"))
                 .Set(DateTime("Date", System.DateTime.Now))
-                .Where(ConstantExp("Amount") == ConstantExp("@amount"),
+                .Where(ConstantExp("Amount") == "@amount",
                     Param("@amount", Decimal(new decimal(42))))
                 .ToString();
             

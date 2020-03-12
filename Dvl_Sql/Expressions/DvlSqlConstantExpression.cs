@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Dvl_Sql.Abstract;
 
 namespace Dvl_Sql.Expressions
@@ -41,6 +42,12 @@ namespace Dvl_Sql.Expressions
             new DvlSqlComparisonExpression(lhs, SqlComparisonOperator.LessOrEqual, rhs);
         
         public static implicit operator DvlSqlConstantExpression(string str) => new DvlSqlConstantExpression<string>(str);
+        
+        public static implicit operator DvlSqlConstantExpression(int num) => new DvlSqlConstantExpression<int>(num);
+        
+        public static implicit operator DvlSqlConstantExpression(double num) => new DvlSqlConstantExpression<double>(num);
+        
+        public static implicit operator DvlSqlConstantExpression(DateTime dateTime) => new DvlSqlConstantExpression<DateTime>(dateTime);
     }
 
     public class DvlSqlConstantExpression<TValue> : DvlSqlConstantExpression

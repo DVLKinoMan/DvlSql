@@ -20,7 +20,7 @@ namespace Dvl_Sql.Tests.Select
         public void WithIntConstantExpression(string colName, int value)
         {
             var actualSelect = this._sql.From(TableName)
-                .Where(ConstantExp(colName) == ConstantExp(value))
+                .Where(ConstantExp(colName) == value)
                 .Select()
                 .ToString();
 
@@ -37,7 +37,7 @@ namespace Dvl_Sql.Tests.Select
         public void WithStringConstantExpression(string colName, string value)
         {
             var actualSelect = this._sql.From(TableName)
-                .Where(ConstantExp(colName) == ConstantExp(value))
+                .Where(ConstantExp(colName) == value)
                 .Select()
                 .ToString();
 
@@ -54,7 +54,7 @@ namespace Dvl_Sql.Tests.Select
         public void WithDoubleConstantExpression(string colName, double value)
         {
             var actualSelect = this._sql.From(TableName)
-                .Where(ConstantExp(colName) == ConstantExp(value))
+                .Where(ConstantExp(colName) == value)
                 .Select()
                 .ToString();
 
@@ -71,7 +71,7 @@ namespace Dvl_Sql.Tests.Select
         {
             var dateTime = new DateTime(2019, 11, 11);
             var actualSelect = this._sql.From(TableName)
-                .Where(ConstantExp("CreatedTime") == ConstantExp(dateTime))
+                .Where(ConstantExp("CreatedTime") == dateTime)
                 .Select()
                 .ToString();
 
@@ -89,7 +89,7 @@ namespace Dvl_Sql.Tests.Select
         public void WithGreaterExpression(string colName, double value)
         {
             var actualSelect = this._sql.From(TableName)
-                .Where(ConstantExp(colName) > ConstantExp(value))
+                .Where(ConstantExp(colName) > value)
                 .Select()
                 .ToString();
 
@@ -106,7 +106,7 @@ namespace Dvl_Sql.Tests.Select
         public void WithIsNullExpression(string fieldName)
         {
             var actualSelect = this._sql.From(TableName)
-                .Where(IsNullExp(ConstantExp(fieldName)))
+                .Where(IsNullExp(fieldName))
                 .Select()
                 .ToString();
 
@@ -123,12 +123,12 @@ namespace Dvl_Sql.Tests.Select
         public void WithIsNotNullExpression(string fieldName)
         {
             var actualSelect1 = this._sql.From(TableName)
-                .Where(IsNotNullExp(ConstantExp(fieldName)))
+                .Where(IsNotNullExp(fieldName))
                 .Select()
                 .ToString();
             
             var actualSelect2 = this._sql.From(TableName)
-                .Where(!IsNullExp(ConstantExp(fieldName)))
+                .Where(!IsNullExp(fieldName))
                 .Select()
                 .ToString();
 
@@ -193,7 +193,7 @@ namespace Dvl_Sql.Tests.Select
         public void WithInExpression(string col)
         {
             var actualSelect = this._sql.From(TableName)
-                .Where(InExp(col, ConstantExp(1), ConstantExp(2), ConstantExp(3)))
+                .Where(InExp(col, 1, 2, 3))
                 .Select()
                 .ToString();
 
@@ -257,8 +257,8 @@ namespace Dvl_Sql.Tests.Select
         public void AndWithConstantExpressions(string col1, string col2)
         {
             var actualSelect = this._sql.From(TableName)
-                .Where(ConstantExp(col1) == ConstantExp(5.25) &
-                       ConstantExp(col2) == ConstantExp(3))
+                .Where(ConstantExp(col1) == 5.25 &
+                       ConstantExp(col2) == 3)
                 .Select()
                 .ToString();
 
@@ -275,8 +275,8 @@ namespace Dvl_Sql.Tests.Select
         public void OrWithConstantExpressions(string col1, string col2)
         {
             var actualSelect = this._sql.From(TableName)
-                .Where(ConstantExp(col1) == ConstantExp(5.25) |
-                       ConstantExp(col2) == ConstantExp(3))
+                .Where(ConstantExp(col1) == 5.25 |
+                       ConstantExp(col2) == 3)
                 .Select()
                 .ToString();
 
@@ -293,7 +293,7 @@ namespace Dvl_Sql.Tests.Select
         public void NotEqualityWithConstantExpressions(string col1)
         {
             var actualSelect = this._sql.From(TableName)
-                .Where(!(ConstantExp(col1) == ConstantExp(5.25)))
+                .Where(!(ConstantExp(col1) == 5.25))
                 .Select()
                 .ToString();
 
@@ -310,7 +310,7 @@ namespace Dvl_Sql.Tests.Select
         public void NotLessWithConstantExpressions(string col1)
         {
             var actualSelect = this._sql.From(TableName)
-                .Where(!(ConstantExp(col1) < ConstantExp(5.25)))
+                .Where(!(ConstantExp(col1) < 5.25))
                 .Select()
                 .ToString();
 
@@ -327,7 +327,7 @@ namespace Dvl_Sql.Tests.Select
         public void NotGreaterWithConstantExpressions(string col1)
         {
             var actualSelect = this._sql.From(TableName)
-                .Where(!(ConstantExp(col1) > ConstantExp(5.25)))
+                .Where(!(ConstantExp(col1) > 5.25))
                 .Select()
                 .ToString();
 
@@ -344,7 +344,7 @@ namespace Dvl_Sql.Tests.Select
         public void NotLessOrEqualWithConstantExpressions(string col1)
         {
             var actualSelect = this._sql.From(TableName)
-                .Where(!(ConstantExp(col1) <= ConstantExp(5.25)))
+                .Where(!(ConstantExp(col1) <= 5.25))
                 .Select()
                 .ToString();
 
@@ -361,7 +361,7 @@ namespace Dvl_Sql.Tests.Select
         public void NotGreaterOrEqualWithConstantExpressions(string col1)
         {
             var actualSelect = this._sql.From(TableName)
-                .Where(!(ConstantExp(col1) >= ConstantExp(5.25)))
+                .Where(!(ConstantExp(col1) >= 5.25))
                 .Select()
                 .ToString();
 
@@ -378,7 +378,7 @@ namespace Dvl_Sql.Tests.Select
         public void NotNotGreaterWithConstantExpressions(string col1)
         {
             var actualSelect = this._sql.From(TableName)
-                .Where(!(ConstantExp(col1) !> ConstantExp(5.25)))
+                .Where(!(ConstantExp(col1) !> 5.25))
                 .Select()
                 .ToString();
 
@@ -395,7 +395,7 @@ namespace Dvl_Sql.Tests.Select
         public void NotNotLessWithConstantExpressions(string col1)
         {
             var actualSelect = this._sql.From(TableName)
-                .Where(!(ConstantExp(col1) !< ConstantExp(5.25)))
+                .Where(!(ConstantExp(col1) !< 5.25))
                 .Select()
                 .ToString();
 
@@ -412,7 +412,7 @@ namespace Dvl_Sql.Tests.Select
         public void NotNotEqualWithConstantExpressions(string col1)
         {
             var actualSelect = this._sql.From(TableName)
-                .Where(!(ConstantExp(col1) != ConstantExp(5.25)))
+                .Where(!(ConstantExp(col1) != 5.25))
                 .Select()
                 .ToString();
 

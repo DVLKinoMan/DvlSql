@@ -41,7 +41,7 @@ namespace Dvl_Sql.Tests.Select
         {
             var actualSelect = this._sql.From(TableName)
                 .GroupBy(groupParams)
-                .Having(ConstantExp(groupParams[0]) == ConstantExp(1))
+                .Having(ConstantExp(groupParams[0]) == 1)
                 .Select(groupParams)
                 .ToString();
 
@@ -61,7 +61,7 @@ namespace Dvl_Sql.Tests.Select
         {
             var actualSelect = this._sql.From(TableName)
                 .GroupBy(groupParams)
-                .Having(ConstantExp(groupParams[0]) == ConstantExp("@date"), Params(Param("@date", new DateTime(2019,11,11))) )
+                .Having(ConstantExp(groupParams[0]) == "@date", Params(Param("@date", new DateTime(2019,11,11))) )
                 .Select(groupParams)
                 .ToString();
 

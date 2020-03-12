@@ -7,20 +7,20 @@ namespace Dvl_Sql.Expressions
     {
         public DvlSqlFullSelectExpression() { }
 
-        public DvlSqlFullSelectExpression(DvlSqlFromExpression fromExpression,
-            List<DvlSqlJoinExpression> joinExpressions, DvlSqlWhereExpression whereExpression,
-            DvlSqlGroupByExpression groupByExpression,
-            DvlSqlSelectExpression selectExpression, DvlSqlOrderByExpression orderByExpression) => (
-            this.FromExpression, this.JoinExpressions, this.WhereExpression, this.GroupByExpression,
-            this.SelectExpression, this.OrderByExpression) = (fromExpression, joinExpressions ??  new List<DvlSqlJoinExpression>(),
-            whereExpression, groupByExpression, selectExpression, orderByExpression);
+        public DvlSqlFullSelectExpression(DvlSqlFromExpression @from,
+            List<DvlSqlJoinExpression> joins, DvlSqlWhereExpression @where,
+            DvlSqlGroupByExpression groupBy,
+            DvlSqlSelectExpression @select, DvlSqlOrderByExpression orderBy) => (
+            this.From, this.Join, this.Where, this.GroupBy,
+            this.Select, this.OrderBy) = (@from, joins ??  new List<DvlSqlJoinExpression>(),
+            @where, groupBy, @select, orderBy);
 
-        public DvlSqlFromExpression FromExpression { get; set; }
-        public List<DvlSqlJoinExpression> JoinExpressions { get; private set; } = new List<DvlSqlJoinExpression>();
-        public DvlSqlWhereExpression WhereExpression { get; set; }
-        public DvlSqlGroupByExpression GroupByExpression { get; set; }
-        public DvlSqlSelectExpression SelectExpression { get; set; }
-        public DvlSqlOrderByExpression OrderByExpression { get; set; }
+        public DvlSqlFromExpression From { get; set; }
+        public List<DvlSqlJoinExpression> Join { get; private set; } = new List<DvlSqlJoinExpression>();
+        public DvlSqlWhereExpression Where { get; set; }
+        public DvlSqlGroupByExpression GroupBy { get; set; }
+        public DvlSqlSelectExpression Select { get; set; }
+        public DvlSqlOrderByExpression OrderBy { get; set; }
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
     }

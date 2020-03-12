@@ -16,7 +16,7 @@ namespace Dvl_Sql.Concrete
 
         public SqlSelector(DvlSqlFromExpression sqlFromExpression, IDvlSqlConnection dvlSqlConnection)
         {
-            this._unionExpression.Add(new DvlSqlFullSelectExpression() {FromExpression = sqlFromExpression});
+            this._unionExpression.Add(new DvlSqlFullSelectExpression() {From = sqlFromExpression});
             this._dvlSqlConnection = dvlSqlConnection;
         }
 
@@ -32,142 +32,142 @@ namespace Dvl_Sql.Concrete
 
         public ISelector From(string tableName, bool withNoLock = false)
         {
-            this.CurrFullSelectExpression.FromExpression = new DvlSqlFromExpression(tableName, withNoLock);
+            this.CurrFullSelectExpression.From = new DvlSqlFromExpression(tableName, withNoLock);
 
             return this;
         }
 
-        public IEnumerable<DvlSqlParameter> GetDvlSqlParameters() => this.CurrFullSelectExpression?.WhereExpression?.Parameters;
+        public IEnumerable<DvlSqlParameter> GetDvlSqlParameters() => this.CurrFullSelectExpression?.Where?.Parameters;
 
         public SqlSelector WithSelectTop(int num)
         {
-            if (this.CurrFullSelectExpression.SelectExpression != null)
-                this.CurrFullSelectExpression.SelectExpression.Top = num;
+            if (this.CurrFullSelectExpression.Select != null)
+                this.CurrFullSelectExpression.Select.Top = num;
             return this;
         }
 
         public IOrderer Select(params string[] parameterNames)
         {
-            this.CurrFullSelectExpression.SelectExpression = new DvlSqlSelectExpression(this.CurrFullSelectExpression.FromExpression, parameterNames);
+            this.CurrFullSelectExpression.Select = new DvlSqlSelectExpression(this.CurrFullSelectExpression.From, parameterNames);
 
             return new SqlOrderer(this._dvlSqlConnection, this);
         }
 
         public IOrderer Select()
         {
-            this.CurrFullSelectExpression.SelectExpression = new DvlSqlSelectExpression(this.CurrFullSelectExpression.FromExpression);
+            this.CurrFullSelectExpression.Select = new DvlSqlSelectExpression(this.CurrFullSelectExpression.From);
 
             return new SqlOrderer(this._dvlSqlConnection, this);
         }
 
         public IOrderer SelectTop(int count, params string[] parameterNames)
         {
-            this.CurrFullSelectExpression.SelectExpression = new DvlSqlSelectExpression(this.CurrFullSelectExpression.FromExpression, parameterNames, count);
+            this.CurrFullSelectExpression.Select = new DvlSqlSelectExpression(this.CurrFullSelectExpression.From, parameterNames, count);
 
             return new SqlOrderer(this._dvlSqlConnection, this);
         }
 
         public IFilter Where(DvlSqlBinaryExpression binaryExpression)
         {
-            this.CurrFullSelectExpression.WhereExpression = new DvlSqlWhereExpression(binaryExpression);
+            this.CurrFullSelectExpression.Where = new DvlSqlWhereExpression(binaryExpression);
 
             return this;
         }
 
         public IFilter Where(DvlSqlBinaryExpression binaryExpression, IEnumerable<DvlSqlParameter> @params)
         {
-            this.CurrFullSelectExpression.WhereExpression = new DvlSqlWhereExpression(binaryExpression).WithParameters(@params) as DvlSqlWhereExpression;
+            this.CurrFullSelectExpression.Where = new DvlSqlWhereExpression(binaryExpression).WithParameters(@params) as DvlSqlWhereExpression;
             return this;
         }
 
         public ISelector Join(string tableName, DvlSqlComparisonExpression compExpression)
         {
-            this.CurrFullSelectExpression.JoinExpressions.Add(new DvlSqlInnerJoinExpression(tableName, compExpression));
+            this.CurrFullSelectExpression.Join.Add(new DvlSqlInnerJoinExpression(tableName, compExpression));
             return this;
         }
 
         public ISelector Join(string tableName, string firstTableMatchingCol, string secondTableMatchingCol)
         {
-            this.CurrFullSelectExpression.JoinExpressions.Add(new DvlSqlInnerJoinExpression(tableName,
+            this.CurrFullSelectExpression.Join.Add(new DvlSqlInnerJoinExpression(tableName,
                 new DvlSqlConstantExpression<string>(firstTableMatchingCol) == new DvlSqlConstantExpression<string>(secondTableMatchingCol)));
             return this;
         }
 
         public ISelector FullJoin(string tableName, DvlSqlComparisonExpression compExpression)
         {
-            this.CurrFullSelectExpression.JoinExpressions.Add(new DvlSqlFullJoinExpression(tableName, compExpression));
+            this.CurrFullSelectExpression.Join.Add(new DvlSqlFullJoinExpression(tableName, compExpression));
             return this;
         }
 
         public ISelector FullJoin(string tableName, string firstTableMatchingCol, string secondTableMatchingCol)
         {
-            this.CurrFullSelectExpression.JoinExpressions.Add(new DvlSqlFullJoinExpression(tableName,
+            this.CurrFullSelectExpression.Join.Add(new DvlSqlFullJoinExpression(tableName,
                 new DvlSqlConstantExpression<string>(firstTableMatchingCol) == new DvlSqlConstantExpression<string>(secondTableMatchingCol)));
             return this;
         }
 
         public ISelector LeftJoin(string tableName, DvlSqlComparisonExpression compExpression)
         {
-            this.CurrFullSelectExpression.JoinExpressions.Add(new DvlSqlLeftJoinExpression(tableName, compExpression));
+            this.CurrFullSelectExpression.Join.Add(new DvlSqlLeftJoinExpression(tableName, compExpression));
             return this;
         }
 
         public ISelector LeftJoin(string tableName, string firstTableMatchingCol, string secondTableMatchingCol)
         {
-            this.CurrFullSelectExpression.JoinExpressions.Add(new DvlSqlLeftJoinExpression(tableName,
+            this.CurrFullSelectExpression.Join.Add(new DvlSqlLeftJoinExpression(tableName,
                 new DvlSqlConstantExpression<string>(firstTableMatchingCol) == new DvlSqlConstantExpression<string>(secondTableMatchingCol)));
             return this;
         }
 
         public ISelector RightJoin(string tableName, DvlSqlComparisonExpression compExpression)
         {
-            this.CurrFullSelectExpression.JoinExpressions.Add(new DvlSqlRightJoinExpression(tableName, compExpression));
+            this.CurrFullSelectExpression.Join.Add(new DvlSqlRightJoinExpression(tableName, compExpression));
             return this;
         }
 
         public ISelector RightJoin(string tableName, string firstTableMatchingCol, string secondTableMatchingCol)
         {
-            this.CurrFullSelectExpression.JoinExpressions.Add(new DvlSqlRightJoinExpression(tableName,
+            this.CurrFullSelectExpression.Join.Add(new DvlSqlRightJoinExpression(tableName,
                 new DvlSqlConstantExpression<string>(firstTableMatchingCol) == new DvlSqlConstantExpression<string>(secondTableMatchingCol)));
             return this;
         }
 
         public IOrderer OrderBy(IOrderer orderBy, params string[] fields)
         {
-            if (this.CurrFullSelectExpression.OrderByExpression == null)
-                this.CurrFullSelectExpression.OrderByExpression = new DvlSqlOrderByExpression(fields.Select(f => (f, Ascending: Ordering.ASC)));
-            else this.CurrFullSelectExpression.OrderByExpression.AddRange(fields.Select(f => (f, Ascending: Ordering.ASC)));
+            if (this.CurrFullSelectExpression.OrderBy == null)
+                this.CurrFullSelectExpression.OrderBy = new DvlSqlOrderByExpression(fields.Select(f => (f, Ascending: Ordering.ASC)));
+            else this.CurrFullSelectExpression.OrderBy.AddRange(fields.Select(f => (f, Ascending: Ordering.ASC)));
 
             return orderBy;
         }
 
         public IOrderer OrderByDescending(IOrderer orderBy, params string[] fields)
         {
-            if (this.CurrFullSelectExpression.OrderByExpression == null)
-                this.CurrFullSelectExpression.OrderByExpression = new DvlSqlOrderByExpression(fields.Select(f => (f, Descending: Ordering.DESC)));
-            else this.CurrFullSelectExpression.OrderByExpression.AddRange(fields.Select(f => (f, Descending: Ordering.DESC)));
+            if (this.CurrFullSelectExpression.OrderBy == null)
+                this.CurrFullSelectExpression.OrderBy = new DvlSqlOrderByExpression(fields.Select(f => (f, Descending: Ordering.DESC)));
+            else this.CurrFullSelectExpression.OrderBy.AddRange(fields.Select(f => (f, Descending: Ordering.DESC)));
 
             return orderBy;
         }
 
         public IGrouper GroupBy(params string[] parameterNames)
         {
-            this.CurrFullSelectExpression.GroupByExpression = new DvlSqlGroupByExpression(parameterNames);
+            this.CurrFullSelectExpression.GroupBy = new DvlSqlGroupByExpression(parameterNames);
 
             return this;
         }
 
         public ISelectable Having(DvlSqlBinaryExpression binaryExpression)
         {
-            this.CurrFullSelectExpression.GroupByExpression.BinaryExpression = binaryExpression;
+            this.CurrFullSelectExpression.GroupBy.BinaryExpression = binaryExpression;
 
             return this;
         }
 
         public ISelectable Having(DvlSqlBinaryExpression binaryExpression, IEnumerable<DvlSqlParameter> @params)
         {
-            this.CurrFullSelectExpression.GroupByExpression.BinaryExpression = binaryExpression;
-            this.CurrFullSelectExpression.GroupByExpression.WithParameters(@params);
+            this.CurrFullSelectExpression.GroupBy.BinaryExpression = binaryExpression;
+            this.CurrFullSelectExpression.GroupBy.WithParameters(@params);
 
             return this;
         }

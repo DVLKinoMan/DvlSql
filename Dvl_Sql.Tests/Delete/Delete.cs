@@ -18,7 +18,7 @@ namespace Dvl_Sql.Tests.Delete
         public void TestMethod1()
         {
             var actualDelete = this._sql.DeleteFrom("dbo.Words")
-                .Where(ConstantExp("Text") == ConstantExp("@text"),
+                .Where(ConstantExp("Text") == "@text",
                     Params(
                         Param("@text", NVarCharMax("New Text"))
                     ))

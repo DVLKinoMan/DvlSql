@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using Dvl_Sql.Abstract;
+using Dvl_Sql.Expressions;
 using NUnit.Framework;
 using static Dvl_Sql.Extensions.Expressions;
 using static Dvl_Sql.Extensions.SqlType;
+using DateTime = System.DateTime;
 
 namespace Dvl_Sql.Tests.Select
 {
@@ -15,23 +17,24 @@ namespace Dvl_Sql.Tests.Select
                 "Data Source=SQL; Initial Catalog=BANK2000; Connection Timeout=30; User Id=b2000; Password=1234; Application Name = CoreApi");
 
         private readonly IDvlSql _sql2 =
-            IDvlSql.DefaultDvlSql(@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1");
-        
+            IDvlSql.DefaultDvlSql(
+                @"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1");
+
         [Test]
         public void TestMethod1()
         {
             var select = this._sql1
                 .From(AsExp("nbe.BANK_DATA", "B1"), true)
-                .Join(AsExp("nbe.BANK_DATA", "B2"), ConstantExp("B1.REC_ID") == ConstantExp("B2.REC_ID"))
+                .Join(AsExp("nbe.BANK_DATA", "B2"), ConstantExp("B1.REC_ID") == "B2.REC_ID")
                 .Where(
-                        ConstantExp("B1.AMOUNT") < ConstantExp(35000) &
-                        !InExp("B1.REC_ID", SelectTopExp(FromExp("nbe.BANK_DATA"), 4, "REC_ID")) &
-                        !!!LikeExp("B1.RESTRICT_CODE", "%dd%") &
-                        ConstantExp("B1.ADD_DATE") > ConstantExp("@date")
+                    ConstantExp("B1.AMOUNT") < 35000 &
+                    !InExp("B1.REC_ID", SelectTopExp(FromExp("nbe.BANK_DATA"), 4, "REC_ID")) &
+                    !!!LikeExp("B1.RESTRICT_CODE", "%dd%") &
+                    ConstantExp("B1.ADD_DATE") > "@date"
                     , Params(Param("@date", new DateTime(2012, 1, 1)))
                 )
                 .GroupBy("B1.AMOUNT")
-                .Having(ConstantExp("Count(*)") >= ConstantExp("2"))
+                .Having(ConstantExp("Count(*)") >= "2")
                 .Select("B1.AMOUNT", AsExp(CountExp(), "[CountExp]"))
                 .OrderByDescending("[CountExp]", "AMOUNT")
                 .ToString();
@@ -53,17 +56,17 @@ namespace Dvl_Sql.Tests.Select
         {
             string actualSelect = this._sql2
                 .From("dbo.Words")
-                .Where(IsNullExp(ConstantExp("Date")))
+                .Where(IsNullExp("Date"))
                 .SelectTop(1)
                 .OrderByDescending("Amount")
                 .ToString();
 
             string expectedSelect = Regex.Escape(string.Format("SELECT TOP 1 * FROM dbo.Words{0}" +
-                                                                             "WHERE Date IS NULL{0}" +
-                                                                             "ORDER BY Amount DESC", 
+                                                               "WHERE Date IS NULL{0}" +
+                                                               "ORDER BY Amount DESC",
                 Environment.NewLine));
-            
-            Assert.That(Regex.Escape(actualSelect),Is.EqualTo(expectedSelect));
+
+            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
         }
 
         [Test]
@@ -71,17 +74,17 @@ namespace Dvl_Sql.Tests.Select
         {
             string actualSelect = this._sql2
                 .From("dbo.Words")
-                .Where(IsNullExp(ConstantExp("Date")))
+                .Where(IsNullExp("Date"))
                 .SelectTop(1, "Amount")
                 .OrderByDescending("Amount")
                 .ToString();
-            
+
             string expectedSelect = Regex.Escape(string.Format("SELECT TOP 1 Amount FROM dbo.Words{0}" +
-                                                                             "WHERE Date IS NULL{0}" +
-                                                                             "ORDER BY Amount DESC", 
+                                                               "WHERE Date IS NULL{0}" +
+                                                               "ORDER BY Amount DESC",
                 Environment.NewLine));
-            
-            Assert.That(Regex.Escape(actualSelect),Is.EqualTo(expectedSelect));
+
+            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
         }
 
         [Test]
@@ -89,17 +92,17 @@ namespace Dvl_Sql.Tests.Select
         {
             var actualSelect = this._sql2
                 .From("dbo.Words")
-                .Where(!IsNullExp(ConstantExp("Date")))
+                .Where(!IsNullExp("Date"))
                 .SelectTop(1, "Amount", "Date")
                 .OrderByDescending("Amount")
                 .ToString();
 
             string expectedSelect = Regex.Escape(string.Format("SELECT TOP 1 Amount, Date FROM dbo.Words{0}" +
-                                                                             "WHERE Date IS NOT NULL{0}" +
-                                                                             "ORDER BY Amount DESC", 
+                                                               "WHERE Date IS NOT NULL{0}" +
+                                                               "ORDER BY Amount DESC",
                 Environment.NewLine));
-            
-            Assert.That(Regex.Escape(actualSelect),Is.EqualTo(expectedSelect));
+
+            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
         }
 
         [Test]
@@ -107,12 +110,12 @@ namespace Dvl_Sql.Tests.Select
         {
             var where = _sql1
                 .From(AsExp("nbe.BANK_DATA", "B1"), true)
-                .Join(AsExp("nbe.BANK_DATA", "B2"), ConstantExp("B1.REC_ID") == ConstantExp("B2.REC_ID"))
+                .Join(AsExp("nbe.BANK_DATA", "B2"), ConstantExp("B1.REC_ID") == "B2.REC_ID")
                 .Where(
-                    ConstantExp("B1.AMOUNT") < ConstantExp(35000) &
+                    ConstantExp("B1.AMOUNT") < 35000 &
                     !InExp("B1.REC_ID", SelectTopExp(FromExp("nbe.BANK_DATA"), 4, "REC_ID")) &
                     !!!LikeExp("B1.RESTRICT_CODE", "%dd%") &
-                    ConstantExp("B1.ADD_DATE") > ConstantExp("@date")
+                    ConstantExp("B1.ADD_DATE") > "@date"
                     , Params(Param("@date", new DateTime(2012, 1, 1)))
                 );
 
@@ -135,14 +138,44 @@ namespace Dvl_Sql.Tests.Select
                 "WHERE B1.AMOUNT < 35000 AND B1.REC_ID NOT IN ( SELECT TOP 4 REC_ID FROM nbe.BANK_DATA ) AND B1.RESTRICT_CODE NOT LIKE '%dd%' AND B1.ADD_DATE > @date{0}" +
                 "ORDER BY B1.AMOUNT DESC",
                 Environment.NewLine));
-            
+
             Assert.Multiple(
                 () =>
                 {
-                    Assert.That(Regex.Escape(actualSelect1),Is.EqualTo(expectedSelect1));
-                    Assert.That(Regex.Escape(actualSelect2),Is.EqualTo(expectedSelect2));
+                    Assert.That(Regex.Escape(actualSelect1), Is.EqualTo(expectedSelect1));
+                    Assert.That(Regex.Escape(actualSelect2), Is.EqualTo(expectedSelect2));
                 });
         }
-        
+
+        private static object[][] _paramsForMethod = new[]
+        {
+            new object[] {true, new DateTime(2011, 11, 11), new DateTime(2019, 11, 11), 11},
+            new object[] {false, new DateTime(2011, 11, 11), new DateTime(2019, 11, 11), 11}
+        };
+
+        [Test]
+        [TestCaseSource(nameof(_paramsForMethod))]
+        public void TestMethod6(bool onlyOwn, DateTime? startDateTime, DateTime? endDateTime, int userId)
+        {
+            var select = _sql1.From($"dbo.DocumentsArc X")
+                .Where((IsNullExp("@startDate") | ConstantExp("X.CreatedAt") >= "@startDate") &
+                       (IsNullExp("@endDate") | ConstantExp("X.CreatedAt") <= "@endDate") &
+                       (onlyOwn
+                           ? (DvlSqlBinaryExpression) (ConstantExp("X.WorkerUserId") == "@userId")
+                           : ExistsExp(FullSelectExp(SelectExp(FromExp($"dbo.UserDocumentTypes UDT")),
+                                 where: WhereExp(
+                                     ConstantExp("UDT.Id") == "X.Type" & ConstantExp("UDT.UserId") == "@userId")))
+                             | ConstantExp("X.WorkerUserId") == "@userId"
+                       ),
+                    Params(
+                        Param("@startDate", DateTime(startDateTime ?? System.DateTime.Now)),
+                        Param("@endDate", DateTime(endDateTime ?? System.DateTime.Now)),
+                        Param("@userId", Int(userId))
+                    ))
+                .Select("X.*")
+                .OrderBy("X.Priority")
+                .OrderBy("X.CreatedAt")
+                .ToString();
+        }
     }
 }

@@ -28,7 +28,7 @@ namespace Dvl_Sql.Tests.Insert
                     FullSelectExp(
                         SelectTopExp(
                             FromExp("dbo.Words"), 2, "Amount", "Text"),
-                        orderByExpression: OrderByExp(
+                        orderBy: OrderByExp(
                             ("Text", Ordering.ASC)
                         )
                     )
@@ -48,8 +48,8 @@ namespace Dvl_Sql.Tests.Insert
             var actualInsert = this._sql
                 .InsertInto("dbo.Words", Columns("Amount", "Text"))
                 .SelectStatement(FullSelectExp(SelectTopExp(FromExp("dbo.Words"), 2, "Amount", "Text"),
-                        orderByExpression: OrderByExp(("Text", Ordering.ASC)),
-                        sqlWhereExpression: WhereExp(ConstantExp("Amount") == ConstantExp("@amount"))),
+                        orderBy: OrderByExp(("Text", Ordering.ASC)),
+                        where: WhereExp(ConstantExp("Amount") == "@amount")),
                     Param("amount", Decimal(42))
                 )
                 .ToString();

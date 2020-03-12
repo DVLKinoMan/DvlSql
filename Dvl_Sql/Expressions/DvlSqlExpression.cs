@@ -1,4 +1,5 @@
-﻿using Dvl_Sql.Abstract;
+﻿using System;
+using Dvl_Sql.Abstract;
 
 namespace Dvl_Sql.Expressions
 {
@@ -36,5 +37,11 @@ namespace Dvl_Sql.Expressions
         public abstract void Accept(ISqlExpressionVisitor visitor);
         
         public static implicit operator DvlSqlExpression(string str) => new DvlSqlConstantExpression<string>(str);
+        
+        public static implicit operator DvlSqlExpression(int num) => new DvlSqlConstantExpression<int>(num);
+        
+        public static implicit operator DvlSqlExpression(double num) => new DvlSqlConstantExpression<double>(num);
+        
+        public static implicit operator DvlSqlExpression(DateTime dateTime) => new DvlSqlConstantExpression<DateTime>(dateTime);
     }
 }

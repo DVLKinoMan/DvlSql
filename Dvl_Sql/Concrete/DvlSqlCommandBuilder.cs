@@ -51,7 +51,7 @@ namespace Dvl_Sql.Concrete
             }
 
             end:
-            expression.FromExpression.Accept(this);
+            expression.From.Accept(this);
         }
 
         public void Visit(DvlSqlWhereExpression expression)
@@ -167,15 +167,15 @@ namespace Dvl_Sql.Concrete
 
         public void Visit(DvlSqlFullSelectExpression expression)
         {
-            if (expression.SelectExpression == null)
+            if (expression.Select == null)
                 throw new ArgumentNullException("SelectExpression", "expression has no Select Expression");
 
-            expression.SelectExpression.Accept(this);
-            foreach (var joinExpression in expression.JoinExpressions)
+            expression.Select.Accept(this);
+            foreach (var joinExpression in expression.Join)
                 joinExpression.Accept(this);
-            expression.WhereExpression?.Accept(this);
-            expression.GroupByExpression?.Accept(this);
-            expression.OrderByExpression?.Accept(this);
+            expression.Where?.Accept(this);
+            expression.GroupBy?.Accept(this);
+            expression.OrderBy?.Accept(this);
         }
 
         public void Visit(DvlSqlDeleteExpression expression)

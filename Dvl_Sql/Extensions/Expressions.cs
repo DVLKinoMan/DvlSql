@@ -65,11 +65,11 @@ namespace Dvl_Sql.Extensions
         public static DvlSqlNotExpression IsNotNullExp(DvlSqlExpression expression) => NotExp(IsNullExp(expression));
 
         public static DvlSqlFullSelectExpression FullSelectExp(
-            DvlSqlSelectExpression selectExpression,
-            List<DvlSqlJoinExpression> sqlJoinExpressions = null, DvlSqlWhereExpression sqlWhereExpression = null,
-            DvlSqlGroupByExpression groupByExpression = null, DvlSqlOrderByExpression orderByExpression = null) =>
-            new DvlSqlFullSelectExpression(selectExpression.FromExpression, sqlJoinExpressions, sqlWhereExpression, groupByExpression,
-                selectExpression, orderByExpression);
+            DvlSqlSelectExpression @select,
+            List<DvlSqlJoinExpression> @join = null, DvlSqlWhereExpression @where = null,
+            DvlSqlGroupByExpression groupBy = null, DvlSqlOrderByExpression orderBy = null) =>
+            new DvlSqlFullSelectExpression(@select.From, @join, @where, groupBy,
+                @select, orderBy);
 
         public static DvlSqlOrderByExpression OrderByExp(params (string column, Ordering ordering)[] @params) =>
             new DvlSqlOrderByExpression(@params);

@@ -20,7 +20,7 @@ namespace Dvl_Sql.Tests.Select
         public void InnerJoin(string joinToTable, string firstTableMatchingCol, string secondTableMatchingCol)
         {
             var actualSelect1 = _sql.From(TableName)
-                .Join(joinToTable, ConstantExp(firstTableMatchingCol) == ConstantExp(secondTableMatchingCol))
+                .Join(joinToTable, ConstantExp(firstTableMatchingCol) == secondTableMatchingCol)
                 .Select()
                 .ToString();
 
@@ -46,7 +46,7 @@ namespace Dvl_Sql.Tests.Select
         public void LeftJoin(string joinToTable, string firstTableMatchingCol, string secondTableMatchingCol)
         {
             var actualSelect1 = _sql.From(TableName)
-                .LeftJoin(joinToTable, ConstantExp(firstTableMatchingCol) == ConstantExp(secondTableMatchingCol))
+                .LeftJoin(joinToTable, ConstantExp(firstTableMatchingCol) == secondTableMatchingCol)
                 .Select()
                 .ToString();
 
@@ -70,7 +70,7 @@ namespace Dvl_Sql.Tests.Select
         public void RightJoin(string joinToTable, string firstTableMatchingCol, string secondTableMatchingCol)
         {
             var actualSelect1 = _sql.From(TableName)
-                .RightJoin(joinToTable, ConstantExp(firstTableMatchingCol) == ConstantExp(secondTableMatchingCol))
+                .RightJoin(joinToTable, ConstantExp(firstTableMatchingCol) == secondTableMatchingCol)
                 .Select()
                 .ToString();
 
@@ -95,7 +95,7 @@ namespace Dvl_Sql.Tests.Select
         public void FullJoin(string joinToTable, string firstTableMatchingCol, string secondTableMatchingCol)
         {
             var actualSelect1 = _sql.From(TableName)
-                .FullJoin(joinToTable, ConstantExp(firstTableMatchingCol) == ConstantExp(secondTableMatchingCol))
+                .FullJoin(joinToTable, ConstantExp(firstTableMatchingCol) == secondTableMatchingCol)
                 .Select()
                 .ToString();
 
