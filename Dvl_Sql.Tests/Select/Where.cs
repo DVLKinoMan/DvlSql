@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 using Dvl_Sql.Abstract;
 using NUnit.Framework;
-using static Dvl_Sql.Extensions.Expressions;
+using static Dvl_Sql.Helpers.Expressions;
 
 namespace Dvl_Sql.Tests.Select
 {
@@ -20,7 +20,7 @@ namespace Dvl_Sql.Tests.Select
         public void WithIntConstantExpression(string colName, int value)
         {
             var actualSelect = this._sql.From(TableName)
-                .Where(ConstantExp(colName) == value)
+                .Where(ConstantExpCol(colName) == value)
                 .Select()
                 .ToString();
 
@@ -37,13 +37,13 @@ namespace Dvl_Sql.Tests.Select
         public void WithStringConstantExpression(string colName, string value)
         {
             var actualSelect = this._sql.From(TableName)
-                .Where(ConstantExp(colName) == value)
+                .Where(ConstantExpCol(colName) == ConstantExp(value))
                 .Select()
                 .ToString();
 
             var expectedSelect = Regex.Escape(
                 $"SELECT * FROM {TableName}{Environment.NewLine}" + 
-                $"WHERE {colName} = {value}"
+                $"WHERE {colName} = '{value}'"
             );
             
             Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
@@ -54,7 +54,7 @@ namespace Dvl_Sql.Tests.Select
         public void WithDoubleConstantExpression(string colName, double value)
         {
             var actualSelect = this._sql.From(TableName)
-                .Where(ConstantExp(colName) == value)
+                .Where(ConstantExpCol(colName) == value)
                 .Select()
                 .ToString();
 
@@ -71,7 +71,7 @@ namespace Dvl_Sql.Tests.Select
         {
             var dateTime = new DateTime(2019, 11, 11);
             var actualSelect = this._sql.From(TableName)
-                .Where(ConstantExp("CreatedTime") == dateTime)
+                .Where(ConstantExpCol("CreatedTime") == dateTime)
                 .Select()
                 .ToString();
 
@@ -89,7 +89,7 @@ namespace Dvl_Sql.Tests.Select
         public void WithGreaterExpression(string colName, double value)
         {
             var actualSelect = this._sql.From(TableName)
-                .Where(ConstantExp(colName) > value)
+                .Where(ConstantExpCol(colName) > value)
                 .Select()
                 .ToString();
 
@@ -257,8 +257,8 @@ namespace Dvl_Sql.Tests.Select
         public void AndWithConstantExpressions(string col1, string col2)
         {
             var actualSelect = this._sql.From(TableName)
-                .Where(ConstantExp(col1) == 5.25 &
-                       ConstantExp(col2) == 3)
+                .Where(ConstantExpCol(col1) == 5.25 &
+                       ConstantExpCol(col2) == 3)
                 .Select()
                 .ToString();
 
@@ -275,8 +275,8 @@ namespace Dvl_Sql.Tests.Select
         public void OrWithConstantExpressions(string col1, string col2)
         {
             var actualSelect = this._sql.From(TableName)
-                .Where(ConstantExp(col1) == 5.25 |
-                       ConstantExp(col2) == 3)
+                .Where(ConstantExpCol(col1) == 5.25 |
+                       ConstantExpCol(col2) == 3)
                 .Select()
                 .ToString();
 
@@ -293,7 +293,7 @@ namespace Dvl_Sql.Tests.Select
         public void NotEqualityWithConstantExpressions(string col1)
         {
             var actualSelect = this._sql.From(TableName)
-                .Where(!(ConstantExp(col1) == 5.25))
+                .Where(!(ConstantExpCol(col1) == 5.25))
                 .Select()
                 .ToString();
 
@@ -310,7 +310,7 @@ namespace Dvl_Sql.Tests.Select
         public void NotLessWithConstantExpressions(string col1)
         {
             var actualSelect = this._sql.From(TableName)
-                .Where(!(ConstantExp(col1) < 5.25))
+                .Where(!(ConstantExpCol(col1) < 5.25))
                 .Select()
                 .ToString();
 
@@ -327,7 +327,7 @@ namespace Dvl_Sql.Tests.Select
         public void NotGreaterWithConstantExpressions(string col1)
         {
             var actualSelect = this._sql.From(TableName)
-                .Where(!(ConstantExp(col1) > 5.25))
+                .Where(!(ConstantExpCol(col1) > 5.25))
                 .Select()
                 .ToString();
 
@@ -344,7 +344,7 @@ namespace Dvl_Sql.Tests.Select
         public void NotLessOrEqualWithConstantExpressions(string col1)
         {
             var actualSelect = this._sql.From(TableName)
-                .Where(!(ConstantExp(col1) <= 5.25))
+                .Where(!(ConstantExpCol(col1) <= 5.25))
                 .Select()
                 .ToString();
 
@@ -361,7 +361,7 @@ namespace Dvl_Sql.Tests.Select
         public void NotGreaterOrEqualWithConstantExpressions(string col1)
         {
             var actualSelect = this._sql.From(TableName)
-                .Where(!(ConstantExp(col1) >= 5.25))
+                .Where(!(ConstantExpCol(col1) >= 5.25))
                 .Select()
                 .ToString();
 
@@ -378,7 +378,7 @@ namespace Dvl_Sql.Tests.Select
         public void NotNotGreaterWithConstantExpressions(string col1)
         {
             var actualSelect = this._sql.From(TableName)
-                .Where(!(ConstantExp(col1) !> 5.25))
+                .Where(!(ConstantExpCol(col1) !> 5.25))
                 .Select()
                 .ToString();
 
@@ -395,7 +395,7 @@ namespace Dvl_Sql.Tests.Select
         public void NotNotLessWithConstantExpressions(string col1)
         {
             var actualSelect = this._sql.From(TableName)
-                .Where(!(ConstantExp(col1) !< 5.25))
+                .Where(!(ConstantExpCol(col1) !< 5.25))
                 .Select()
                 .ToString();
 
@@ -412,7 +412,7 @@ namespace Dvl_Sql.Tests.Select
         public void NotNotEqualWithConstantExpressions(string col1)
         {
             var actualSelect = this._sql.From(TableName)
-                .Where(!(ConstantExp(col1) != 5.25))
+                .Where(!(ConstantExpCol(col1) != 5.25))
                 .Select()
                 .ToString();
 

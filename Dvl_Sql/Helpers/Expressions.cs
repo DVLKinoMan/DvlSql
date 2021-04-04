@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Dvl_Sql.Expressions;
 
-namespace Dvl_Sql.Extensions
+namespace Dvl_Sql.Helpers
 {
     public static class Expressions
     {
@@ -25,8 +25,11 @@ namespace Dvl_Sql.Extensions
             DvlSqlConstantExpression rightExp)
             => new DvlSqlComparisonExpression(leftExp, op, rightExp);
 
-        public static DvlSqlConstantExpression<TValue> ConstantExp<TValue>(TValue value) =>
-            new DvlSqlConstantExpression<TValue>(value);
+        public static DvlSqlConstantExpression<TValue> ConstantExpCol<TValue>(TValue value) =>
+            new DvlSqlConstantExpression<TValue>(value, true);
+
+        public static DvlSqlConstantExpression<TValue> ConstantExp<TValue>(TValue value, bool isTableColumn = false) =>
+            new DvlSqlConstantExpression<TValue>(value, isTableColumn);
 
         public static DvlSqlOrExpression OrExp(params DvlSqlBinaryExpression[] innerExpressions) =>
             new DvlSqlOrExpression(innerExpressions);

@@ -3,8 +3,8 @@ using System.Text.RegularExpressions;
 using Dvl_Sql.Abstract;
 using Dvl_Sql.Expressions;
 using NUnit.Framework;
-using static Dvl_Sql.Extensions.Expressions;
-using static Dvl_Sql.Extensions.SqlType;
+using static Dvl_Sql.Helpers.Expressions;
+using static Dvl_Sql.Helpers.SqlType;
 using DateTime = System.DateTime;
 
 namespace Dvl_Sql.Tests.Select
@@ -25,16 +25,16 @@ namespace Dvl_Sql.Tests.Select
         {
             var select = this._sql1
                 .From(AsExp("nbe.BANK_DATA", "B1"), true)
-                .Join(AsExp("nbe.BANK_DATA", "B2"), ConstantExp("B1.REC_ID") == "B2.REC_ID")
+                .Join(AsExp("nbe.BANK_DATA", "B2"), ConstantExpCol("B1.REC_ID") == "B2.REC_ID")
                 .Where(
-                    ConstantExp("B1.AMOUNT") < 35000 &
+                    ConstantExpCol("B1.AMOUNT") < 35000 &
                     !InExp("B1.REC_ID", SelectTopExp(FromExp("nbe.BANK_DATA"), 4, "REC_ID")) &
                     !!!LikeExp("B1.RESTRICT_CODE", "%dd%") &
-                    ConstantExp("B1.ADD_DATE") > "@date"
+                    ConstantExpCol("B1.ADD_DATE") > "@date"
                     , Params(Param("@date", new DateTime(2012, 1, 1)))
                 )
                 .GroupBy("B1.AMOUNT")
-                .Having(ConstantExp("Count(*)") >= "2")
+                .Having(ConstantExpCol("Count(*)") >= "2")
                 .Select("B1.AMOUNT", AsExp(CountExp(), "[CountExp]"))
                 .OrderByDescending("[CountExp]", "AMOUNT")
                 .ToString();
@@ -110,12 +110,12 @@ namespace Dvl_Sql.Tests.Select
         {
             var where = _sql1
                 .From(AsExp("nbe.BANK_DATA", "B1"), true)
-                .Join(AsExp("nbe.BANK_DATA", "B2"), ConstantExp("B1.REC_ID") == "B2.REC_ID")
+                .Join(AsExp("nbe.BANK_DATA", "B2"), ConstantExpCol("B1.REC_ID") == "B2.REC_ID")
                 .Where(
-                    ConstantExp("B1.AMOUNT") < 35000 &
+                    ConstantExpCol("B1.AMOUNT") < 35000 &
                     !InExp("B1.REC_ID", SelectTopExp(FromExp("nbe.BANK_DATA"), 4, "REC_ID")) &
                     !!!LikeExp("B1.RESTRICT_CODE", "%dd%") &
-                    ConstantExp("B1.ADD_DATE") > "@date"
+                    ConstantExpCol("B1.ADD_DATE") > "@date"
                     , Params(Param("@date", new DateTime(2012, 1, 1)))
                 );
 
@@ -158,14 +158,14 @@ namespace Dvl_Sql.Tests.Select
         public void TestMethod6(bool onlyOwn, DateTime? startDateTime, DateTime? endDateTime, int userId)
         {
             var select = _sql1.From($"dbo.DocumentsArc X")
-                .Where((IsNullExp("@startDate") | ConstantExp("X.CreatedAt") >= "@startDate") &
-                       (IsNullExp("@endDate") | ConstantExp("X.CreatedAt") <= "@endDate") &
+                .Where((IsNullExp("@startDate") | ConstantExpCol("X.CreatedAt") >= "@startDate") &
+                       (IsNullExp("@endDate") | ConstantExpCol("X.CreatedAt") <= "@endDate") &
                        (onlyOwn
-                           ? (DvlSqlBinaryExpression) (ConstantExp("X.WorkerUserId") == "@userId")
+                           ? (DvlSqlBinaryExpression) (ConstantExpCol("X.WorkerUserId") == "@userId")
                            : ExistsExp(FullSelectExp(SelectExp(FromExp($"dbo.UserDocumentTypes UDT")),
                                  where: WhereExp(
-                                     ConstantExp("UDT.Id") == "X.Type" & ConstantExp("UDT.UserId") == "@userId")))
-                             | ConstantExp("X.WorkerUserId") == "@userId"
+                                     ConstantExpCol("UDT.Id") == "X.Type" & ConstantExpCol("UDT.UserId") == "@userId")))
+                             | ConstantExpCol("X.WorkerUserId") == "@userId"
                        ),
                     Params(
                         Param("@startDate", DateTime(startDateTime ?? System.DateTime.Now)),

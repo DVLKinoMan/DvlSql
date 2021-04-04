@@ -3,8 +3,8 @@ using System.Text.RegularExpressions;
 using Dvl_Sql.Abstract;
 using NUnit.Framework;
 
-using static Dvl_Sql.Extensions.Expressions;
-using static Dvl_Sql.Extensions.SqlType;
+using static Dvl_Sql.Helpers.Expressions;
+using static Dvl_Sql.Helpers.SqlType;
 
 namespace Dvl_Sql.Tests.Delete
 {
@@ -18,7 +18,7 @@ namespace Dvl_Sql.Tests.Delete
         public void TestMethod1()
         {
             var actualDelete = this._sql.DeleteFrom("dbo.Words")
-                .Where(ConstantExp("Text") == "@text",
+                .Where(ConstantExpCol("Text") == "@text",
                     Params(
                         Param("@text", NVarCharMax("New Text"))
                     ))

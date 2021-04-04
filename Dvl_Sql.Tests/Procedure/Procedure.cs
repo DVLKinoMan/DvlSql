@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Data;
 using Dvl_Sql.Abstract;
 using NUnit.Framework;
-using static Dvl_Sql.Extensions.DataReader;
-using static Dvl_Sql.Extensions.SqlType;
+using static Dvl_Sql.Helpers.DataReader;
+using static Dvl_Sql.Helpers.SqlType;
 using static Dvl_Sql.Tests.Result.Helpers;
 
 namespace Dvl_Sql.Tests.Procedure

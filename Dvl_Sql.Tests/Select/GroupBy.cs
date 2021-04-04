@@ -2,8 +2,8 @@
 using System.Text.RegularExpressions;
 using Dvl_Sql.Abstract;
 using NUnit.Framework;
-using static Dvl_Sql.Extensions.Expressions;
-using static Dvl_Sql.Extensions.SqlType;
+using static Dvl_Sql.Helpers.Expressions;
+using static Dvl_Sql.Helpers.SqlType;
 
 namespace Dvl_Sql.Tests.Select
 {
@@ -41,7 +41,7 @@ namespace Dvl_Sql.Tests.Select
         {
             var actualSelect = this._sql.From(TableName)
                 .GroupBy(groupParams)
-                .Having(ConstantExp(groupParams[0]) == 1)
+                .Having(ConstantExpCol(groupParams[0]) == 1)
                 .Select(groupParams)
                 .ToString();
 
@@ -61,7 +61,7 @@ namespace Dvl_Sql.Tests.Select
         {
             var actualSelect = this._sql.From(TableName)
                 .GroupBy(groupParams)
-                .Having(ConstantExp(groupParams[0]) == "@date", Params(Param("@date", new DateTime(2019,11,11))) )
+                .Having(ConstantExpCol(groupParams[0]) == "@date", Params(Param("@date", new DateTime(2019,11,11))) )
                 .Select(groupParams)
                 .ToString();
 

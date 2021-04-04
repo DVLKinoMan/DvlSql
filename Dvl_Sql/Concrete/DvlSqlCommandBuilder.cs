@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using Dvl_Sql.Abstract;
 using Dvl_Sql.Expressions;
-using static Dvl_Sql.Extensions.SystemExtensions;
+using static Dvl_Sql.Helpers.SystemExtensions;
 
 namespace Dvl_Sql.Concrete
 {

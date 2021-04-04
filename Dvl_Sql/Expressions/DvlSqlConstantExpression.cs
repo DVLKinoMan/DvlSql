@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Dvl_Sql.Abstract;
 
+using static Dvl_Sql.Helpers.Expressions;
+
 namespace Dvl_Sql.Expressions
 {
     public abstract class DvlSqlConstantExpression : DvlSqlExpression
@@ -41,13 +43,13 @@ namespace Dvl_Sql.Expressions
             DvlSqlConstantExpression rhs) =>
             new DvlSqlComparisonExpression(lhs, SqlComparisonOperator.LessOrEqual, rhs);
         
-        public static implicit operator DvlSqlConstantExpression(string str) => new DvlSqlConstantExpression<string>(str);
+        public static implicit operator DvlSqlConstantExpression(string str) => ConstantExp(str, true);
         
-        public static implicit operator DvlSqlConstantExpression(int num) => new DvlSqlConstantExpression<int>(num);
+        public static implicit operator DvlSqlConstantExpression(int num) => ConstantExp(num);
         
-        public static implicit operator DvlSqlConstantExpression(double num) => new DvlSqlConstantExpression<double>(num);
+        public static implicit operator DvlSqlConstantExpression(double num) => ConstantExp(num);
         
-        public static implicit operator DvlSqlConstantExpression(DateTime dateTime) => new DvlSqlConstantExpression<DateTime>(dateTime);
+        public static implicit operator DvlSqlConstantExpression(DateTime dateTime) => ConstantExp(dateTime);
     }
 
     public class DvlSqlConstantExpression<TValue> : DvlSqlConstantExpression
@@ -65,9 +67,15 @@ namespace Dvl_Sql.Expressions
 
         private TValue Value { get; }
 
-        public string StringValue => this.Value.ToString();
+        private bool IsTableColumn { get; }
 
-        public DvlSqlConstantExpression(TValue value) => this.Value = value;
+        public string StringValue => !IsTableColumn && this.Value is string ? $"'{this.Value}'" : this.Value.ToString();
+
+        public DvlSqlConstantExpression(TValue value, bool isTableColumn = true)
+        {
+            this.Value = value;
+            this.IsTableColumn = isTableColumn;
+        }
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
         

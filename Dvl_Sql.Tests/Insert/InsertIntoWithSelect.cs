@@ -5,8 +5,8 @@ using Dvl_Sql.Abstract;
 using Dvl_Sql.Expressions;
 using NUnit.Framework;
 
-using static Dvl_Sql.Extensions.Expressions;
-using static Dvl_Sql.Extensions.SqlType;
+using static Dvl_Sql.Helpers.Expressions;
+using static Dvl_Sql.Helpers.SqlType;
 
 namespace Dvl_Sql.Tests.Insert
 {
@@ -49,7 +49,7 @@ namespace Dvl_Sql.Tests.Insert
                 .InsertInto("dbo.Words", Columns("Amount", "Text"))
                 .SelectStatement(FullSelectExp(SelectTopExp(FromExp("dbo.Words"), 2, "Amount", "Text"),
                         orderBy: OrderByExp(("Text", Ordering.ASC)),
-                        where: WhereExp(ConstantExp("Amount") == "@amount")),
+                        where: WhereExp(ConstantExpCol("Amount") == "@amount")),
                     Param("amount", Decimal(42))
                 )
                 .ToString();

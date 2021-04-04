@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 
-namespace Dvl_Sql.Extensions
+namespace Dvl_Sql.Helpers
 {
     public static class DataReader
     {
