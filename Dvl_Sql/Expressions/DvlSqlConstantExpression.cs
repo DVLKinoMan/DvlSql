@@ -63,6 +63,8 @@ namespace Dvl_Sql.Expressions
             return obj.GetType() == this.GetType() && Equals((DvlSqlConstantExpression<TValue>) obj);
         }
 
+        public override string ToString() => StringValue;
+
         public override int GetHashCode() => EqualityComparer<TValue>.Default.GetHashCode(Value);
 
         private TValue Value { get; }
