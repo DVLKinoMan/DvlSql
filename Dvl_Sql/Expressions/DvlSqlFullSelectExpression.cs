@@ -23,5 +23,12 @@ namespace Dvl_Sql.Expressions
         public DvlSqlOrderByExpression OrderBy { get; set; }
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
+
+        public void AddJoin(DvlSqlJoinExpression exp)
+        {
+            if (Join == null)
+                Join = new List<DvlSqlJoinExpression>();
+            Join.Add(exp);
+        }
     }
 }
