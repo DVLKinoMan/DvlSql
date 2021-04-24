@@ -14,6 +14,9 @@ namespace Dvl_Sql.Expressions
 
         public DvlSqlSelectExpression(DvlSqlFromExpression expression, IEnumerable<string> parameterNames, int? top = null) =>
             (this.From, this.ParameterNames, this.Top) = (expression, parameterNames, top);
+        
+        public DvlSqlSelectExpression(DvlSqlFromExpression expression, params string[] parameterNames) =>
+            (this.From, this.ParameterNames) = (expression, parameterNames);
 
         // public DvlSqlSelectExpression WithRoot(bool isRoot)
         // {
