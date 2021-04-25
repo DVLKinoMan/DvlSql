@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Dvl_Sql.Abstract;
 
 using static Dvl_Sql.Helpers.Expressions;
+using static Dvl_Sql.Helpers.SqlType;
 
 namespace Dvl_Sql.Expressions
 {
@@ -71,7 +72,7 @@ namespace Dvl_Sql.Expressions
 
         private bool IsTableColumn { get; }
 
-        public string StringValue => !IsTableColumn && this.Value is string ? $"'{this.Value}'" : this.Value.ToString();
+        public string StringValue => !IsTableColumn && this.Value is string ? $"'{this.Value}'" : GetDefaultSqlString(this.Value);
 
         public DvlSqlConstantExpression(TValue value, bool isTableColumn = true)
         {

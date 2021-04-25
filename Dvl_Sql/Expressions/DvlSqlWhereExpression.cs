@@ -8,6 +8,10 @@ namespace Dvl_Sql.Expressions
 
         public DvlSqlWhereExpression(DvlSqlBinaryExpression expression) => (this.InnerExpression, this.IsRoot) = (expression, true);
 
+        public DvlSqlWhereExpression()
+        {
+        }
+
         public DvlSqlWhereExpression WithRoot(bool isRoot)
         {
             this.IsRoot = isRoot;
@@ -16,7 +20,7 @@ namespace Dvl_Sql.Expressions
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
 
-        public void Add(DvlSqlBinaryExpression binaryExp) => InnerExpression &= binaryExp;
+        public void Add(DvlSqlBinaryExpression binaryExp) => InnerExpression = InnerExpression is null ? binaryExp : InnerExpression &= binaryExp;
 
         public static DvlSqlWhereExpression operator &(DvlSqlWhereExpression leftWhereExpression,
             DvlSqlBinaryExpression rightBinaryExpression) => new DvlSqlWhereExpression(leftWhereExpression.InnerExpression & rightBinaryExpression);

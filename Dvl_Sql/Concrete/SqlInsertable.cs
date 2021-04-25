@@ -393,7 +393,7 @@ namespace Dvl_Sql.Concrete
             params DvlSqlParameter[] @params)
         {
             this._insertWithSelectExpression.SelectExpression = selectExpression;
-            this._insertWithSelectExpression.Parameters = @params;
+            this._insertWithSelectExpression.Parameters = @params.ToList();
 
             return new SqlInsertDeleteExecutable(this._dvlSqlConnection, ToString, GetDvlSqlParameters);
         }

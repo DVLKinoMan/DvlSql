@@ -12,12 +12,12 @@ namespace Dvl_Sql.Helpers
         internal static string GetDefaultSqlString<TValue>(TValue value) =>
             value switch
             {
-                string str => $"'{str}'",
-                int i => i.ToString(),
-                char ch => $"'{ch}'",
+                //string str => $"'{str}'",
+                //int i => i.ToString(),
+                //char ch => $"'{ch}'",
                 decimal d => d.ToString(CultureInfo.InvariantCulture),
-                DateTime d => $"'{d:yyyy-MM-dd HH:mm:ss}'",
-                bool b => $"{(b ? 1 : 0)}",
+                //DateTime d => $"'{d:yyyy-MM-dd HH:mm:ss}'",
+                //bool b => $"{(b ? 1 : 0)}",
                 _ => value.ToString()
             };
 
