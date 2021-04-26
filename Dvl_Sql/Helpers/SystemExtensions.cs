@@ -27,6 +27,9 @@ namespace Dvl_Sql.Helpers
         public static string WithAlpha(this string str) =>
             !string.IsNullOrEmpty(str) && str.Length != 0 && str[0] != '@' ? $"@{str}" : str;
 
+        public static string WithAliasBrackets(this string str) =>
+            !string.IsNullOrEmpty(str) && str.Length != 0 && str[0] == '[' && str[^1] == ']' ? str : $"[{str}]";
+
         public static StringBuilder TrimIfLastCharacterIs(this StringBuilder sb, char character)
         {
             if (sb == null || sb.Length == 0)
