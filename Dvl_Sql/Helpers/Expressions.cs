@@ -10,6 +10,7 @@ namespace Dvl_Sql.Helpers
         public static string MaxExp(string param) => $"MAX({param})";
         public static string MinExp(string param) => $"MIN({param})";
         public static string SumExp(string param) => $"SUM({param})";
+        public static string DistinctExp(string param) => $"DISTINCT({param})";
         public static string AsExp(string field, string @as) => @as != null ? $"{field} AS {@as.WithAliasBrackets()}" : field;
         
         public static DvlSqlWhereExpression WhereExp(DvlSqlBinaryExpression innerExpression, bool isRoot = false) =>

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Dvl_Sql.Abstract;
+﻿using Dvl_Sql.Abstract;
 using NUnit.Framework;
+using System;
+using System.Text.RegularExpressions;
 
 namespace Dvl_Sql.Tests.Select
 {
