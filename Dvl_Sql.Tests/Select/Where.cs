@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using Dvl_Sql.Abstract;
 using NUnit.Framework;
 using static Dvl_Sql.Helpers.Expressions;
+using static Dvl_Sql.Helpers.SqlType;
 
 namespace Dvl_Sql.Tests.Select
 {
@@ -256,15 +257,17 @@ namespace Dvl_Sql.Tests.Select
         [TestCase("Amount", "Chars")]
         public void AndWithConstantExpressions(string col1, string col2)
         {
+            var number = 5.25;
+            int secondNumber = 3;
             var actualSelect = this._sql.From(TableName)
-                .Where(ConstantExpCol(col1) == 5.25 &
-                       ConstantExpCol(col2) == 3)
+                .Where(ConstantExpCol(col1) == number &
+                       ConstantExpCol(col2) == secondNumber)
                 .Select()
                 .ToString();
 
             var expectedSelect = Regex.Escape(
                 $"SELECT * FROM {TableName}{Environment.NewLine}" +
-                $"WHERE ( {col1} = 5.25 AND {col2} = 3 )"
+                $"WHERE ( {col1} = {GetDefaultSqlString(number)} AND {col2} = {secondNumber} )"
             );
             
             Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
@@ -274,15 +277,16 @@ namespace Dvl_Sql.Tests.Select
         [TestCase("Amount", "Chars")]
         public void OrWithConstantExpressions(string col1, string col2)
         {
+            var number = 5.25;
             var actualSelect = this._sql.From(TableName)
-                .Where(ConstantExpCol(col1) == 5.25 |
+                .Where(ConstantExpCol(col1) == number |
                        ConstantExpCol(col2) == 3)
                 .Select()
                 .ToString();
 
             var expectedSelect = Regex.Escape(
                 $"SELECT * FROM {TableName}{Environment.NewLine}" +
-                $"WHERE ( {col1} = 5.25 OR {col2} = 3 )"
+                $"WHERE ( {col1} = {GetDefaultSqlString(number)} OR {col2} = 3 )"
             );
             
             Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
@@ -292,14 +296,15 @@ namespace Dvl_Sql.Tests.Select
         [TestCase("Amount")]
         public void NotEqualityWithConstantExpressions(string col1)
         {
+            var number = 5.25;
             var actualSelect = this._sql.From(TableName)
-                .Where(!(ConstantExpCol(col1) == 5.25))
+                .Where(!(ConstantExpCol(col1) == number))
                 .Select()
                 .ToString();
 
             var expectedSelect = Regex.Escape(
                 $"SELECT * FROM {TableName}{Environment.NewLine}" +
-                $"WHERE {col1} <> 5.25"
+                $"WHERE {col1} <> {Dvl_Sql.Helpers.SqlType.GetDefaultSqlString(number)}"
             );
             
             Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
@@ -309,14 +314,15 @@ namespace Dvl_Sql.Tests.Select
         [TestCase("Amount")]
         public void NotLessWithConstantExpressions(string col1)
         {
+            var number = 5.25;
             var actualSelect = this._sql.From(TableName)
-                .Where(!(ConstantExpCol(col1) < 5.25))
+                .Where(!(ConstantExpCol(col1) < number))
                 .Select()
                 .ToString();
 
             var expectedSelect = Regex.Escape(
                 $"SELECT * FROM {TableName}{Environment.NewLine}" +
-                $"WHERE {col1} >= 5.25"
+                $"WHERE {col1} >= {GetDefaultSqlString(number)}"
             );
             
             Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
@@ -326,14 +332,15 @@ namespace Dvl_Sql.Tests.Select
         [TestCase("Amount")]
         public void NotGreaterWithConstantExpressions(string col1)
         {
+            var number = 5.25;
             var actualSelect = this._sql.From(TableName)
-                .Where(!(ConstantExpCol(col1) > 5.25))
+                .Where(!(ConstantExpCol(col1) > number))
                 .Select()
                 .ToString();
 
             var expectedSelect = Regex.Escape(
                 $"SELECT * FROM {TableName}{Environment.NewLine}" +
-                $"WHERE {col1} <= 5.25"
+                $"WHERE {col1} <= {GetDefaultSqlString(number)}"
             );
             
             Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
@@ -343,14 +350,15 @@ namespace Dvl_Sql.Tests.Select
         [TestCase("Amount")]
         public void NotLessOrEqualWithConstantExpressions(string col1)
         {
+            var number = 5.25;
             var actualSelect = this._sql.From(TableName)
-                .Where(!(ConstantExpCol(col1) <= 5.25))
+                .Where(!(ConstantExpCol(col1) <= number))
                 .Select()
                 .ToString();
 
             var expectedSelect = Regex.Escape(
                 $"SELECT * FROM {TableName}{Environment.NewLine}" +
-                $"WHERE {col1} > 5.25"
+                $"WHERE {col1} > {GetDefaultSqlString(number)}"
             );
             
             Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
@@ -360,14 +368,15 @@ namespace Dvl_Sql.Tests.Select
         [TestCase("Amount")]
         public void NotGreaterOrEqualWithConstantExpressions(string col1)
         {
+            var number = 5.25;
             var actualSelect = this._sql.From(TableName)
-                .Where(!(ConstantExpCol(col1) >= 5.25))
+                .Where(!(ConstantExpCol(col1) >= number))
                 .Select()
                 .ToString();
 
             var expectedSelect = Regex.Escape(
                 $"SELECT * FROM {TableName}{Environment.NewLine}" +
-                $"WHERE {col1} < 5.25"
+                $"WHERE {col1} < {GetDefaultSqlString(number)}"
             );
             
             Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
@@ -377,14 +386,15 @@ namespace Dvl_Sql.Tests.Select
         [TestCase("Amount")]
         public void NotNotGreaterWithConstantExpressions(string col1)
         {
+            var number = 5.25;
             var actualSelect = this._sql.From(TableName)
-                .Where(!(ConstantExpCol(col1) !> 5.25))
+                .Where(!(ConstantExpCol(col1) !> number))
                 .Select()
                 .ToString();
 
             var expectedSelect = Regex.Escape(
                 $"SELECT * FROM {TableName}{Environment.NewLine}" +
-                $"WHERE {col1} <= 5.25"
+                $"WHERE {col1} <= {GetDefaultSqlString(number)}"
             );
             
             Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
@@ -394,14 +404,15 @@ namespace Dvl_Sql.Tests.Select
         [TestCase("Amount")]
         public void NotNotLessWithConstantExpressions(string col1)
         {
+            var number = 5.25;
             var actualSelect = this._sql.From(TableName)
-                .Where(!(ConstantExpCol(col1) !< 5.25))
+                .Where(!(ConstantExpCol(col1) !< number))
                 .Select()
                 .ToString();
 
             var expectedSelect = Regex.Escape(
                 $"SELECT * FROM {TableName}{Environment.NewLine}" +
-                $"WHERE {col1} >= 5.25"
+                $"WHERE {col1} >= {GetDefaultSqlString(number)}"
             );
             
             Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
@@ -411,14 +422,15 @@ namespace Dvl_Sql.Tests.Select
         [TestCase("Amount")]
         public void NotNotEqualWithConstantExpressions(string col1)
         {
+            var number = 5.25;
             var actualSelect = this._sql.From(TableName)
-                .Where(!(ConstantExpCol(col1) != 5.25))
+                .Where(!(ConstantExpCol(col1) != number))
                 .Select()
                 .ToString();
 
             var expectedSelect = Regex.Escape(
                 $"SELECT * FROM {TableName}{Environment.NewLine}" +
-                $"WHERE {col1} = 5.25"
+                $"WHERE {col1} = {GetDefaultSqlString(number)}"
             );
             
             Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));

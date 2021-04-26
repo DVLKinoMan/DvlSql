@@ -21,6 +21,9 @@ namespace Dvl_Sql.Concrete
 
         public IOrderExecutable OrderByDescending(params string[] fields) => this._selector.OrderByDescending(this, fields);
 
+        public ISelectExecutable Skip(int offsetRows, int? fetchNextRows = null) =>
+            this._selector.Skip(this, offsetRows, fetchNextRows);
+
         public async Task<List<TResult>> ToListAsync<TResult>(Func<IDataReader, TResult> selectorFunc,
             int? timeout = default,
             CommandBehavior behavior = CommandBehavior.Default, CancellationToken cancellationToken = default) =>

@@ -150,6 +150,13 @@ namespace Dvl_Sql.Concrete
             return orderBy;
         }
 
+        public ISelectExecutable Skip(IOrderer orderBy, int offsetRows, int? fetchNextRows = null)
+        {
+            this.CurrFullSelectExpression.Skip = new DvlSqlSkipExpression(offsetRows, fetchNextRows);
+
+            return orderBy;
+        }
+
         public IGrouper GroupBy(params string[] parameterNames)
         {
             this.CurrFullSelectExpression.GroupBy = new DvlSqlGroupByExpression(parameterNames);

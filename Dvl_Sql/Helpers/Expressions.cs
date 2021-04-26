@@ -70,9 +70,9 @@ namespace Dvl_Sql.Helpers
         public static DvlSqlFullSelectExpression FullSelectExp(
             DvlSqlSelectExpression @select,
             List<DvlSqlJoinExpression> @join = null, DvlSqlWhereExpression @where = null,
-            DvlSqlGroupByExpression groupBy = null, DvlSqlOrderByExpression orderBy = null) =>
+            DvlSqlGroupByExpression groupBy = null, DvlSqlOrderByExpression orderBy = null, DvlSqlSkipExpression skip = null) =>
             new DvlSqlFullSelectExpression(@select.From, @join, @where, groupBy,
-                @select, orderBy);
+                @select, orderBy, skip);
 
         public static DvlSqlOrderByExpression OrderByExp(params (string column, Ordering ordering)[] @params) =>
             new DvlSqlOrderByExpression(@params);

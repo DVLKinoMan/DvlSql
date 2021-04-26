@@ -176,6 +176,7 @@ namespace Dvl_Sql.Concrete
             expression.Where?.Accept(this);
             expression.GroupBy?.Accept(this);
             expression.OrderBy?.Accept(this);
+            expression.Skip?.Accept(this);
         }
 
         public void Visit(DvlSqlDeleteExpression expression)
@@ -212,6 +213,13 @@ namespace Dvl_Sql.Concrete
             this._command.Append("EXISTS( ");
             expression.Select.Accept(this);
             this._command.Append(" )");
+        }
+
+        public void Visit(DvlSqlSkipExpression expression)
+        {
+            this._command.Append($"{Environment.NewLine}OFFSET {expression.OffsetRows} ROWS");
+            if (expression.FetchNextRows != null)
+                this._command.Append($" FETCH NEXT {expression.FetchNextRows} ROWS ONLY");
         }
 
         #region BinaryExpressions

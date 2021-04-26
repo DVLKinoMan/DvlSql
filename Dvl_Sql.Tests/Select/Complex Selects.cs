@@ -40,8 +40,8 @@ namespace Dvl_Sql.Tests.Select
                 .ToString();
 
             string expectedSelect = Regex.Escape(
-                string.Format("SELECT B1.AMOUNT, COUNT(*) AS [CountExp] FROM nbe.BANK_DATA AS B1 WITH(NOLOCK){0}" +
-                              "INNER JOIN nbe.BANK_DATA AS B2 ON B1.REC_ID = B2.REC_ID{0}" +
+                string.Format("SELECT B1.AMOUNT, COUNT(*) AS [CountExp] FROM nbe.BANK_DATA AS [B1] WITH(NOLOCK){0}" +
+                              "INNER JOIN nbe.BANK_DATA AS [B2] ON B1.REC_ID = B2.REC_ID{0}" +
                               "WHERE ((( B1.AMOUNT < 35000 AND B1.REC_ID NOT IN ( SELECT TOP 4 REC_ID FROM nbe.BANK_DATA )) AND B1.RESTRICT_CODE NOT LIKE '%dd%' ) AND B1.ADD_DATE > @date ){0}" +
                               "GROUP BY B1.AMOUNT{0}" +
                               "HAVING Count(*) >= 2{0}" +
@@ -127,14 +127,14 @@ namespace Dvl_Sql.Tests.Select
                 .ToString();
 
             string expectedSelect1 = Regex.Escape(string.Format(
-                "SELECT * FROM nbe.BANK_DATA AS B1 WITH(NOLOCK){0}" +
-                "INNER JOIN nbe.BANK_DATA AS B2 ON B1.REC_ID = B2.REC_ID{0}" +
+                "SELECT * FROM nbe.BANK_DATA AS [B1] WITH(NOLOCK){0}" +
+                "INNER JOIN nbe.BANK_DATA AS [B2] ON B1.REC_ID = B2.REC_ID{0}" +
                 "WHERE ((( B1.AMOUNT < 35000 AND B1.REC_ID NOT IN ( SELECT TOP 4 REC_ID FROM nbe.BANK_DATA )) AND B1.RESTRICT_CODE NOT LIKE '%dd%' ) AND B1.ADD_DATE > @date )",
                 Environment.NewLine));
 
             string expectedSelect2 = Regex.Escape(string.Format(
-                "SELECT TOP 11 * FROM nbe.BANK_DATA AS B1 WITH(NOLOCK){0}" +
-                "INNER JOIN nbe.BANK_DATA AS B2 ON B1.REC_ID = B2.REC_ID{0}" +
+                "SELECT TOP 11 * FROM nbe.BANK_DATA AS [B1] WITH(NOLOCK){0}" +
+                "INNER JOIN nbe.BANK_DATA AS [B2] ON B1.REC_ID = B2.REC_ID{0}" +
                 "WHERE ((( B1.AMOUNT < 35000 AND B1.REC_ID NOT IN ( SELECT TOP 4 REC_ID FROM nbe.BANK_DATA )) AND B1.RESTRICT_CODE NOT LIKE '%dd%' ) AND B1.ADD_DATE > @date ){0}" +
                 "ORDER BY B1.AMOUNT DESC",
                 Environment.NewLine));

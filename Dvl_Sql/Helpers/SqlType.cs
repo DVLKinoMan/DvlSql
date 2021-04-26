@@ -9,7 +9,7 @@ namespace Dvl_Sql.Helpers
 {
     public static class SqlType
     {
-        internal static string GetDefaultSqlString<TValue>(TValue value) =>
+        public static string GetDefaultSqlString<TValue>(TValue value) =>
             value switch
             {
                 //string str => $"'{str}'",
