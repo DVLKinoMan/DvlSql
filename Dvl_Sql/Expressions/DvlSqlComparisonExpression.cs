@@ -13,5 +13,10 @@ namespace Dvl_Sql.Expressions
             (leftExpression, comparisonOperator, rightExpression);
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
+
+        public override void NotOnThis()
+        {
+            this.Not = !this.Not;
+        }
     }
 }

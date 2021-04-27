@@ -16,7 +16,7 @@ namespace Dvl_Sql.Abstract
         void Visit(DvlSqlJoinExpression expression);
         void Visit(DvlSqlOrderByExpression expression);
         void Visit(DvlSqlGroupByExpression expression);
-        void Visit(DvlSqlNotExpression expression);
+        //void Visit(DvlSqlNotExpression expression);
         void Visit(DvlSqlLikeExpression expression);
         void Visit(DvlSqlIsNullExpression expression);
         void Visit<TParam>(DvlSqlInsertIntoExpression<TParam> expression) where TParam : ITuple;

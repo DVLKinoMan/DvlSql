@@ -12,5 +12,9 @@ namespace Dvl_Sql.Expressions
             (this.ParameterName, this.InnerExpressions) = (parameterName, innerExpressions);
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
+        public override void NotOnThis()
+        {
+            this.Not = !this.Not;
+        }
     }
 }

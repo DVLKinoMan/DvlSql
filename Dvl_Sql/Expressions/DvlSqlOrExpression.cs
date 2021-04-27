@@ -11,5 +11,14 @@ namespace Dvl_Sql.Expressions
             this.InnerExpressions = binaryExpressions;
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
+
+        public override void NotOnThis()
+        {
+            this.Not = !this.Not;
+            foreach (var inner in this.InnerExpressions)
+            {
+                var something = !inner;
+            }
+        }
     }
 }

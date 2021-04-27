@@ -79,8 +79,8 @@ namespace Dvl_Sql.Tests.Result
         public void AllWithWheref1IsPositive<T>(List<T> data, bool expected)
         {
             var readerMoq = CreateDataReaderMock(data);
-            var commandMoq = CreateSqlCommandMock<T>(readerMoq);
-            var moq = CreateConnectionMock<T>(commandMoq);
+            var commandMoq = CreateSqlCommandMock<bool>(readerMoq);
+            var moq = CreateConnectionMock<bool>(commandMoq);
 
             var actual = IDvlSql.DefaultDvlSql(moq.Object)
                 .From(TableName)

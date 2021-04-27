@@ -12,7 +12,12 @@
             DvlSqlBinaryExpression rightBinaryExpression) =>
             new DvlSqlOrExpression(leftBinaryExpression, rightBinaryExpression);
 
-        public static DvlSqlNotExpression operator !(DvlSqlBinaryExpression binaryExpression) =>
-            new DvlSqlNotExpression(binaryExpression);
+        public static DvlSqlBinaryExpression operator !(DvlSqlBinaryExpression binaryExpression)
+        {
+            binaryExpression.NotOnThis();
+            return binaryExpression;
+        }
+
+        public abstract void NotOnThis();
     }
 }

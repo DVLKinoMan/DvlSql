@@ -9,5 +9,10 @@ namespace Dvl_Sql.Expressions
         public DvlSqlIsNullExpression(DvlSqlExpression expression) => this.Expression = expression;
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
+
+        public override void NotOnThis()
+        {
+            this.Not = !this.Not;
+        }
     }
 }

@@ -55,18 +55,18 @@ namespace Dvl_Sql.Helpers
         public static DvlSqlLikeExpression LikeExp(string field, string pattern) =>
             new DvlSqlLikeExpression(field, pattern);
 
-        public static DvlSqlNotExpression NotExp(DvlSqlBinaryExpression binaryExpression) =>
-            new DvlSqlNotExpression(binaryExpression);
+        public static DvlSqlBinaryExpression NotExp(DvlSqlBinaryExpression binaryExpression) =>
+            !binaryExpression;
 
-        public static DvlSqlNotExpression NotInExp(string parameterName, params DvlSqlExpression[] innerExpressions) =>
+        public static DvlSqlBinaryExpression NotInExp(string parameterName, params DvlSqlExpression[] innerExpressions) =>
             NotExp(InExp(parameterName, innerExpressions));
 
-        public static DvlSqlNotExpression NotLikeExp(string field, string pattern) => NotExp(LikeExp(field, pattern));
+        public static DvlSqlBinaryExpression NotLikeExp(string field, string pattern) => NotExp(LikeExp(field, pattern));
 
         public static DvlSqlIsNullExpression IsNullExp(DvlSqlExpression expression) =>
             new DvlSqlIsNullExpression(expression);
 
-        public static DvlSqlNotExpression IsNotNullExp(DvlSqlExpression expression) => NotExp(IsNullExp(expression));
+        public static DvlSqlBinaryExpression IsNotNullExp(DvlSqlExpression expression) => NotExp(IsNullExp(expression));
 
         public static DvlSqlFullSelectExpression FullSelectExp(
             DvlSqlSelectExpression @select,

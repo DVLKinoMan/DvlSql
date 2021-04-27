@@ -304,12 +304,6 @@ namespace Dvl_Sql.Concrete
             };
         }
 
-        public void Visit(DvlSqlNotExpression expression)
-        {
-            expression.BinaryExpression.Not = !expression.Not;
-            expression.BinaryExpression.Accept(this);
-        }
-
         public void Visit(DvlSqlLikeExpression expression)
         {
             string likeStr = expression.Not ? "NOT LIKE" : "LIKE";
