@@ -1,11 +1,10 @@
-﻿using System;
+﻿using Dvl_Sql.Abstract;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Dvl_Sql.Abstract;
-
 using static Dvl_Sql.Helpers.DataReader;
 
 namespace Dvl_Sql.Concrete
@@ -76,6 +75,22 @@ namespace Dvl_Sql.Concrete
                     dvlCommand.ExecuteReaderAsync(FirstOrDefault(readerFunc), timeout, cancellationToken: cancellationToken),
                 this._selector.WithSelectTop(1).ToString(),
                 parameters: this._selector.GetDvlSqlParameters()?.Select(dvlSql => dvlSql.SqlParameter).ToArray());
+
+        public async Task<bool> AnyAsync(int? timeout = default,
+            CancellationToken cancellationToken = default) =>
+            await this._connection.ConnectAsync(
+                dvlCommand =>
+                    dvlCommand.ExecuteReaderAsync(r=> r.Read(), timeout,
+                        cancellationToken: cancellationToken),
+                this._selector.WithSelectTop(1).ToString(),
+                parameters: this._selector.GetDvlSqlParameters()?.Select(dvlSql => dvlSql.SqlParameter).ToArray());
+
+        public async Task<bool> AllAsync(int? timeout = default,
+            CancellationToken cancellationToken = default)
+        {
+            _selector.NotExpOnFullSelects();
+            return !(await AnyAsync(timeout, cancellationToken));
+        }
 
         public async Task<TResult>
             SingleAsync<TResult>(int? timeout = null, CancellationToken cancellationToken = default) =>

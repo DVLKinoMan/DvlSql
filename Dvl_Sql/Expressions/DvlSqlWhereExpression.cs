@@ -24,5 +24,8 @@ namespace Dvl_Sql.Expressions
 
         public static DvlSqlWhereExpression operator &(DvlSqlWhereExpression leftWhereExpression,
             DvlSqlBinaryExpression rightBinaryExpression) => new DvlSqlWhereExpression(leftWhereExpression.InnerExpression & rightBinaryExpression);
+
+        public static DvlSqlWhereExpression operator !(DvlSqlWhereExpression where) => 
+            new DvlSqlWhereExpression(!where.InnerExpression);
     }
 }

@@ -66,5 +66,6 @@ namespace Dvl_Sql.Helpers
             var firstValue = func(reader);
             return reader.Read() ? (false, firstReader: firstValue) : (true, firstReader: firstValue);
         }
+        
     }
 }

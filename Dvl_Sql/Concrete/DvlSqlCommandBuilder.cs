@@ -208,20 +208,13 @@ namespace Dvl_Sql.Concrete
             }
         }
 
-        public void Visit(DvlSqlExistsExpression expression)
-        {
-            this._command.Append("EXISTS( ");
-            expression.Select.Accept(this);
-            this._command.Append(" )");
-        }
-
         public void Visit(DvlSqlSkipExpression expression)
         {
             this._command.Append($"{Environment.NewLine}OFFSET {expression.OffsetRows} ROWS");
             if (expression.FetchNextRows != null)
                 this._command.Append($" FETCH NEXT {expression.FetchNextRows} ROWS ONLY");
         }
-
+        
         #region BinaryExpressions
 
         public void Visit(DvlSqlInExpression expression)
@@ -327,6 +320,13 @@ namespace Dvl_Sql.Concrete
         {
             expression.Expression.Accept(this);
             this._command.Append(expression.Not ? " IS NOT NULL" : " IS NULL");
+        }
+        
+        public void Visit(DvlSqlExistsExpression expression)
+        {
+            this._command.Append($"{(expression.Not ? "NOT " : "")}EXISTS( ");
+            expression.Select.Accept(this);
+            this._command.Append(" )");
         }
 
         #endregion

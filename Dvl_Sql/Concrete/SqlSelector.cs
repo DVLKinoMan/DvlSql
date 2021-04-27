@@ -30,6 +30,13 @@ namespace Dvl_Sql.Concrete
             return builder.ToString();
         }
 
+        public void NotExpOnFullSelects()
+        {
+            foreach (var union in _unionExpression)
+                if (union.Expression.Where is { } where)
+                    union.Expression.Where = !where;
+        }
+
         public ISelector From(string tableName, bool withNoLock = false)
         {
             this.CurrFullSelectExpression.From = new DvlSqlFromExpression(tableName, withNoLock);

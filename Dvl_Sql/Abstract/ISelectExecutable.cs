@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
+using Dvl_Sql.Expressions;
+using Dvl_Sql.Models;
 
 namespace Dvl_Sql.Abstract
 {
@@ -35,5 +37,9 @@ namespace Dvl_Sql.Abstract
         Task<TResult> FirstOrDefaultAsync<TResult>(int? timeout = default, CancellationToken cancellationToken = default);
 
         Task<TResult> FirstOrDefaultAsync<TResult>(Func<IDataReader, TResult> reader, int? timeout = default, CancellationToken cancellationToken = default);
+
+        Task<bool> AnyAsync(int? timeout = default, CancellationToken cancellationToken = default);
+
+        Task<bool> AllAsync(int? timeout = default, CancellationToken cancellationToken = default);
     }
 }
