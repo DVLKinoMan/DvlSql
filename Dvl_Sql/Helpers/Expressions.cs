@@ -12,7 +12,10 @@ namespace Dvl_Sql.Helpers
         public static string SumExp(string param) => $"SUM({param})";
         public static string DistinctExp(string param) => $"DISTINCT({param})";
         public static string AsExp(string field, string @as) => @as != null ? $"{field} AS {@as.WithAliasBrackets()}" : field;
-        
+        public static string MonthExp(string param) => $"MONTH({param})";
+        public static string DayExp(string param) => $"DAY({param})";
+        public static string YearExp(string param) => $"YEAR({param})";
+
         public static DvlSqlWhereExpression WhereExp(DvlSqlBinaryExpression innerExpression, bool isRoot = false) =>
             new DvlSqlWhereExpression(innerExpression).WithRoot(isRoot);
 
