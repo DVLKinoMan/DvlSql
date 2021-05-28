@@ -24,6 +24,13 @@ namespace Dvl_Sql.Concrete
             return new SqlSelector(fromExpression, this._dvlSqlConnection);
         }
 
+        public ISelector From(DvlSqlFullSelectExpression @select, string @as)
+        {
+            var fromExpression = new DvlSqlFromExpression(@select, @as);
+
+            return new SqlSelector(fromExpression, this._dvlSqlConnection);
+        }
+
         public IInsertable<TRes> InsertInto<TRes>(string tableName, params DvlSqlType[] types)
             where TRes : ITuple
         {

@@ -47,6 +47,9 @@ namespace Dvl_Sql.Helpers
 
         public static DvlSqlFromExpression FromExp(string tableName, bool withNoLock = false) =>
             new DvlSqlFromExpression(tableName, withNoLock);
+        
+        public static DvlSqlFromExpression FromExp(DvlSqlFullSelectExpression select, string @as) =>
+            new DvlSqlFromExpression(select, @as);
 
         public static DvlSqlSelectExpression SelectExp(DvlSqlFromExpression fromExp, params string[] paramNames) =>
             new DvlSqlSelectExpression(fromExp, paramNames);//.WithRoot(false);

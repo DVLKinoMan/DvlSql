@@ -16,9 +16,18 @@ namespace Dvl_Sql.Concrete
 
         public void Visit(DvlSqlFromExpression expression)
         {
-            this._command.Append($"FROM {expression.TableName}");
-            if (expression.WithNoLock)
-                this._command.Append(" WITH(NOLOCK)");
+            if (expression.FullSelect != null && expression.As != null)
+            {
+                this._command.Append("FROM (");
+                expression.FullSelect.Accept(this);
+                this._command.Append($") AS {expression.As}");
+            }
+            else
+            {
+                this._command.Append($"FROM {expression.TableName}");
+                if (expression.WithNoLock)
+                    this._command.Append(" WITH(NOLOCK)");
+            }
         }
 
         public void Visit(DvlSqlSelectExpression expression)

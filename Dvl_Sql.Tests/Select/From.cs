@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using Dvl_Sql.Abstract;
+using Dvl_Sql.Expressions;
 using NUnit.Framework;
+
+using static Dvl_Sql.Helpers.Expressions;
 
 namespace Dvl_Sql.Tests.Select
 {
@@ -52,6 +55,20 @@ namespace Dvl_Sql.Tests.Select
                 .ToString();
 
             var expectedSelect = Regex.Escape($"SELECT * FROM {tableName} WITH(NOLOCK)");
+            Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
+        }
+
+        [Test]
+        [TestCase("dbo.Words")]
+        public void WithInnerSelect(string tableName)
+        {
+            var fullSelect = FullSelectExp(SelectExp(FromExp("dbo.Words")));
+            var asName = "W";
+            var actualSelect = this._sql.From(fullSelect, asName)
+                .Select()
+                .ToString();
+
+            var expectedSelect = Regex.Escape($"SELECT * FROM (SELECT * FROM dbo.Words) AS {asName}");
             Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));
         }
     }

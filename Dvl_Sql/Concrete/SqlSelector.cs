@@ -44,6 +44,13 @@ namespace Dvl_Sql.Concrete
             return this;
         }
 
+        public ISelector From(DvlSqlFullSelectExpression @select, string @as)
+        {
+            this.CurrFullSelectExpression.From = new DvlSqlFromExpression(@select, @as);
+
+            return this;
+        }
+
         public IEnumerable<DvlSqlParameter> GetDvlSqlParameters() => this.CurrFullSelectExpression?.Where?.Parameters;
 
         public SqlSelector WithSelectTop(int num)
