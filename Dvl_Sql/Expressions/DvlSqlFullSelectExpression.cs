@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Dvl_Sql.Abstract;
 
 namespace Dvl_Sql.Expressions
@@ -28,10 +29,33 @@ namespace Dvl_Sql.Expressions
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
 
+        public override DvlSqlExpression Clone() => FullSelectClone();
+
         public void AddJoin(DvlSqlJoinExpression exp)
         {
             Join ??= new List<DvlSqlJoinExpression>();
             Join.Add(exp);
+        }
+
+        public DvlSqlFullSelectExpression FullSelectClone()
+        {
+            var clone = new DvlSqlFullSelectExpression();
+            if (From != null)
+                clone.From = From;
+            if (Join != null)
+                clone.Join = Join.ToList();
+            if (Where != null)
+                clone.Where = Where.WhereClone();
+            if (GroupBy != null)
+                clone.GroupBy = GroupBy.GroupByClone();
+            if (Select != null)
+                clone.Select = Select.SelectClone();
+            if (OrderBy != null)
+                clone.OrderBy = OrderBy.OrderByClone();
+            if (Skip != null)
+                clone.Skip = Skip.SkipClone();
+
+            return clone;
         }
     }
 }

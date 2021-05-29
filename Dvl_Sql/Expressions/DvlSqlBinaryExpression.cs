@@ -18,6 +18,8 @@
             return binaryExpression;
         }
 
+        public abstract DvlSqlBinaryExpression BinaryClone();
+
         public abstract void NotOnThis();
     }
 }

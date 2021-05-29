@@ -17,5 +17,9 @@ namespace Dvl_Sql.Expressions
             (this.FullSelect, this.As) = (fullSelect, @as);
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
+        public override DvlSqlExpression Clone()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

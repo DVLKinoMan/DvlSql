@@ -10,6 +10,10 @@ namespace Dvl_Sql.Expressions
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
 
+        public override DvlSqlExpression Clone() => BinaryClone();
+
+        public override DvlSqlBinaryExpression BinaryClone() => new DvlSqlIsNullExpression(Expression.Clone());
+
         public override void NotOnThis()
         {
             this.Not = !this.Not;

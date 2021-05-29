@@ -11,5 +11,10 @@ namespace Dvl_Sql.Expressions
             this.FromExpression = fromExpression;
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
+
+        public override DvlSqlExpression Clone()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Dvl_Sql.Abstract;
 
 namespace Dvl_Sql.Expressions
@@ -12,6 +13,12 @@ namespace Dvl_Sql.Expressions
             (this.ParameterName, this.InnerExpressions) = (parameterName, innerExpressions);
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
+
+        public override DvlSqlExpression Clone() => BinaryClone();
+
+        public override DvlSqlBinaryExpression BinaryClone() =>
+            new DvlSqlInExpression(ParameterName, InnerExpressions.Select(inner => inner.Clone()).ToArray());
+
         public override void NotOnThis()
         {
             this.Not = !this.Not;

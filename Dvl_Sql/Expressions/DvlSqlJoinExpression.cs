@@ -26,6 +26,10 @@ namespace Dvl_Sql.Expressions
         //{
         //    visitor.Visit(this);
         //}
+        public override DvlSqlExpression Clone()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 
     public class DvlSqlInnerJoinExpression : DvlSqlJoinExpression
@@ -37,6 +41,10 @@ namespace Dvl_Sql.Expressions
         //{
         //    throw new System.NotImplementedException();
         //}
+        public override DvlSqlExpression Clone()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 
     public class DvlSqlLeftJoinExpression : DvlSqlJoinExpression
@@ -48,6 +56,10 @@ namespace Dvl_Sql.Expressions
         //{
         //    throw new System.NotImplementedException();
         //}
+        public override DvlSqlExpression Clone()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 
     public class DvlSqlRightJoinExpression : DvlSqlJoinExpression
@@ -59,5 +71,9 @@ namespace Dvl_Sql.Expressions
         //{
         //    throw new System.NotImplementedException();
         //}
+        public override DvlSqlExpression Clone()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

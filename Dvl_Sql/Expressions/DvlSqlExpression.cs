@@ -43,5 +43,7 @@ namespace Dvl_Sql.Expressions
         public static implicit operator DvlSqlExpression(double num) => new DvlSqlConstantExpression<double>(num);
         
         public static implicit operator DvlSqlExpression(DateTime dateTime) => new DvlSqlConstantExpression<DateTime>(dateTime);
+
+        public abstract DvlSqlExpression Clone();
     }
 }

@@ -11,6 +11,10 @@ namespace Dvl_Sql.Expressions
             new List<(DvlSqlFullSelectExpression, UnionType?)>();
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
+        public override DvlSqlExpression Clone()
+        {
+            throw new NotImplementedException();
+        }
 
         IEnumerator<(DvlSqlFullSelectExpression, UnionType?)> IEnumerable<(DvlSqlFullSelectExpression Expression, UnionType? Type)>.GetEnumerator() => 
             new UnionExpressionEnumerator(this._selectExpressions);

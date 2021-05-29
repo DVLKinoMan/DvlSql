@@ -14,5 +14,9 @@ namespace Dvl_Sql.Expressions
         }
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
+
+        public override DvlSqlExpression Clone() => SkipClone();
+
+        public DvlSqlSkipExpression SkipClone() => new DvlSqlSkipExpression(OffsetRows, FetchNextRows);
     }
 }

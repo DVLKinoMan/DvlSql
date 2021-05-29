@@ -34,5 +34,9 @@ namespace Dvl_Sql.Expressions
         {
             visitor.Visit(this);
         }
+
+        public override DvlSqlExpression Clone() => OrderByClone();
+            
+        public DvlSqlOrderByExpression OrderByClone() => new DvlSqlOrderByExpression(Params.ToArray());
     }
 }

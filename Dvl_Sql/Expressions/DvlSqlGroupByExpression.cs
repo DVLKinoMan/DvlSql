@@ -18,5 +18,9 @@ namespace Dvl_Sql.Expressions
         // }
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
+
+        public override DvlSqlExpression Clone() => GroupByClone();
+
+        public DvlSqlGroupByExpression GroupByClone() => new DvlSqlGroupByExpression(this.ParameterNames.ToArray());
     }
 }

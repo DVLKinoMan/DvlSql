@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Dvl_Sql.Abstract;
 
 namespace Dvl_Sql.Expressions
@@ -14,6 +15,11 @@ namespace Dvl_Sql.Expressions
             this.InnerExpressions = binaryExpressions;
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
+
+        public override DvlSqlExpression Clone() => BinaryClone();
+
+        public override DvlSqlBinaryExpression BinaryClone() =>
+            new DvlSqlAndExpression(InnerExpressions.Select(inner => inner.BinaryClone()));
 
         public override void NotOnThis()
         {

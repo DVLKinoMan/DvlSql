@@ -87,5 +87,10 @@ namespace Dvl_Sql.Helpers
         public static DvlSqlExistsExpression ExistsExp(DvlSqlFullSelectExpression select) =>
             new DvlSqlExistsExpression(select);
 
+        public static DvlSqlSkipExpression SkipExp(int offsetRows, int? fetchNextRows = null) =>
+            new DvlSqlSkipExpression(offsetRows, fetchNextRows);
+
+        public static DvlSqlGroupByExpression GroupByExp(params string[] paramNames) =>
+            new DvlSqlGroupByExpression(paramNames);
     }
 }

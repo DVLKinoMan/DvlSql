@@ -51,6 +51,8 @@ namespace Dvl_Sql.Expressions
         public static implicit operator DvlSqlConstantExpression(double num) => ConstantExp(num);
         
         public static implicit operator DvlSqlConstantExpression(DateTime dateTime) => ConstantExp(dateTime);
+
+        public abstract DvlSqlConstantExpression ConstantClone();
     }
 
     public class DvlSqlConstantExpression<TValue> : DvlSqlConstantExpression
@@ -68,6 +70,8 @@ namespace Dvl_Sql.Expressions
 
         public override int GetHashCode() => EqualityComparer<TValue>.Default.GetHashCode(Value);
 
+        public override DvlSqlConstantExpression ConstantClone() => new DvlSqlConstantExpression<TValue>(Value, IsTableColumn);
+
         private TValue Value { get; }
 
         private bool IsTableColumn { get; }
@@ -81,6 +85,7 @@ namespace Dvl_Sql.Expressions
         }
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
-        
+
+        public override DvlSqlExpression Clone() => ConstantClone();
     }
 }

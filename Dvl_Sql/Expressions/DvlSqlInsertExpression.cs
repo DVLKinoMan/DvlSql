@@ -33,6 +33,10 @@ namespace Dvl_Sql.Expressions
         }
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
+        public override DvlSqlExpression Clone()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 
     public class DvlSqlInsertIntoSelectExpression : DvlSqlInsertExpression
@@ -43,5 +47,9 @@ namespace Dvl_Sql.Expressions
             (this.TableName, this.Columns, this.IsRoot) = (tableName, columns.ToArray(), false);
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
+        public override DvlSqlExpression Clone()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
