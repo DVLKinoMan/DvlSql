@@ -17,7 +17,7 @@ namespace Dvl_Sql.Helpers
         public static string YearExp(string param) => $"YEAR({param})";
         public static string GetDateExp() => $"GETDATE()";
         public static string IsNullExp(string param1, string param2) => $"ISNULL({param1}, {param2})";
-        public static string DateDiff(string interval, string starting, string ending) =>
+        public static string DateDiffExp(string interval, string starting, string ending) =>
             $"DATEDIFF({interval}, {starting}, {ending})";
 
         public static DvlSqlWhereExpression WhereExp(DvlSqlBinaryExpression innerExpression, bool isRoot = false) =>
