@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Dvl_Sql.Abstract;
+using Dvl_Sql.Helpers;
 
 namespace Dvl_Sql.Expressions
 {
@@ -16,7 +17,8 @@ namespace Dvl_Sql.Expressions
         public override DvlSqlExpression Clone() => BinaryClone();
 
         public override DvlSqlBinaryExpression BinaryClone() =>
-            new DvlSqlOrExpression(InnerExpressions.Select(inner => inner.BinaryClone()).ToArray());
+            new DvlSqlOrExpression(InnerExpressions.Select(inner => inner.BinaryClone()).ToArray())
+                .SetNot(Not);
 
         public override void NotOnThis()
         {

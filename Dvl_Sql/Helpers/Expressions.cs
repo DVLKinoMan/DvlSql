@@ -15,6 +15,10 @@ namespace Dvl_Sql.Helpers
         public static string MonthExp(string param) => $"MONTH({param})";
         public static string DayExp(string param) => $"DAY({param})";
         public static string YearExp(string param) => $"YEAR({param})";
+        public static string GetDateExp() => $"GETDATE()";
+        public static string IsNullExp(string param1, string param2) => $"ISNULL({param1}, {param2})";
+        public static string DateDiff(string interval, string starting, string ending) =>
+            $"DATEDIFF({interval}, {starting}, {ending})";
 
         public static DvlSqlWhereExpression WhereExp(DvlSqlBinaryExpression innerExpression, bool isRoot = false) =>
             new DvlSqlWhereExpression(innerExpression).WithRoot(isRoot);
@@ -92,5 +96,8 @@ namespace Dvl_Sql.Helpers
 
         public static DvlSqlGroupByExpression GroupByExp(params string[] paramNames) =>
             new DvlSqlGroupByExpression(paramNames);
+
+        internal static DvlSqlBinaryExpression SetNot(this DvlSqlBinaryExpression binaryExpression, bool not) =>
+            not ? !binaryExpression : binaryExpression;
     }
 }

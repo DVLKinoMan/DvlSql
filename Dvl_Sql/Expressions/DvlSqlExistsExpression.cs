@@ -1,4 +1,5 @@
 ﻿using Dvl_Sql.Abstract;
+using Dvl_Sql.Helpers;
 
 namespace Dvl_Sql.Expressions
 {
@@ -12,7 +13,9 @@ namespace Dvl_Sql.Expressions
 
         public override DvlSqlExpression Clone() => BinaryClone();
 
-        public override DvlSqlBinaryExpression BinaryClone() => new DvlSqlExistsExpression(Select.FullSelectClone());
+        public override DvlSqlBinaryExpression BinaryClone() => 
+            new DvlSqlExistsExpression(Select.FullSelectClone())
+            .SetNot(Not);
 
         public override void NotOnThis()
         {
