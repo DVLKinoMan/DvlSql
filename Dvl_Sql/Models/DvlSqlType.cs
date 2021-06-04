@@ -55,21 +55,35 @@ namespace Dvl_Sql.Models
     public sealed class DvlSqlType<TValue> : DvlSqlType
     {
         public TValue Value { get; }
+        public bool ExactValue { get; }
 
-        public DvlSqlType(TValue value, DvlSqlType dvlSqlType) : base(dvlSqlType.Name, dvlSqlType.SqlDbType,
-            dvlSqlType.Size, dvlSqlType.Precision, dvlSqlType.Scale) => this.Value = value;
-
-        public DvlSqlType(string name, TValue value, int? size = null, byte? precision = null, byte? scale = null) :
-            base(name, SqlType.DefaultMap(value), size, precision, scale) =>
+        public DvlSqlType(TValue value, DvlSqlType dvlSqlType, bool exactValue = false) : base(dvlSqlType.Name, dvlSqlType.SqlDbType,
+            dvlSqlType.Size, dvlSqlType.Precision, dvlSqlType.Scale)
+        {
             this.Value = value;
+            this.ExactValue = exactValue;
+        }
+
+        public DvlSqlType(string name, TValue value, int? size = null, byte? precision = null, byte? scale = null, bool exactValue = false) :
+            base(name, SqlType.DefaultMap(value), size, precision, scale)
+        {
+            this.Value = value;
+            this.ExactValue = exactValue;
+        }
 
         public DvlSqlType(string name, TValue value, SqlDbType dbType, int? size = null, byte? precision = null,
-            byte? scale = null) : base(name, dbType, size, precision, scale) =>
+            byte? scale = null, bool exactValue = false) : base(name, dbType, size, precision, scale)
+        {
             this.Value = value;
+            this.ExactValue = exactValue;
+        }
 
         public DvlSqlType(TValue value, SqlDbType dbType, int? size = null, byte? precision = null,
-            byte? scale = null) : base(null, dbType, size, precision, scale) =>
+            byte? scale = null, bool exactValue = false) : base(null, dbType, size, precision, scale)
+        {
             this.Value = value;
+            this.ExactValue = exactValue;
+        }
 
         public override bool Equals(object obj) => 
             obj is DvlSqlType<TValue> type && Equals(type);

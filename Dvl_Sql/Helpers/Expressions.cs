@@ -19,6 +19,7 @@ namespace Dvl_Sql.Helpers
         public static string IsNullExp(string param1, string param2) => $"ISNULL({param1}, {param2})";
         public static string DateDiffExp(string interval, string starting, string ending) =>
             $"DATEDIFF({interval}, {starting}, {ending})";
+        public static string ConvertExp(string type, string name) => $"CONVERT({type}, {name})";
 
         public static DvlSqlWhereExpression WhereExp(DvlSqlBinaryExpression innerExpression, bool isRoot = false) =>
             new DvlSqlWhereExpression(innerExpression).WithRoot(isRoot);

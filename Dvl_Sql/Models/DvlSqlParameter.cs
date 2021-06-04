@@ -7,18 +7,24 @@ namespace Dvl_Sql.Models
 {
     public sealed class DvlSqlParameter<TValue> : DvlSqlParameter
     {
+        public bool ExactValue { get; }
+
         public DvlSqlParameter(string name, DvlSqlType type) : base(CreateParameter(name, type))
         {
+            if (type is DvlSqlType<TValue> dvlSqlTypeValue)
+                this.ExactValue = dvlSqlTypeValue.ExactValue;
         }
 
         public DvlSqlParameter(DvlSqlType type) : base(
             CreateParameter(type.Name, type))
         {
+            if (type is DvlSqlType<TValue> dvlSqlTypeValue)
+                this.ExactValue = dvlSqlTypeValue.ExactValue;
         }
 
         private static SqlParameter CreateParameter(string name, DvlSqlType type)
         {
-            var param = new SqlParameter(name.WithAlpha(), type.SqlDbType)
+            var param = new SqlParameter(name, type.SqlDbType)
             {
                 Direction = ParameterDirection.Input
             };
@@ -49,7 +55,7 @@ namespace Dvl_Sql.Models
 
         private static SqlParameter CreateParameter(string name, DvlSqlType type)
         {
-            var param = new SqlParameter(name.WithAlpha(), type.SqlDbType)
+            var param = new SqlParameter(name, type.SqlDbType)
             {
                 Value = DBNull.Value,
                 Direction = ParameterDirection.Output

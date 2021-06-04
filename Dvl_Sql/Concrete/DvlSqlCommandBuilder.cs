@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using Dvl_Sql.Abstract;
 using Dvl_Sql.Expressions;
+using Dvl_Sql.Models;
 using static Dvl_Sql.Helpers.SystemExtensions;
 
 namespace Dvl_Sql.Concrete
@@ -200,7 +201,13 @@ namespace Dvl_Sql.Concrete
             this._command.Append($"UPDATE {expression.TableName}");
             this._command.Append($"{Environment.NewLine}SET ");
             foreach (var sqlParam in expression.DvlSqlParameters)
-                this._command.Append($"{sqlParam.Name} = {sqlParam.Name.WithAlpha()}, ");
+                this._command.Append(
+                    sqlParam switch
+                    {
+                        DvlSqlParameter<string> {ExactValue: true} stringParam =>
+                            $"{stringParam.Name} = {stringParam.SqlParameter.Value}, ",
+                        _ => $"{sqlParam.Name} = {sqlParam.Name.WithAlpha()}, "
+                    });
 
             this._command.Remove(this._command.Length - 2, 2);
             expression.WhereExpression?.Accept(this);

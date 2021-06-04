@@ -189,9 +189,19 @@ namespace Dvl_Sql.Helpers
         #region Text
         public static DvlSqlType<string> NVarChar(string name, string value, int size) =>
             new DvlSqlType<string>(name, value, SqlDbType.NVarChar, size);
-        
-        public static DvlSqlType<string> NVarChar(string value, int size) =>
-            new DvlSqlType<string>(value, SqlDbType.NVarChar, size);
+
+        /// <summary>
+        /// NVarChar with the exact value which is value parameter
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        public static DvlSqlType<string> NVarCharWithExactValue(string name, string value, int size) =>
+            new DvlSqlType<string>(name, value, SqlDbType.NVarChar, size, exactValue: true);
+
+        public static DvlSqlType<string> NVarChar(string value, int size, bool withExactValue = false) =>
+            new DvlSqlType<string>(value, SqlDbType.NVarChar, size, exactValue: withExactValue);
 
         public static DvlSqlType NVarCharType(string name, int size) =>
             new DvlSqlType(name, SqlDbType.NVarChar, size);

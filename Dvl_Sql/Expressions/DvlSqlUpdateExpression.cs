@@ -13,10 +13,8 @@ namespace Dvl_Sql.Expressions
         public DvlSqlUpdateExpression(string tableName) =>
             this.TableName = tableName;
 
-        public void Add<TVal>(DvlSqlType<TVal> val)
-        {
+        public void Add<TVal>(DvlSqlType<TVal> val) => 
             this.DvlSqlParameters.Add(new DvlSqlParameter<TVal>(val.Name, val));
-        }
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
         public override DvlSqlExpression Clone()
