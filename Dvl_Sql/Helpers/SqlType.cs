@@ -16,6 +16,7 @@ namespace Dvl_Sql.Helpers
                 //int i => i.ToString(),
                 //char ch => $"'{ch}'",
                 decimal d => d.ToString(CultureInfo.InvariantCulture),
+                Guid guid => $"'{guid}'",
                 //DateTime d => $"'{d:yyyy-MM-dd HH:mm:ss}'",
                 //bool b => $"{(b ? 1 : 0)}",
                 _ => value.ToString()
