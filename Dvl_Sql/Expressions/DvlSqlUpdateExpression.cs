@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Dvl_Sql.Abstract;
 using Dvl_Sql.Models;
 
@@ -17,9 +18,13 @@ namespace Dvl_Sql.Expressions
             this.DvlSqlParameters.Add(new DvlSqlParameter<TVal>(val.Name, val));
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
-        public override DvlSqlExpression Clone()
+
+        public override DvlSqlExpression Clone() => UpdateClone();
+
+        public DvlSqlUpdateExpression UpdateClone() => new DvlSqlUpdateExpression(TableName)
         {
-            throw new System.NotImplementedException();
-        }
+            WhereExpression = WhereExpression.WhereClone(),
+            DvlSqlParameters = DvlSqlParameters.ToList()
+        };
     }
 }
