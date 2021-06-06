@@ -25,6 +25,13 @@ namespace Dvl_Sql.Concrete
             return this;
         }
 
+        public IUpdateable Set(DvlSqlParameter value)
+        {
+            this._updateExpression.Add(value);
+
+            return this;
+        }
+
         public async Task<int> ExecuteAsync(int? timeout = default, CancellationToken cancellationToken = default) =>
             this._updateExecutable != null
                 ? await this._updateExecutable.ExecuteAsync(timeout, cancellationToken)

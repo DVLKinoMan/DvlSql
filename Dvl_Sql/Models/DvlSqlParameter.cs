@@ -24,7 +24,7 @@ namespace Dvl_Sql.Models
 
         private static SqlParameter CreateParameter(string name, DvlSqlType type)
         {
-            var param = new SqlParameter(name, type.SqlDbType)
+            var param = new SqlParameter(name.GetStringAfter("."), type.SqlDbType)
             {
                 Direction = ParameterDirection.Input
             };
@@ -55,7 +55,7 @@ namespace Dvl_Sql.Models
 
         private static SqlParameter CreateParameter(string name, DvlSqlType type)
         {
-            var param = new SqlParameter(name, type.SqlDbType)
+            var param = new SqlParameter(name.GetStringAfter("."), type.SqlDbType)
             {
                 Value = DBNull.Value,
                 Direction = ParameterDirection.Output

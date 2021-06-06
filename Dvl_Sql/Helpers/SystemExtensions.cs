@@ -44,5 +44,11 @@ namespace Dvl_Sql.Helpers
 
             return sb.TrimEnd();
         }
+        
+        public static string GetStringAfter(this string str, string what) => str.LastIndexOf(what) switch
+        {
+            var index when index != -1 => str[(index + 1)..],
+            _ => str
+        };
     }
 }

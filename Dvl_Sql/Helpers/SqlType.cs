@@ -30,6 +30,7 @@ namespace Dvl_Sql.Helpers
                 decimal _ => SqlDbType.Decimal,
                 int _ => SqlDbType.Int,
                 Guid _ => SqlDbType.UniqueIdentifier,
+                string _ => SqlDbType.NVarChar,
                 _ => throw new NotImplementedException("value is not implemented")
             };
         
