@@ -50,6 +50,10 @@ namespace Dvl_Sql.Helpers
             bool isRoot = false) =>
             new DvlSqlSelectExpression(fromExp, topNum);//.WithRoot(isRoot);
 
+        public static DvlSqlSelectExpression SelectExp(DvlSqlFromExpression fromExp, int? topNum = null,
+            params string[] paramNames) =>
+            new DvlSqlSelectExpression(fromExp, paramNames, topNum);
+
         public static DvlSqlFromExpression FromExp(string tableName, bool withNoLock = false) =>
             new DvlSqlFromExpression(tableName, withNoLock);
         
