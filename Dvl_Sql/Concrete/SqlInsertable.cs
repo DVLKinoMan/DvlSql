@@ -26,7 +26,7 @@ namespace Dvl_Sql.Concrete
                     var type = typeof(DvlSqlType<>).MakeGenericType(param[i].GetType());
                     var dvlSqlType =
                         Activator.CreateInstance(type,
-                            new object[] {param[i], types[i]});
+                            new[] {param[i], types[i], false});//added false value, maybe not right
                     var type2 = typeof(DvlSqlParameter<>).MakeGenericType(param[i].GetType());
                     string name = $"{types[i].Name.WithAlpha()}{count}";
                     yield return (DvlSqlParameter) Activator.CreateInstance(type2, new object[] {name, dvlSqlType});

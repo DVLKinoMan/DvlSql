@@ -84,7 +84,7 @@ namespace Dvl_Sql.Tests.Update
             string expectedUpdate = Regex.Escape(
                 string.Format("UPDATE dbo.Words{0}" +
                               "SET RelativePath = " + exactValue + "{0}" +
-                              "WHERE Id IN ( " + string.Join(", ", someIds) + " )",
+                              "WHERE Id IN ( '" + string.Join("', '", someIds) + "' )",
                     Environment.NewLine));
 
             Assert.That(Regex.Escape(actualUpdate), Is.EqualTo(expectedUpdate));

@@ -5,6 +5,8 @@ using Dvl_Sql.Abstract;
 using Dvl_Sql.Expressions;
 using Dvl_Sql.Models;
 
+using static Dvl_Sql.Helpers.Expressions;
+
 namespace Dvl_Sql.Concrete
 {
     internal class SqlSelector : ISelector, IFilter, IGrouper, IUnionable, IFromable
@@ -39,7 +41,7 @@ namespace Dvl_Sql.Concrete
 
         public ISelector From(string tableName, bool withNoLock = false)
         {
-            this.CurrFullSelectExpression.From = new DvlSqlFromExpression(tableName, withNoLock);
+            this.CurrFullSelectExpression.From = FromExp(tableName, withNoLock);
 
             return this;
         }
@@ -62,21 +64,23 @@ namespace Dvl_Sql.Concrete
 
         public IOrderer Select(params string[] parameterNames)
         {
-            this.CurrFullSelectExpression.Select = new DvlSqlSelectExpression(this.CurrFullSelectExpression.From, parameterNames);
+            if (CurrFullSelectExpression.Select == null)
+                this.CurrFullSelectExpression.Select = SelectExp(this.CurrFullSelectExpression.From, parameterNames);
+            else this.CurrFullSelectExpression.Select.AddRange(parameterNames);
 
             return new SqlOrderer(this._dvlSqlConnection, this);
         }
 
         public IOrderer Select()
         {
-            this.CurrFullSelectExpression.Select = new DvlSqlSelectExpression(this.CurrFullSelectExpression.From);
+            this.CurrFullSelectExpression.Select = SelectExp(this.CurrFullSelectExpression.From);
 
             return new SqlOrderer(this._dvlSqlConnection, this);
         }
 
         public IOrderer SelectTop(int count, params string[] parameterNames)
         {
-            this.CurrFullSelectExpression.Select = new DvlSqlSelectExpression(this.CurrFullSelectExpression.From, parameterNames, count);
+            this.CurrFullSelectExpression.Select = SelectExp(this.CurrFullSelectExpression.From, parameterNames, count);
 
             return new SqlOrderer(this._dvlSqlConnection, this);
         }

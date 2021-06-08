@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Dvl_Sql.Expressions;
 
 namespace Dvl_Sql.Helpers
@@ -52,7 +53,10 @@ namespace Dvl_Sql.Helpers
 
         public static DvlSqlSelectExpression SelectExp(DvlSqlFromExpression fromExp, int? topNum = null,
             params string[] paramNames) =>
-            new DvlSqlSelectExpression(fromExp, paramNames, topNum);
+            new DvlSqlSelectExpression(fromExp, paramNames.ToHashSet(), topNum);
+
+        public static DvlSqlSelectExpression SelectExp(DvlSqlFromExpression fromExp, IEnumerable<string> paramNames, int? topNum = null) =>
+            new DvlSqlSelectExpression(fromExp, paramNames.ToHashSet(), topNum);
 
         public static DvlSqlFromExpression FromExp(string tableName, bool withNoLock = false) =>
             new DvlSqlFromExpression(tableName, withNoLock);
@@ -65,7 +69,7 @@ namespace Dvl_Sql.Helpers
 
         public static DvlSqlSelectExpression SelectTopExp(DvlSqlFromExpression fromExp, int topNum,
             params string[] paramNames) =>
-            new DvlSqlSelectExpression(fromExp, paramNames, topNum);//.WithRoot(false);
+            new DvlSqlSelectExpression(fromExp, paramNames.ToHashSet(), topNum);//.WithRoot(false);
 
         public static DvlSqlLikeExpression LikeExp(string field, string pattern) =>
             new DvlSqlLikeExpression(field, pattern);
