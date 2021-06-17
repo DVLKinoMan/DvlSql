@@ -1,18 +1,22 @@
 ﻿using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
 using Dvl_Sql.Abstract;
 
 namespace Dvl_Sql.Concrete
 {
-    internal class DvlMSSqlCommandFactory : IDvlMsSqlCommandFactory
+    internal class DvlMsSqlCommandFactory : IDvlMsSqlCommandFactory
     {
-        public IDvlSqlCommand CreateSqlCommand(CommandType commandType, SqlConnection connection, string sqlString,
+        public IDvlSqlCommand CreateSqlCommand(CommandType commandType, SqlConnection connection, string sqlString, DbTransaction transaction = null,
             params SqlParameter[] parameters)
         {
             var command = new SqlCommand(sqlString, connection)
             {
                 CommandType = commandType
             };
+
+            if (transaction != null)
+                command.Transaction = (SqlTransaction) transaction;
 
             if(parameters!=null)
                 foreach (var parameter in parameters)

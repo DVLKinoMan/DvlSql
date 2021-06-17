@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
 using Dvl_Sql.Abstract;
 using Dvl_Sql.Expressions;
 using Dvl_Sql.Models;
@@ -10,6 +14,8 @@ namespace Dvl_Sql.Concrete
     internal class DvlSql : IDvlSql
     {
         private readonly IDvlSqlConnection _dvlSqlConnection;
+        private DbTransaction _dbTransaction;
+        private Action _transactionAction;
 
         public DvlSql(string connectionString) => 
             this._dvlSqlConnection = new DvlSqlConnection(connectionString);
@@ -238,5 +244,55 @@ namespace Dvl_Sql.Concrete
 
         public IProcedureExecutable Procedure(string procedureName, params DvlSqlParameter[] parameters) =>
             new SqlProcedureExecutable(this._dvlSqlConnection, procedureName, parameters);
+
+        public async Task CommitAsync(CancellationToken token = default)
+        {
+            if (this._dbTransaction == null)
+                throw new ArgumentNullException(nameof(_dbTransaction));
+
+            try
+            {
+                if (_transactionAction != null)
+                {
+                    //todo not handles exception from this task
+                    var task = new Task(this._transactionAction);
+                    task.RunSynchronously();
+                }
+
+                await this._dbTransaction.CommitAsync(token);
+            }
+            catch (Exception exc)
+            {
+                var list = new List<Exception> {exc};
+                try
+                {
+                    await this._dbTransaction.RollbackAsync(token);
+                }
+                catch (Exception exc2)
+                {
+                    list.Add(exc2);
+                }
+
+                throw new AggregateException(list);
+            }
+            finally
+            {
+                this._dbTransaction = null;
+                this._transactionAction = null;
+                this._dvlSqlConnection.Dispose();
+            }
+        }
+
+        public async Task BeginTransactionAsync(CancellationToken token = default)
+        {
+            this._dbTransaction = await this._dvlSqlConnection.BeginTransactionAsync(token);
+        }
+
+        public async Task<ICommitable> BeginTransactionAsync(Action action, CancellationToken token = default)
+        {
+            this._dbTransaction = await this._dvlSqlConnection.BeginTransactionAsync(token);
+            this._transactionAction = action;
+            return this;
+        }
     }
 }

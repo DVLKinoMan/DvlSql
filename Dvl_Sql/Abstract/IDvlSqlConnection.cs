@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Dvl_Sql.Abstract
@@ -9,5 +11,7 @@ namespace Dvl_Sql.Abstract
     {
         Task<TResult> ConnectAsync<TResult>(Func<IDvlSqlCommand, Task<TResult>> func, string sqlString,
             CommandType commandType = CommandType.Text, params SqlParameter[] parameters);
+
+        ValueTask<DbTransaction> BeginTransactionAsync(CancellationToken token = default);
     }
 }

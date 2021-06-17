@@ -5,7 +5,7 @@ using Dvl_Sql.Models;
 
 namespace Dvl_Sql.Abstract
 {
-    public interface IDvlSql : IFromable, IProcedure
+    public interface IDvlSql : IFromable, IProcedure, ITransaction
     {
         IInsertable<TRes> InsertInto<TRes>(string tableName, params DvlSqlType[] types)
             where TRes : ITuple;
