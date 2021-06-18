@@ -14,14 +14,14 @@ namespace DvlSql.Concrete
         {
             var insertExpression = new DvlSqlInsertIntoExpression<TRes>(tableName, types);
 
-            return new SqlInsertable<TRes>(insertExpression, this._dvlSqlConnection);
+            return new SqlInsertable<TRes>(insertExpression, GetConnection());
         }
 
         public IInsertable<T1, T2> InsertInto<T1, T2>(string tableName, DvlSqlType type1, DvlSqlType type2)
         {
             var insertExpression = new DvlSqlInsertIntoExpression<(T1, T2)>(tableName, type1, type2);
 
-            return new Insertable<T1, T2>(insertExpression, this._dvlSqlConnection);
+            return new Insertable<T1, T2>(insertExpression, GetConnection());
         }
 
         public IInsertable<T1, T2, T3> InsertInto<T1, T2, T3>(string tableName, DvlSqlType type1, DvlSqlType type2,
@@ -29,7 +29,7 @@ namespace DvlSql.Concrete
         {
             var insertExpression = new DvlSqlInsertIntoExpression<(T1, T2, T3)>(tableName, type1, type2, type3);
 
-            return new Insertable<T1, T2, T3>(insertExpression, this._dvlSqlConnection);
+            return new Insertable<T1, T2, T3>(insertExpression, GetConnection());
         }
 
         public IInsertable<T1, T2, T3, T4> InsertInto<T1, T2, T3, T4>(string tableName, DvlSqlType type1,
@@ -39,7 +39,7 @@ namespace DvlSql.Concrete
             var insertExpression =
                 new DvlSqlInsertIntoExpression<(T1, T2, T3, T4)>(tableName, type1, type2, type3, type4);
 
-            return new Insertable<T1, T2, T3, T4>(insertExpression, this._dvlSqlConnection);
+            return new Insertable<T1, T2, T3, T4>(insertExpression, GetConnection());
         }
 
         public IInsertable<T1, T2, T3, T4, T5> InsertInto<T1, T2, T3, T4, T5>(string tableName, DvlSqlType type1,
@@ -49,7 +49,7 @@ namespace DvlSql.Concrete
             var insertExpression =
                 new DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5)>(tableName, type1, type2, type3, type4, type5);
 
-            return new Insertable<T1, T2, T3, T4, T5>(insertExpression, this._dvlSqlConnection);
+            return new Insertable<T1, T2, T3, T4, T5>(insertExpression, GetConnection());
         }
 
         public IInsertable<T1, T2, T3, T4, T5, T6> InsertInto<T1, T2, T3, T4, T5, T6>(string tableName,
@@ -60,7 +60,7 @@ namespace DvlSql.Concrete
                 new DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6)>(tableName, type1, type2, type3, type4, type5,
                     type6);
 
-            return new Insertable<T1, T2, T3, T4, T5, T6>(insertExpression, this._dvlSqlConnection);
+            return new Insertable<T1, T2, T3, T4, T5, T6>(insertExpression, GetConnection());
         }
 
         public IInsertable<T1, T2, T3, T4, T5, T6, T7> InsertInto<T1, T2, T3, T4, T5, T6, T7>(string tableName,
@@ -71,7 +71,7 @@ namespace DvlSql.Concrete
                 new DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7)>(tableName, type1, type2, type3, type4,
                     type5, type6, type7);
 
-            return new Insertable<T1, T2, T3, T4, T5, T6, T7>(insertExpression, this._dvlSqlConnection);
+            return new Insertable<T1, T2, T3, T4, T5, T6, T7>(insertExpression, GetConnection());
         }
 
         public IInsertable<T1, T2, T3, T4, T5, T6, T7, T8> InsertInto<T1, T2, T3, T4, T5, T6, T7, T8>(string tableName,
@@ -81,7 +81,7 @@ namespace DvlSql.Concrete
             var insertExpression = new DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8)>(tableName, type1,
                 type2, type3, type4, type5, type6, type7, type8);
 
-            return new Insertable<T1, T2, T3, T4, T5, T6, T7, T8>(insertExpression, this._dvlSqlConnection);
+            return new Insertable<T1, T2, T3, T4, T5, T6, T7, T8>(insertExpression, GetConnection());
         }
 
         public IInsertable<T1, T2, T3, T4, T5, T6, T7, T8, T9> InsertInto<T1, T2, T3, T4, T5, T6, T7, T8, T9>(
@@ -92,7 +92,7 @@ namespace DvlSql.Concrete
             var insertExpression = new DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8, T9)>(tableName,
                 type1, type2, type3, type4, type5, type6, type7, type8, type9);
 
-            return new Insertable<T1, T2, T3, T4, T5, T6, T7, T8, T9>(insertExpression, this._dvlSqlConnection);
+            return new Insertable<T1, T2, T3, T4, T5, T6, T7, T8, T9>(insertExpression, GetConnection());
         }
 
         public IInsertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> InsertInto<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(
@@ -103,7 +103,7 @@ namespace DvlSql.Concrete
             var insertExpression = new DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)>(tableName,
                 type1, type2, type3, type4, type5, type6, type7, type8, type9, type10);
 
-            return new Insertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(insertExpression, this._dvlSqlConnection);
+            return new Insertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(insertExpression, GetConnection());
         }
 
         public IInsertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> InsertInto<T1, T2, T3, T4, T5, T6, T7, T8, T9,
@@ -116,7 +116,7 @@ namespace DvlSql.Concrete
                     type3, type4, type5, type6, type7, type8, type9, type10, type11);
 
             return new Insertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(insertExpression,
-                this._dvlSqlConnection);
+                GetConnection());
         }
 
         public IInsertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> InsertInto<T1, T2, T3, T4, T5, T6, T7, T8,
@@ -128,7 +128,7 @@ namespace DvlSql.Concrete
                 tableName, type1, type2, type3, type4, type5, type6, type7, type8, type9, type10, type11, type12);
 
             return new Insertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(insertExpression,
-                this._dvlSqlConnection);
+                GetConnection());
         }
 
         public IInsertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> InsertInto<T1, T2, T3, T4, T5, T6,
@@ -142,7 +142,7 @@ namespace DvlSql.Concrete
                     type1, type2, type3, type4, type5, type6, type7, type8, type9, type10, type11, type12, type13);
 
             return new Insertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(insertExpression,
-                this._dvlSqlConnection);
+                GetConnection());
         }
 
         public IInsertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> InsertInto<T1, T2, T3, T4, T5,
@@ -158,7 +158,7 @@ namespace DvlSql.Concrete
                     type14);
 
             return new Insertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(insertExpression,
-                this._dvlSqlConnection);
+                GetConnection());
         }
 
         public IInsertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> InsertInto<T1, T2, T3, T4,
@@ -174,7 +174,7 @@ namespace DvlSql.Concrete
                     type13, type14, type15);
 
             return new Insertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(insertExpression,
-                this._dvlSqlConnection);
+                GetConnection());
         }
 
         public IInsertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> InsertInto<T1, T2, T3,
@@ -190,14 +190,14 @@ namespace DvlSql.Concrete
                     type13, type14, type15, type16);
 
             return new Insertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(
-                insertExpression, this._dvlSqlConnection);
+                insertExpression, GetConnection());
         }
 
         public IInsertable InsertInto(string tableName, IEnumerable<string> cols)
         {
             var insertExpression = new DvlSqlInsertIntoSelectExpression(tableName, cols.ToArray());
 
-            return new SqlInsertable(insertExpression, this._dvlSqlConnection);
+            return new SqlInsertable(insertExpression, GetConnection());
         }
     }
 }
