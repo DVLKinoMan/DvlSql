@@ -3,7 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 
 
-namespace Dvl_Sql.Models
+namespace DvlSql.Models
 {
     public sealed class DvlSqlParameter<TValue> : DvlSqlParameter
     {

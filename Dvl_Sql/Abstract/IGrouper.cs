@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using Dvl_Sql.Expressions;
-using Dvl_Sql.Models;
+using DvlSql.Expressions;
+using DvlSql.Models;
 
-namespace Dvl_Sql.Abstract
+namespace DvlSql.Abstract
 {
     public interface IGrouper : ISelectable
     {

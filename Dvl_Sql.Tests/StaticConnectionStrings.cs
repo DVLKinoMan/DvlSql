@@ -1,4 +1,4 @@
-﻿namespace Dvl_Sql.Tests
+﻿namespace DvlSql.Tests
 {
     public static class StaticConnectionStrings
     {

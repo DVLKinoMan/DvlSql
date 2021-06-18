@@ -1,4 +1,4 @@
-﻿namespace Dvl_Sql.Abstract
+﻿namespace DvlSql.Abstract
 {
     // ReSharper disable once IdentifierTypo
     public interface IOrderable

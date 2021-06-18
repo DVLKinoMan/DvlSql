@@ -1,21 +1,21 @@
-﻿using Dvl_Sql.Abstract;
-using Dvl_Sql.Expressions;
-using Dvl_Sql.Models;
+﻿using DvlSql.Abstract;
+using DvlSql.Expressions;
+using DvlSql.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Dvl_Sql.Concrete
+namespace DvlSql.Concrete
 {
-    internal partial class DvlSql : IDvlSql
+    internal partial class DvlSqlImpl : IDvlSql
     {
         private readonly IDvlSqlConnection _dvlSqlConnection;
 
-        public DvlSql(string connectionString) => 
+        public DvlSqlImpl(string connectionString) => 
             this._dvlSqlConnection = new DvlSqlConnection(connectionString);
 
-        public DvlSql(IDvlSqlConnection connection) =>
+        public DvlSqlImpl(IDvlSqlConnection connection) =>
             this._dvlSqlConnection = connection;
         
         public ISelector From(string tableName, bool withNoLock = false)

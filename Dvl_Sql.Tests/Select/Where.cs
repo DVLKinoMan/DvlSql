@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using Dvl_Sql.Abstract;
+using DvlSql.Abstract;
 using NUnit.Framework;
-using static Dvl_Sql.ExpressionHelpers;
-using static Dvl_Sql.SqlType;
+using static DvlSql.ExpressionHelpers;
+using static DvlSql.SqlType;
 
-namespace Dvl_Sql.Tests.Select
+namespace DvlSql.Tests.Select
 {
     [TestFixture]
     public class Where
@@ -304,7 +304,7 @@ namespace Dvl_Sql.Tests.Select
 
             var expectedSelect = Regex.Escape(
                 $"SELECT * FROM {TableName}{Environment.NewLine}" +
-                $"WHERE {col1} <> {Dvl_Sql.SqlType.GetDefaultSqlString(number)}"
+                $"WHERE {col1} <> {DvlSql.SqlType.GetDefaultSqlString(number)}"
             );
             
             Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));

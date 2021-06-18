@@ -1,6 +1,6 @@
-﻿using Dvl_Sql.Expressions;
+﻿using DvlSql.Expressions;
 
-namespace Dvl_Sql.Abstract
+namespace DvlSql.Abstract
 {
     // ReSharper disable once IdentifierTypo
     public interface IJoinable

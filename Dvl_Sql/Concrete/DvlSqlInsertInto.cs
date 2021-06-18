@@ -1,13 +1,13 @@
-﻿using Dvl_Sql.Abstract;
-using Dvl_Sql.Expressions;
-using Dvl_Sql.Models;
+﻿using DvlSql.Abstract;
+using DvlSql.Expressions;
+using DvlSql.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace Dvl_Sql.Concrete
+namespace DvlSql.Concrete
 {
-    partial class DvlSql
+    partial class DvlSqlImpl
     {
         public IInsertable<TRes> InsertInto<TRes>(string tableName, params DvlSqlType[] types)
             where TRes : ITuple

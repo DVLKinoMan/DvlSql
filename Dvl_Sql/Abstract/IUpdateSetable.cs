@@ -1,6 +1,6 @@
-﻿using Dvl_Sql.Models;
+﻿using DvlSql.Models;
 
-namespace Dvl_Sql.Abstract
+namespace DvlSql.Abstract
 {
     public interface IUpdateSetable
     {

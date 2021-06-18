@@ -1,4 +1,4 @@
-﻿namespace Dvl_Sql.Abstract
+﻿namespace DvlSql.Abstract
 {
     public interface IOrderExecutable : IOrderable, ISelectExecutable
     {

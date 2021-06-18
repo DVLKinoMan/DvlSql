@@ -2,13 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
-using Dvl_Sql.Abstract;
+using DvlSql.Abstract;
 using NUnit.Framework;
-using static Dvl_Sql.DataReader;
-using static Dvl_Sql.SqlType;
-using static Dvl_Sql.Tests.Result.Helpers;
+using static DvlSql.DataReader;
+using static DvlSql.SqlType;
+using static DvlSql.Tests.Result.Helpers;
 
-namespace Dvl_Sql.Tests.Procedure
+namespace DvlSql.Tests.Procedure
 {
     [TestFixture]
     public class Procedure

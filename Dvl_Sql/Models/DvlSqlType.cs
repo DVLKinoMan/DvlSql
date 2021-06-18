@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using System.Data;
 
-namespace Dvl_Sql.Models
+namespace DvlSql.Models
 {
     public class DvlSqlType
     {

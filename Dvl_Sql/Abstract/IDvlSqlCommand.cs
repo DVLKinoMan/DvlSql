@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Dvl_Sql.Abstract
+namespace DvlSql.Abstract
 {
     public interface IDvlSqlCommand : IDisposable
     {

@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Dvl_Sql.Abstract
+namespace DvlSql.Abstract
 {
     public interface ITransaction
     {

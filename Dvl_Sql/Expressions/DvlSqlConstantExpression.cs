@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Dvl_Sql.Abstract;
+using DvlSql.Abstract;
 
-using static Dvl_Sql.ExpressionHelpers;
-using static Dvl_Sql.SqlType;
+using static DvlSql.ExpressionHelpers;
+using static DvlSql.SqlType;
 
-namespace Dvl_Sql.Expressions
+namespace DvlSql.Expressions
 {
     public abstract class DvlSqlConstantExpression : DvlSqlExpression
     {

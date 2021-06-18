@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using Dvl_Sql.Abstract;
-using Dvl_Sql.Models;
+using DvlSql.Abstract;
+using DvlSql.Models;
 
-namespace Dvl_Sql.Expressions
+namespace DvlSql.Expressions
 {
     public abstract class DvlSqlInsertExpression : DvlSqlExpressionWithParameters
     {

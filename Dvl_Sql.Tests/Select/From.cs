@@ -1,10 +1,10 @@
-﻿using Dvl_Sql.Abstract;
+﻿using DvlSql.Abstract;
 using NUnit.Framework;
 using System;
 using System.Text.RegularExpressions;
-using static Dvl_Sql.ExpressionHelpers;
+using static DvlSql.ExpressionHelpers;
 
-namespace Dvl_Sql.Tests.Select
+namespace DvlSql.Tests.Select
 {
     [TestFixture]
     public class From

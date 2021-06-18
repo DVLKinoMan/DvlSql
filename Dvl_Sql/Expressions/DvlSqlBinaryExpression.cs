@@ -1,4 +1,4 @@
-﻿namespace Dvl_Sql.Expressions
+﻿namespace DvlSql.Expressions
 {
     public abstract class DvlSqlBinaryExpression : DvlSqlExpression
     {

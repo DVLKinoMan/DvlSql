@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Dvl_Sql.Abstract;
-using Dvl_Sql.Models;
+using DvlSql.Abstract;
+using DvlSql.Models;
 
-namespace Dvl_Sql.Concrete
+namespace DvlSql.Concrete
 {
     internal class SqlInsertDeleteExecutable : IInsertDeleteExecutable
     {

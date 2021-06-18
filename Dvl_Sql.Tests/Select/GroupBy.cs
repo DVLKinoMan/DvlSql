@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using Dvl_Sql.Abstract;
+using DvlSql.Abstract;
 using NUnit.Framework;
-using static Dvl_Sql.ExpressionHelpers;
-using static Dvl_Sql.SqlType;
+using static DvlSql.ExpressionHelpers;
+using static DvlSql.SqlType;
 
-namespace Dvl_Sql.Tests.Select
+namespace DvlSql.Tests.Select
 {
     [TestFixture]
     public class 

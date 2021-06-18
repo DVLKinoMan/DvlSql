@@ -4,10 +4,10 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
-using Dvl_Sql.Abstract;
+using DvlSql.Abstract;
 using Moq;
 
-namespace Dvl_Sql.Tests.Result
+namespace DvlSql.Tests.Result
 {
     public static class Helpers
     {

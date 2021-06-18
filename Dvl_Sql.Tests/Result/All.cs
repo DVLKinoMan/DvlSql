@@ -1,11 +1,11 @@
-﻿using Dvl_Sql.Abstract;
-using Dvl_Sql.Tests.Classes;
+﻿using DvlSql.Abstract;
+using DvlSql.Tests.Classes;
 using NUnit.Framework;
 using System.Collections.Generic;
-using static Dvl_Sql.Tests.Result.Helpers;
-using static Dvl_Sql.ExpressionHelpers;
+using static DvlSql.Tests.Result.Helpers;
+using static DvlSql.ExpressionHelpers;
 
-namespace Dvl_Sql.Tests.Result
+namespace DvlSql.Tests.Result
 {
     [TestFixture]
     public class All

@@ -1,4 +1,4 @@
-﻿using Dvl_Sql.Abstract;
+﻿using DvlSql.Abstract;
 using System;
 using System.Data;
 using System.Data.Common;
@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Dvl_Sql.Concrete
+namespace DvlSql.Concrete
 {
     internal class DvlSqlConnection : IDvlSqlConnection
     {

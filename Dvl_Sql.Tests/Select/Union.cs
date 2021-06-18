@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using Dvl_Sql.Abstract;
+using DvlSql.Abstract;
 using NUnit.Framework;
 
-namespace Dvl_Sql.Tests.Select
+namespace DvlSql.Tests.Select
 {
     [TestFixture]
     public class Union

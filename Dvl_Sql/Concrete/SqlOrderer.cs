@@ -1,13 +1,13 @@
-﻿using Dvl_Sql.Abstract;
+﻿using DvlSql.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using static Dvl_Sql.DataReader;
+using static DvlSql.DataReader;
 
-namespace Dvl_Sql.Concrete
+namespace DvlSql.Concrete
 {
     internal class SqlOrderer : IOrderer
     {

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using Dvl_Sql.Concrete;
-using Dvl_Sql.Models;
+using DvlSql.Concrete;
+using DvlSql.Models;
 
-namespace Dvl_Sql.Abstract
+namespace DvlSql.Abstract
 {
     public interface IDvlSql : IFromable, IProcedure, ITransaction
     {
@@ -80,8 +80,8 @@ namespace Dvl_Sql.Abstract
         IDeletable DeleteFrom(string tableName);
         IUpdateSetable Update(string tableName);
 
-        public static IDvlSql DefaultDvlSql(string connectionString) => new DvlSql(connectionString);
+        public static IDvlSql DefaultDvlSql(string connectionString) => new DvlSqlImpl(connectionString);
         
-        public static IDvlSql DefaultDvlSql(IDvlSqlConnection connection) => new DvlSql(connection);
+        public static IDvlSql DefaultDvlSql(IDvlSqlConnection connection) => new DvlSqlImpl(connection);
     }
 }

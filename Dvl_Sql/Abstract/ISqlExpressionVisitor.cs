@@ -1,7 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
-using Dvl_Sql.Expressions;
+using DvlSql.Expressions;
 
-namespace Dvl_Sql.Abstract
+namespace DvlSql.Abstract
 {
     public interface ISqlExpressionVisitor
     {

@@ -2,7 +2,7 @@
 using System.Data.Common;
 using System.Data.SqlClient;
 
-namespace Dvl_Sql.Abstract
+namespace DvlSql.Abstract
 {
     public interface IDvlMsSqlCommandFactory
     {

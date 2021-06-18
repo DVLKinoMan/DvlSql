@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Dvl_Sql\Dvl_Sql.csproj" />
+    <ProjectReference Include="..\Dvl_Sql\DvlSql.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Dvl_Sql.Expressions;
+using DvlSql.Expressions;
 
-namespace Dvl_Sql
+namespace DvlSql
 {
     public static class ExpressionHelpers
     {

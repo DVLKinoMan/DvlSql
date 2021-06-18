@@ -3,11 +3,11 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Dvl_Sql.Abstract;
-using Dvl_Sql.Expressions;
-using Dvl_Sql.Models;
+using DvlSql.Abstract;
+using DvlSql.Expressions;
+using DvlSql.Models;
 
-namespace Dvl_Sql.Concrete
+namespace DvlSql.Concrete
 {
     internal class SqlDeletable : IDeletable
     {

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Dvl_Sql.Abstract;
+using DvlSql.Abstract;
 
 
-namespace Dvl_Sql.Expressions
+namespace DvlSql.Expressions
 {
     public class DvlSqlAndExpression : DvlSqlBinaryExpression
     {

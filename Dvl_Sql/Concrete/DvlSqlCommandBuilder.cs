@@ -2,12 +2,12 @@
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
-using Dvl_Sql.Abstract;
-using Dvl_Sql.Expressions;
-using Dvl_Sql.Models;
-using static Dvl_Sql.SystemExtensions;
+using DvlSql.Abstract;
+using DvlSql.Expressions;
+using DvlSql.Models;
+using static DvlSql.SystemExtensions;
 
-namespace Dvl_Sql.Concrete
+namespace DvlSql.Concrete
 {
     internal class DvlSqlCommandBuilder : ISqlExpressionVisitor
     {

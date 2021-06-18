@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
-using Dvl_Sql.Abstract;
-using Dvl_Sql.Expressions;
+using DvlSql.Abstract;
+using DvlSql.Expressions;
 
-using Dvl_Sql.Models;
+using DvlSql.Models;
 
-namespace Dvl_Sql.Concrete
+namespace DvlSql.Concrete
 {
     internal class BaseInsertable<TParam> where TParam : ITuple
     {

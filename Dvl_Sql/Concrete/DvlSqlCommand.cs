@@ -3,9 +3,9 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
-using Dvl_Sql.Abstract;
+using DvlSql.Abstract;
 
-namespace Dvl_Sql.Concrete
+namespace DvlSql.Concrete
 {
     /// <summary>
     /// todo maybe sqlcommand will have timeout and cancellationtoken already

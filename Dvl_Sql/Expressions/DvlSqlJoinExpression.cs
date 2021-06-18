@@ -1,6 +1,6 @@
-﻿using Dvl_Sql.Abstract;
+﻿using DvlSql.Abstract;
 
-namespace Dvl_Sql.Expressions
+namespace DvlSql.Expressions
 {
     public abstract class DvlSqlJoinExpression : DvlSqlExpression
     {

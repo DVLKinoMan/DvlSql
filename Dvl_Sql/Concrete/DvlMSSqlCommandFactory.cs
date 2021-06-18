@@ -1,9 +1,9 @@
 ﻿using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
-using Dvl_Sql.Abstract;
+using DvlSql.Abstract;
 
-namespace Dvl_Sql.Concrete
+namespace DvlSql.Concrete
 {
     internal class DvlMsSqlCommandFactory : IDvlMsSqlCommandFactory
     {

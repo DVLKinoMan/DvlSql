@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Dvl_Sql.Abstract;
-using Dvl_Sql.Expressions;
+using DvlSql.Abstract;
+using DvlSql.Expressions;
 using NUnit.Framework;
 
-using static Dvl_Sql.ExpressionHelpers;
-using static Dvl_Sql.SqlType;
+using static DvlSql.ExpressionHelpers;
+using static DvlSql.SqlType;
 
-namespace Dvl_Sql.Tests.Insert
+namespace DvlSql.Tests.Insert
 {
     [TestFixture]
     public class InsertIntoWithSelect

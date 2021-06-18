@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Dvl_Sql.Tests.Classes
+namespace DvlSql.Tests.Classes
 {
     public class SomeClass : IEquatable<SomeClass>
     {

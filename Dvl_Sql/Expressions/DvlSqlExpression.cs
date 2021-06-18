@@ -1,7 +1,7 @@
 ﻿using System;
-using Dvl_Sql.Abstract;
+using DvlSql.Abstract;
 
-namespace Dvl_Sql.Expressions
+namespace DvlSql.Expressions
 {
     public enum SqlComparisonOperator
     {

@@ -1,12 +1,12 @@
-﻿using Dvl_Sql.Abstract;
-using Dvl_Sql.Models;
+﻿using DvlSql.Abstract;
+using DvlSql.Models;
 using System;
 using System.Data;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Dvl_Sql.Concrete
+namespace DvlSql.Concrete
 {
     internal class SqlProcedureExecutable : IProcedureExecutable
     {

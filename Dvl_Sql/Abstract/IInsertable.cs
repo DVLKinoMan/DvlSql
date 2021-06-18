@@ -1,8 +1,8 @@
 using System.Runtime.CompilerServices;
-using Dvl_Sql.Expressions;
-using Dvl_Sql.Models;
+using DvlSql.Expressions;
+using DvlSql.Models;
 
-namespace Dvl_Sql.Abstract
+namespace DvlSql.Abstract
 {
     // ReSharper disable once IdentifierTypo
     // ReSharper disable once TypeParameterCanBeVariant

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Dvl_Sql.Abstract;
+using DvlSql.Abstract;
 using NUnit.Framework;
 
-using static Dvl_Sql.SqlType;
+using static DvlSql.SqlType;
 
-namespace Dvl_Sql.Tests.Insert
+namespace DvlSql.Tests.Insert
 {
     [TestFixture]
     public class InsertIntoValues

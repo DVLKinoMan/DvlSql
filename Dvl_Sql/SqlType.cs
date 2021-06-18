@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.Linq;
-using Dvl_Sql.Models;
+using DvlSql.Models;
 
-namespace Dvl_Sql
+namespace DvlSql
 {
     public static class SqlType
     {
