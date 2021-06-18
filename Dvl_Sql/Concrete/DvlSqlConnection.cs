@@ -52,5 +52,21 @@ namespace Dvl_Sql.Concrete
             await this._connection.OpenAsync(token);
             return this._transaction = await this._connection.BeginTransactionAsync(token);
         }
-    }
+
+        public async Task CommitAsync(CancellationToken token = default)
+        {
+            if (this._transaction == null)
+                throw new ArgumentNullException(nameof(_transaction));
+         
+            await this._transaction.CommitAsync(token);
+        }
+
+        public async Task RollbackAsync(CancellationToken token = default) 
+        {
+            if (this._transaction == null)
+                throw new ArgumentNullException(nameof(_transaction));
+
+            await this._transaction.RollbackAsync(token);
+        }
+}
 }

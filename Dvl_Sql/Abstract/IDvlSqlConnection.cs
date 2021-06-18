@@ -13,5 +13,9 @@ namespace Dvl_Sql.Abstract
             CommandType commandType = CommandType.Text, params SqlParameter[] parameters);
 
         ValueTask<DbTransaction> BeginTransactionAsync(CancellationToken token = default);
+
+        Task CommitAsync(CancellationToken token = default);
+
+        Task RollbackAsync(CancellationToken token = default);
     }
 }

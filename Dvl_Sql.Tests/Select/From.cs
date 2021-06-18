@@ -1,9 +1,7 @@
-﻿using System;
-using System.Text.RegularExpressions;
-using Dvl_Sql.Abstract;
-using Dvl_Sql.Expressions;
+﻿using Dvl_Sql.Abstract;
 using NUnit.Framework;
-
+using System;
+using System.Text.RegularExpressions;
 using static Dvl_Sql.Helpers.Expressions;
 
 namespace Dvl_Sql.Tests.Select
@@ -13,7 +11,7 @@ namespace Dvl_Sql.Tests.Select
     {
         private readonly IDvlSql _sql =
             IDvlSql.DefaultDvlSql(
-                "test");
+                StaticConnectionStrings.ConnectionStringForTest);
 
         [Test]
         [TestCase("dbo.Words")]

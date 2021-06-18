@@ -4,9 +4,10 @@ using System.Threading.Tasks;
 
 namespace Dvl_Sql.Abstract
 {
-    public interface ITransaction : ICommitable
+    public interface ITransaction
     {
-        Task<ICommitable> BeginTransactionAsync(Action action, CancellationToken token = default);
         Task BeginTransactionAsync(CancellationToken token = default);
+        Task CommitAsync(CancellationToken token = default);
+        Task RollbackAsync(CancellationToken token = default);
     }
 }

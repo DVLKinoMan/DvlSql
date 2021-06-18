@@ -11,7 +11,7 @@ namespace Dvl_Sql.Tests.Select
     {
         private readonly IDvlSql _sql =
             IDvlSql.DefaultDvlSql(
-                "test");
+                StaticConnectionStrings.ConnectionStringForTest);
 
         private string TableName = "dbo.Words";
 

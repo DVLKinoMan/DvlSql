@@ -10,7 +10,7 @@ namespace Dvl_Sql.Tests.Select
     {
         private readonly IDvlSql _sql =
             IDvlSql.DefaultDvlSql(
-                "test");
+                StaticConnectionStrings.ConnectionStringForTest);
 
         [Test]
         [TestCase("dbo.Words", "dbo.Sentences")]
