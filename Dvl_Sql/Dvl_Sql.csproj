@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <PackageId>DvlSql</PackageId>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageLicenseFile>license.txt</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/DVLKinoMan/DvlSql</PackageProjectUrl>
     <RepositoryUrl>https://github.com/DVLKinoMan/DvlSql</RepositoryUrl>

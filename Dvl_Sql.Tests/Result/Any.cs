@@ -7,7 +7,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 using Moq;
-using static Dvl_Sql.Helpers.Expressions;
+using static Dvl_Sql.ExpressionHelpers;
 using static Dvl_Sql.Tests.Result.Helpers;
 
 namespace Dvl_Sql.Tests.Result

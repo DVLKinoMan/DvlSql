@@ -5,7 +5,7 @@ using System.Text;
 using Dvl_Sql.Abstract;
 using Dvl_Sql.Expressions;
 using Dvl_Sql.Models;
-using static Dvl_Sql.Helpers.SystemExtensions;
+using static Dvl_Sql.SystemExtensions;
 
 namespace Dvl_Sql.Concrete
 {

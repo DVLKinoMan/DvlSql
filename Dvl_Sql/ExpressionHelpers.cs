@@ -2,9 +2,9 @@
 using System.Linq;
 using Dvl_Sql.Expressions;
 
-namespace Dvl_Sql.Helpers
+namespace Dvl_Sql
 {
-    public static class Expressions
+    public static class ExpressionHelpers
     {
         public static string AvgExp(string param) => $"AVG({param})";
         public static string CountExp(string param = "*") => $"COUNT({param})";

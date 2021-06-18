@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using System;
 using System.Text.RegularExpressions;
-using static Dvl_Sql.Helpers.Expressions;
+using static Dvl_Sql.ExpressionHelpers;
 
 namespace Dvl_Sql.Tests.Select
 {

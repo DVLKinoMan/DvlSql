@@ -3,7 +3,7 @@ using Dvl_Sql.Tests.Classes;
 using NUnit.Framework;
 using System.Collections.Generic;
 using static Dvl_Sql.Tests.Result.Helpers;
-using static Dvl_Sql.Helpers.Expressions;
+using static Dvl_Sql.ExpressionHelpers;
 
 namespace Dvl_Sql.Tests.Result
 {

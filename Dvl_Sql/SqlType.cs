@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Linq;
 using Dvl_Sql.Models;
 
-namespace Dvl_Sql.Helpers
+namespace Dvl_Sql
 {
     public static class SqlType
     {
