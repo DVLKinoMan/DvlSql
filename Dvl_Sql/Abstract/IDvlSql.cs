@@ -80,7 +80,9 @@ namespace DvlSql.Abstract
         IDeletable DeleteFrom(string tableName);
         IUpdateSetable Update(string tableName);
 
-        public static IDvlSql DefaultDvlSql(string connectionString) => new DvlSqlImpl(connectionString);
+        IDvlSql SetConnection(IDvlSqlConnection connection);
+
+        public static IDvlSql DefaultDvlSql(string connectionString) => new DvlSqlImpl(new DvlSqlConnection(connectionString));
         
         public static IDvlSql DefaultDvlSql(IDvlSqlConnection connection) => new DvlSqlImpl(connection);
     }

@@ -17,5 +17,7 @@ namespace DvlSql.Abstract
         Task CommitAsync(CancellationToken token = default);
 
         Task RollbackAsync(CancellationToken token = default);
+
+        IDvlSqlConnection GetClone();
     }
 }

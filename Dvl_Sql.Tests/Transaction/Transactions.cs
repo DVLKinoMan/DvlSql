@@ -18,21 +18,21 @@ namespace DvlSql.Tests.Transaction
         [Test]
         public async Task TestMethod1()
         {
-            await this._sql.BeginTransactionAsync();
-            await this._sql.DeleteFrom("dbo.Words")
+            var conn = await this._sql.BeginTransactionAsync();
+            await this._sql.SetConnection(conn).DeleteFrom("dbo.Words")
                 .ExecuteAsync();
 
-            var k = await this._sql.InsertInto<(int, string)>("dbo.Words",
+            var k = await this._sql.SetConnection(conn).InsertInto<(int, string)>("dbo.Words",
                     IntType("Id"), NVarCharType("Name", 50))
                 .Values((1, "Some New Word"), (2, "Some New Word 2"))
                 .ExecuteAsync();
 
-            var d = await this._sql.Update("dbo.Words")
+            var d = await this._sql.SetConnection(conn).Update("dbo.Words")
                 .Set(NVarChar("Name", "Updated Word", 50))
                 .Where(ConstantExpCol("Id") == 1)
                 .ExecuteAsync();
 
-            await this._sql.CommitAsync();
+            await this._sql.SetConnection(conn).CommitAsync();
         }
     }
 }

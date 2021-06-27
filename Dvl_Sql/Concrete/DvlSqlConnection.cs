@@ -68,5 +68,8 @@ namespace DvlSql.Concrete
 
             await this._transaction.RollbackAsync(token);
         }
-}
+
+        public IDvlSqlConnection GetClone() =>
+            new DvlSqlConnection(this._connection.ConnectionString, this._commandFactory);
+    }
 }

@@ -10,22 +10,11 @@ namespace DvlSql.Concrete
 {
     internal partial class DvlSqlImpl : IDvlSql
     {
-        //private readonly IDvlSqlConnection _dvlSqlConnection;
-        private readonly string _connectionString;
-        private Dictionary<int, IDvlSqlConnection> _connections = new Dictionary<int, IDvlSqlConnection>();
+        private IDvlSqlConnection _dvlSqlConnection;
 
-        public DvlSqlImpl(string connectionString) =>
-            this._connectionString = connectionString;
-            //this._dvlSqlConnection = new DvlSqlConnection(connectionString);
+        public DvlSqlImpl(IDvlSqlConnection connection) => this._dvlSqlConnection = connection;
 
-        public DvlSqlImpl(IDvlSqlConnection connection)
-        {
-            //this._dvlSqlConnection = connection;
-        }
-
-        private IDvlSqlConnection GetConnection() => _connections.ContainsKey(Thread.CurrentThread.ManagedThreadId) 
-            ? _connections[Thread.CurrentThread.ManagedThreadId]  
-            : new DvlSqlConnection(this._connectionString);
+        private IDvlSqlConnection GetConnection() => this._dvlSqlConnection;
         
         public ISelector From(string tableName, bool withNoLock = false)
         {
@@ -55,6 +44,13 @@ namespace DvlSql.Concrete
             return new SqlUpdateable(GetConnection(), updateExpression);
         }
 
+        public IDvlSql SetConnection(IDvlSqlConnection connection)
+        {
+            this._dvlSqlConnection = connection;
+
+            return this;
+        }
+
         public IProcedureExecutable Procedure(string procedureName, params DvlSqlParameter[] parameters) =>
             new SqlProcedureExecutable(GetConnection(), procedureName, parameters);
 
@@ -62,14 +58,14 @@ namespace DvlSql.Concrete
         {
             try
             {
-                await _connections[Thread.CurrentThread.ManagedThreadId].CommitAsync(token);
+                await this._dvlSqlConnection.CommitAsync(token);
             }
             catch (Exception exc)
             {
                 var list = new List<Exception> {exc};
                 try
                 {
-                    await _connections[Thread.CurrentThread.ManagedThreadId].RollbackAsync(token);
+                    await this._dvlSqlConnection.RollbackAsync(token);
                 }
                 catch (Exception exc2)
                 {
@@ -80,19 +76,18 @@ namespace DvlSql.Concrete
             }
             finally
             {
-                _connections[Thread.CurrentThread.ManagedThreadId].Dispose();
-                _connections.Remove(Thread.CurrentThread.ManagedThreadId);
+                this._dvlSqlConnection.Dispose();
             }
         }
 
         public async Task RollbackAsync(CancellationToken token = default) =>
-            await _connections[Thread.CurrentThread.ManagedThreadId].RollbackAsync(token);
+            await this._dvlSqlConnection.RollbackAsync(token);
 
-        public async Task BeginTransactionAsync(CancellationToken token = default)
+        public async Task<IDvlSqlConnection> BeginTransactionAsync(CancellationToken token = default)
         {
-            var conn = GetConnection();
+            var conn = GetConnection().GetClone();
             await conn.BeginTransactionAsync(token);
-            _connections[Thread.CurrentThread.ManagedThreadId] = conn;
+            return conn;
         }
     }
 }
