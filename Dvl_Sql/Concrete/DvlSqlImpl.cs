@@ -11,10 +11,13 @@ namespace DvlSql.Concrete
     internal partial class DvlSqlImpl : IDvlSql
     {
         private IDvlSqlConnection _dvlSqlConnection;
+        private readonly string _connectionString;
+
+        public DvlSqlImpl(string connectionString) => this._connectionString = connectionString;
 
         public DvlSqlImpl(IDvlSqlConnection connection) => this._dvlSqlConnection = connection;
 
-        private IDvlSqlConnection GetConnection() => this._dvlSqlConnection;
+        private IDvlSqlConnection GetConnection() => this._dvlSqlConnection ?? new DvlSqlConnection(_connectionString);
         
         public ISelector From(string tableName, bool withNoLock = false)
         {

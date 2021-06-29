@@ -82,7 +82,7 @@ namespace DvlSql.Abstract
 
         IDvlSql SetConnection(IDvlSqlConnection connection);
 
-        public static IDvlSql DefaultDvlSql(string connectionString) => new DvlSqlImpl(new DvlSqlConnection(connectionString));
+        public static IDvlSql DefaultDvlSql(string connectionString) => new DvlSqlImpl(connectionString);
         
         public static IDvlSql DefaultDvlSql(IDvlSqlConnection connection) => new DvlSqlImpl(connection);
     }
