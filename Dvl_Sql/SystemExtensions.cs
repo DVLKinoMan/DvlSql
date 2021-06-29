@@ -50,5 +50,27 @@ namespace DvlSql
             var index when index != -1 => str[(index + 1)..],
             _ => str
         };
+
+        public static string GetEscapedString(this string str, bool includeEdges = true) => includeEdges 
+            ? str.Replace("'","''") 
+            : str.Replace("'","''", 1, str.Length - 1);
+
+        public static string Replace(this string str, string oldValue, string newValue, int fromIndex, int toIndex)
+        {
+            var builder = new StringBuilder();
+            for (int i = 0; i < str.Length; i++)
+            {
+                if (i > fromIndex && i + oldValue.Length < toIndex &&
+                    str.Substring(i, oldValue.Length) is { } s &&
+                    s == oldValue)
+                {
+                    builder.Append(newValue);
+                    i += oldValue.Length - 1;
+                }
+                else builder.Append(str[i]);
+            }
+
+            return builder.ToString();
+        }
     }
 }

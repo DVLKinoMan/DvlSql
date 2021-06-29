@@ -5,7 +5,6 @@ using System.Text;
 using DvlSql.Abstract;
 using DvlSql.Expressions;
 using DvlSql.Models;
-using static DvlSql.SystemExtensions;
 
 namespace DvlSql.Concrete
 {
@@ -80,7 +79,7 @@ namespace DvlSql.Concrete
         }
 
         public void Visit<TValue>(DvlSqlConstantExpression<TValue> expression) =>
-            this._command.Append(expression.StringValue);
+            this._command.Append(expression.StringValue.GetEscapedString(false));
 
         public void Visit(DvlSqlJoinExpression expression)
         {
@@ -323,7 +322,7 @@ namespace DvlSql.Concrete
         public void Visit(DvlSqlLikeExpression expression)
         {
             string likeStr = expression.Not ? "NOT LIKE" : "LIKE";
-            this._command.Append($"{expression.Field} {likeStr} '{expression.Pattern}'");
+            this._command.Append($"{expression.Field} {likeStr} '{expression.Pattern.GetEscapedString()}'");
         }
 
         public void Visit(DvlSqlIsNullExpression expression)
