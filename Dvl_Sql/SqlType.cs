@@ -18,7 +18,7 @@ namespace DvlSql
                 decimal d => d.ToString(CultureInfo.InvariantCulture),
                 Guid guid => $"'{guid}'",
                 //DateTime d => $"'{d:yyyy-MM-dd HH:mm:ss}'",
-                //bool b => $"{(b ? 1 : 0)}",
+                bool b => $"{(b ? 1 : 0)}",
                 _ => value.ToString()
             };
 
