@@ -1,12 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using DvlSql.Concrete;
+using DvlSql.Expressions;
 using DvlSql.Models;
 
 namespace DvlSql.Abstract
 {
     public interface IDvlSql : IFromable, IProcedure, ITransaction
     {
+        IInsertDeleteExecutable InsertInto<T>(DvlSqlInsertIntoExpression<T> insert) where T: ITuple;
+
         IInsertable<TRes> InsertInto<TRes>(string tableName, params DvlSqlType[] types)
             where TRes : ITuple;
 
