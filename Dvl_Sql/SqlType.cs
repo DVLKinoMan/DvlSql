@@ -22,6 +22,18 @@ namespace DvlSql
                 _ => value.ToString()
             };
 
+        public static DvlSqlType GetDefaultDvlSqlType<TValue>(string name, TValue value) =>
+            value switch
+            {
+                bool b => Bit(name, b),
+                DateTime d => DateTime(name, d),
+                decimal dec => Decimal(name, dec),
+                int i => Int(name, i),
+                Guid guid => UniqueIdentifier(name, guid),
+                string str => NVarCharMax(name, str),
+                _ => throw new NotImplementedException("value is not implemented")
+            };
+
         internal static SqlDbType DefaultMap<TValue>(TValue value) =>
             value switch
             {
