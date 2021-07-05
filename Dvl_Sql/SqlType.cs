@@ -124,16 +124,16 @@ namespace DvlSql
         
         #region Number
         public static DvlSqlType<decimal> Decimal(string name, decimal value, byte? precision = null,
-            byte? scale = null) => new DvlSqlType<decimal>(name, value, SqlDbType.Decimal, precision, scale);
+            byte? scale = null) => new DvlSqlType<decimal>(name, value, SqlDbType.Decimal, precision: precision, scale: scale);
 
-        public static DvlSqlType DecimalType(string name, byte? precision = null,
-            byte? scale = null) => new DvlSqlType(name, SqlDbType.Decimal, precision, scale);
+        public static DvlSqlType DecimalType(string name, bool? isNotNull = null, byte? precision = null,
+            byte? scale = null) => new DvlSqlType(name, SqlDbType.Decimal, isNotNull: isNotNull, precision: precision, scale: scale);
 
         public static DvlSqlType DecimalType() => 
             new DvlSqlType(SqlDbType.Decimal);
 
-        public static DvlSqlType<decimal> Decimal(decimal value, byte? precision = null, byte? scale = null) =>
-            new DvlSqlType<decimal>(value, SqlDbType.Decimal, precision, scale);
+        public static DvlSqlType<decimal> Decimal(decimal value,byte? precision = null, byte? scale = null) =>
+            new DvlSqlType<decimal>(value, SqlDbType.Decimal, precision: precision, scale:scale);
 
         public static DvlSqlType<double> Float(string name, double value) =>
             new DvlSqlType<double>(name, value, SqlDbType.Float);

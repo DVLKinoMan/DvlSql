@@ -92,5 +92,7 @@ namespace DvlSql.Concrete
             await conn.BeginTransactionAsync(token);
             return conn;
         }
+
+        public DvlSqlTableDeclarationExpression DeclareTable(string name) => new DvlSqlTableDeclarationExpression(name);
     }
 }

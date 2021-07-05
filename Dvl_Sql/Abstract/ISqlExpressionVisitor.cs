@@ -27,5 +27,6 @@ namespace DvlSql.Abstract
         void Visit(DvlSqlUnionExpression expression);
         void Visit(DvlSqlExistsExpression expression);
         void Visit(DvlSqlSkipExpression expression);
+        void Visit(DvlSqlTableDeclarationExpression expression);
     }
 }

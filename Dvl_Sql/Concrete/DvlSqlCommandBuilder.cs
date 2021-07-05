@@ -229,7 +229,23 @@ namespace DvlSql.Concrete
             if (expression.FetchNextRows != null)
                 this._command.Append($" FETCH NEXT {expression.FetchNextRows} ROWS ONLY");
         }
-        
+
+        public void Visit(DvlSqlTableDeclarationExpression expression)
+        {
+            this._command.Append($"{Environment.NewLine}DECLARE {expression.TableName} TABLE (");
+
+            foreach (var col in expression.Columns)
+            {
+                this._command.Append(
+                    $"{Environment.NewLine}{col.Name} {col.SqlDbType}{(col.Size != null ? $"({col.Size})" : "")} {(col.IsNotNull ? "NOT NULL" : "NULL")},");
+            }
+
+            if (expression.Columns.Count > 0)
+                this._command.Remove(this._command.Length - 1, 1);
+
+            this._command.Append(");");
+        }
+
         #region BinaryExpressions
 
         public void Visit(DvlSqlInExpression expression)

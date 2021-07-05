@@ -6,7 +6,7 @@ using DvlSql.Models;
 
 namespace DvlSql.Abstract
 {
-    public interface IDvlSql : IFromable, IProcedure, ITransaction
+    public interface IDvlSql : IFromable, IProcedure, ITransaction, IDeclarable
     {
         IInsertDeleteExecutable InsertInto<T>(DvlSqlInsertIntoExpression<T> insert) where T: ITuple;
 

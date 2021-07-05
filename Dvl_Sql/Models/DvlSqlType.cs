@@ -13,25 +13,29 @@ namespace DvlSql.Models
 
         public int? Size { get; }
 
+        public bool IsNotNull { get; } = false;
+
         public byte? Precision { get; }
 
         public byte? Scale { get;  }
 
-        public DvlSqlType(string name, SqlDbType dbType, int? size = null, byte? precision = null, byte? scale = null)
+        public DvlSqlType(string name, SqlDbType dbType, int? size = null, bool? isNotNull = null, byte? precision = null, byte? scale = null)
         {
             this.Name = name;
             this.Size = size;
             this.Precision = precision;
             this.Scale = scale;
             this.SqlDbType = dbType;
+            this.IsNotNull = isNotNull ?? IsNotNull;
         }
 
-        public DvlSqlType(SqlDbType dbType, int? size = null, byte? precision = null, byte? scale = null)
+        public DvlSqlType(SqlDbType dbType, int? size = null, bool? isNotNull = null, byte? precision = null, byte? scale = null)
         {
             this.Size = size;
             this.Precision = precision;
             this.Scale = scale;
             this.SqlDbType = dbType;
+            this.IsNotNull = isNotNull ?? IsNotNull;
         }
 
         
@@ -58,28 +62,28 @@ namespace DvlSql.Models
         public bool ExactValue { get; }
 
         public DvlSqlType(TValue value, DvlSqlType dvlSqlType, bool exactValue = false) : base(dvlSqlType.Name, dvlSqlType.SqlDbType,
-            dvlSqlType.Size, dvlSqlType.Precision, dvlSqlType.Scale)
+            dvlSqlType.Size, dvlSqlType.IsNotNull, dvlSqlType.Precision, dvlSqlType.Scale)
         {
             this.Value = value;
             this.ExactValue = exactValue;
         }
 
-        public DvlSqlType(string name, TValue value, int? size = null, byte? precision = null, byte? scale = null, bool exactValue = false) :
-            base(name, SqlType.DefaultMap(value), size, precision, scale)
+        public DvlSqlType(string name, TValue value, int? size = null, bool? isNotNull = null, byte? precision = null, byte? scale = null, bool exactValue = false) :
+            base(name, SqlType.DefaultMap(value), size, isNotNull, precision, scale)
         {
             this.Value = value;
             this.ExactValue = exactValue;
         }
 
-        public DvlSqlType(string name, TValue value, SqlDbType dbType, int? size = null, byte? precision = null,
-            byte? scale = null, bool exactValue = false) : base(name, dbType, size, precision, scale)
+        public DvlSqlType(string name, TValue value, SqlDbType dbType, int? size = null, bool? isNotNull = null, byte? precision = null,
+            byte? scale = null, bool exactValue = false) : base(name, dbType, size, isNotNull, precision, scale)
         {
             this.Value = value;
             this.ExactValue = exactValue;
         }
 
-        public DvlSqlType(TValue value, SqlDbType dbType, int? size = null, byte? precision = null,
-            byte? scale = null, bool exactValue = false) : base(null, dbType, size, precision, scale)
+        public DvlSqlType(TValue value, SqlDbType dbType, int? size = null, bool? isNotNull = null, byte? precision = null,
+            byte? scale = null, bool exactValue = false) : base(null, dbType, size, isNotNull, precision, scale)
         {
             this.Value = value;
             this.ExactValue = exactValue;
