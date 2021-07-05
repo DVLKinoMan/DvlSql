@@ -12,14 +12,19 @@ namespace DvlSql
         public static string MinExp(string param) => $"MIN({param})";
         public static string SumExp(string param) => $"SUM({param})";
         public static string DistinctExp(string param) => $"DISTINCT({param})";
-        public static string AsExp(string field, string @as) => @as != null ? $"{field} AS {@as.WithAliasBrackets()}" : field;
+
+        public static string AsExp(string field, string @as) =>
+            @as != null ? $"{field} AS {@as.WithAliasBrackets()}" : field;
+
         public static string MonthExp(string param) => $"MONTH({param})";
         public static string DayExp(string param) => $"DAY({param})";
         public static string YearExp(string param) => $"YEAR({param})";
         public static string GetDateExp() => $"GETDATE()";
         public static string IsNullExp(string param1, string param2) => $"ISNULL({param1}, {param2})";
+
         public static string DateDiffExp(string interval, string starting, string ending) =>
             $"DATEDIFF({interval}, {starting}, {ending})";
+
         public static string ConvertExp(string type, string name) => $"CONVERT({type}, {name})";
 
         public static DvlSqlWhereExpression WhereExp(DvlSqlBinaryExpression innerExpression, bool isRoot = false) =>
@@ -31,7 +36,8 @@ namespace DvlSql
         public static DvlSqlAndExpression AndExp(IEnumerable<DvlSqlBinaryExpression> innerExpressions) =>
             new DvlSqlAndExpression(innerExpressions);
 
-        public static DvlSqlComparisonExpression ComparisonExp(DvlSqlConstantExpression leftExp, SqlComparisonOperator op,
+        public static DvlSqlComparisonExpression ComparisonExp(DvlSqlConstantExpression leftExp,
+            SqlComparisonOperator op,
             DvlSqlConstantExpression rightExp)
             => new DvlSqlComparisonExpression(leftExp, op, rightExp);
 
@@ -49,27 +55,28 @@ namespace DvlSql
 
         public static DvlSqlSelectExpression SelectExp(DvlSqlFromExpression fromExp, int? topNum = null,
             bool isRoot = false) =>
-            new DvlSqlSelectExpression(fromExp, topNum);//.WithRoot(isRoot);
+            new DvlSqlSelectExpression(fromExp, topNum); //.WithRoot(isRoot);
 
         public static DvlSqlSelectExpression SelectExp(DvlSqlFromExpression fromExp, int? topNum = null,
             params string[] paramNames) =>
             new DvlSqlSelectExpression(fromExp, paramNames.ToHashSet(), topNum);
 
-        public static DvlSqlSelectExpression SelectExp(DvlSqlFromExpression fromExp, IEnumerable<string> paramNames, int? topNum = null) =>
+        public static DvlSqlSelectExpression SelectExp(DvlSqlFromExpression fromExp, IEnumerable<string> paramNames,
+            int? topNum = null) =>
             new DvlSqlSelectExpression(fromExp, paramNames.ToHashSet(), topNum);
 
         public static DvlSqlFromExpression FromExp(string tableName, bool withNoLock = false) =>
             new DvlSqlFromExpression(tableName, withNoLock);
-        
+
         public static DvlSqlFromExpression FromExp(DvlSqlFullSelectExpression select, string @as) =>
             new DvlSqlFromExpression(select, @as);
 
         public static DvlSqlSelectExpression SelectExp(DvlSqlFromExpression fromExp, params string[] paramNames) =>
-            new DvlSqlSelectExpression(fromExp, paramNames);//.WithRoot(false);
+            new DvlSqlSelectExpression(fromExp, paramNames); //.WithRoot(false);
 
         public static DvlSqlSelectExpression SelectTopExp(DvlSqlFromExpression fromExp, int topNum,
             params string[] paramNames) =>
-            new DvlSqlSelectExpression(fromExp, paramNames.ToHashSet(), topNum);//.WithRoot(false);
+            new DvlSqlSelectExpression(fromExp, paramNames.ToHashSet(), topNum); //.WithRoot(false);
 
         public static DvlSqlLikeExpression LikeExp(string field, string pattern) =>
             new DvlSqlLikeExpression(field, pattern);
@@ -77,10 +84,12 @@ namespace DvlSql
         public static DvlSqlBinaryExpression NotExp(DvlSqlBinaryExpression binaryExpression) =>
             !binaryExpression;
 
-        public static DvlSqlBinaryExpression NotInExp(string parameterName, params DvlSqlExpression[] innerExpressions) =>
+        public static DvlSqlBinaryExpression
+            NotInExp(string parameterName, params DvlSqlExpression[] innerExpressions) =>
             NotExp(InExp(parameterName, innerExpressions));
 
-        public static DvlSqlBinaryExpression NotLikeExp(string field, string pattern) => NotExp(LikeExp(field, pattern));
+        public static DvlSqlBinaryExpression NotLikeExp(string field, string pattern) =>
+            NotExp(LikeExp(field, pattern));
 
         public static DvlSqlIsNullExpression IsNullExp(DvlSqlExpression expression) =>
             new DvlSqlIsNullExpression(expression);
@@ -90,7 +99,8 @@ namespace DvlSql
         public static DvlSqlFullSelectExpression FullSelectExp(
             DvlSqlSelectExpression @select,
             List<DvlSqlJoinExpression> @join = null, DvlSqlWhereExpression @where = null,
-            DvlSqlGroupByExpression groupBy = null, DvlSqlOrderByExpression orderBy = null, DvlSqlSkipExpression skip = null) =>
+            DvlSqlGroupByExpression groupBy = null, DvlSqlOrderByExpression orderBy = null,
+            DvlSqlSkipExpression skip = null) =>
             new DvlSqlFullSelectExpression(@select.From, @join, @where, groupBy,
                 @select, orderBy, skip);
 
@@ -108,5 +118,15 @@ namespace DvlSql
 
         internal static DvlSqlBinaryExpression SetNot(this DvlSqlBinaryExpression binaryExpression, bool not) =>
             not ? !binaryExpression : binaryExpression;
+
+        public static DvlSqlTableDeclarationExpression DeclareTableExp(string name) =>
+            new DvlSqlTableDeclarationExpression(name);
+
+        public static DvlSqlOutputExpression
+            OutputExp(DvlSqlTableDeclarationExpression intoTable, params string[] cols) =>
+            new DvlSqlOutputExpression(intoTable, cols);
+
+        public static DvlSqlOutputExpression OutputExp(params string[] cols) =>
+            new DvlSqlOutputExpression(cols);
     }
 }

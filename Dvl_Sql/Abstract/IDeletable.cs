@@ -4,9 +4,9 @@ using DvlSql.Models;
 
 namespace DvlSql.Abstract
 {
-    public interface IDeletable : IInsertDeleteExecutable
+    public interface IDeletable : IInsertDeleteExecutable<int>
     {
-        IInsertDeleteExecutable Where(DvlSqlBinaryExpression binaryExpression);
-        IInsertDeleteExecutable Where(DvlSqlBinaryExpression binaryExpression, IEnumerable<DvlSqlParameter> @params);
+        IInsertDeleteExecutable<int> Where(DvlSqlBinaryExpression binaryExpression);
+        IInsertDeleteExecutable<int> Where(DvlSqlBinaryExpression binaryExpression, IEnumerable<DvlSqlParameter> @params);
     }
 }

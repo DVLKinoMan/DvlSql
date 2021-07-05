@@ -3,8 +3,8 @@ using DvlSql.Models;
 
 namespace DvlSql.Abstract
 {
-    public interface IUpdateable : IUpdateSetable, IInsertDeleteExecutable
+    public interface IUpdateable : IUpdateSetable, IInsertDeleteExecutable<int>
     {
-        IInsertDeleteExecutable Where(DvlSqlBinaryExpression binaryExpression, params DvlSqlParameter[] @params);
+        IInsertDeleteExecutable<int> Where(DvlSqlBinaryExpression binaryExpression, params DvlSqlParameter[] @params);
     }
 }

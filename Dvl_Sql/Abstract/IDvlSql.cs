@@ -8,7 +8,7 @@ namespace DvlSql.Abstract
 {
     public interface IDvlSql : IFromable, IProcedure, ITransaction, IDeclarable
     {
-        IInsertDeleteExecutable InsertInto<T>(DvlSqlInsertIntoExpression<T> insert) where T: ITuple;
+        IInsertDeleteExecutable<int> InsertInto<T>(DvlSqlInsertIntoExpression<T> insert) where T: ITuple;
 
         IInsertable<TRes> InsertInto<TRes>(string tableName, params DvlSqlType[] types)
             where TRes : ITuple;

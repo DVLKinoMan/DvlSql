@@ -9,7 +9,7 @@ namespace DvlSql.Concrete
 {
     partial class DvlSqlImpl
     {
-        public IInsertDeleteExecutable InsertInto<T>(DvlSqlInsertIntoExpression<T> insert) where T : ITuple
+        public IInsertDeleteExecutable<int> InsertInto<T>(DvlSqlInsertIntoExpression<T> insert) where T : ITuple
         {
             var insertable = new SqlInsertable<T>(insert, GetConnection());
 

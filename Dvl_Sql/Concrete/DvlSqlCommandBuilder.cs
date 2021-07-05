@@ -127,6 +127,8 @@ namespace DvlSql.Concrete
 
         public void Visit<TParam>(DvlSqlInsertIntoExpression<TParam> expression) where TParam : ITuple
         {
+            expression.OutputExpression?.IntoTable?.Accept(this);
+
             this._command.Append($"INSERT INTO {expression.TableName}");
 
             this._command.Append(" ( ");
@@ -138,6 +140,8 @@ namespace DvlSql.Concrete
                 this._command.Remove(this._command.Length - 2, 2);
 
             this._command.Append(" )");
+
+            expression.OutputExpression?.Accept(this);
 
             this._command.Append($"{Environment.NewLine}VALUES");
             int count = 0;
@@ -244,6 +248,13 @@ namespace DvlSql.Concrete
                 this._command.Remove(this._command.Length - 1, 1);
 
             this._command.Append(");");
+        }
+
+        public void Visit(DvlSqlOutputExpression expression)
+        {
+            this._command.Append($"{Environment.NewLine}OUTPUT {string.Join(',', expression.Columns)}");
+            if (expression.IntoTable != null)
+                this._command.Append($"{Environment.NewLine}INTO {expression.IntoTable.TableName}");
         }
 
         #region BinaryExpressions

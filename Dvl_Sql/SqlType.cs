@@ -153,8 +153,8 @@ namespace DvlSql
         public static DvlSqlType<int> Int(int value) =>
             new DvlSqlType<int>(value, SqlDbType.Int);
 
-        public static DvlSqlType IntType(string name) =>
-            new DvlSqlType(name, SqlDbType.Int);
+        public static DvlSqlType IntType(string name, bool? isNotNull = null) =>
+            new DvlSqlType(name, SqlDbType.Int, isNotNull: isNotNull);
 
         public static DvlSqlType IntType() =>
             new DvlSqlType(SqlDbType.Int);

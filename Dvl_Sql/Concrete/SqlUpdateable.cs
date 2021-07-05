@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -13,7 +15,7 @@ namespace DvlSql.Concrete
     {
         private readonly IDvlSqlConnection _dvlSqlConnection;
         private readonly DvlSqlUpdateExpression _updateExpression;
-        private IInsertDeleteExecutable _updateExecutable;
+        private IInsertDeleteExecutable<int> _updateExecutable;
 
         public SqlUpdateable(IDvlSqlConnection dvlSqlConnection, DvlSqlUpdateExpression updateExpression) =>
             (this._dvlSqlConnection, this._updateExpression) = (dvlSqlConnection, updateExpression);
@@ -37,15 +39,21 @@ namespace DvlSql.Concrete
                 ? await this._updateExecutable.ExecuteAsync(timeout, cancellationToken)
                 : await CreateDeleteExecutable().ExecuteAsync(timeout, cancellationToken);
 
-        public IInsertDeleteExecutable Where(DvlSqlBinaryExpression binaryExpression, params DvlSqlParameter[] @params)
+        public Task<TResult> ExecuteAsync<TResult>(Func<IDataReader, TResult> reader, int? timeout = default, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IInsertDeleteExecutable<int> Where(DvlSqlBinaryExpression binaryExpression, params DvlSqlParameter[] @params)
         {
             this._updateExpression.WhereExpression = new DvlSqlWhereExpression(binaryExpression).WithParameters(@params) as DvlSqlWhereExpression;
 
             return this._updateExecutable = CreateDeleteExecutable();
         }
 
-        public IInsertDeleteExecutable CreateDeleteExecutable() =>
-            new SqlInsertDeleteExecutable(this._dvlSqlConnection, ToString, GetDvlSqlParameters);
+        public IInsertDeleteExecutable<int> CreateDeleteExecutable() =>
+            new SqlInsertDeleteExecutable<int>(this._dvlSqlConnection, ToString, GetDvlSqlParameters,
+                (command, timeout, token) => command.ExecuteNonQueryAsync(timeout, token ?? default));
 
         public override string ToString()
         {

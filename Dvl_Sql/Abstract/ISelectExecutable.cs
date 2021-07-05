@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
-using DvlSql.Expressions;
-using DvlSql.Models;
 
 namespace DvlSql.Abstract
 {
