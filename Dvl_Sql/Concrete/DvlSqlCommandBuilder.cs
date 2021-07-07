@@ -22,11 +22,13 @@ namespace DvlSql.Concrete
                     this._command.Append($"FROM {fromWithTable.TableName}");
                     expression.As?.Accept(this);
                     if (fromWithTable.WithNoLock)
-                    this._command.Append(" WITH(NOLOCK)"); 
+                        this._command.Append(" WITH(NOLOCK)");
                     break;
                 default:
                     this._command.Append("FROM (");
-                    expression.Accept(this);
+                    if (expression is DvlSqlFullSelectExpression { } select)
+                        Visit(select);
+                    else expression.Accept(this);
                     this._command.Append(") ");
                     expression.As?.Accept(this);
                     break;
@@ -43,7 +45,8 @@ namespace DvlSql.Concrete
             if (expression.ParameterNames == null || !expression.ParameterNames.Any())
             {
                 this._command.Append("* ");
-                goto end;
+                //goto end;
+                return;
             }
 
             bool isEmpty = true;
@@ -62,8 +65,8 @@ namespace DvlSql.Concrete
                 this._command.Append(" ");
             }
 
-            end:
-            expression.From.Accept(this);
+            //end:
+            //expression.From.Accept(this);
         }
 
         public void Visit(DvlSqlWhereExpression expression)
@@ -172,6 +175,7 @@ namespace DvlSql.Concrete
                 throw new ArgumentNullException("SelectExpression", "expression has no Select Expression");
 
             expression.Select.Accept(this);
+            expression.From.Accept(this);
             foreach (var joinExpression in expression.Join)
                 joinExpression.Accept(this);
             expression.Where?.Accept(this);

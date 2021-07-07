@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.Linq;
-using static DvlSql.SqlType;
 
 namespace DvlSql
 {

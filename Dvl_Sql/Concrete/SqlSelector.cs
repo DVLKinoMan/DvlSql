@@ -65,7 +65,7 @@ namespace DvlSql.Concrete
         public IOrderer Select(params string[] parameterNames)
         {
             if (CurrFullSelectExpression.Select == null)
-                this.CurrFullSelectExpression.Select = SelectExp(this.CurrFullSelectExpression.From, parameterNames);
+                this.CurrFullSelectExpression.Select = SelectExp(parameterNames);
             else this.CurrFullSelectExpression.Select.AddRange(parameterNames);
 
             return new SqlOrderer(this._dvlSqlConnection, this);
@@ -73,14 +73,14 @@ namespace DvlSql.Concrete
 
         public IOrderer Select()
         {
-            this.CurrFullSelectExpression.Select = SelectExp(this.CurrFullSelectExpression.From);
+            this.CurrFullSelectExpression.Select = SelectExp();
 
             return new SqlOrderer(this._dvlSqlConnection, this);
         }
 
         public IOrderer SelectTop(int count, params string[] parameterNames)
         {
-            this.CurrFullSelectExpression.Select = SelectExp(this.CurrFullSelectExpression.From, parameterNames, count);
+            this.CurrFullSelectExpression.Select = SelectExp(parameterNames, count);
 
             return new SqlOrderer(this._dvlSqlConnection, this);
         }

@@ -26,8 +26,8 @@ namespace DvlSql.Tests.Insert
                 .InsertInto("dbo.Words", Columns("Amount", "Text"))
                 .SelectStatement(
                     FullSelectExp(
-                        SelectTopExp(
-                            FromExp("dbo.Words"), 2, "Amount", "Text"),
+                        SelectTopExp(2, "Amount", "Text"),
+                            FromExp("dbo.Words"),
                         orderBy: OrderByExp(
                             ("Text", Ordering.ASC)
                         )
@@ -47,7 +47,7 @@ namespace DvlSql.Tests.Insert
             // ReSharper disable once UnusedVariable
             var actualInsert = this._sql
                 .InsertInto("dbo.Words", Columns("Amount", "Text"))
-                .SelectStatement(FullSelectExp(SelectTopExp(FromExp("dbo.Words"), 2, "Amount", "Text"),
+                .SelectStatement(FullSelectExp(SelectTopExp(2, "Amount", "Text"),FromExp("dbo.Words"),
                         orderBy: OrderByExp(("Text", Ordering.ASC)),
                         where: WhereExp(ConstantExpCol("Amount") == "@amount")),
                     Param("amount", Decimal(42))

@@ -56,33 +56,36 @@ namespace DvlSql
         public static DvlSqlInExpression InExp(string parameterName, params DvlSqlExpression[] innerExpressions) =>
             new DvlSqlInExpression(parameterName, innerExpressions);
 
-        public static DvlSqlSelectExpression SelectExp(DvlSqlFromExpression fromExp, int? topNum = null,
+        public static DvlSqlSelectExpression SelectExp(int? topNum = null,
             bool isRoot = false) =>
-            new DvlSqlSelectExpression(fromExp, topNum); //.WithRoot(isRoot);
+            new DvlSqlSelectExpression(topNum); //.WithRoot(isRoot);
 
-        public static DvlSqlSelectExpression SelectExp(DvlSqlFromExpression fromExp, int? topNum = null,
+        public static DvlSqlSelectExpression SelectExp(int? topNum = null,
             params string[] paramNames) =>
-            new DvlSqlSelectExpression(fromExp, paramNames.ToHashSet(), topNum);
+            new DvlSqlSelectExpression(paramNames.ToHashSet(), topNum);
 
-        public static DvlSqlSelectExpression SelectExp(DvlSqlFromExpression fromExp, IEnumerable<string> paramNames,
+        public static DvlSqlSelectExpression SelectExp(IEnumerable<string> paramNames,
             int? topNum = null) =>
-            new DvlSqlSelectExpression(fromExp, paramNames.ToHashSet(), topNum);
+            new DvlSqlSelectExpression(paramNames.ToHashSet(), topNum);
 
         public static DvlSqlFromExpression FromExp(string tableName, bool withNoLock = false) =>
             new DvlSqlFromWithTableExpression(tableName, withNoLock);
 
-        public static DvlSqlFromExpression FromExp(DvlSqlFullSelectExpression select, string @as) =>
-            FullSelectExp(select, AsExp(@as));
+        public static DvlSqlFromExpression FromExp(DvlSqlFullSelectExpression select, string @as)
+        {
+            select.As = AsExp(@as);
+            return select;
+        }
 
         public static DvlSqlFromExpression ValuesExp<T>(T[] values, DvlSqlAsExpression @as) where T : ITuple =>
             new DvlSqlValuesExpression<T>(values, @as);
 
-        public static DvlSqlSelectExpression SelectExp(DvlSqlFromExpression fromExp, params string[] paramNames) =>
-            new DvlSqlSelectExpression(fromExp, paramNames); //.WithRoot(false);
+        public static DvlSqlSelectExpression SelectExp(params string[] paramNames) =>
+            new DvlSqlSelectExpression(paramNames); //.WithRoot(false);
 
-        public static DvlSqlSelectExpression SelectTopExp(DvlSqlFromExpression fromExp, int topNum,
+        public static DvlSqlSelectExpression SelectTopExp(int topNum,
             params string[] paramNames) =>
-            new DvlSqlSelectExpression(fromExp, paramNames.ToHashSet(), topNum); //.WithRoot(false);
+            new DvlSqlSelectExpression(paramNames.ToHashSet(), topNum); //.WithRoot(false);
 
         public static DvlSqlLikeExpression LikeExp(string field, string pattern) =>
             new DvlSqlLikeExpression(field, pattern);
@@ -104,17 +107,8 @@ namespace DvlSql
 
         public static DvlSqlFullSelectExpression FullSelectExp(
             DvlSqlSelectExpression @select,
-            DvlSqlAsExpression @as = null,
-            List<DvlSqlJoinExpression> @join = null, DvlSqlWhereExpression @where = null,
-            DvlSqlGroupByExpression groupBy = null, DvlSqlOrderByExpression orderBy = null,
-            DvlSqlSkipExpression skip = null) =>
-            new DvlSqlFullSelectExpression(@select.From, @join, @where, groupBy,
-                @select, orderBy, skip, @as);
-
-        public static DvlSqlFullSelectExpression FullSelectExp(
             DvlSqlFromExpression @from,
             DvlSqlAsExpression @as = null,
-            DvlSqlSelectExpression @select = null,
             List<DvlSqlJoinExpression> @join = null, DvlSqlWhereExpression @where = null,
             DvlSqlGroupByExpression groupBy = null, DvlSqlOrderByExpression orderBy = null,
             DvlSqlSkipExpression skip = null) =>

@@ -211,7 +211,7 @@ namespace DvlSql.Tests.Select
         public void WithInSelectExpression(string col, string tableName)
         {
             var actualSelect = this._sql.From(TableName)
-                .Where(InExp(col, SelectExp(FromExp(tableName), col)))
+                .Where(InExp(col, FullSelectExp(SelectExp(col),FromExp(tableName))))
                 .Select()
                 .ToString();
 
@@ -441,7 +441,7 @@ namespace DvlSql.Tests.Select
         public void WithExistsExpression(string tableName)
         {
             var actualSelect = this._sql.From(TableName)
-                .Where(ExistsExp(FullSelectExp(SelectExp(FromExp(tableName)))))
+                .Where(ExistsExp(FullSelectExp(SelectExp(),FromExp(tableName))))
                 .Select()
                 .ToString();
 

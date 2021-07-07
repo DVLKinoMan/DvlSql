@@ -9,18 +9,18 @@ namespace DvlSql.Expressions
         public int? Top { get; set; }
         public HashSet<string> ParameterNames { get; } = new HashSet<string>();
 
-        public DvlSqlFromExpression From { get; }
+        //public DvlSqlFromExpression From { get; }
         // public new bool IsRoot { get; private set; } = true;
 
-        public DvlSqlSelectExpression(DvlSqlFromExpression expression, int? top = null) =>
-            (this.From, this.Top) = (expression, top);
+        public DvlSqlSelectExpression(int? top = null) =>
+            (this.Top) = ( top);
 
-        public DvlSqlSelectExpression(DvlSqlFromExpression expression, HashSet<string> parameterNames,
+        public DvlSqlSelectExpression(HashSet<string> parameterNames,
             int? top = null) =>
-            (this.From, this.ParameterNames, this.Top) = (expression, parameterNames, top);
+            (this.ParameterNames, this.Top) = (parameterNames, top);
 
-        public DvlSqlSelectExpression(DvlSqlFromExpression expression, params string[] parameterNames) =>
-            (this.From, this.ParameterNames) = (expression, parameterNames.ToHashSet());
+        public DvlSqlSelectExpression(params string[] parameterNames) =>
+            (this.ParameterNames) = (parameterNames.ToHashSet());
 
         // public DvlSqlSelectExpression WithRoot(bool isRoot)
         // {
@@ -40,6 +40,6 @@ namespace DvlSql.Expressions
 
         public override DvlSqlExpression Clone() => SelectClone();
 
-        public DvlSqlSelectExpression SelectClone() => new DvlSqlSelectExpression(From, ParameterNames, Top);
+        public DvlSqlSelectExpression SelectClone() => new DvlSqlSelectExpression(ParameterNames, Top);
     }
 }
