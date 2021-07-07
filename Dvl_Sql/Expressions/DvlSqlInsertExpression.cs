@@ -15,9 +15,8 @@ namespace DvlSql.Expressions
 
     public class DvlSqlInsertIntoExpression<TParam> : DvlSqlInsertExpression where TParam : ITuple
     {
-        public TParam[] Values { get; set; }
         public DvlSqlType[] DvlSqlTypes { get; set; }
-        public List<DvlSqlParameter> SqlParameters { get; set; } = new List<DvlSqlParameter>();
+        public DvlSqlValuesExpression<TParam> ValuesExpression { get; set; }
         public DvlSqlOutputExpression OutputExpression { get; set; }
 
         public DvlSqlInsertIntoExpression(string tableName, params DvlSqlType[] types)

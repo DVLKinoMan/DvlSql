@@ -1,9 +1,12 @@
-﻿using DvlSql.Abstract;
+﻿using System;
+using DvlSql.Abstract;
 using DvlSql.Expressions;
 using DvlSql.Models;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using static DvlSql.ExpressionHelpers;
 
 namespace DvlSql.Concrete
 {
@@ -13,7 +16,16 @@ namespace DvlSql.Concrete
         {
             var insertable = new SqlInsertable<T>(insert, GetConnection());
 
-            return insertable.Values(insert.Values);
+            return insertable.Values(insert.ValuesExpression?.Values);
+        }
+
+        public IInsertDeleteExecutable<TResult> InsertInto<T, TResult>(DvlSqlInsertIntoExpression<T> insert, 
+            Func<IDataReader, TResult> reader,
+            params string[] outputCols) where T : ITuple
+        {
+            insert.OutputExpression = OutputExp(outputCols);
+            var insertOutputable = new InsertOutputable<T, TResult>(insert, GetConnection(), reader);
+            return insertOutputable.Values(insert.ValuesExpression?.Values);
         }
 
         public IInsertable<TRes> InsertInto<TRes>(string tableName, params DvlSqlType[] types)

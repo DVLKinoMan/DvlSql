@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Runtime.CompilerServices;
 using DvlSql.Concrete;
 using DvlSql.Expressions;
@@ -9,6 +11,11 @@ namespace DvlSql.Abstract
     public interface IDvlSql : IFromable, IProcedure, ITransaction, IDeclarable
     {
         IInsertDeleteExecutable<int> InsertInto<T>(DvlSqlInsertIntoExpression<T> insert) where T: ITuple;
+
+        IInsertDeleteExecutable<TResult> InsertInto<T, TResult>(DvlSqlInsertIntoExpression<T> insert, 
+            Func<IDataReader, TResult> reader,
+            params string[] outputCols) 
+            where T : ITuple;
 
         IInsertable<TRes> InsertInto<TRes>(string tableName, params DvlSqlType[] types)
             where TRes : ITuple;

@@ -16,17 +16,20 @@ namespace DvlSql.Concrete
 
         public void Visit(DvlSqlFromExpression expression)
         {
-            if (expression.FullSelect != null && expression.As != null)
+            switch (expression)
             {
-                this._command.Append("FROM (");
-                expression.FullSelect.Accept(this);
-                this._command.Append($") AS {expression.As}");
-            }
-            else
-            {
-                this._command.Append($"FROM {expression.TableName}");
-                if (expression.WithNoLock)
-                    this._command.Append(" WITH(NOLOCK)");
+                case DvlSqlFromWithTableExpression { } fromWithTable:
+                    this._command.Append($"FROM {fromWithTable.TableName}");
+                    expression.As?.Accept(this);
+                    if (fromWithTable.WithNoLock)
+                    this._command.Append(" WITH(NOLOCK)"); 
+                    break;
+                default:
+                    this._command.Append("FROM (");
+                    expression.Accept(this);
+                    this._command.Append(") ");
+                    expression.As?.Accept(this);
+                    break;
             }
         }
 
@@ -142,22 +145,7 @@ namespace DvlSql.Concrete
             this._command.Append(" )");
 
             expression.OutputExpression?.Accept(this);
-
-            this._command.Append($"{Environment.NewLine}VALUES");
-            int count = 0;
-            foreach (var value in expression.Values)
-            {
-                this._command.Append($"{Environment.NewLine}( ");
-
-                for (int i = 0; i < value.Length; i++, count++)
-                    this._command.Append($"{expression.SqlParameters[count].Name}, ");
-
-                this._command.Remove(this._command.Length - 2, 2);
-                this._command.Append(" ),");
-            }
-
-            if (expression.Values.Any())
-                this._command.Remove(this._command.Length - 1, 1);
+            expression.ValuesExpression?.Accept(this);
         }
 
         public void Visit(DvlSqlInsertIntoSelectExpression expression)
@@ -255,6 +243,32 @@ namespace DvlSql.Concrete
             this._command.Append($"{Environment.NewLine}OUTPUT {string.Join(',', expression.Columns)}");
             if (expression.IntoTable != null)
                 this._command.Append($"{Environment.NewLine}INTO {expression.IntoTable.TableName}");
+        }
+
+        public void Visit<T>(DvlSqlValuesExpression<T> expression) where T : ITuple
+        {
+            this._command.Append($"{Environment.NewLine}VALUES");
+            int count = 0;
+            foreach (var value in expression.Values)
+            {
+                this._command.Append($"{Environment.NewLine}( ");
+
+                for (int i = 0; i < value.Length; i++, count++)
+                    this._command.Append($"{expression.SqlParameters[count].Name}, ");
+
+                this._command.Remove(this._command.Length - 2, 2);
+                this._command.Append(" ),");
+            }
+
+            if (expression.Values.Any())
+                this._command.Remove(this._command.Length - 1, 1);
+        }
+
+        public void Visit(DvlSqlAsExpression expression)
+        {
+            this._command.Append($"{(expression.UseAsKeyword ? "AS" : "")} {expression.Name}");
+            if (expression.Parameters != null)
+                this._command.Append($"({string.Join(", ", expression.Parameters)})");
         }
 
         #region BinaryExpressions

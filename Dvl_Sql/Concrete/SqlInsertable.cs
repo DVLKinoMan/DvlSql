@@ -56,9 +56,9 @@ namespace DvlSql.Concrete
 
         protected IInsertDeleteExecutable<int> Values(params TParam[] @params)
         {
-            this.InsertExpression.Values = @params;
+            this.InsertExpression.ValuesExpression = ValuesExp(@params);
 
-            this.InsertExpression.SqlParameters = GetSqlParameters(@params, this.InsertExpression.DvlSqlTypes).ToList();
+            this.InsertExpression.ValuesExpression.SqlParameters = GetSqlParameters(@params, this.InsertExpression.DvlSqlTypes).ToList();
 
             return new SqlInsertDeleteExecutable<int>(this.DvlSqlConnection, ToString,
                 GetDvlSqlParameters,
@@ -75,7 +75,7 @@ namespace DvlSql.Concrete
             return builder.ToString();
         }
 
-        protected IEnumerable<DvlSqlParameter> GetDvlSqlParameters() => this.InsertExpression.SqlParameters;
+        protected IEnumerable<DvlSqlParameter> GetDvlSqlParameters() => this.InsertExpression.ValuesExpression?.SqlParameters;
     }
 
     internal class BaseOutputable<TParam, TResult> : BaseInsertable<TParam> where TParam : ITuple
@@ -87,9 +87,9 @@ namespace DvlSql.Concrete
 
         protected new IInsertDeleteExecutable<TResult> Values(params TParam[] @params)
         {
-            this.InsertExpression.Values = @params;
+            this.InsertExpression.ValuesExpression = ValuesExp(@params);
 
-            this.InsertExpression.SqlParameters = GetSqlParameters(@params, this.InsertExpression.DvlSqlTypes).ToList();
+            this.InsertExpression.ValuesExpression.SqlParameters = GetSqlParameters(@params, this.InsertExpression.DvlSqlTypes).ToList();
 
             return new SqlInsertDeleteExecutable<TResult>(this.DvlSqlConnection, ToString,
                 GetDvlSqlParameters,

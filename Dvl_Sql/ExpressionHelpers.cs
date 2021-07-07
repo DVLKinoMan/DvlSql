@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using DvlSql.Expressions;
 
 namespace DvlSql
@@ -12,10 +13,12 @@ namespace DvlSql
         public static string MinExp(string param) => $"MIN({param})";
         public static string SumExp(string param) => $"SUM({param})";
         public static string DistinctExp(string param) => $"DISTINCT({param})";
-
         public static string AsExp(string field, string @as) =>
             @as != null ? $"{field} AS {@as.WithAliasBrackets()}" : field;
 
+        public static DvlSqlAsExpression AsExp(string @as, IEnumerable<string> @params = null, bool useAs = true) =>
+            new DvlSqlAsExpression(@as, @params, useAs);
+        
         public static string MonthExp(string param) => $"MONTH({param})";
         public static string DayExp(string param) => $"DAY({param})";
         public static string YearExp(string param) => $"YEAR({param})";
@@ -66,10 +69,13 @@ namespace DvlSql
             new DvlSqlSelectExpression(fromExp, paramNames.ToHashSet(), topNum);
 
         public static DvlSqlFromExpression FromExp(string tableName, bool withNoLock = false) =>
-            new DvlSqlFromExpression(tableName, withNoLock);
+            new DvlSqlFromWithTableExpression(tableName, withNoLock);
 
         public static DvlSqlFromExpression FromExp(DvlSqlFullSelectExpression select, string @as) =>
-            new DvlSqlFromExpression(select, @as);
+            FullSelectExp(select, AsExp(@as));
+
+        public static DvlSqlFromExpression ValuesExp<T>(T[] values, DvlSqlAsExpression @as) where T : ITuple =>
+            new DvlSqlValuesExpression<T>(values, @as);
 
         public static DvlSqlSelectExpression SelectExp(DvlSqlFromExpression fromExp, params string[] paramNames) =>
             new DvlSqlSelectExpression(fromExp, paramNames); //.WithRoot(false);
@@ -98,11 +104,22 @@ namespace DvlSql
 
         public static DvlSqlFullSelectExpression FullSelectExp(
             DvlSqlSelectExpression @select,
+            DvlSqlAsExpression @as = null,
             List<DvlSqlJoinExpression> @join = null, DvlSqlWhereExpression @where = null,
             DvlSqlGroupByExpression groupBy = null, DvlSqlOrderByExpression orderBy = null,
             DvlSqlSkipExpression skip = null) =>
             new DvlSqlFullSelectExpression(@select.From, @join, @where, groupBy,
-                @select, orderBy, skip);
+                @select, orderBy, skip, @as);
+
+        public static DvlSqlFullSelectExpression FullSelectExp(
+            DvlSqlFromExpression @from,
+            DvlSqlAsExpression @as = null,
+            DvlSqlSelectExpression @select = null,
+            List<DvlSqlJoinExpression> @join = null, DvlSqlWhereExpression @where = null,
+            DvlSqlGroupByExpression groupBy = null, DvlSqlOrderByExpression orderBy = null,
+            DvlSqlSkipExpression skip = null) =>
+            new DvlSqlFullSelectExpression(@from, @join, @where, groupBy,
+                @select, orderBy, skip, @as);
 
         public static DvlSqlOrderByExpression OrderByExp(params (string column, Ordering ordering)[] @params) =>
             new DvlSqlOrderByExpression(@params);
@@ -128,5 +145,8 @@ namespace DvlSql
 
         public static DvlSqlOutputExpression OutputExp(params string[] cols) =>
             new DvlSqlOutputExpression(cols);
+
+        public static DvlSqlValuesExpression<T> ValuesExp<T>(params T[] values) where T : ITuple =>
+            new DvlSqlValuesExpression<T>(values);
     }
 }

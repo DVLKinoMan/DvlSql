@@ -1,9 +1,10 @@
-﻿using System;
+﻿using DvlSql.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.Linq;
-using DvlSql.Models;
+using static DvlSql.SqlType;
 
 namespace DvlSql
 {
@@ -31,6 +32,18 @@ namespace DvlSql
                 int i => Int(name, i),
                 Guid guid => UniqueIdentifier(name, guid),
                 string str => NVarCharMax(name, str),
+                _ => throw new NotImplementedException("value is not implemented")
+            };
+
+        public static DvlSqlType GetDefaultDvlSqlType(this Type type, string name) =>
+            type switch
+            {
+                { }t when t == typeof(bool) => BitType(name),
+                { }t when t == typeof(DateTime)  => DateTimeType(name),
+                { }t when t == typeof(decimal) => DecimalType(name),
+                { }t when t == typeof(int) => IntType(name),
+                { }t when t == typeof(Guid) => UniqueIdentifierType(name),
+                { } t when t == typeof(string) => NVarCharMaxType(name),
                 _ => throw new NotImplementedException("value is not implemented")
             };
 

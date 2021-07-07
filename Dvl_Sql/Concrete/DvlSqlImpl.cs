@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using static DvlSql.ExpressionHelpers;
 
 namespace DvlSql.Concrete
 {
@@ -21,21 +22,21 @@ namespace DvlSql.Concrete
         
         public ISelector From(string tableName, bool withNoLock = false)
         {
-            var fromExpression = new DvlSqlFromExpression(tableName, withNoLock);
+            var fromExpression = FromExp(tableName, withNoLock);
 
             return new SqlSelector(fromExpression, GetConnection());
         }
 
         public ISelector From(DvlSqlFullSelectExpression @select, string @as)
         {
-            var fromExpression = new DvlSqlFromExpression(@select, @as);
+            var fromExpression = FromExp(@select, @as);
 
             return new SqlSelector(fromExpression, GetConnection());
         }
 
         public IDeletable DeleteFrom(string tableName)
         {
-            var fromExpression = new DvlSqlFromExpression(tableName);
+            var fromExpression = FromExp(tableName);
 
             return new SqlDeletable(fromExpression, GetConnection());
         }

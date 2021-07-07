@@ -29,5 +29,7 @@ namespace DvlSql.Abstract
         void Visit(DvlSqlSkipExpression expression);
         void Visit(DvlSqlTableDeclarationExpression expression);
         void Visit(DvlSqlOutputExpression expression);
+        void Visit<T>(DvlSqlValuesExpression<T> expression) where T : ITuple;
+        void Visit(DvlSqlAsExpression expression);
     }
 }
