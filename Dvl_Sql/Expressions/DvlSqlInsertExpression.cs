@@ -11,13 +11,14 @@ namespace DvlSql.Expressions
         public string TableName { get; set; }
 
         public string[] Columns { get; set; }
+
+        public DvlSqlOutputExpression OutputExpression { get; set; }
     }
 
     public class DvlSqlInsertIntoExpression<TParam> : DvlSqlInsertExpression where TParam : ITuple
     {
         public DvlSqlType[] DvlSqlTypes { get; set; }
         public DvlSqlValuesExpression<TParam> ValuesExpression { get; set; }
-        public DvlSqlOutputExpression OutputExpression { get; set; }
 
         public DvlSqlInsertIntoExpression(string tableName, params DvlSqlType[] types)
         {

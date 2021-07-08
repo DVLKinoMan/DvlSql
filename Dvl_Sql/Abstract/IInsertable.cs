@@ -18,6 +18,7 @@ namespace DvlSql.Abstract
 
     public interface IInsertOutputable<TParam, TResult> where TParam : ITuple
     {
+        IInsertDeleteExecutable<TResult> Select(DvlSqlFullSelectExpression fullSelect);
         IInsertDeleteExecutable<TResult> Values(params TParam[] @params);
     }
 

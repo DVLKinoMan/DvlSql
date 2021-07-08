@@ -28,7 +28,7 @@ namespace DvlSql.Tests.Select
                 .Join(AsExp("nbe.BANK_DATA", "B2"), ConstantExpCol("B1.REC_ID") == "B2.REC_ID")
                 .Where(
                     ConstantExpCol("B1.AMOUNT") < 35000 &
-                    !InExp("B1.REC_ID", SelectTopExp( 4, "REC_ID"),FromExp("nbe.BANK_DATA")) &
+                    !InExp("B1.REC_ID", FullSelectExp(SelectTopExp(4, "REC_ID"), FromExp("nbe.BANK_DATA"))) &
                     !!!LikeExp("B1.RESTRICT_CODE", "%dd%") &
                     ConstantExpCol("B1.ADD_DATE") > "@date"
                     , Params(Param("@date", new DateTime(2012, 1, 1)))
@@ -113,7 +113,7 @@ namespace DvlSql.Tests.Select
                 .Join(AsExp("nbe.BANK_DATA", "B2"), ConstantExpCol("B1.REC_ID") == "B2.REC_ID")
                 .Where(
                     ConstantExpCol("B1.AMOUNT") < 35000 &
-                    !InExp("B1.REC_ID", SelectTopExp(4, "REC_ID"), FromExp("nbe.BANK_DATA")) &
+                    !InExp("B1.REC_ID", FullSelectExp(SelectTopExp(4, "REC_ID"), FromExp("nbe.BANK_DATA"))) &
                     !!!LikeExp("B1.RESTRICT_CODE", "%dd%") &
                     ConstantExpCol("B1.ADD_DATE") > "@date"
                     , Params(Param("@date", new DateTime(2012, 1, 1)))

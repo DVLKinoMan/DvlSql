@@ -49,21 +49,8 @@ namespace DvlSql.Concrete
                 return;
             }
 
-            bool isEmpty = true;
-            foreach (var parameterName in expression.ParameterNames)
-            {
-                if (string.IsNullOrEmpty(parameterName))
-                    throw new ArgumentException("One of the parameters was null or empty",
-                        "DvlSqlSelectExpression.ParameterNames");
-                isEmpty = false;
-                this._command.Append($"{parameterName}, ");
-            }
-
-            if (!isEmpty)
-            {
-                this._command.Remove(this._command.Length - 2, 2);
-                this._command.Append(" ");
-            }
+            this._command.Append(string.Join(", ", expression.ParameterNames.Where(p=>!string.IsNullOrEmpty(p))));
+            this._command.Append(" ");
 
             //end:
             //expression.From.Accept(this);
@@ -164,6 +151,8 @@ namespace DvlSql.Concrete
                 this._command.Remove(this._command.Length - 2, 2);
 
             this._command.Append(" ) ");
+
+            expression.OutputExpression?.Accept(this);
 
             expression.SelectExpression?.Accept(this);
             this._command.TrimEnd();

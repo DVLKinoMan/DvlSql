@@ -14,12 +14,12 @@ namespace DvlSql.Concrete
 {
     internal class BaseInsertable<TParam> where TParam : ITuple
     {
-        protected readonly DvlSqlInsertIntoExpression<TParam> InsertExpression;
+        protected DvlSqlInsertExpression InsertIntoExpression;
         protected readonly IDvlSqlConnection DvlSqlConnection;
 
-        public BaseInsertable(DvlSqlInsertIntoExpression<TParam> insertExpression, IDvlSqlConnection conn)
+        public BaseInsertable(DvlSqlInsertExpression insertIntoExpression, IDvlSqlConnection conn)
         {
-            InsertExpression = insertExpression;
+            InsertIntoExpression = insertIntoExpression;
             DvlSqlConnection = conn;
         }
 
@@ -46,19 +46,21 @@ namespace DvlSql.Concrete
 
         protected void SetOutputExpression(DvlSqlTableDeclarationExpression intoTable, string[] cols)
         {
-            this.InsertExpression.OutputExpression = OutputExp(intoTable, cols);
+            this.InsertIntoExpression.OutputExpression = OutputExp(intoTable, cols);
         }
 
         protected void SetOutputExpression(string[] cols)
         {
-            this.InsertExpression.OutputExpression = OutputExp(cols);
+            this.InsertIntoExpression.OutputExpression = OutputExp(cols);
         }
 
         protected IInsertDeleteExecutable<int> Values(params TParam[] @params)
         {
-            this.InsertExpression.ValuesExpression = ValuesExp(@params);
-
-            this.InsertExpression.ValuesExpression.SqlParameters = GetSqlParameters(@params, this.InsertExpression.DvlSqlTypes).ToList();
+            var insertInto = this.InsertIntoExpression as DvlSqlInsertIntoExpression<TParam> 
+                             ?? throw new Exception("Can not Convert to Generic insert Expression");
+            insertInto.ValuesExpression = ValuesExp(@params);
+            insertInto.WithParameters(GetSqlParameters(@params, insertInto.DvlSqlTypes));
+            insertInto.ValuesExpression.SqlParameters = insertInto.Parameters;
 
             return new SqlInsertDeleteExecutable<int>(this.DvlSqlConnection, ToString,
                 GetDvlSqlParameters,
@@ -70,26 +72,40 @@ namespace DvlSql.Concrete
             var builder = new StringBuilder();
             var commandBuilder = new DvlSqlCommandBuilder(builder);
 
-            this.InsertExpression.Accept(commandBuilder);
+            this.InsertIntoExpression.Accept(commandBuilder);
 
             return builder.ToString();
         }
 
-        protected IEnumerable<DvlSqlParameter> GetDvlSqlParameters() => this.InsertExpression.ValuesExpression?.SqlParameters;
+        protected IEnumerable<DvlSqlParameter> GetDvlSqlParameters() => this.InsertIntoExpression?.Parameters;
     }
 
     internal class BaseOutputable<TParam, TResult> : BaseInsertable<TParam> where TParam : ITuple
     {
         protected readonly Func<IDataReader, TResult> Reader;
 
-        public BaseOutputable(DvlSqlInsertIntoExpression<TParam> insertExpression, IDvlSqlConnection conn,
-            Func<IDataReader, TResult> func) : base(insertExpression, conn) => this.Reader = func;
+        public BaseOutputable(DvlSqlInsertExpression insertIntoExpression, IDvlSqlConnection conn,
+            Func<IDataReader, TResult> func) : base(insertIntoExpression, conn) => this.Reader = func;
 
         protected new IInsertDeleteExecutable<TResult> Values(params TParam[] @params)
         {
-            this.InsertExpression.ValuesExpression = ValuesExp(@params);
+            var insertInto = this.InsertIntoExpression as DvlSqlInsertIntoExpression<TParam>
+                             ?? throw new Exception("Can not Convert to Generic insert Expression");
+            insertInto.ValuesExpression = ValuesExp(@params);
+            insertInto.WithParameters(GetSqlParameters(@params, insertInto.DvlSqlTypes));
+            insertInto.ValuesExpression.SqlParameters = insertInto.Parameters;
 
-            this.InsertExpression.ValuesExpression.SqlParameters = GetSqlParameters(@params, this.InsertExpression.DvlSqlTypes).ToList();
+            return new SqlInsertDeleteExecutable<TResult>(this.DvlSqlConnection, ToString,
+                GetDvlSqlParameters,
+                (command, timeout, token) =>
+                    command.ExecuteReaderAsync(Reader, timeout, cancellationToken: token ?? default));
+        }
+
+        protected IInsertDeleteExecutable<TResult> Select(DvlSqlFullSelectExpression fullSelect)
+        {
+            this.InsertIntoExpression = new DvlSqlInsertIntoSelectExpression(this.InsertIntoExpression.TableName,
+                this.InsertIntoExpression.Columns) {SelectExpression = fullSelect,
+                OutputExpression = InsertIntoExpression.OutputExpression};
 
             return new SqlInsertDeleteExecutable<TResult>(this.DvlSqlConnection, ToString,
                 GetDvlSqlParameters,
@@ -102,8 +118,8 @@ namespace DvlSql.Concrete
     internal class SqlInsertable<TParam> : BaseInsertable<TParam>, IInsertable<TParam> where TParam : ITuple
     {
         // ReSharper disable once IdentifierTypo
-        public SqlInsertable(DvlSqlInsertIntoExpression<TParam> insertExpression, IDvlSqlConnection dvlSqlConnection) :
-            base(insertExpression, dvlSqlConnection)
+        public SqlInsertable(DvlSqlInsertIntoExpression<TParam> insertIntoExpression, IDvlSqlConnection dvlSqlConnection) :
+            base(insertIntoExpression, dvlSqlConnection)
         {
 
         }
@@ -112,7 +128,7 @@ namespace DvlSql.Concrete
             params string[] cols)
         {
             this.SetOutputExpression(cols);
-            return new InsertOutputable<TParam, TResult>(InsertExpression, DvlSqlConnection, reader);
+            return new InsertOutputable<TParam, TResult>(InsertIntoExpression, DvlSqlConnection, reader);
         }
 
         public new IInsertDeleteExecutable<int> Values(params TParam[] @params) => base.Values(@params);
@@ -123,10 +139,13 @@ namespace DvlSql.Concrete
         where TParam : ITuple
     {
         // ReSharper disable once IdentifierTypo
-        public InsertOutputable(DvlSqlInsertIntoExpression<TParam> insertExpression, IDvlSqlConnection dvlSqlConnection,
-            Func<IDataReader, TResult> reader) : base(insertExpression, dvlSqlConnection, reader)
+        public InsertOutputable(DvlSqlInsertExpression insertIntoExpression, IDvlSqlConnection dvlSqlConnection,
+            Func<IDataReader, TResult> reader) : base(insertIntoExpression, dvlSqlConnection, reader)
         {
         }
+
+        public new IInsertDeleteExecutable<TResult> Select(DvlSqlFullSelectExpression fullSelect) =>
+            base.Select(fullSelect);
 
         public new IInsertDeleteExecutable<TResult> Values(params TParam[] @params) => base.Values(@params);
     }
@@ -134,8 +153,8 @@ namespace DvlSql.Concrete
     internal class Insertable<T1, T2> : BaseInsertable<(T1, T2)>, IInsertable<T1, T2>
     {
         // ReSharper disable once IdentifierTypo
-        public Insertable(DvlSqlInsertIntoExpression<(T1, T2)> insertExpression, IDvlSqlConnection dvlSqlConnection) :
-            base(insertExpression, dvlSqlConnection)
+        public Insertable(DvlSqlInsertIntoExpression<(T1, T2)> insertIntoExpression, IDvlSqlConnection dvlSqlConnection) :
+            base(insertIntoExpression, dvlSqlConnection)
         {
 
         }
@@ -150,7 +169,7 @@ namespace DvlSql.Concrete
             params string[] cols)
         {
             this.SetOutputExpression(cols);
-            return new InsertOutputable<T1, T2, TResult>(InsertExpression, DvlSqlConnection, reader);
+            return new InsertOutputable<T1, T2, TResult>(InsertIntoExpression, DvlSqlConnection, reader);
         }
 
         IInsertDeleteExecutable<int> IInsertable<T1, T2>.Values(params (T1 param1, T2 param2)[] @params) =>
@@ -161,11 +180,14 @@ namespace DvlSql.Concrete
         IInsertOutputable<T1, T2, TResult>
     {
         // ReSharper disable once IdentifierTypo
-        public InsertOutputable(DvlSqlInsertIntoExpression<(T1, T2)> insertExpression,
+        public InsertOutputable(DvlSqlInsertExpression insertIntoExpression,
             IDvlSqlConnection dvlSqlConnection,
-            Func<IDataReader, TResult> reader) : base(insertExpression, dvlSqlConnection, reader)
+            Func<IDataReader, TResult> reader) : base(insertIntoExpression, dvlSqlConnection, reader)
         {
         }
+
+        public new IInsertDeleteExecutable<TResult> Select(DvlSqlFullSelectExpression fullSelect) =>
+            base.Select(fullSelect);
 
         public new IInsertDeleteExecutable<TResult> Values(params (T1, T2)[] @params) => base.Values(@params);
     }
@@ -173,9 +195,9 @@ namespace DvlSql.Concrete
     internal class Insertable<T1, T2, T3> : BaseInsertable<(T1, T2, T3)>, IInsertable<T1, T2, T3>
     {
         // ReSharper disable once IdentifierTypo
-        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3)> insertExpression,
+        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3)> insertIntoExpression,
             IDvlSqlConnection dvlSqlConnection) :
-            base(insertExpression, dvlSqlConnection)
+            base(insertIntoExpression, dvlSqlConnection)
         {
 
         }
@@ -191,7 +213,7 @@ namespace DvlSql.Concrete
             params string[] cols)
         {
             this.SetOutputExpression(cols);
-            return new InsertOutputable<T1, T2, T3, TResult>(InsertExpression, DvlSqlConnection, reader);
+            return new InsertOutputable<T1, T2, T3, TResult>(InsertIntoExpression, DvlSqlConnection, reader);
         }
 
         public new IInsertDeleteExecutable<int> Values(params (T1 param1, T2 param2, T3 param3)[] @params) =>
@@ -202,11 +224,14 @@ namespace DvlSql.Concrete
         IInsertOutputable<T1, T2, T3, TResult>
     {
         // ReSharper disable once IdentifierTypo
-        public InsertOutputable(DvlSqlInsertIntoExpression<(T1, T2, T3)> insertExpression,
+        public InsertOutputable(DvlSqlInsertExpression insertIntoExpression,
             IDvlSqlConnection dvlSqlConnection,
-            Func<IDataReader, TResult> reader) : base(insertExpression, dvlSqlConnection, reader)
+            Func<IDataReader, TResult> reader) : base(insertIntoExpression, dvlSqlConnection, reader)
         {
         }
+
+        public new IInsertDeleteExecutable<TResult> Select(DvlSqlFullSelectExpression fullSelect) =>
+            base.Select(fullSelect);
 
         public new IInsertDeleteExecutable<TResult> Values(params (T1, T2, T3)[] @params) => base.Values(@params);
     }
@@ -214,9 +239,9 @@ namespace DvlSql.Concrete
     internal class Insertable<T1, T2, T3, T4> : BaseInsertable<(T1, T2, T3, T4)>, IInsertable<T1, T2, T3, T4>
     {
         // ReSharper disable once IdentifierTypo
-        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4)> insertExpression,
+        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4)> insertIntoExpression,
             IDvlSqlConnection dvlSqlConnection) :
-            base(insertExpression, dvlSqlConnection)
+            base(insertIntoExpression, dvlSqlConnection)
         {
 
         }
@@ -232,7 +257,7 @@ namespace DvlSql.Concrete
             params string[] cols)
         {
             this.SetOutputExpression(cols);
-            return new InsertOutputable<T1, T2, T3, T4, TResult>(InsertExpression, DvlSqlConnection, reader);
+            return new InsertOutputable<T1, T2, T3, T4, TResult>(InsertIntoExpression, DvlSqlConnection, reader);
         }
 
         public new IInsertDeleteExecutable<int> Values(params (T1 param1, T2 param2, T3 param3, T4 param4)[] @params) =>
@@ -243,11 +268,14 @@ namespace DvlSql.Concrete
         IInsertOutputable<T1, T2, T3, T4, TResult>
     {
         // ReSharper disable once IdentifierTypo
-        public InsertOutputable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4)> insertExpression,
+        public InsertOutputable(DvlSqlInsertExpression insertIntoExpression,
             IDvlSqlConnection dvlSqlConnection,
-            Func<IDataReader, TResult> reader) : base(insertExpression, dvlSqlConnection, reader)
+            Func<IDataReader, TResult> reader) : base(insertIntoExpression, dvlSqlConnection, reader)
         {
         }
+
+        public new IInsertDeleteExecutable<TResult> Select(DvlSqlFullSelectExpression fullSelect) =>
+            base.Select(fullSelect);
 
         public new IInsertDeleteExecutable<TResult> Values(params (T1, T2, T3, T4)[] @params) => base.Values(@params);
     }
@@ -256,9 +284,9 @@ namespace DvlSql.Concrete
         IInsertable<T1, T2, T3, T4, T5>
     {
         // ReSharper disable once IdentifierTypo
-        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5)> insertExpression,
+        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5)> insertIntoExpression,
             IDvlSqlConnection dvlSqlConnection) :
-            base(insertExpression, dvlSqlConnection)
+            base(insertIntoExpression, dvlSqlConnection)
         {
 
         }
@@ -273,7 +301,7 @@ namespace DvlSql.Concrete
             params string[] cols)
         {
             this.SetOutputExpression(cols);
-            return new InsertOutputable<T1, T2, T3, T4, T5, TResult>(InsertExpression, DvlSqlConnection, reader);
+            return new InsertOutputable<T1, T2, T3, T4, T5, TResult>(InsertIntoExpression, DvlSqlConnection, reader);
         }
 
         public new IInsertDeleteExecutable<int> Values(
@@ -284,11 +312,14 @@ namespace DvlSql.Concrete
         IInsertOutputable<T1, T2, T3, T4, T5, TResult>
     {
         // ReSharper disable once IdentifierTypo
-        public InsertOutputable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5)> insertExpression,
+        public InsertOutputable(DvlSqlInsertExpression insertIntoExpression,
             IDvlSqlConnection dvlSqlConnection,
-            Func<IDataReader, TResult> reader) : base(insertExpression, dvlSqlConnection, reader)
+            Func<IDataReader, TResult> reader) : base(insertIntoExpression, dvlSqlConnection, reader)
         {
         }
+
+        public new IInsertDeleteExecutable<TResult> Select(DvlSqlFullSelectExpression fullSelect) =>
+            base.Select(fullSelect);
 
         public new IInsertDeleteExecutable<TResult> Values(params (T1, T2, T3, T4, T5)[] @params) =>
             base.Values(@params);
@@ -298,9 +329,9 @@ namespace DvlSql.Concrete
         IInsertable<T1, T2, T3, T4, T5, T6>
     {
         // ReSharper disable once IdentifierTypo
-        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6)> insertExpression,
+        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6)> insertIntoExpression,
             IDvlSqlConnection dvlSqlConnection) :
-            base(insertExpression, dvlSqlConnection)
+            base(insertIntoExpression, dvlSqlConnection)
         {
 
         }
@@ -316,7 +347,7 @@ namespace DvlSql.Concrete
             params string[] cols)
         {
             this.SetOutputExpression(cols);
-            return new InsertOutputable<T1, T2, T3, T4, T5, T6, TResult>(InsertExpression, DvlSqlConnection, reader);
+            return new InsertOutputable<T1, T2, T3, T4, T5, T6, TResult>(InsertIntoExpression, DvlSqlConnection, reader);
         }
 
         public new IInsertDeleteExecutable<int> Values(
@@ -328,11 +359,14 @@ namespace DvlSql.Concrete
         BaseOutputable<(T1, T2, T3, T4, T5, T6), TResult>, IInsertOutputable<T1, T2, T3, T4, T5, T6, TResult>
     {
         // ReSharper disable once IdentifierTypo
-        public InsertOutputable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6)> insertExpression,
+        public InsertOutputable(DvlSqlInsertExpression insertIntoExpression,
             IDvlSqlConnection dvlSqlConnection,
-            Func<IDataReader, TResult> reader) : base(insertExpression, dvlSqlConnection, reader)
+            Func<IDataReader, TResult> reader) : base(insertIntoExpression, dvlSqlConnection, reader)
         {
         }
+
+        public new IInsertDeleteExecutable<TResult> Select(DvlSqlFullSelectExpression fullSelect) =>
+            base.Select(fullSelect);
 
         public new IInsertDeleteExecutable<TResult> Values(params (T1, T2, T3, T4, T5, T6)[] @params) =>
             base.Values(@params);
@@ -342,9 +376,9 @@ namespace DvlSql.Concrete
         IInsertable<T1, T2, T3, T4, T5, T6, T7>
     {
         // ReSharper disable once IdentifierTypo
-        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7)> insertExpression,
+        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7)> insertIntoExpression,
             IDvlSqlConnection dvlSqlConnection) :
-            base(insertExpression, dvlSqlConnection)
+            base(insertIntoExpression, dvlSqlConnection)
         {
 
         }
@@ -360,7 +394,7 @@ namespace DvlSql.Concrete
             params string[] cols)
         {
             this.SetOutputExpression(cols);
-            return new InsertOutputable<T1, T2, T3, T4, T5, T6, T7, TResult>(InsertExpression, DvlSqlConnection,
+            return new InsertOutputable<T1, T2, T3, T4, T5, T6, T7, TResult>(InsertIntoExpression, DvlSqlConnection,
                 reader);
         }
 
@@ -373,11 +407,14 @@ namespace DvlSql.Concrete
         BaseOutputable<(T1, T2, T3, T4, T5, T6, T7), TResult>, IInsertOutputable<T1, T2, T3, T4, T5, T6, T7, TResult>
     {
         // ReSharper disable once IdentifierTypo
-        public InsertOutputable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7)> insertExpression,
+        public InsertOutputable(DvlSqlInsertExpression insertIntoExpression,
             IDvlSqlConnection dvlSqlConnection,
-            Func<IDataReader, TResult> reader) : base(insertExpression, dvlSqlConnection, reader)
+            Func<IDataReader, TResult> reader) : base(insertIntoExpression, dvlSqlConnection, reader)
         {
         }
+
+        public new IInsertDeleteExecutable<TResult> Select(DvlSqlFullSelectExpression fullSelect) =>
+            base.Select(fullSelect);
 
         public new IInsertDeleteExecutable<TResult> Values(params (T1, T2, T3, T4, T5, T6, T7)[] @params) =>
             base.Values(@params);
@@ -387,9 +424,9 @@ namespace DvlSql.Concrete
         IInsertable<T1, T2, T3, T4, T5, T6, T7, T8>
     {
         // ReSharper disable once IdentifierTypo
-        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8)> insertExpression,
+        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8)> insertIntoExpression,
             IDvlSqlConnection dvlSqlConnection) :
-            base(insertExpression, dvlSqlConnection)
+            base(insertIntoExpression, dvlSqlConnection)
         {
 
         }
@@ -405,7 +442,7 @@ namespace DvlSql.Concrete
             Func<IDataReader, TResult> reader, params string[] cols)
         {
             this.SetOutputExpression(cols);
-            return new InsertOutputable<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(InsertExpression, DvlSqlConnection,
+            return new InsertOutputable<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(InsertIntoExpression, DvlSqlConnection,
                 reader);
         }
 
@@ -419,11 +456,14 @@ namespace DvlSql.Concrete
         IInsertOutputable<T1, T2, T3, T4, T5, T6, T7, T8, TResult>
     {
         // ReSharper disable once IdentifierTypo
-        public InsertOutputable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8)> insertExpression,
+        public InsertOutputable(DvlSqlInsertExpression insertIntoExpression,
             IDvlSqlConnection dvlSqlConnection,
-            Func<IDataReader, TResult> reader) : base(insertExpression, dvlSqlConnection, reader)
+            Func<IDataReader, TResult> reader) : base(insertIntoExpression, dvlSqlConnection, reader)
         {
         }
+
+        public new IInsertDeleteExecutable<TResult> Select(DvlSqlFullSelectExpression fullSelect) =>
+            base.Select(fullSelect);
 
         public new IInsertDeleteExecutable<TResult> Values(params (T1, T2, T3, T4, T5, T6, T7, T8)[] @params) =>
             base.Values(@params);
@@ -433,9 +473,9 @@ namespace DvlSql.Concrete
         BaseInsertable<(T1, T2, T3, T4, T5, T6, T7, T8, T9)>, IInsertable<T1, T2, T3, T4, T5, T6, T7, T8, T9>
     {
         // ReSharper disable once IdentifierTypo
-        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8, T9)> insertExpression,
+        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8, T9)> insertIntoExpression,
             IDvlSqlConnection dvlSqlConnection) :
-            base(insertExpression, dvlSqlConnection)
+            base(insertIntoExpression, dvlSqlConnection)
         {
 
         }
@@ -451,7 +491,7 @@ namespace DvlSql.Concrete
             Func<IDataReader, TResult> reader, params string[] cols)
         {
             this.SetOutputExpression(cols);
-            return new InsertOutputable<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(InsertExpression, DvlSqlConnection,
+            return new InsertOutputable<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(InsertIntoExpression, DvlSqlConnection,
                 reader);
         }
 
@@ -465,11 +505,14 @@ namespace DvlSql.Concrete
         IInsertOutputable<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>
     {
         // ReSharper disable once IdentifierTypo
-        public InsertOutputable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8, T9)> insertExpression,
+        public InsertOutputable(DvlSqlInsertExpression insertIntoExpression,
             IDvlSqlConnection dvlSqlConnection,
-            Func<IDataReader, TResult> reader) : base(insertExpression, dvlSqlConnection, reader)
+            Func<IDataReader, TResult> reader) : base(insertIntoExpression, dvlSqlConnection, reader)
         {
         }
+
+        public new IInsertDeleteExecutable<TResult> Select(DvlSqlFullSelectExpression fullSelect) =>
+            base.Select(fullSelect);
 
         public new IInsertDeleteExecutable<TResult> Values(params (T1, T2, T3, T4, T5, T6, T7, T8, T9)[] @params) =>
             base.Values(@params);
@@ -479,9 +522,9 @@ namespace DvlSql.Concrete
         BaseInsertable<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)>, IInsertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>
     {
         // ReSharper disable once IdentifierTypo
-        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)> insertExpression,
+        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)> insertIntoExpression,
             IDvlSqlConnection dvlSqlConnection) :
-            base(insertExpression, dvlSqlConnection)
+            base(insertIntoExpression, dvlSqlConnection)
         {
 
         }
@@ -497,7 +540,7 @@ namespace DvlSql.Concrete
             Func<IDataReader, TResult> reader, params string[] cols)
         {
             this.SetOutputExpression(cols);
-            return new InsertOutputable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(InsertExpression,
+            return new InsertOutputable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(InsertIntoExpression,
                 DvlSqlConnection, reader);
         }
 
@@ -511,11 +554,14 @@ namespace DvlSql.Concrete
         IInsertOutputable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>
     {
         // ReSharper disable once IdentifierTypo
-        public InsertOutputable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)> insertExpression,
+        public InsertOutputable(DvlSqlInsertExpression insertIntoExpression,
             IDvlSqlConnection dvlSqlConnection,
-            Func<IDataReader, TResult> reader) : base(insertExpression, dvlSqlConnection, reader)
+            Func<IDataReader, TResult> reader) : base(insertIntoExpression, dvlSqlConnection, reader)
         {
         }
+
+        public new IInsertDeleteExecutable<TResult> Select(DvlSqlFullSelectExpression fullSelect) =>
+            base.Select(fullSelect);
 
         public new IInsertDeleteExecutable<TResult>
             Values(params (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)[] @params) => base.Values(@params);
@@ -526,9 +572,9 @@ namespace DvlSql.Concrete
         IInsertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>
     {
         // ReSharper disable once IdentifierTypo
-        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11)> insertExpression,
+        public Insertable(DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11)> insertIntoExpression,
             IDvlSqlConnection dvlSqlConnection) :
-            base(insertExpression, dvlSqlConnection)
+            base(insertIntoExpression, dvlSqlConnection)
         {
 
         }
@@ -544,7 +590,7 @@ namespace DvlSql.Concrete
             Func<IDataReader, TResult> reader, params string[] cols)
         {
             this.SetOutputExpression(cols);
-            return new InsertOutputable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult>(InsertExpression,
+            return new InsertOutputable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult>(InsertIntoExpression,
                 DvlSqlConnection, reader);
         }
 
@@ -559,11 +605,14 @@ namespace DvlSql.Concrete
     {
         // ReSharper disable once IdentifierTypo
         public InsertOutputable(
-            DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11)> insertExpression,
+            DvlSqlInsertExpression insertIntoExpression,
             IDvlSqlConnection dvlSqlConnection,
-            Func<IDataReader, TResult> reader) : base(insertExpression, dvlSqlConnection, reader)
+            Func<IDataReader, TResult> reader) : base(insertIntoExpression, dvlSqlConnection, reader)
         {
         }
+
+        public new IInsertDeleteExecutable<TResult> Select(DvlSqlFullSelectExpression fullSelect) =>
+            base.Select(fullSelect);
 
         public new IInsertDeleteExecutable<TResult> Values(
             params (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11)[] @params) => base.Values(@params);
@@ -575,9 +624,9 @@ namespace DvlSql.Concrete
     {
         // ReSharper disable once IdentifierTypo
         public Insertable(
-            DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12)> insertExpression,
+            DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12)> insertIntoExpression,
             IDvlSqlConnection dvlSqlConnection) :
-            base(insertExpression, dvlSqlConnection)
+            base(insertIntoExpression, dvlSqlConnection)
         {
 
         }
@@ -593,7 +642,7 @@ namespace DvlSql.Concrete
             Func<IDataReader, TResult> reader, params string[] cols)
         {
             this.SetOutputExpression(cols);
-            return new InsertOutputable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult>(InsertExpression,
+            return new InsertOutputable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult>(InsertIntoExpression,
                 DvlSqlConnection, reader);
         }
 
@@ -608,11 +657,14 @@ namespace DvlSql.Concrete
     {
         // ReSharper disable once IdentifierTypo
         public InsertOutputable(
-            DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12)> insertExpression,
+            DvlSqlInsertExpression insertIntoExpression,
             IDvlSqlConnection dvlSqlConnection,
-            Func<IDataReader, TResult> reader) : base(insertExpression, dvlSqlConnection, reader)
+            Func<IDataReader, TResult> reader) : base(insertIntoExpression, dvlSqlConnection, reader)
         {
         }
+
+        public new IInsertDeleteExecutable<TResult> Select(DvlSqlFullSelectExpression fullSelect) =>
+            base.Select(fullSelect);
 
         public new IInsertDeleteExecutable<TResult> Values(
             params (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12)[] @params) => base.Values(@params);
@@ -624,9 +676,9 @@ namespace DvlSql.Concrete
     {
         // ReSharper disable once IdentifierTypo
         public Insertable(
-            DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13)> insertExpression,
+            DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13)> insertIntoExpression,
             IDvlSqlConnection dvlSqlConnection) :
-            base(insertExpression, dvlSqlConnection)
+            base(insertIntoExpression, dvlSqlConnection)
         {
 
         }
@@ -643,7 +695,7 @@ namespace DvlSql.Concrete
         {
             this.SetOutputExpression(cols);
             return new InsertOutputable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult>(
-                InsertExpression, DvlSqlConnection, reader);
+                InsertIntoExpression, DvlSqlConnection, reader);
         }
 
         public new IInsertDeleteExecutable<int> Values(
@@ -657,11 +709,14 @@ namespace DvlSql.Concrete
     {
         // ReSharper disable once IdentifierTypo
         public InsertOutputable(
-            DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13)> insertExpression,
+            DvlSqlInsertExpression insertIntoExpression,
             IDvlSqlConnection dvlSqlConnection,
-            Func<IDataReader, TResult> reader) : base(insertExpression, dvlSqlConnection, reader)
+            Func<IDataReader, TResult> reader) : base(insertIntoExpression, dvlSqlConnection, reader)
         {
         }
+
+        public new IInsertDeleteExecutable<TResult> Select(DvlSqlFullSelectExpression fullSelect) =>
+            base.Select(fullSelect);
 
         public new IInsertDeleteExecutable<TResult> Values(
             params (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13)[] @params) => base.Values(@params);
@@ -673,9 +728,9 @@ namespace DvlSql.Concrete
     {
         // ReSharper disable once IdentifierTypo
         public Insertable(
-            DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14)> insertExpression,
+            DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14)> insertIntoExpression,
             IDvlSqlConnection dvlSqlConnection) :
-            base(insertExpression, dvlSqlConnection)
+            base(insertIntoExpression, dvlSqlConnection)
         {
 
         }
@@ -692,7 +747,7 @@ namespace DvlSql.Concrete
         {
             this.SetOutputExpression(cols);
             return new InsertOutputable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult>(
-                InsertExpression, DvlSqlConnection, reader);
+                InsertIntoExpression, DvlSqlConnection, reader);
         }
 
         public new IInsertDeleteExecutable<int> Values(
@@ -706,11 +761,14 @@ namespace DvlSql.Concrete
     {
         // ReSharper disable once IdentifierTypo
         public InsertOutputable(
-            DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14)> insertExpression,
+            DvlSqlInsertExpression insertIntoExpression,
             IDvlSqlConnection dvlSqlConnection,
-            Func<IDataReader, TResult> reader) : base(insertExpression, dvlSqlConnection, reader)
+            Func<IDataReader, TResult> reader) : base(insertIntoExpression, dvlSqlConnection, reader)
         {
         }
+
+        public new IInsertDeleteExecutable<TResult> Select(DvlSqlFullSelectExpression fullSelect) =>
+            base.Select(fullSelect);
 
         public new IInsertDeleteExecutable<TResult> Values(
             params (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14)[] @params) => base.Values(@params);
@@ -723,9 +781,9 @@ namespace DvlSql.Concrete
         // ReSharper disable once IdentifierTypo
         public Insertable(
             DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15)>
-                insertExpression,
+                insertIntoExpression,
             IDvlSqlConnection dvlSqlConnection) :
-            base(insertExpression, dvlSqlConnection)
+            base(insertIntoExpression, dvlSqlConnection)
         {
 
         }
@@ -742,7 +800,7 @@ namespace DvlSql.Concrete
         {
             this.SetOutputExpression(cols);
             return new InsertOutputable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult>(
-                InsertExpression, DvlSqlConnection, reader);
+                InsertIntoExpression, DvlSqlConnection, reader);
         }
 
         public new IInsertDeleteExecutable<int> Values(
@@ -757,11 +815,14 @@ namespace DvlSql.Concrete
     {
         // ReSharper disable once IdentifierTypo
         public InsertOutputable(
-            DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15)>
-                insertExpression, IDvlSqlConnection dvlSqlConnection,
-            Func<IDataReader, TResult> reader) : base(insertExpression, dvlSqlConnection, reader)
+            DvlSqlInsertExpression
+                insertIntoExpression, IDvlSqlConnection dvlSqlConnection,
+            Func<IDataReader, TResult> reader) : base(insertIntoExpression, dvlSqlConnection, reader)
         {
         }
+
+        public new IInsertDeleteExecutable<TResult> Select(DvlSqlFullSelectExpression fullSelect) =>
+            base.Select(fullSelect);
 
         public new IInsertDeleteExecutable<TResult> Values(
             params (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15)[] @params) =>
@@ -775,9 +836,9 @@ namespace DvlSql.Concrete
         // ReSharper disable once IdentifierTypo
         public Insertable(
             DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16)>
-                insertExpression,
+                insertIntoExpression,
             IDvlSqlConnection dvlSqlConnection) :
-            base(insertExpression, dvlSqlConnection)
+            base(insertIntoExpression, dvlSqlConnection)
         {
 
         }
@@ -794,7 +855,7 @@ namespace DvlSql.Concrete
         {
             this.SetOutputExpression(cols);
             return new InsertOutputable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult>(
-                InsertExpression, DvlSqlConnection, reader);
+                InsertIntoExpression, DvlSqlConnection, reader);
         }
 
         public new IInsertDeleteExecutable<int> Values(
@@ -809,11 +870,14 @@ namespace DvlSql.Concrete
     {
         // ReSharper disable once IdentifierTypo
         public InsertOutputable(
-            DvlSqlInsertIntoExpression<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16)>
-                insertExpression, IDvlSqlConnection dvlSqlConnection,
-            Func<IDataReader, TResult> reader) : base(insertExpression, dvlSqlConnection, reader)
+            DvlSqlInsertExpression
+                insertIntoExpression, IDvlSqlConnection dvlSqlConnection,
+            Func<IDataReader, TResult> reader) : base(insertIntoExpression, dvlSqlConnection, reader)
         {
         }
+
+        public new IInsertDeleteExecutable<TResult> Select(DvlSqlFullSelectExpression fullSelect) =>
+            base.Select(fullSelect);
 
         public new IInsertDeleteExecutable<TResult> Values(
             params (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16)[] @params) =>
