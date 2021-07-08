@@ -34,9 +34,8 @@ namespace DvlSql.Abstract
         IInsertDeleteExecutable<int> Values(params (T1 param1, T2 param2)[] @params);
     }
 
-    public interface IInsertOutputable<T1, T2, TResult>
+    public interface IInsertOutputable<T1, T2, TResult> : IInsertOutputable<(T1,T2), TResult>
     {
-        IInsertDeleteExecutable<TResult> Values(params (T1 param1, T2 param2)[] @params);
     }
 
     public interface IInsertable<T1, T2, T3>
@@ -47,9 +46,8 @@ namespace DvlSql.Abstract
         IInsertDeleteExecutable<int> Values(params (T1 param1, T2 param2, T3 param3)[] @params);
     }
 
-    public interface IInsertOutputable<T1, T2, T3, TResult>
+    public interface IInsertOutputable<T1, T2, T3, TResult> : IInsertOutputable<(T1, T2, T3), TResult>
     {
-        IInsertDeleteExecutable<TResult> Values(params (T1 param1, T2 param2, T3 param3)[] @params);
     }
 
     public interface IInsertable<T1, T2, T3, T4>
@@ -61,9 +59,8 @@ namespace DvlSql.Abstract
         IInsertDeleteExecutable<int> Values(params (T1 param1, T2 param2, T3 param3, T4 param4)[] @params);
     }
 
-    public interface IInsertOutputable<T1, T2, T3, T4, TResult>
+    public interface IInsertOutputable<T1, T2, T3, T4, TResult> : IInsertOutputable<(T1, T2, T3, T4), TResult>
     {
-        IInsertDeleteExecutable<TResult> Values(params (T1 param1, T2 param2, T3 param3, T4 param4)[] @params);
     }
 
     public interface IInsertable<T1, T2, T3, T4, T5>
@@ -75,10 +72,8 @@ namespace DvlSql.Abstract
         IInsertDeleteExecutable<int> Values(params (T1 param1, T2 param2, T3 param3, T4 param4, T5 param5)[] @params);
     }
 
-    public interface IInsertOutputable<T1, T2, T3, T4, T5, TResult>
+    public interface IInsertOutputable<T1, T2, T3, T4, T5, TResult> : IInsertOutputable<(T1, T2, T3, T4, T5), TResult>
     {
-        IInsertDeleteExecutable<TResult> Values(
-            params (T1 param1, T2 param2, T3 param3, T4 param4, T5 param5)[] @params);
     }
 
     public interface IInsertable<T1, T2, T3, T4, T5, T6>
@@ -91,10 +86,8 @@ namespace DvlSql.Abstract
             params (T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6)[] @params);
     }
 
-    public interface IInsertOutputable<T1, T2, T3, T4, T5, T6, TResult>
+    public interface IInsertOutputable<T1, T2, T3, T4, T5, T6, TResult> : IInsertOutputable<(T1, T2, T3, T4, T5, T6), TResult>
     {
-        IInsertDeleteExecutable<TResult> Values(
-            params (T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6)[] @params);
     }
 
     public interface IInsertable<T1, T2, T3, T4, T5, T6, T7>
@@ -108,10 +101,8 @@ namespace DvlSql.Abstract
             params (T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7)[] @params);
     }
 
-    public interface IInsertOutputable<T1, T2, T3, T4, T5, T6, T7, TResult>
+    public interface IInsertOutputable<T1, T2, T3, T4, T5, T6, T7, TResult> : IInsertOutputable<(T1, T2, T3, T4, T5, T6, T7), TResult>
     {
-        IInsertDeleteExecutable<TResult> Values(
-            params (T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7)[] @params);
     }
 
     public interface IInsertable<T1, T2, T3, T4, T5, T6, T7, T8>
@@ -126,10 +117,9 @@ namespace DvlSql.Abstract
             params (T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8)[] @params);
     }
 
-    public interface IInsertOutputable<T1, T2, T3, T4, T5, T6, T7, T8, TResult>
+    public interface IInsertOutputable<T1, T2, T3, T4, T5, T6, T7, T8, TResult> 
+        : IInsertOutputable<(T1, T2, T3, T4, T5, T6, T7, T8), TResult>
     {
-        IInsertDeleteExecutable<TResult> Values(
-            params (T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8)[] @params);
     }
 
 
@@ -147,10 +137,8 @@ namespace DvlSql.Abstract
     }
 
     public interface IInsertOutputable<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>
+        : IInsertOutputable<(T1, T2, T3, T4, T5, T6, T7, T8, T9), TResult>
     {
-        IInsertDeleteExecutable<TResult> Values(
-            params (T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8, T9 param9)[]
-                @params);
     }
 
     public interface IInsertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>
@@ -167,10 +155,8 @@ namespace DvlSql.Abstract
     }
 
     public interface IInsertOutputable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>
+        : IInsertOutputable<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10), TResult>
     {
-        IInsertDeleteExecutable<TResult> Values(
-            params (T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8, T9 param9,
-                T10 param10)[] @params);
     }
 
     public interface IInsertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>
@@ -188,10 +174,8 @@ namespace DvlSql.Abstract
     }
 
     public interface IInsertOutputable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult>
+        : IInsertOutputable<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11), TResult>
     {
-        IInsertDeleteExecutable<TResult> Values(
-            params (T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8, T9 param9,
-                T10 param10, T11 param11)[] @params);
     }
 
     public interface IInsertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>
@@ -207,10 +191,8 @@ namespace DvlSql.Abstract
     }
 
     public interface IInsertOutputable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult>
+        : IInsertOutputable<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12), TResult>
     {
-        IInsertDeleteExecutable<TResult> Values(
-            params (T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8, T9 param9,
-                T10 param10, T11 param11, T12 param12)[] @params);
     }
 
     public interface IInsertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>
@@ -226,11 +208,8 @@ namespace DvlSql.Abstract
     }
 
     public interface IInsertOutputable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult>
+        : IInsertOutputable<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13), TResult>
     {
-        IInsertDeleteExecutable<TResult> Values(
-            params (T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8, T9 param9,
-                T10 param10,
-                T11 param11, T12 param12, T13 param13)[] @params);
     }
 
     public interface IInsertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>
@@ -246,11 +225,8 @@ namespace DvlSql.Abstract
     }
 
     public interface IInsertOutputable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult>
+        : IInsertOutputable<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14), TResult>
     {
-        IInsertDeleteExecutable<TResult> Values(
-            params (T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8, T9 param9,
-                T10 param10,
-                T11 param11, T12 param12, T13 param13, T14 param14)[] @params);
     }
 
     public interface IInsertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>
@@ -266,11 +242,8 @@ namespace DvlSql.Abstract
     }
 
     public interface IInsertOutputable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult>
+        : IInsertOutputable<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15), TResult>
     {
-        IInsertDeleteExecutable<TResult> Values(
-            params (T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8, T9 param9,
-                T10 param10,
-                T11 param11, T12 param12, T13 param13, T14 param14, T15 param15)[] @params);
     }
 
     public interface IInsertable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>
@@ -286,11 +259,8 @@ namespace DvlSql.Abstract
     }
 
     public interface IInsertOutputable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult>
+        : IInsertOutputable<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16), TResult>
     {
-        IInsertDeleteExecutable<TResult> Values(
-            params (T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7, T8 param8, T9 param9,
-                T10 param10,
-                T11 param11, T12 param12, T13 param13, T14 param14, T15 param15, T16 param16)[] @params);
     }
 
     // ReSharper disable once IdentifierTypo
