@@ -5,6 +5,7 @@ namespace DvlSql.Abstract
     public interface IFromable
     {
         ISelector From(string tableName, bool withNoLock = false);
-        ISelector From(DvlSqlFullSelectExpression select, string @as);
+        ISelector From(DvlSqlFullSelectExpression select);
+        ISelector From(DvlSqlFromWithTableExpression fromWithTableExpression);
     }
 }

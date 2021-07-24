@@ -60,9 +60,9 @@ namespace DvlSql.Tests.Select
         [TestCase("dbo.Words")]
         public void WithInnerSelect(string tableName)
         {
-            var fullSelect = FullSelectExp(SelectExp(), FromExp("dbo.Words"));
             var asName = "W";
-            var actualSelect = this._sql.From(fullSelect, asName)
+            var fullSelect = FullSelectExp(SelectExp(), FromExp("dbo.Words"), @as: AsExp(asName));
+            var actualSelect = this._sql.From(fullSelect)
                 .Select()
                 .ToString();
 

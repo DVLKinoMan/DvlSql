@@ -27,11 +27,18 @@ namespace DvlSql.Concrete
             return new SqlSelector(fromExpression, GetConnection());
         }
 
-        public ISelector From(DvlSqlFullSelectExpression @select, string @as)
+        public ISelector From(DvlSqlFullSelectExpression @select)
         {
-            var fromExpression = FromExp(@select, @as);
+            //var fromExpression = FromExp(@select);
 
-            return new SqlSelector(fromExpression, GetConnection());
+            return new SqlSelector(@select, GetConnection());
+        }
+
+        public ISelector From(DvlSqlFromWithTableExpression fromWithTableExpression)
+        {
+            //var fromExpression = FromExp(fromWithTableExpression);
+
+            return new SqlSelector(fromWithTableExpression, GetConnection());
         }
 
         public IDeletable DeleteFrom(string tableName)
@@ -40,6 +47,8 @@ namespace DvlSql.Concrete
 
             return new SqlDeletable(fromExpression, GetConnection());
         }
+
+        public IDeletable DeleteFrom(DvlSqlFromExpression fromExpression) => new SqlDeletable(fromExpression, GetConnection());
 
         public IUpdateSetable Update(string tableName)
         {

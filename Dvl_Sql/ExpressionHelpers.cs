@@ -71,10 +71,18 @@ namespace DvlSql
         public static DvlSqlFromExpression FromExp(string tableName, bool withNoLock = false) =>
             new DvlSqlFromWithTableExpression(tableName, withNoLock);
 
-        public static DvlSqlFromExpression FromExp(DvlSqlFullSelectExpression select, string @as)
+        public static DvlSqlFromExpression FromExp(DvlSqlFullSelectExpression select, string @as = null)
         {
-            select.As = AsExp(@as);
+            if (@as != null)
+                select.As = AsExp(@as);
             return select;
+        }
+
+        public static DvlSqlFromExpression FromExp(DvlSqlFromWithTableExpression fromWithTable, string @as = null)
+        {
+            if (@as != null)
+                fromWithTable.As = AsExp(@as);
+            return fromWithTable;
         }
 
         public static DvlSqlFromExpression ValuesExp<T>(T[] values, DvlSqlAsExpression @as) where T : ITuple =>

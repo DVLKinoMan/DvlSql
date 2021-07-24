@@ -46,9 +46,16 @@ namespace DvlSql.Concrete
             return this;
         }
 
-        public ISelector From(DvlSqlFullSelectExpression @select, string @as)
+        public ISelector From(DvlSqlFullSelectExpression @select)
         {
-            this.CurrFullSelectExpression.From = FromExp(@select, @as);
+            this.CurrFullSelectExpression.From = @select;
+
+            return this;
+        }
+
+        public ISelector From(DvlSqlFromWithTableExpression fromWithTableExpression)
+        {
+            this.CurrFullSelectExpression.From = fromWithTableExpression;
 
             return this;
         }
