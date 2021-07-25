@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Runtime.CompilerServices;
 using DvlSql.Expressions;
+using DvlSql.Models;
 
 namespace DvlSql
 {
@@ -87,6 +88,9 @@ namespace DvlSql
 
         public static DvlSqlFromExpression ValuesExp<T>(T[] values, DvlSqlAsExpression @as) where T : ITuple =>
             new DvlSqlValuesExpression<T>(values, @as);
+
+        public static DvlSqlFromExpression ValuesExp<T>(T[] values, DvlSqlAsExpression @as, List<DvlSqlParameter> sqlParameters) where T : ITuple =>
+            new DvlSqlValuesExpression<T>(values, @as, sqlParameters);
 
         public static DvlSqlSelectExpression SelectExp(params string[] paramNames) =>
             new DvlSqlSelectExpression(paramNames); //.WithRoot(false);

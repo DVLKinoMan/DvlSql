@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace DvlSql
 {
@@ -57,7 +58,30 @@ namespace DvlSql
                 string _ => SqlDbType.NVarChar,
                 _ => throw new NotImplementedException("value is not implemented")
             };
-        
+
+        public static IEnumerable<DvlSqlParameter> GetSqlParameters(ITuple[] @params, DvlSqlType[] types)
+        {
+            if(types?.Length == 0)
+                yield break;
+
+            int count = 1;
+            foreach (var param in @params)
+            {
+                for (int i = 0; i < param.Length; i++)
+                {
+                    var type = typeof(DvlSqlType<>).MakeGenericType(param[i].GetType());
+                    var dvlSqlType =
+                        Activator.CreateInstance(type,
+                            new[] { param[i], types[i], false }); //added false value, maybe not right
+                    var type2 = typeof(DvlSqlParameter<>).MakeGenericType(param[i].GetType());
+                    string name = $"{types[i].Name.WithAlpha()}{count}";
+                    yield return (DvlSqlParameter)Activator.CreateInstance(type2, new object[] { name, dvlSqlType });
+                }
+
+                count++;
+            }
+        }
+
         #region Binary
         public static DvlSqlType<bool> Bit(string name, bool value) =>
             new DvlSqlType<bool>(name, value, SqlDbType.Bit);

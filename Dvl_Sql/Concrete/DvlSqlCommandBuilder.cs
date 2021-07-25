@@ -236,11 +236,13 @@ namespace DvlSql.Concrete
             this._command.Append($"{Environment.NewLine}OUTPUT {string.Join(',', expression.Columns)}");
             if (expression.IntoTable != null)
                 this._command.Append($"{Environment.NewLine}INTO {expression.IntoTable.TableName}");
+            this._command.Append(Environment.NewLine);
         }
 
         public void Visit<T>(DvlSqlValuesExpression<T> expression) where T : ITuple
         {
-            this._command.Append($"{Environment.NewLine}VALUES");
+            bool hasAs = expression.As != null;
+            this._command.Append($"{Environment.NewLine}{(hasAs ? $"FROM{Environment.NewLine}(" : "")}VALUES");
             int count = 0;
             foreach (var value in expression.Values)
             {
@@ -255,11 +257,14 @@ namespace DvlSql.Concrete
 
             if (expression.Values.Any())
                 this._command.Remove(this._command.Length - 1, 1);
+            this._command.Append(hasAs ? ")" : "");
+
+            expression.As?.Accept(this);
         }
 
         public void Visit(DvlSqlAsExpression expression)
         {
-            this._command.Append($"{(expression.UseAsKeyword ? "AS" : "")} {expression.Name}");
+            this._command.Append($" {(expression.UseAsKeyword ? "AS" : "")} {expression.Name}");
             if (expression.Parameters != null)
                 this._command.Append($"({string.Join(", ", expression.Parameters)})");
         }
