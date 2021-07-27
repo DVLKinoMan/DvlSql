@@ -177,6 +177,7 @@ namespace DvlSql.Concrete
         {
             this._command.Append($"DELETE ");
             expression.FromExpression.Accept(this);
+            expression.OutputExpression?.Accept(this);
             expression.WhereExpression?.Accept(this);
         }
 

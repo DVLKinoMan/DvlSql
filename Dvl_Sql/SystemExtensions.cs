@@ -1,4 +1,8 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace DvlSql
 {
@@ -72,5 +76,11 @@ namespace DvlSql
 
             return builder.ToString();
         }
+
+        public static string RemoveUnnecessaryNewlines(this string str) =>
+            string.Join(Environment.NewLine, str.Split(Environment.NewLine).Where(s => !string.IsNullOrEmpty(s) && s != Environment.NewLine));
+
+        public static IEnumerable<ITuple> ToTuples<T>(this IEnumerable<T> source) =>
+            source.Select(s => s as ITuple).Where(s => s != null).ToArray();
     }
 }

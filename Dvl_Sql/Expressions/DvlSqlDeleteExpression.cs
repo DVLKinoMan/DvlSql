@@ -6,6 +6,7 @@ namespace DvlSql.Expressions
     {
         public DvlSqlFromExpression FromExpression { get; set; }
         public DvlSqlWhereExpression WhereExpression { get; set; }
+        public DvlSqlOutputExpression OutputExpression { get; set; }
 
         public DvlSqlDeleteExpression(DvlSqlFromExpression fromExpression) =>
             this.FromExpression = fromExpression;

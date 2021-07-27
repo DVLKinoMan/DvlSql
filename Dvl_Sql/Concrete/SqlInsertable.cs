@@ -39,7 +39,7 @@ namespace DvlSql.Concrete
             var insertInto = this.InsertIntoExpression as DvlSqlInsertIntoExpression<TParam> 
                              ?? throw new Exception("Can not Convert to Generic insert Expression");
             insertInto.ValuesExpression = ValuesExp(@params);
-            insertInto.WithParameters(GetSqlParameters(@params as ITuple[], insertInto.DvlSqlTypes));
+            insertInto.WithParameters(GetSqlParameters(@params.ToTuples().ToArray(), insertInto.DvlSqlTypes));
             insertInto.ValuesExpression.SqlParameters = insertInto.Parameters;
 
             return new SqlInsertDeleteExecutable<int>(this.DvlSqlConnection, ToString,
@@ -72,7 +72,7 @@ namespace DvlSql.Concrete
             var insertInto = this.InsertIntoExpression as DvlSqlInsertIntoExpression<TParam>
                              ?? throw new Exception("Can not Convert to Generic insert Expression");
             insertInto.ValuesExpression = ValuesExp(@params);
-            insertInto.WithParameters(GetSqlParameters(@params as ITuple[], insertInto.DvlSqlTypes));
+            insertInto.WithParameters(GetSqlParameters(@params.ToTuples().ToArray(), insertInto.DvlSqlTypes));
             insertInto.ValuesExpression.SqlParameters = insertInto.Parameters;
 
             return new SqlInsertDeleteExecutable<TResult>(this.DvlSqlConnection, ToString,
