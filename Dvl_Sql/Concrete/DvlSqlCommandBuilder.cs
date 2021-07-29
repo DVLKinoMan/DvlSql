@@ -175,9 +175,17 @@ namespace DvlSql.Concrete
 
         public void Visit(DvlSqlDeleteExpression expression)
         {
-            this._command.Append($"DELETE ");
+            this._command.Append(
+                $"DELETE {(expression.FromExpression.As != null ? $"{expression.FromExpression.As.Name} " : "")}");
             expression.FromExpression.Accept(this);
             expression.OutputExpression?.Accept(this);
+            if (expression.Join?.Count != 0)
+            {
+                if (expression.OutputExpression != null)
+                    throw new Exception("Joins can not be when Output Expression exists");
+                expression.Join?.ForEach(j => j.Accept(this));
+            }
+
             expression.WhereExpression?.Accept(this);
         }
 

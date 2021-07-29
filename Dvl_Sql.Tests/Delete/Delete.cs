@@ -56,5 +56,19 @@ namespace DvlSql.Tests.Delete
 
             Assert.That(Regex.Escape(actualDelete), Is.EqualTo(expectedDelete));
         }
+
+        [Test]
+        public void TestMethod4()
+        {
+            var actualDelete = this._sql.DeleteFrom(FromExp("Words", "w"))
+                .Join("Words", "w.Id", "Words.Id")
+                .Where(ConstantExp("Id", true) == 2)
+                .ToString();
+
+            string expectedDelete = Regex.Escape(
+                $@"DELETE w FROM Words AS w{Environment.NewLine}INNER JOIN Words ON w.Id = Words.Id{Environment.NewLine}WHERE Id = 2");
+
+            Assert.That(Regex.Escape(actualDelete), Is.EqualTo(expectedDelete));
+        }
     }
 }

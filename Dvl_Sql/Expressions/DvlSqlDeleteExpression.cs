@@ -1,4 +1,5 @@
-﻿using DvlSql.Abstract;
+﻿using System.Collections.Generic;
+using DvlSql.Abstract;
 
 namespace DvlSql.Expressions
 {
@@ -7,9 +8,16 @@ namespace DvlSql.Expressions
         public DvlSqlFromExpression FromExpression { get; set; }
         public DvlSqlWhereExpression WhereExpression { get; set; }
         public DvlSqlOutputExpression OutputExpression { get; set; }
+        public List<DvlSqlJoinExpression> Join { get; private set; } = new List<DvlSqlJoinExpression>();
 
         public DvlSqlDeleteExpression(DvlSqlFromExpression fromExpression) =>
             this.FromExpression = fromExpression;
+
+        public void AddJoin(DvlSqlJoinExpression exp)
+        {
+            Join ??= new List<DvlSqlJoinExpression>();
+            Join.Add(exp);
+        }
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
 

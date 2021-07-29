@@ -6,7 +6,7 @@ using DvlSql.Models;
 
 namespace DvlSql.Abstract
 {
-    public interface IDeletable : IDeleteOutputable<int>, IInsertDeleteExecutable<int>
+    public interface IDeletable : IDeleteJoinable
     {
         IDeleteOutputable<TResult> Output<TResult>(Func<IDataReader, TResult> reader, params string[] cols);
     }

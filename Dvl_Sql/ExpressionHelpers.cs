@@ -69,6 +69,13 @@ namespace DvlSql
             int? topNum = null) =>
             new DvlSqlSelectExpression(paramNames.ToHashSet(), topNum);
 
+        public static DvlSqlFromExpression FromExp(string tableName, string @as, bool withNoLock = false)
+        {
+            var from = new DvlSqlFromWithTableExpression(tableName, withNoLock);
+            from.As = AsExp(@as);
+            return from;
+        }
+
         public static DvlSqlFromExpression FromExp(string tableName, bool withNoLock = false) =>
             new DvlSqlFromWithTableExpression(tableName, withNoLock);
 
@@ -154,5 +161,42 @@ namespace DvlSql
 
         public static DvlSqlValuesExpression<T> ValuesExp<T>(params T[] values) where T : ITuple =>
             new DvlSqlValuesExpression<T>(values);
+
+        public static DvlSqlInnerJoinExpression InnerJoinExp(string tableName,
+            string firstTableMatchingCol, string secondTableMatchingCol)
+            => new DvlSqlInnerJoinExpression(tableName,
+                ConstantExpCol(firstTableMatchingCol) == ConstantExpCol(secondTableMatchingCol));
+
+        public static DvlSqlLeftJoinExpression LeftJoinExp(string tableName,
+            string firstTableMatchingCol, string secondTableMatchingCol)
+            => new DvlSqlLeftJoinExpression(tableName, 
+                ConstantExpCol(firstTableMatchingCol) == ConstantExpCol(secondTableMatchingCol));
+
+        public static DvlSqlRightJoinExpression RightJoinExp(string tableName,
+            string firstTableMatchingCol, string secondTableMatchingCol)
+            => new DvlSqlRightJoinExpression(tableName, 
+                ConstantExpCol(firstTableMatchingCol) == ConstantExpCol(secondTableMatchingCol));
+
+        public static DvlSqlFullJoinExpression FullJoinExp(string tableName,
+            string firstTableMatchingCol, string secondTableMatchingCol)
+            => new DvlSqlFullJoinExpression(tableName, 
+                ConstantExpCol(firstTableMatchingCol) == ConstantExpCol(secondTableMatchingCol));
+
+        public static DvlSqlInnerJoinExpression InnerJoinExp(string tableName,
+            DvlSqlComparisonExpression comparisonExpression)
+            => new DvlSqlInnerJoinExpression(tableName, comparisonExpression);
+
+        public static DvlSqlLeftJoinExpression LeftJoinExp(string tableName,
+            DvlSqlComparisonExpression comparisonExpression)
+            => new DvlSqlLeftJoinExpression(tableName, comparisonExpression);
+
+        public static DvlSqlRightJoinExpression RightJoinExp(string tableName,
+            DvlSqlComparisonExpression comparisonExpression)
+            => new DvlSqlRightJoinExpression(tableName, comparisonExpression);
+
+        public static DvlSqlFullJoinExpression FullJoinExp(string tableName,
+            DvlSqlComparisonExpression comparisonExpression)
+            => new DvlSqlFullJoinExpression(tableName, comparisonExpression);
+        
     }
 }
