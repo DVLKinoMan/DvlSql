@@ -69,14 +69,14 @@ namespace DvlSql
             int? topNum = null) =>
             new DvlSqlSelectExpression(paramNames.ToHashSet(), topNum);
 
-        public static DvlSqlFromExpression FromExp(string tableName, string @as, bool withNoLock = false)
+        public static DvlSqlFromWithTableExpression FromExp(string tableName, string @as, bool withNoLock = false)
         {
             var from = new DvlSqlFromWithTableExpression(tableName, withNoLock);
             from.As = AsExp(@as);
             return from;
         }
 
-        public static DvlSqlFromExpression FromExp(string tableName, bool withNoLock = false) =>
+        public static DvlSqlFromWithTableExpression FromExp(string tableName, bool withNoLock = false) =>
             new DvlSqlFromWithTableExpression(tableName, withNoLock);
 
         public static DvlSqlFromExpression FromExp(DvlSqlFullSelectExpression select, string @as = null)

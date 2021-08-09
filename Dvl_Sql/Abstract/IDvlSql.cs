@@ -88,7 +88,7 @@ namespace DvlSql.Abstract
 
         IInsertable InsertInto(string tableName, IEnumerable<string> cols);
         IDeletable DeleteFrom(string tableName);
-        IDeletable DeleteFrom(DvlSqlFromExpression fromExpression);
+        IDeletable DeleteFrom(DvlSqlFromWithTableExpression fromExpression);
         IUpdateSetable Update(string tableName);
 
         IDvlSql SetConnection(IDvlSqlConnection connection);

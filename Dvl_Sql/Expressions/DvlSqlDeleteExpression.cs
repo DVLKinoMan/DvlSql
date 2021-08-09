@@ -5,12 +5,12 @@ namespace DvlSql.Expressions
 {
     public class DvlSqlDeleteExpression : DvlSqlExpression
     {
-        public DvlSqlFromExpression FromExpression { get; set; }
+        public DvlSqlFromWithTableExpression FromExpression { get; set; }
         public DvlSqlWhereExpression WhereExpression { get; set; }
         public DvlSqlOutputExpression OutputExpression { get; set; }
         public List<DvlSqlJoinExpression> Join { get; private set; } = new List<DvlSqlJoinExpression>();
 
-        public DvlSqlDeleteExpression(DvlSqlFromExpression fromExpression) =>
+        public DvlSqlDeleteExpression(DvlSqlFromWithTableExpression fromExpression) =>
             this.FromExpression = fromExpression;
 
         public void AddJoin(DvlSqlJoinExpression exp)

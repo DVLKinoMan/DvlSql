@@ -48,7 +48,7 @@ namespace DvlSql.Concrete
             return new SqlDeletable(fromExpression, GetConnection());
         }
 
-        public IDeletable DeleteFrom(DvlSqlFromExpression fromExpression) => new SqlDeletable(fromExpression, GetConnection());
+        public IDeletable DeleteFrom(DvlSqlFromWithTableExpression fromExpression) => new SqlDeletable(fromExpression, GetConnection());
 
         public IUpdateSetable Update(string tableName)
         {

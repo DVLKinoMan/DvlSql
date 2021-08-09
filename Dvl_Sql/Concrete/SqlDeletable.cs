@@ -14,7 +14,7 @@ namespace DvlSql.Concrete
 {
     internal class SqlDeletable : RemoveOutputable<int>, IDeletable
     {
-        public SqlDeletable(DvlSqlFromExpression fromExpression, IDvlSqlConnection dvlSqlConnection) :
+        public SqlDeletable(DvlSqlFromWithTableExpression fromExpression, IDvlSqlConnection dvlSqlConnection) :
             base(new DvlSqlDeleteExpression(fromExpression), dvlSqlConnection,
                 (command, timeout, token) => command.ExecuteNonQueryAsync(timeout, token ?? default))
         {

@@ -177,7 +177,7 @@ namespace DvlSql.Concrete
         public void Visit(DvlSqlDeleteExpression expression)
         {
             this._command.Append(
-                $"DELETE {(expression.FromExpression.As != null ? $"{expression.FromExpression.As.Name} " : "")}");
+                $"DELETE {(expression.FromExpression.As != null ? $"{expression.FromExpression.As.Name}" : expression.Join?.Count != 0 ? expression.FromExpression.TableName : "")} ");
             expression.FromExpression.Accept(this);
             expression.OutputExpression?.Accept(this);
             if (expression.Join?.Count != 0)
