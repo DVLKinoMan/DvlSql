@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 using System.Text;
 using DvlSql.Abstract;
 using DvlSql.Expressions;
@@ -288,6 +289,8 @@ namespace DvlSql.Concrete
 
             foreach (var innerExpression in expression.InnerExpressions)
             {
+                if(innerExpression is DvlSqlBinaryEmptyExpression)
+                    continue;
                 isEmpty = false;
                 innerExpression.Accept(this);
                 this._command.Append(", ");
@@ -307,6 +310,8 @@ namespace DvlSql.Concrete
             this._command.Append("( ");
             foreach (var innerExpression in expression.InnerExpressions)
             {
+                if (innerExpression is DvlSqlBinaryEmptyExpression)
+                    continue;
                 innerExpression.Accept(this);
                 this._command.Append(op);
             }
@@ -323,6 +328,8 @@ namespace DvlSql.Concrete
             this._command.Append("( ");
             foreach (var innerExpression in expression.InnerExpressions)
             {
+                if(innerExpression is DvlSqlBinaryEmptyExpression)
+                    continue;
                 innerExpression.Accept(this);
                 this._command.Append(op);
             }
@@ -386,6 +393,9 @@ namespace DvlSql.Concrete
             this._command.Append(" )");
         }
 
+        public void Visit(DvlSqlBinaryEmptyExpression expression)
+        {
+        }
         #endregion
     }
 }

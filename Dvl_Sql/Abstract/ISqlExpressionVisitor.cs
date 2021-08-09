@@ -31,5 +31,6 @@ namespace DvlSql.Abstract
         void Visit(DvlSqlOutputExpression expression);
         void Visit<T>(DvlSqlValuesExpression<T> expression) where T : ITuple;
         void Visit(DvlSqlAsExpression expression);
+        void Visit(DvlSqlBinaryEmptyExpression expression);
     }
 }

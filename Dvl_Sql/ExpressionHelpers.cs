@@ -197,6 +197,8 @@ namespace DvlSql
         public static DvlSqlFullJoinExpression FullJoinExp(string tableName,
             DvlSqlComparisonExpression comparisonExpression)
             => new DvlSqlFullJoinExpression(tableName, comparisonExpression);
-        
+
+        public static DvlSqlBinaryEmptyExpression EmptyExp() => new DvlSqlBinaryEmptyExpression();
+
     }
 }
