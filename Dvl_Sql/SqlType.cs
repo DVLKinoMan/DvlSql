@@ -47,17 +47,24 @@ namespace DvlSql
                 _ => throw new NotImplementedException("value is not implemented")
             };
 
-        internal static SqlDbType DefaultMap<TValue>(TValue value) =>
-            value switch
-            {
-                bool _ => SqlDbType.Bit,
-                DateTime _ => SqlDbType.DateTime,
-                decimal _ => SqlDbType.Decimal,
-                int _ => SqlDbType.Int,
-                Guid _ => SqlDbType.UniqueIdentifier,
-                string _ => SqlDbType.NVarChar,
-                _ => throw new NotImplementedException("value is not implemented")
-            };
+        internal static SqlDbType DefaultMap<TValue>(TValue value) => DefaultMap(typeof(TValue));
+          
+        internal static Dictionary<Type, SqlDbType> SqlDbTypes = new Dictionary<Type, SqlDbType>()
+        {
+            {typeof(bool), SqlDbType.Bit},
+            {typeof(DateTime), SqlDbType.DateTime},
+            {typeof(decimal), SqlDbType.Decimal},
+            {typeof(int), SqlDbType.Int},
+            {typeof(Guid), SqlDbType.UniqueIdentifier},
+            {typeof(string), SqlDbType.NVarChar},
+        };
+
+        internal static SqlDbType DefaultMap(Type type) => 
+            SqlDbTypes.ContainsKey(type)
+            ? SqlDbTypes[type]
+            : type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>)
+                    ? DefaultMap(Nullable.GetUnderlyingType(type))
+                    : throw new NotImplementedException($"{type.Name} is not implemented");
 
         public static IEnumerable<DvlSqlParameter> GetSqlParameters(ITuple[] @params, DvlSqlType[] types)
         {

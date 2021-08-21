@@ -30,7 +30,7 @@ namespace DvlSql.Models
             };
 
             if (type is DvlSqlType<TValue> dvlSqlTypeValue)
-                param.Value = dvlSqlTypeValue.Value;
+                param.Value = (object)dvlSqlTypeValue.Value ?? DBNull.Value;
 
             if (type.Size != null)
                 param.Size = type.Size.Value;
