@@ -24,8 +24,9 @@ namespace DvlSql.Concrete
         public void Dispose()
         {
             //this._commands.Clear();
+            this._transaction.Dispose();
             this._transaction = null;
-            if(this._connection.State == ConnectionState.Open)
+            if(this._connection.State != ConnectionState.Closed)
                 this._connection.Close();
         }
 
@@ -71,5 +72,14 @@ namespace DvlSql.Concrete
 
         public IDvlSqlConnection GetClone() =>
             new DvlSqlConnection(this._connection.ConnectionString, this._commandFactory);
+
+        public async ValueTask DisposeAsync()
+        {
+            //this._commands.Clear();
+            await this._transaction.DisposeAsync();
+            this._transaction = null;
+            if (this._connection.State != ConnectionState.Closed)
+                await this._connection.CloseAsync();
+        }
     }
 }

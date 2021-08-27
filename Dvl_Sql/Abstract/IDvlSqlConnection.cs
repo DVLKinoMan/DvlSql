@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DvlSql.Abstract
 {
-    public interface IDvlSqlConnection : IDisposable
+    public interface IDvlSqlConnection : IDisposable, IAsyncDisposable
     {
         Task<TResult> ConnectAsync<TResult>(Func<IDvlSqlCommand, Task<TResult>> func, string sqlString,
             CommandType commandType = CommandType.Text, params SqlParameter[] parameters);

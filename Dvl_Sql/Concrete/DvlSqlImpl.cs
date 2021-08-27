@@ -89,7 +89,8 @@ namespace DvlSql.Concrete
             }
             finally
             {
-                this._dvlSqlConnection.Dispose();
+                await this._dvlSqlConnection.DisposeAsync();
+                this._dvlSqlConnection = null;
             }
         }
 
