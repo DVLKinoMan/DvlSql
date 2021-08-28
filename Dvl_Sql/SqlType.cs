@@ -79,13 +79,15 @@ namespace DvlSql
             int count = 1;
             foreach (var param in @params)
             {
+                var paramType = param.GetType();
                 for (int i = 0; i < param.Length; i++)
                 {
-                    var type = typeof(DvlSqlType<>).MakeGenericType(param[i].GetType());
+                    var genericTypeArgument = paramType.GenericTypeArguments[i];
+                    var type = typeof(DvlSqlType<>).MakeGenericType(genericTypeArgument);
                     var dvlSqlType =
                         Activator.CreateInstance(type,
                             new[] { param[i], types[i], false }); //added false value, maybe not right
-                    var type2 = typeof(DvlSqlParameter<>).MakeGenericType(param[i].GetType());
+                    var type2 = typeof(DvlSqlParameter<>).MakeGenericType(genericTypeArgument);
                     string name = $"{types[i].Name.WithAlpha()}{count}";
                     yield return (DvlSqlParameter)Activator.CreateInstance(type2, new object[] { name, dvlSqlType });
                 }
