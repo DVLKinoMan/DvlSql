@@ -33,6 +33,7 @@ namespace DvlSql
                 int i => Int(name, i),
                 Guid guid => UniqueIdentifier(name, guid),
                 string str => NVarCharMax(name, str),
+                byte b => TinyInt(name, b),
                 _ when typeof(TValue) is {} t && t.GetGenericTypeDefinition() == typeof(Nullable<>)
                     => GetDefaultDvlSqlType(Nullable.GetUnderlyingType(t), name),
                 _ => throw new NotImplementedException("value is not implemented")
@@ -45,6 +46,7 @@ namespace DvlSql
                 { } t when t == typeof(DateTime) => DateTimeType(name),
                 { } t when t == typeof(decimal) => DecimalType(name),
                 { } t when t == typeof(int) => IntType(name),
+                { } t when t == typeof(byte) => TinyIntType(name),
                 { } t when t == typeof(Guid) => UniqueIdentifierType(name),
                 { } t when t == typeof(string) => NVarCharMaxType(name),
                 {IsGenericType: true} t when t.GetGenericTypeDefinition() == typeof(Nullable<>)
@@ -62,6 +64,7 @@ namespace DvlSql
             {typeof(int), SqlDbType.Int},
             {typeof(Guid), SqlDbType.UniqueIdentifier},
             {typeof(string), SqlDbType.NVarChar},
+            {typeof(byte), SqlDbType.TinyInt}
         };
 
         internal static SqlDbType DefaultMap(Type type) => 
