@@ -56,7 +56,8 @@ namespace DvlSql
                 _ => throw new NotImplementedException("value is not implemented")
             };
 
-        internal static SqlDbType DefaultMap<TValue>(TValue value) => DefaultMap(typeof(TValue));
+        internal static SqlDbType DefaultMap<TValue>(TValue value) =>
+            DefaultMap(typeof(TValue) == typeof(object) ? value.GetType() : typeof(TValue));
 
         internal static Dictionary<Type, SqlDbType> SqlDbTypes = new Dictionary<Type, SqlDbType>()
         {
