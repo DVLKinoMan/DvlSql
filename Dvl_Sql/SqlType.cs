@@ -80,26 +80,37 @@ namespace DvlSql
 
         public static IEnumerable<DvlSqlParameter> GetSqlParameters(ITuple[] @params, DvlSqlType[] types)
         {
-            if(types?.Length == 0)
+            if (types?.Length == 0)
                 yield break;
 
             int count = 1;
             foreach (var param in @params)
             {
-                var paramType = param.GetType();
-                for (int i = 0; i < param.Length; i++)
-                {
-                    var genericTypeArgument = paramType.GenericTypeArguments[i];
-                    var type = typeof(DvlSqlType<>).MakeGenericType(genericTypeArgument);
-                    var dvlSqlType =
-                        Activator.CreateInstance(type,
-                            new[] { param[i], types[i], false }); //added false value, maybe not right
-                    var type2 = typeof(DvlSqlParameter<>).MakeGenericType(genericTypeArgument);
-                    string name = $"{types[i].Name.WithAlpha()}{count}";
-                    yield return (DvlSqlParameter)Activator.CreateInstance(type2, new object[] { name, dvlSqlType });
-                }
-
+                foreach (var p in GetSqlParams(param, types, count))
+                    yield return p;
                 count++;
+            }
+        }
+
+        private static IEnumerable<DvlSqlParameter> GetSqlParams(ITuple @param, DvlSqlType[] types, int count)
+        {
+            var paramType = param.GetType();
+            for (int i = 0; i < param.Length; i++)
+            {
+                var genericTypeArgument = paramType.GenericTypeArguments[i];
+                if (param[i] is ITuple)
+                {
+                    foreach (var p in GetSqlParams((ITuple)param[i], types.Skip(i).ToArray(), count))
+                        yield return p;
+                    continue;
+                }
+                var type = typeof(DvlSqlType<>).MakeGenericType(genericTypeArgument);
+                var dvlSqlType =
+                    Activator.CreateInstance(type,
+                        new[] {param[i], types[i], false}); //added false value, maybe not right
+                var type2 = typeof(DvlSqlParameter<>).MakeGenericType(genericTypeArgument);
+                string name = $"{types[i].Name.WithAlpha()}{count}";
+                yield return (DvlSqlParameter) Activator.CreateInstance(type2, new object[] {name, dvlSqlType});
             }
         }
 

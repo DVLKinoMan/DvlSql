@@ -254,11 +254,12 @@ namespace DvlSql.Concrete
             bool hasAs = expression.As != null;
             this._command.Append($"{Environment.NewLine}{(hasAs ? $"FROM{Environment.NewLine}(" : "")}VALUES");
             int count = 0;
+            int? len = null;
             foreach (var value in expression.Values)
             {
                 this._command.Append($"{Environment.NewLine}( ");
-
-                for (int i = 0; i < value.Length; i++, count++)
+                
+                for (int i = 0; i < GetLen(value); i++, count++)
                     this._command.Append($"{expression.SqlParameters[count].Name}, ");
 
                 this._command.Remove(this._command.Length - 2, 2);
@@ -270,6 +271,14 @@ namespace DvlSql.Concrete
             this._command.Append(hasAs ? ")" : "");
 
             expression.As?.Accept(this);
+
+            int GetLen(ITuple value)
+            {
+                if (len is {} i)
+                    return i;
+
+                return (int)(len = value.Length == 8 && value[7] is ITuple tup ? 7 + GetLen(tup) : value.Length);
+            }
         }
 
         public void Visit(DvlSqlAsExpression expression)
