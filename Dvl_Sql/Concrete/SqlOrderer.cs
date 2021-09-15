@@ -65,7 +65,7 @@ namespace DvlSql.Concrete
         public async Task<TResult> FirstOrDefaultAsync<TResult>(int? timeout = default,
             CancellationToken cancellationToken = default) =>
             await FirstOrDefaultAsync(
-                reader => reader[0] is TResult res ? res : throw new ArgumentException("TResult"), timeout,
+                reader => reader[0] is TResult res ? res : default, timeout,
                 cancellationToken);
 
         public async Task<TResult> FirstOrDefaultAsync<TResult>(Func<IDataReader, TResult> readerFunc,
