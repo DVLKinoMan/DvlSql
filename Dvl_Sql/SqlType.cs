@@ -21,7 +21,7 @@ namespace DvlSql
                 Guid guid => $"'{guid}'",
                 //DateTime d => $"'{d:yyyy-MM-dd HH:mm:ss}'",
                 bool b => $"{(b ? 1 : 0)}",
-                _ => value.ToString()
+                _ => value?.ToString()
             };
 
         public static DvlSqlType GetDefaultDvlSqlType<TValue>(string name, TValue value) =>
@@ -56,7 +56,7 @@ namespace DvlSql
                 _ => throw new NotImplementedException("value is not implemented")
             };
 
-        internal static SqlDbType DefaultMap<TValue>(TValue value) =>
+        public static SqlDbType DefaultMap<TValue>(TValue value) =>
             DefaultMap(typeof(TValue) == typeof(object) ? value.GetType() : typeof(TValue));
 
         internal static Dictionary<Type, SqlDbType> SqlDbTypes = new Dictionary<Type, SqlDbType>()
@@ -64,6 +64,8 @@ namespace DvlSql
             {typeof(bool), SqlDbType.Bit},
             {typeof(DateTime), SqlDbType.DateTime},
             {typeof(decimal), SqlDbType.Decimal},
+            {typeof(double), SqlDbType.Float},
+            {typeof(float), SqlDbType.Float},
             {typeof(int), SqlDbType.Int},
             {typeof(Guid), SqlDbType.UniqueIdentifier},
             {typeof(string), SqlDbType.NVarChar},
@@ -71,7 +73,7 @@ namespace DvlSql
             {typeof(byte[]), SqlDbType.Binary}
         };
 
-        internal static SqlDbType DefaultMap(Type type) => 
+        public static SqlDbType DefaultMap(Type type) => 
             SqlDbTypes.ContainsKey(type)
             ? SqlDbTypes[type]
             : type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>)
