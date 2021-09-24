@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using DvlSql.Expressions;
@@ -16,6 +18,11 @@ namespace DvlSql
         public static string DistinctExp(string param) => $"DISTINCT({param})";
         public static string AsExp(string field, string @as) =>
             @as != null ? $"{field} AS {@as.WithAliasBrackets()}" : field;
+        public static string CoalesceExp<T>(string param, T change) => 
+            typeof(T) == typeof(string) || typeof(T) == typeof(Guid) || typeof(T) == typeof(Guid?) 
+            || typeof(T) == typeof(DateTime) || typeof(T) == typeof(DateTime?)
+            ? $"COALESCE({param}, '{(change is DateTime dt ? dt.ToString(CultureInfo.InvariantCulture) : change.ToString())}')"
+            : $"COALESCE({param}, {change})";
 
         public static DvlSqlAsExpression AsExp(string @as, IEnumerable<string> @params = null, bool useAs = true) =>
             new DvlSqlAsExpression(@as, @params, useAs);
