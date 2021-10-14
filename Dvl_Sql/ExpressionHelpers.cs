@@ -153,8 +153,12 @@ namespace DvlSql
         public static DvlSqlGroupByExpression GroupByExp(params string[] paramNames) =>
             new DvlSqlGroupByExpression(paramNames);
 
-        internal static DvlSqlBinaryExpression SetNot(this DvlSqlBinaryExpression binaryExpression, bool not) =>
-            not ? !binaryExpression : binaryExpression;
+        internal static DvlSqlBinaryExpression SetNot(this DvlSqlBinaryExpression binaryExpression, bool not)
+        {
+            if (not)
+                binaryExpression.Not = !binaryExpression.Not;
+            return binaryExpression;
+        }
 
         public static DvlSqlTableDeclarationExpression DeclareTableExp(string name) =>
             new DvlSqlTableDeclarationExpression(name);
