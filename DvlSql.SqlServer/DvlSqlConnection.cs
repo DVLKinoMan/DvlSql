@@ -13,12 +13,12 @@ namespace DvlSql.SqlServer
         // private readonly List<SqlCommand> _commands = new List<SqlCommand>();
         private readonly SqlConnection _connection;
         private DbTransaction _transaction;
-        private readonly IDvlMsSqlCommandFactory _commandFactory;
+        private readonly IDvlSqlMsCommandFactory _commandFactory;
 
         public DvlSqlConnection(string connectionString) =>
-            (this._connection, this._commandFactory) = (new SqlConnection(connectionString), new DvlMsSqlCommandFactory());
+            (this._connection, this._commandFactory) = (new SqlConnection(connectionString), new DvlSqlMsCommandFactory());
         
-        public DvlSqlConnection(string connectionString, IDvlMsSqlCommandFactory commandFactory) =>
+        public DvlSqlConnection(string connectionString, IDvlSqlMsCommandFactory commandFactory) =>
             (this._connection, this._commandFactory) = (new SqlConnection(connectionString), commandFactory);
 
         public void Dispose()

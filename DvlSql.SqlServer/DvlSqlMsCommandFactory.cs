@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 
 namespace DvlSql.SqlServer
 {
-    internal class DvlMsSqlCommandFactory : IDvlMsSqlCommandFactory
+    internal class DvlSqlMsCommandFactory : IDvlSqlMsCommandFactory
     {
         public IDvlSqlCommand CreateSqlCommand(CommandType commandType, SqlConnection connection, string sqlString, DbTransaction transaction = null,
             params SqlParameter[] parameters)
