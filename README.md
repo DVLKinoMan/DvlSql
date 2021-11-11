@@ -10,7 +10,7 @@ create custom implementation.
 string connectionString =
                 "Data Source = serverName; Initial Catalog = databaseName; User Id = userId; Password=pass;";
 
-var dvl_sql = IDvlSql.DefaultDvlSql(connectionString);
+var dvl_sql = new DvlSqlMs(connectionString);
 
 //Select ids from table ordered by date
 List<int> ids = dvl_sql.From("tableName")
