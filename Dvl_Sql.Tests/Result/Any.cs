@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
-using static DvlSql.ExpressionHelpers;
+using static DvlSql.Extensions.ExpressionHelpers;
 using static DvlSql.Tests.Result.Helpers;
 
 namespace DvlSql.Tests.Result

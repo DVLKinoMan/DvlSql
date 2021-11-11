@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using DvlSql.SqlServer;
 using NUnit.Framework;
 
-using static DvlSql.SqlType;
+using static DvlSql.Extensions.SqlType;
 
 namespace DvlSql.Tests.Insert
 {

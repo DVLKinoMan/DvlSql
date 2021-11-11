@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using DvlSql.Tests.Result;
 using NUnit.Framework;
 
-using static DvlSql.ExpressionHelpers;
-using static DvlSql.SqlType;
-using static DvlSql.DataReader;
+using static DvlSql.Extensions.ExpressionHelpers;
+using static DvlSql.Extensions.SqlType;
+using static DvlSql.Extensions.DataReader;
 using DvlSql.SqlServer;
 
 namespace DvlSql.Tests.Transaction

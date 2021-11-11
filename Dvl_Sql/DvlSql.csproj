@@ -24,4 +24,10 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="System.CustomModels">
+      <HintPath>..\..\System.CustomModels\System.CustomModels\bin\Debug\net5.0\System.CustomModels.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

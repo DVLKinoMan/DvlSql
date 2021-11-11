@@ -1,4 +1,6 @@
-﻿namespace DvlSql
+﻿using System.CustomModels;
+
+namespace DvlSql
 {
     public class DvlSqlParameter<TValue> : DvlSqlParameter
     {

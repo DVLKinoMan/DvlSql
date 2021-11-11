@@ -1,9 +1,9 @@
-﻿using System;
-using System.Text.RegularExpressions;
-using DvlSql.SqlServer;
+﻿using DvlSql.SqlServer;
 using NUnit.Framework;
-using static DvlSql.ExpressionHelpers;
-using static DvlSql.SqlType;
+using System;
+using System.Text.RegularExpressions;
+using static DvlSql.Extensions.ExpressionHelpers;
+using static System.CustomModels.SystemExtensions;
 
 namespace DvlSql.Tests.Select
 {
@@ -304,7 +304,7 @@ namespace DvlSql.Tests.Select
 
             var expectedSelect = Regex.Escape(
                 $"SELECT * FROM {TableName}{Environment.NewLine}" +
-                $"WHERE {col1} <> {DvlSql.SqlType.GetDefaultSqlString(number)}"
+                $"WHERE {col1} <> {GetDefaultSqlString(number)}"
             );
             
             Assert.That(Regex.Escape(actualSelect), Is.EqualTo(expectedSelect));

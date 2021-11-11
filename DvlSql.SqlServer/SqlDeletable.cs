@@ -1,13 +1,13 @@
-﻿using System;
+﻿using DvlSql.Expressions;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using DvlSql;
-using DvlSql.Expressions;
-using static DvlSql.ExpressionHelpers;
+using static DvlSql.Extensions.ExpressionHelpers;
+using static System.CustomModels.SystemExtensions;
 
 namespace DvlSql.SqlServer
 {

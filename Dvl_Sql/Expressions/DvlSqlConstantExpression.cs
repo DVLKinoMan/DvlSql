@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using DvlSql;
-
-using static DvlSql.ExpressionHelpers;
-using static DvlSql.SqlType;
+using static System.CustomModels.SystemExtensions;
 
 namespace DvlSql.Expressions
 {
@@ -44,13 +41,13 @@ namespace DvlSql.Expressions
             DvlSqlConstantExpression rhs) =>
             new DvlSqlComparisonExpression(lhs, SqlComparisonOperator.LessOrEqual, rhs);
         
-        public static implicit operator DvlSqlConstantExpression(string str) => ConstantExp(str, true);
+        public static implicit operator DvlSqlConstantExpression(string str) => new DvlSqlConstantExpression<string>(str, true);
         
-        public static implicit operator DvlSqlConstantExpression(int num) => ConstantExp(num);
+        public static implicit operator DvlSqlConstantExpression(int num) => new DvlSqlConstantExpression<int>(num);
         
-        public static implicit operator DvlSqlConstantExpression(double num) => ConstantExp(num);
+        public static implicit operator DvlSqlConstantExpression(double num) => new DvlSqlConstantExpression<double>(num);
         
-        public static implicit operator DvlSqlConstantExpression(DateTime dateTime) => ConstantExp(dateTime);
+        public static implicit operator DvlSqlConstantExpression(DateTime dateTime) => new DvlSqlConstantExpression<DateTime>(dateTime);
 
         public abstract DvlSqlConstantExpression ConstantClone();
     }

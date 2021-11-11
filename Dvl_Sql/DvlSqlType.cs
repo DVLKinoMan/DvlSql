@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using System.Data;
+using static System.CustomModels.SystemExtensions;
 
 namespace DvlSql
 {
@@ -68,7 +69,7 @@ namespace DvlSql
         }
 
         public DvlSqlType(string name, TValue value, int? size = null, bool? isNotNull = null, byte? precision = null, byte? scale = null, bool exactValue = false) :
-            base(name, SqlType.DefaultMap(value), size, isNotNull, precision, scale)
+            base(name, DefaultMap(value), size, isNotNull, precision, scale)
         {
             this.Value = value;
             this.ExactValue = exactValue;

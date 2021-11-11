@@ -6,8 +6,8 @@ using DvlSql.Expressions;
 using DvlSql.SqlServer;
 using NUnit.Framework;
 
-using static DvlSql.ExpressionHelpers;
-using static DvlSql.SqlType;
+using static DvlSql.Extensions.ExpressionHelpers;
+using static DvlSql.Extensions.SqlType;
 
 namespace DvlSql.Tests.Insert
 {

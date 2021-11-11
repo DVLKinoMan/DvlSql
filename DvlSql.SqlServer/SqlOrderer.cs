@@ -4,7 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using static DvlSql.DataReader;
+using static DvlSql.Extensions.DataReader;
 
 namespace DvlSql.SqlServer
 {

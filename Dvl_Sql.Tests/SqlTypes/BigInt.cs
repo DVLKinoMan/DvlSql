@@ -1,7 +1,7 @@
 ﻿using System.Data;
 
 using NUnit.Framework;
-using static DvlSql.SqlType;
+using static DvlSql.Extensions.SqlType;
 
 namespace DvlSql.Tests.SqlTypes
 {
