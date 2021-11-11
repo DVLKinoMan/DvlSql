@@ -1,10 +1,9 @@
-﻿using System;
+﻿using DvlSql.Expressions;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using DvlSql.Expressions;
-using DvlSql.Models;
 
 namespace DvlSql
 {

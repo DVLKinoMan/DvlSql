@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
-using DvlSql.Abstract;
+using DvlSql.SqlServer;
 using NUnit.Framework;
 using static DvlSql.DataReader;
 using static DvlSql.SqlType;
@@ -41,7 +41,7 @@ namespace DvlSql.Tests.Procedure
             var commandMoq = CreateSqlCommandMock<TResult>(readerMoq);
             var moq = CreateConnectionMock<TResult>(commandMoq, CommandType.StoredProcedure);
 
-            var actual = IDvlSql.DefaultDvlSql(moq.Object).Procedure("someProc")
+            var actual = new DvlSqlMs(moq.Object).Procedure("someProc")
                 .ExecuteAsync(func(readerFunc))
                 .Result;
 
@@ -60,7 +60,7 @@ namespace DvlSql.Tests.Procedure
             var moq = CreateConnectionMock<TResult>(commandMoq, CommandType.StoredProcedure);
 
             var outputParam = OutputParam("count", IntType());
-            var actual = IDvlSql.DefaultDvlSql(moq.Object).Procedure("SomeProc2",
+            var actual = new DvlSqlMs(moq.Object).Procedure("SomeProc2",
                     Param("amount", 42),
                     outputParam)
                 .ExecuteAsync(func(readerFunc)).Result;
@@ -78,7 +78,7 @@ namespace DvlSql.Tests.Procedure
             var commandMoq = CreateSqlCommandMock(expected);
             var moq = CreateConnectionMock<int>(commandMoq, CommandType.StoredProcedure);
 
-            var actual = IDvlSql.DefaultDvlSql(moq.Object)
+            var actual = new DvlSqlMs(moq.Object)
                 .Procedure("SomeProc2")
                 .ExecuteAsync().Result;
 

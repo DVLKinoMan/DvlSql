@@ -1,4 +1,5 @@
-﻿using DvlSql.Abstract;
+﻿
+using DvlSql.SqlServer;
 using NUnit.Framework;
 using System;
 using System.Text.RegularExpressions;
@@ -10,7 +11,7 @@ namespace DvlSql.Tests.Select
     public class From
     {
         private readonly IDvlSql _sql =
-            IDvlSql.DefaultDvlSql(
+            new DvlSqlMs(
                 StaticConnectionStrings.ConnectionStringForTest);
 
         [Test]

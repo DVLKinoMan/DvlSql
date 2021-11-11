@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using DvlSql.Abstract;
+using DvlSql.SqlServer;
 using DvlSql.Tests.Classes;
 using NUnit.Framework;
 using static DvlSql.Tests.Result.Helpers;
@@ -89,7 +89,7 @@ namespace DvlSql.Tests.Result
             var commandMoq = CreateSqlCommandMock<Dictionary<TKey, List<TValue>>>(readerMoq);
             var moq = CreateConnectionMock<Dictionary<TKey, List<TValue>>>(commandMoq);
 
-            var dictionary = IDvlSql.DefaultDvlSql(moq.Object)
+            var dictionary = new DvlSqlMs(moq.Object)
                 .From(TableName)
                 .Select()
                 .ToDictionaryAsync(keySelector, valueSelector)

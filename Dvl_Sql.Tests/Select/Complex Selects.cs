@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using DvlSql.Abstract;
+
 using DvlSql.Expressions;
+using DvlSql.SqlServer;
 using NUnit.Framework;
 using static DvlSql.ExpressionHelpers;
 using static DvlSql.SqlType;
@@ -13,11 +14,11 @@ namespace DvlSql.Tests.Select
     public class ComplexSelects
     {
         private readonly IDvlSql _sql1 =
-            IDvlSql.DefaultDvlSql(
+            new DvlSqlMs(
                 "Data Source=SQL; Initial Catalog=BANK2000; Connection Timeout=30; User Id=b2000; Password=1234; Application Name = CoreApi");
 
         private readonly IDvlSql _sql2 =
-            IDvlSql.DefaultDvlSql(
+            new DvlSqlMs(
                 @"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1");
 
         [Test]

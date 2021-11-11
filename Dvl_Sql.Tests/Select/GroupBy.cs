@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using DvlSql.Abstract;
+using DvlSql.SqlServer;
 using NUnit.Framework;
 using static DvlSql.ExpressionHelpers;
 using static DvlSql.SqlType;
@@ -12,7 +12,7 @@ namespace DvlSql.Tests.Select
         GroupBy
     {
         private readonly IDvlSql _sql =
-            IDvlSql.DefaultDvlSql(
+            new DvlSqlMs(
                 StaticConnectionStrings.ConnectionStringForTest);
 
         private string TableName = "dbo.Words";

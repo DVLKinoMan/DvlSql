@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text.RegularExpressions;
-using DvlSql.Abstract;
+using DvlSql.SqlServer;
 using NUnit.Framework;
 
 using static DvlSql.ExpressionHelpers;
@@ -13,7 +13,7 @@ namespace DvlSql.Tests.Update
     public class Update
     {
         private readonly IDvlSql _sql =
-            IDvlSql.DefaultDvlSql(@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1");
+            new DvlSqlMs(@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1");
         
         [Test]
         public void TestMethod1()

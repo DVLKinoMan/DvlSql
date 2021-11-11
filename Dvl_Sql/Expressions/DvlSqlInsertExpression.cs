@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using DvlSql.Abstract;
-using DvlSql.Models;
 
 namespace DvlSql.Expressions
 {

@@ -1,9 +1,10 @@
-﻿using DvlSql.Abstract;
+﻿
 using DvlSql.Tests.Classes;
 using NUnit.Framework;
 using System.Collections.Generic;
 using static DvlSql.Tests.Result.Helpers;
 using static DvlSql.ExpressionHelpers;
+using DvlSql.SqlServer;
 
 namespace DvlSql.Tests.Result
 {
@@ -65,7 +66,7 @@ namespace DvlSql.Tests.Result
             var commandMoq = CreateSqlCommandMock<T>(readerMoq);
             var moq = CreateConnectionMock<T>(commandMoq);
 
-            var actual = IDvlSql.DefaultDvlSql(moq.Object)
+            var actual = new DvlSqlMs(moq.Object)
                 .From(TableName)
                 .Select()
                 .AllAsync()
@@ -82,7 +83,7 @@ namespace DvlSql.Tests.Result
             var commandMoq = CreateSqlCommandMock<bool>(readerMoq);
             var moq = CreateConnectionMock<bool>(commandMoq);
 
-            var actual = IDvlSql.DefaultDvlSql(moq.Object)
+            var actual = new DvlSqlMs(moq.Object)
                 .From(TableName)
                 .Where(ConstantExp("f1", true) > 0)
                 .Select()

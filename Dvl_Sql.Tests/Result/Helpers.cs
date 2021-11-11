@@ -4,7 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
-using DvlSql.Abstract;
+
 using Moq;
 
 namespace DvlSql.Tests.Result
@@ -69,9 +69,9 @@ namespace DvlSql.Tests.Result
 
             moq.Setup(m => m.ConnectAsync(It.IsAny<Func<IDvlSqlCommand, Task<T>>>(),
                     It.IsAny<string>(), It.Is<CommandType>(com => com == commandType),
-                    It.IsAny<SqlParameter[]>()))
+                    It.IsAny<DvlSqlParameter[]>()))
                 .Returns((Func<IDvlSqlCommand, Task<T>> func, string sqlString,
-                    CommandType type, SqlParameter[] parameters) => func(commandMoq.Object));
+                    CommandType type, DvlSqlParameter[] parameters) => func(commandMoq.Object));
 
             return moq;
         }

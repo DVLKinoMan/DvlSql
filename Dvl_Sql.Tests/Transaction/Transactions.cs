@@ -1,12 +1,13 @@
 ﻿using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using DvlSql.Abstract;
+
 using DvlSql.Tests.Result;
 using NUnit.Framework;
 
 using static DvlSql.ExpressionHelpers;
 using static DvlSql.SqlType;
 using static DvlSql.DataReader;
+using DvlSql.SqlServer;
 
 namespace DvlSql.Tests.Transaction
 {
@@ -14,7 +15,7 @@ namespace DvlSql.Tests.Transaction
     class Transactions
     {
         private readonly IDvlSql _sql =
-            IDvlSql.DefaultDvlSql(@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1");
+            new DvlSqlMs(@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1");
 
         //todo normal test
         [Test]

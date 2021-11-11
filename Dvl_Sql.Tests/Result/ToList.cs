@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using DvlSql.Abstract;
+using DvlSql.SqlServer;
 using DvlSql.Tests.Classes;
 using NUnit.Framework;
 
@@ -74,7 +74,7 @@ namespace DvlSql.Tests.Result
             var commandMoq = CreateSqlCommandMock<List<T>>(readerMoq);
             var moq = CreateConnectionMock<List<T>>(commandMoq);
 
-            var list = IDvlSql.DefaultDvlSql(moq.Object)
+            var list = new DvlSqlMs(moq.Object)
                 .From(TableName)
                 .Select()
                 .ToListAsync(func)
@@ -91,7 +91,7 @@ namespace DvlSql.Tests.Result
             var commandMoq = CreateSqlCommandMock<List<T>>(readerMoq);
             var moq = CreateConnectionMock<List<T>>(commandMoq);
 
-            var list = IDvlSql.DefaultDvlSql(moq.Object)
+            var list = new DvlSqlMs(moq.Object)
                 .From(TableName)
                 .Select()
                 .ToListAsync<T>()

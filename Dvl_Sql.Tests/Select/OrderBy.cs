@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Text.RegularExpressions;
-using DvlSql.Abstract;
+using DvlSql.SqlServer;
 using NUnit.Framework;
 
 namespace DvlSql.Tests.Select
@@ -10,7 +10,7 @@ namespace DvlSql.Tests.Select
     public class OrderBy
     {
         private readonly IDvlSql _sql =
-            IDvlSql.DefaultDvlSql(
+            new DvlSqlMs(
                 StaticConnectionStrings.ConnectionStringForTest);
 
         private string TableName = "dbo.Words";

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using DvlSql.Abstract;
+using DvlSql;
 
 using static DvlSql.ExpressionHelpers;
 using static DvlSql.SqlType;

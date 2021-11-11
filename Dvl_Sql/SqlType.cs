@@ -1,8 +1,6 @@
-﻿using DvlSql.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -266,8 +264,8 @@ namespace DvlSql
         public static DvlSqlParameter Param<TValue>(string parameterName, DvlSqlType<TValue> dvlSqlType) =>
             new DvlSqlParameter<TValue>(parameterName, dvlSqlType);
 
-        public static OutputDvlSqlParameter OutputParam(string parameterName, DvlSqlType dvlSqlType) =>
-            new OutputDvlSqlParameter(parameterName, dvlSqlType);
+        public static DvlSqlOutputParameter OutputParam(string parameterName, DvlSqlType dvlSqlType) =>
+            new DvlSqlOutputParameter(parameterName, dvlSqlType);
         #endregion
         
         #region Text

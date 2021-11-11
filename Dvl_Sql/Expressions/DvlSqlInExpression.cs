@@ -1,4 +1,4 @@
-﻿using DvlSql.Abstract;
+﻿using DvlSql;
 using System.Collections.Generic;
 using System.Linq;
 

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DvlSql
 {
-    internal static class SystemExtensions
+    public static class SystemExtensions
     {
         public static StringBuilder TrimEnd(this StringBuilder sb, bool leftOneWhiteSpace = false)
         {

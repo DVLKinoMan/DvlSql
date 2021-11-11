@@ -1,4 +1,4 @@
-﻿using DvlSql.Abstract;
+﻿using DvlSql;
 using System;
 
 namespace DvlSql.Expressions

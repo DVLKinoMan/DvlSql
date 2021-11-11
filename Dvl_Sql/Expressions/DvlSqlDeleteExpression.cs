@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using DvlSql.Abstract;
+using DvlSql;
 
 namespace DvlSql.Expressions
 {

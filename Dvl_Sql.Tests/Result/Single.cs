@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using DvlSql.Abstract;
+using DvlSql.SqlServer;
 using DvlSql.Tests.Classes;
 using NUnit.Framework;
 using static DvlSql.Tests.Result.Helpers;
@@ -96,7 +96,7 @@ namespace DvlSql.Tests.Result
             var commandMoq = CreateSqlCommandMock<T>(readerMoq);
             var moq = CreateConnectionMock<T>(commandMoq);
 
-            var actual = IDvlSql.DefaultDvlSql(moq.Object)
+            var actual = new DvlSqlMs(moq.Object)
                 .From(TableName)
                 .Select()
                 .SingleAsync<T>()
@@ -115,7 +115,7 @@ namespace DvlSql.Tests.Result
 
             Assert.Throws(Is.InstanceOf(typeof(Exception)), () =>
             {
-                var res = IDvlSql.DefaultDvlSql(moq.Object)
+                var res = new DvlSqlMs(moq.Object)
                     .From(TableName)
                     .Select()
                     .SingleAsync<T>()
@@ -131,7 +131,7 @@ namespace DvlSql.Tests.Result
             var commandMoq = CreateSqlCommandMock<T>(readerMoq);
             var moq = CreateConnectionMock<T>(commandMoq);
 
-            var actual = IDvlSql.DefaultDvlSql(moq.Object)
+            var actual = new DvlSqlMs(moq.Object)
                 .From(TableName)
                 .Select()
                 .SingleAsync(func)
@@ -150,7 +150,7 @@ namespace DvlSql.Tests.Result
 
             Assert.Throws(Is.InstanceOf(typeof(Exception)), () =>
             {
-                var res = IDvlSql.DefaultDvlSql(moq.Object)
+                var res = new DvlSqlMs(moq.Object)
                     .From(TableName)
                     .Select()
                     .SingleAsync(func)

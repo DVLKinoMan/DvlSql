@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using DvlSql.Abstract;
+using DvlSql.SqlServer;
 using NUnit.Framework;
 
 using static DvlSql.SqlType;
@@ -12,7 +12,7 @@ namespace DvlSql.Tests.Insert
     public class InsertIntoValues
     {
          private readonly IDvlSql _sql =
-            IDvlSql.DefaultDvlSql(@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1");
+            new DvlSqlMs(@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DVL_Test; Connection Timeout=30; Application Name = DVLSqlTest1");
 
         private static IEnumerable<string> Columns(params string[] cols) => cols;
 

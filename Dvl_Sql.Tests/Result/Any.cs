@@ -1,12 +1,11 @@
-﻿using System;
-using DvlSql.Abstract;
+﻿using DvlSql.SqlServer;
 using DvlSql.Tests.Classes;
+using Moq;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Threading.Tasks;
-using Moq;
 using static DvlSql.ExpressionHelpers;
 using static DvlSql.Tests.Result.Helpers;
 
@@ -69,9 +68,9 @@ namespace DvlSql.Tests.Result
 
             moq.Setup(m => m.ConnectAsync(It.IsAny<Func<IDvlSqlCommand, Task<T>>>(),
                     It.Is<string>(s => s.Contains("SELECT TOP 1")), It.Is<CommandType>(com => com == commandType),
-                    It.IsAny<SqlParameter[]>()))
+                    It.IsAny<DvlSqlParameter[]>()))
                 .Returns((Func<IDvlSqlCommand, Task<T>> func, string sqlString,
-                    CommandType type, SqlParameter[] parameters) => func(commandMoq.Object));
+                    CommandType type, DvlSqlParameter[] parameters) => func(commandMoq.Object));
 
             return moq;
         }
@@ -84,7 +83,7 @@ namespace DvlSql.Tests.Result
             var commandMoq = CreateSqlCommandMock<bool>(readerMoq);
             var moq = CreateConnectionMockWithSqlStringContains<bool>(commandMoq);
 
-            var actual = IDvlSql.DefaultDvlSql(moq.Object)
+            var actual = new DvlSqlMs(moq.Object)
                 .From(TableName)
                 .Select()
                 .AnyAsync()
@@ -101,7 +100,7 @@ namespace DvlSql.Tests.Result
             var commandMoq = CreateSqlCommandMock<bool>(readerMoq);
             var moq = CreateConnectionMockWithSqlStringContains<bool>(commandMoq);
 
-            var actual = IDvlSql.DefaultDvlSql(moq.Object)
+            var actual = new DvlSqlMs(moq.Object)
                 .From(TableName)
                 .Where(ConstantExp("f1", true) > 0)
                 .Select()
