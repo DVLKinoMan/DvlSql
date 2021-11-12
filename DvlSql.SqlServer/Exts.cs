@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using static System.CustomModels.SystemExtensions;
+using static System.Extensions.Exts;
 
 namespace DvlSql.SqlServer
 {

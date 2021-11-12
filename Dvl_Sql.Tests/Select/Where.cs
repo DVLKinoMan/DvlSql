@@ -3,7 +3,7 @@ using NUnit.Framework;
 using System;
 using System.Text.RegularExpressions;
 using static DvlSql.Extensions.ExpressionHelpers;
-using static System.CustomModels.SystemExtensions;
+using static System.Extensions.Exts;
 
 namespace DvlSql.Tests.Select
 {

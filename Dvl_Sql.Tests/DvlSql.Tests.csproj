@@ -29,8 +29,8 @@
     <Reference Include="DvlSql.Extensions">
       <HintPath>..\..\DvlSql.Extensions\Dvl_Sql.Extensions\bin\Debug\net5.0\DvlSql.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="System.CustomModels">
-      <HintPath>..\..\System.CustomModels\System.CustomModels\bin\Debug\net5.0\System.CustomModels.dll</HintPath>
+    <Reference Include="System.Extensions">
+      <HintPath>..\..\System.Extensions\System.Extensions\bin\Debug\net5.0\System.Extensions.dll</HintPath>
     </Reference>
   </ItemGroup>
 

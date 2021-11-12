@@ -1,4 +1,4 @@
-﻿using System.CustomModels;
+﻿using static System.Extensions.Exts;
 
 namespace DvlSql
 {

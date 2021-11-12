@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using System.Data;
-using static System.CustomModels.SystemExtensions;
+using static System.Extensions.Exts;
 
 namespace DvlSql
 {
