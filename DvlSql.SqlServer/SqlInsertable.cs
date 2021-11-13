@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using static DvlSql.Extensions.ExpressionHelpers;
 using static DvlSql.Extensions.SqlType;
-using static System.Extensions.Exts;
+using static System.Exts.Extensions;
 
 namespace DvlSql.SqlServer
 {

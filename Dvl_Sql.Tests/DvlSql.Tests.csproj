@@ -27,10 +27,10 @@
 
   <ItemGroup>
     <Reference Include="DvlSql.Extensions">
-      <HintPath>..\..\DvlSql.Extensions\Dvl_Sql.Extensions\bin\Debug\net5.0\DvlSql.Extensions.dll</HintPath>
+      <HintPath>..\..\Dvl_Sql.Extensions\Dvl_Sql.Extensions\bin\Debug\net5.0\DvlSql.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="System.Extensions">
-      <HintPath>..\..\System.Extensions\System.Extensions\bin\Debug\net5.0\System.Extensions.dll</HintPath>
+    <Reference Include="System.Exts">
+      <HintPath>..\..\System.Extensions\System.Extensions\bin\Debug\net5.0\System.Exts.dll</HintPath>
     </Reference>
   </ItemGroup>
 

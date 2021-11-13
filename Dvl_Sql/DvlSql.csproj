@@ -25,8 +25,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="System.Extensions">
-      <HintPath>..\..\System.Extensions\System.Extensions\bin\Debug\net5.0\System.Extensions.dll</HintPath>
+    <Reference Include="System.Exts">
+      <HintPath>..\..\System.Extensions\System.Extensions\bin\Debug\net5.0\System.Exts.dll</HintPath>
     </Reference>
   </ItemGroup>
 

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using DvlSql.Expressions;
-using static System.Extensions.Exts;
+using static System.Exts.Extensions;
 
 namespace DvlSql.SqlServer
 {
