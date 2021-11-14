@@ -25,9 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="System.Exts">
-      <HintPath>..\..\System.Extensions\System.Extensions\bin\Debug\net5.0\System.Exts.dll</HintPath>
-    </Reference>
+    <PackageReference Include="SystemNET.Exts" Version="1.0.0" />
   </ItemGroup>
 
 </Project>
