@@ -2,6 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <Version>3.0.0</Version>
+    <Authors>David Dvali</Authors>
+    <RepositoryUrl>https://github.com/DVLKinoMan/DvlSql</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/DVLKinoMan/DvlSql</PackageProjectUrl>
+    <Description>DSL for Working with SQL (Select, Update, Insert, Delete, Executing Stored procedures, using Transactions)</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageReleaseNotes>Now it is available to make transactions also and SqlServer Implementation is seperate</PackageReleaseNotes>
+    <PackageTags>dsl, sql, Ado.Net, Linq</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
