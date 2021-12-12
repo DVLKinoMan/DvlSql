@@ -7,7 +7,7 @@ namespace DvlSql.Expressions
     public class DvlSqlAsExpression : DvlSqlExpression
     {
         public string Name { get; set; }
-        public IEnumerable<string> Parameters { get; set; }
+        public IEnumerable<string>? Parameters { get; set; }
         public bool UseAsKeyword { get; set; }
 
         public DvlSqlAsExpression(string name, bool useAs = true)

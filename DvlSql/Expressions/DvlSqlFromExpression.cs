@@ -5,7 +5,7 @@ namespace DvlSql.Expressions
 
     public abstract class DvlSqlFromExpression : DvlSqlExpression
     {
-        public DvlSqlAsExpression As { get; set; }
+        public DvlSqlAsExpression? As { get; set; }
     }
 
     public class DvlSqlFromWithTableExpression : DvlSqlFromExpression

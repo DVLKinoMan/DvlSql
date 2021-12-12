@@ -1,6 +1,4 @@
-﻿using DvlSql;
-
-namespace DvlSql.Expressions
+﻿namespace DvlSql.Expressions
 {
     public class DvlSqlWhereExpression : DvlSqlExpressionWithParameters
     {
@@ -8,9 +6,9 @@ namespace DvlSql.Expressions
 
         public DvlSqlWhereExpression(DvlSqlBinaryExpression expression) => (this.InnerExpression, this.IsRoot) = (expression, true);
 
-        public DvlSqlWhereExpression()
-        {
-        }
+        //public DvlSqlWhereExpression()
+        //{
+        //}
 
         public DvlSqlWhereExpression WithRoot(bool isRoot)
         {

@@ -7,7 +7,7 @@ namespace DvlSql
 {
     public class DvlSqlType
     {
-        public string Name { get; }
+        public string? Name { get; }
 
         public SqlDbType SqlDbType { get; }
 
@@ -19,7 +19,7 @@ namespace DvlSql
 
         public byte? Scale { get;  }
 
-        public DvlSqlType(string name, SqlDbType dbType, int? size = null, bool? isNotNull = null, byte? precision = null, byte? scale = null)
+        public DvlSqlType(string? name, SqlDbType dbType, int? size = null, bool? isNotNull = null, byte? precision = null, byte? scale = null)
         {
             this.Name = name;
             this.Size = size;
@@ -49,7 +49,7 @@ namespace DvlSql
             other.Size == this.Size &&
             other.SqlDbType == this.SqlDbType;
 
-        public override int GetHashCode() => this.Name.GetHashCode() +
+        public override int GetHashCode() => (this.Name == null ? 0 : this.Name.GetHashCode()) +
                                              this.Precision.GetHashCode() +
                                              this.Scale.GetHashCode() +
                                              this.Size.GetHashCode() +

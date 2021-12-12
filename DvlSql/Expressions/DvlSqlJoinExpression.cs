@@ -8,6 +8,12 @@ namespace DvlSql.Expressions
         public new bool IsRoot { get; set; } = true;
         public DvlSqlComparisonExpression ComparisonExpression { get; set; }
 
+        public DvlSqlJoinExpression(string tableName, DvlSqlComparisonExpression comp)
+        {
+            this.TableName = tableName;
+            this.ComparisonExpression = comp;
+        }
+
         // public DvlSqlJoinExpression WithRoot(bool isRoot)
         // {
         //     this.IsRoot = isRoot;
@@ -19,13 +25,10 @@ namespace DvlSql.Expressions
 
     public class DvlSqlFullJoinExpression : DvlSqlJoinExpression
     {
-        public DvlSqlFullJoinExpression(string tableName, DvlSqlComparisonExpression comparisonExpression) =>
-            (this.TableName, this.ComparisonExpression) = (tableName, comparisonExpression);
+        public DvlSqlFullJoinExpression(string tableName, DvlSqlComparisonExpression comparisonExpression) : base(tableName, comparisonExpression)
+        {
+        }
 
-        //public override void Accept(ISqlExpressionVisitor visitor)
-        //{
-        //    visitor.Visit(this);
-        //}
         public override DvlSqlExpression Clone()
         {
             throw new System.NotImplementedException();
@@ -34,13 +37,10 @@ namespace DvlSql.Expressions
 
     public class DvlSqlInnerJoinExpression : DvlSqlJoinExpression
     {
-        public DvlSqlInnerJoinExpression(string tableName, DvlSqlComparisonExpression comparisonExpression) =>
-            (this.TableName, this.ComparisonExpression) = (tableName, comparisonExpression);
+        public DvlSqlInnerJoinExpression(string tableName, DvlSqlComparisonExpression comparisonExpression) : base(tableName, comparisonExpression)
+        {
+        }
 
-        //public override void Accept(ISqlExpressionVisitor visitor)
-        //{
-        //    throw new System.NotImplementedException();
-        //}
         public override DvlSqlExpression Clone()
         {
             throw new System.NotImplementedException();
@@ -49,13 +49,10 @@ namespace DvlSql.Expressions
 
     public class DvlSqlLeftJoinExpression : DvlSqlJoinExpression
     {
-        public DvlSqlLeftJoinExpression(string tableName, DvlSqlComparisonExpression comparisonExpression) =>
-            (this.TableName, this.ComparisonExpression) = (tableName, comparisonExpression);
+        public DvlSqlLeftJoinExpression(string tableName, DvlSqlComparisonExpression comparisonExpression) : base(tableName, comparisonExpression)
+        {
+        }
 
-        //public override void Accept(ISqlExpressionVisitor visitor)
-        //{
-        //    throw new System.NotImplementedException();
-        //}
         public override DvlSqlExpression Clone()
         {
             throw new System.NotImplementedException();
@@ -64,13 +61,10 @@ namespace DvlSql.Expressions
 
     public class DvlSqlRightJoinExpression : DvlSqlJoinExpression
     {
-        public DvlSqlRightJoinExpression(string tableName, DvlSqlComparisonExpression comparisonExpression) =>
-            (this.TableName, this.ComparisonExpression) = (tableName, comparisonExpression);
+        public DvlSqlRightJoinExpression(string tableName, DvlSqlComparisonExpression comparisonExpression) : base(tableName, comparisonExpression)
+        {
+        }
 
-        //public override void Accept(ISqlExpressionVisitor visitor)
-        //{
-        //    throw new System.NotImplementedException();
-        //}
         public override DvlSqlExpression Clone()
         {
             throw new System.NotImplementedException();

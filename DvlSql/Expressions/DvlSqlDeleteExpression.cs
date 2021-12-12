@@ -6,9 +6,9 @@ namespace DvlSql.Expressions
     public class DvlSqlDeleteExpression : DvlSqlExpression
     {
         public DvlSqlFromWithTableExpression FromExpression { get; set; }
-        public DvlSqlWhereExpression WhereExpression { get; set; }
-        public DvlSqlOutputExpression OutputExpression { get; set; }
-        public List<DvlSqlJoinExpression> Join { get; private set; } = new List<DvlSqlJoinExpression>();
+        public DvlSqlWhereExpression? WhereExpression { get; set; }
+        public DvlSqlOutputExpression? OutputExpression { get; set; }
+        public List<DvlSqlJoinExpression>? Join { get; private set; } = new List<DvlSqlJoinExpression>();
 
         public DvlSqlDeleteExpression(DvlSqlFromWithTableExpression fromExpression) =>
             this.FromExpression = fromExpression;

@@ -5,7 +5,7 @@ namespace DvlSql
     public class DvlSqlParameter<TValue> : DvlSqlParameter
     {
         public bool ExactValue { get; }
-        public TValue Value { get; }
+        public TValue Value { get; } = default!;
 
         public DvlSqlParameter(string name, DvlSqlType type) : base(name, type)
         {
@@ -30,7 +30,7 @@ namespace DvlSql
     {
         //public object Value => this.SqlParameter.Value;
         //todo check if this works
-        public object Value { get; set; }
+        public object Value { get; set; } = default!;
 
         public DvlSqlOutputParameter(string name, DvlSqlType type) : base(name, type)
         {

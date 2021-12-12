@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using DvlSql;
 
 namespace DvlSql.Expressions
 {
     public class DvlSqlFullSelectExpression : DvlSqlFromExpression
     {
-        public DvlSqlFullSelectExpression()
+        public DvlSqlFullSelectExpression(DvlSqlFromExpression @from, DvlSqlSelectExpression @select)
         {
+            From = from;
+            Select = select;
         }
 
         public DvlSqlFullSelectExpression(DvlSqlFromExpression @from,
@@ -21,12 +22,12 @@ namespace DvlSql.Expressions
             @where, groupBy, @select, orderBy, skip, @as);
 
         public DvlSqlFromExpression From { get; set; }
-        public List<DvlSqlJoinExpression> Join { get; private set; } = new List<DvlSqlJoinExpression>();
-        public DvlSqlWhereExpression Where { get; set; }
-        public DvlSqlGroupByExpression GroupBy { get; set; }
+        public List<DvlSqlJoinExpression>? Join { get; private set; } = new List<DvlSqlJoinExpression>();
+        public DvlSqlWhereExpression? Where { get; set; }
+        public DvlSqlGroupByExpression? GroupBy { get; set; }
         public DvlSqlSelectExpression Select { get; set; }
-        public DvlSqlOrderByExpression OrderBy { get; set; }
-        public DvlSqlSkipExpression Skip { get; set; }
+        public DvlSqlOrderByExpression? OrderBy { get; set; }
+        public DvlSqlSkipExpression? Skip { get; set; }
 
         public override void Accept(ISqlExpressionVisitor visitor)
         {
@@ -45,17 +46,13 @@ namespace DvlSql.Expressions
 
         public DvlSqlFullSelectExpression FullSelectClone()
         {
-            var clone = new DvlSqlFullSelectExpression();
-            if (From != null)
-                clone.From = From;
+            var clone = new DvlSqlFullSelectExpression(From, Select.SelectClone());
             if (Join != null)
                 clone.Join = Join.ToList();
             if (Where != null)
                 clone.Where = Where.WhereClone();
             if (GroupBy != null)
                 clone.GroupBy = GroupBy.GroupByClone();
-            if (Select != null)
-                clone.Select = Select.SelectClone();
             if (OrderBy != null)
                 clone.OrderBy = OrderBy.OrderByClone();
             if (Skip != null)

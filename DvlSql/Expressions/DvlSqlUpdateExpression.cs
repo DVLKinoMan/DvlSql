@@ -6,7 +6,7 @@ namespace DvlSql.Expressions
     public class DvlSqlUpdateExpression : DvlSqlExpressionWithParameters
     {
         public string TableName { get; set; }
-        public DvlSqlWhereExpression WhereExpression { get; set; }
+        public DvlSqlWhereExpression? WhereExpression { get; set; }
         public List<DvlSqlParameter> DvlSqlParameters { get; set; } = new List<DvlSqlParameter>();
 
         public DvlSqlUpdateExpression(string tableName) =>
