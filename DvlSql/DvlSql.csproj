@@ -1,16 +1,18 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
 	  <Nullable>enable</Nullable>
-    <Version>3.0.0</Version>
+    <Version>3.0.1</Version>
     <Authors>David Dvali</Authors>
     <RepositoryUrl>https://github.com/DVLKinoMan/DvlSql</RepositoryUrl>
     <PackageProjectUrl>https://github.com/DVLKinoMan/DvlSql</PackageProjectUrl>
     <Description>DSL for Working with SQL (Select, Update, Insert, Delete, Executing Stored procedures, using Transactions)</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageReleaseNotes>Now it is available to make transactions also and SqlServer Implementation is seperate</PackageReleaseNotes>
-    <PackageTags>dsl, sql, Ado.Net, Linq</PackageTags>
+    <PackageTags>dsl, sql, Linq</PackageTags>
+    <AssemblyVersion>3.0.1</AssemblyVersion>
+    <FileVersion>3.0.1</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
