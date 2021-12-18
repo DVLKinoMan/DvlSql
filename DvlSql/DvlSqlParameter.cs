@@ -45,7 +45,7 @@ namespace DvlSql
 
         protected DvlSqlParameter(string name, DvlSqlType dvlSqlType)
         {
-            Name = name.WithAlpha();
+            Name = name;//.WithAlpha();
             DvlSqlType = dvlSqlType;
         }
     }

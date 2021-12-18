@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
 	  <Nullable>enable</Nullable>
-    <Version>3.0.1</Version>
+    <Version>3.0.2</Version>
     <Authors>David Dvali</Authors>
     <RepositoryUrl>https://github.com/DVLKinoMan/DvlSql</RepositoryUrl>
     <PackageProjectUrl>https://github.com/DVLKinoMan/DvlSql</PackageProjectUrl>
@@ -11,8 +11,8 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageReleaseNotes>Now it is available to make transactions also and SqlServer Implementation is seperate</PackageReleaseNotes>
     <PackageTags>dsl, sql, Linq</PackageTags>
-    <AssemblyVersion>3.0.1</AssemblyVersion>
-    <FileVersion>3.0.1</FileVersion>
+    <AssemblyVersion>3.0.2</AssemblyVersion>
+    <FileVersion>3.0.2</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
