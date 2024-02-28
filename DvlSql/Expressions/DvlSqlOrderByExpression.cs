@@ -36,6 +36,6 @@ namespace DvlSql.Expressions
 
         public override DvlSqlExpression Clone() => OrderByClone();
             
-        public DvlSqlOrderByExpression OrderByClone() => new DvlSqlOrderByExpression(Params.ToArray());
+        public DvlSqlOrderByExpression OrderByClone() => new DvlSqlOrderByExpression([.. Params]);
     }
 }

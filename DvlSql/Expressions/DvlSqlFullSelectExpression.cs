@@ -48,7 +48,7 @@ namespace DvlSql.Expressions
         {
             var clone = new DvlSqlFullSelectExpression(From, Select.SelectClone());
             if (Join != null)
-                clone.Join = Join.ToList();
+                clone.Join = [.. Join];
             if (Where != null)
                 clone.Where = Where.WhereClone();
             if (GroupBy != null)

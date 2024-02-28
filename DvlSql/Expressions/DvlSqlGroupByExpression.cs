@@ -20,6 +20,6 @@ namespace DvlSql.Expressions
 
         public override DvlSqlExpression Clone() => GroupByClone();
 
-        public DvlSqlGroupByExpression GroupByClone() => new DvlSqlGroupByExpression(this.ParameterNames.ToArray());
+        public DvlSqlGroupByExpression GroupByClone() => new DvlSqlGroupByExpression([.. this.ParameterNames]);
     }
 }

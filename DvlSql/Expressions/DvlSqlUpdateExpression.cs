@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace DvlSql.Expressions
 {
@@ -25,7 +24,7 @@ namespace DvlSql.Expressions
         public DvlSqlUpdateExpression UpdateClone() => new DvlSqlUpdateExpression(TableName)
         {
             WhereExpression = WhereExpression?.WhereClone(),
-            DvlSqlParameters = DvlSqlParameters.ToList()
+            DvlSqlParameters = [.. DvlSqlParameters]
         };
     }
 }

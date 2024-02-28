@@ -19,7 +19,7 @@ namespace DvlSql.Expressions
             (this.ParameterNames, this.Top) = (parameterNames, top);
 
         public DvlSqlSelectExpression(params string[] parameterNames) =>
-            (this.ParameterNames) = (parameterNames.ToHashSet());
+            (this.ParameterNames) = [.. parameterNames];
 
         // public DvlSqlSelectExpression WithRoot(bool isRoot)
         // {
