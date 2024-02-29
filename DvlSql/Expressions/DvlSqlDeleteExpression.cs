@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
-using DvlSql;
 
 namespace DvlSql.Expressions
 {
     public class DvlSqlDeleteExpression : DvlSqlExpression
     {
-        public DvlSqlFromWithTableExpression FromExpression { get; set; }
+        public DvlSqlFromWithTableExpression FromExpression { get; init; }
         public DvlSqlWhereExpression? WhereExpression { get; set; }
         public DvlSqlOutputExpression? OutputExpression { get; set; }
         public List<DvlSqlJoinExpression>? Join { get; private set; } = new List<DvlSqlJoinExpression>();

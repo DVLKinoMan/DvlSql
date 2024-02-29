@@ -6,7 +6,7 @@ namespace DvlSql.Expressions
 {
     public class DvlSqlTableDeclarationExpression : DvlSqlExpression
     {
-        public string TableName { get; set; }
+        public string TableName { get; init; }
         public List<DvlSqlType> Columns { get; set; } = default!;
 
         public DvlSqlTableDeclarationExpression(string tableName)

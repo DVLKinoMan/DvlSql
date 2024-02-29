@@ -4,8 +4,8 @@ namespace DvlSql.Expressions
 {
     public abstract class DvlSqlJoinExpression : DvlSqlExpression
     {
-        public string TableName { get; set; }
-        public new bool IsRoot { get; set; } = true;
+        public string TableName { get; init; }
+        public new bool IsRoot { get; init; } = true;
         public DvlSqlComparisonExpression ComparisonExpression { get; set; }
 
         public DvlSqlJoinExpression(string tableName, DvlSqlComparisonExpression comp)

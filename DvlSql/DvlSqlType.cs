@@ -9,15 +9,15 @@ namespace DvlSql
     {
         public string? Name { get; }
 
-        public SqlDbType SqlDbType { get; }
+        public SqlDbType SqlDbType { get; init; }
 
-        public int? Size { get; }
+        public int? Size { get; init; }
 
-        public bool IsNotNull { get; } = false;
+        public bool IsNotNull { get; init; } = false;
 
-        public byte? Precision { get; }
+        public byte? Precision { get; init; }
 
-        public byte? Scale { get;  }
+        public byte? Scale { get; init; }
 
         public DvlSqlType(string? name, SqlDbType dbType, int? size = null, bool? isNotNull = null, byte? precision = null, byte? scale = null)
         {
@@ -58,8 +58,8 @@ namespace DvlSql
 
     public sealed class DvlSqlType<TValue> : DvlSqlType
     {
-        public TValue Value { get; }
-        public bool ExactValue { get; }
+        public TValue Value { get; init; }
+        public bool ExactValue { get; init; }
 
         public DvlSqlType(TValue value, DvlSqlType dvlSqlType, bool exactValue = false) : base(dvlSqlType.Name, dvlSqlType.SqlDbType,
             dvlSqlType.Size, dvlSqlType.IsNotNull, dvlSqlType.Precision, dvlSqlType.Scale)

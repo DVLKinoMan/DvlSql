@@ -6,12 +6,12 @@ namespace DvlSql.Expressions
 {
     public abstract class DvlSqlValuesExpression : DvlSqlFromExpression
     {
-        public List<DvlSqlParameter> SqlParameters { get; set; } = new List<DvlSqlParameter>();
+        public List<DvlSqlParameter> SqlParameters { get; init; } = new List<DvlSqlParameter>();
     }
 
     public class DvlSqlValuesExpression<T> : DvlSqlValuesExpression  where T: ITuple
     {
-        public T[] Values { get; set; }
+        public T[] Values { get; init; }
 
         public DvlSqlValuesExpression(T[] values)
         {

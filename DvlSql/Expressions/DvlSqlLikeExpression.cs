@@ -2,8 +2,8 @@
 {
     public class DvlSqlLikeExpression : DvlSqlBinaryExpression
     {
-        public string Field { get; set; }
-        public string Pattern { get; set; }
+        public string Field { get; init; }
+        public string Pattern { get; init; }
 
         public DvlSqlLikeExpression(string field, string pattern) => (this.Field, this.Pattern) = (field, pattern);
 

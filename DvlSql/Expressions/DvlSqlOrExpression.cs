@@ -5,7 +5,7 @@ namespace DvlSql.Expressions
 {
     public class DvlSqlOrExpression : DvlSqlBinaryExpression
     {
-        public IEnumerable<DvlSqlBinaryExpression> InnerExpressions { get; }
+        public IEnumerable<DvlSqlBinaryExpression> InnerExpressions { get; init; }
 
         public DvlSqlOrExpression(params DvlSqlBinaryExpression[] binaryExpressions) =>
             this.InnerExpressions = binaryExpressions;

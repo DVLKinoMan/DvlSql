@@ -69,9 +69,9 @@ namespace DvlSql.Expressions
 
         public override DvlSqlConstantExpression ConstantClone() => new DvlSqlConstantExpression<TValue>(Value, IsTableColumn);
 
-        private TValue Value { get; }
+        private TValue Value { get; init; }
 
-        private bool IsTableColumn { get; }
+        private bool IsTableColumn { get; init; }
 
         public string StringValue => !IsTableColumn && this.Value is string ? $"'{this.Value}'" : GetDefaultSqlString(this.Value);
 

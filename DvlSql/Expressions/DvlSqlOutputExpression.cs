@@ -4,8 +4,8 @@ namespace DvlSql.Expressions
 {
     public class DvlSqlOutputExpression : DvlSqlExpression
     {
-        public DvlSqlTableDeclarationExpression? IntoTable { get; }
-        public string[] Columns { get; }
+        public DvlSqlTableDeclarationExpression? IntoTable { get; init; }
+        public string[] Columns { get; init; }
 
         public DvlSqlOutputExpression(DvlSqlTableDeclarationExpression intoTable, string[] cols)
         {

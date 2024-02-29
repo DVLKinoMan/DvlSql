@@ -5,8 +5,8 @@ namespace DvlSql.Expressions
 {
     public class DvlSqlInExpression : DvlSqlBinaryExpression
     {
-        public string ParameterName { get; }
-        public IEnumerable<DvlSqlExpression> InnerExpressions { get; }
+        public string ParameterName { get; init; }
+        public IEnumerable<DvlSqlExpression> InnerExpressions { get; init; }
 
         public DvlSqlInExpression(string parameterName, params DvlSqlExpression[] innerExpressions) =>
             (this.ParameterName, this.InnerExpressions) = (parameterName, innerExpressions);

@@ -10,8 +10,8 @@ namespace DvlSql.Expressions
 
     public class DvlSqlFromWithTableExpression : DvlSqlFromExpression
     {
-        public string TableName { get; }
-        public bool WithNoLock { get; }
+        public string TableName { get; init; }
+        public bool WithNoLock { get; init; }
 
         public DvlSqlFromWithTableExpression(string tableName, bool withNoLock = false) =>
             (this.TableName, this.WithNoLock) = (tableName, withNoLock);

@@ -2,7 +2,7 @@
 {
     public class DvlSqlExistsExpression : DvlSqlBinaryExpression
     {
-        public DvlSqlFullSelectExpression Select { get; }
+        public DvlSqlFullSelectExpression Select { get; init; }
         
         public DvlSqlExistsExpression(DvlSqlFullSelectExpression select) => this.Select = select;
             

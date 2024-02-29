@@ -2,8 +2,8 @@
 {
     public class DvlSqlSkipExpression : DvlSqlExpression
     {
-        public int OffsetRows { get; set; }
-        public int? FetchNextRows { get; set; }
+        public int OffsetRows { get; init; }
+        public int? FetchNextRows { get; init; }
 
         public DvlSqlSkipExpression(int offsetRows, int? fetchNextRows = null)
         {

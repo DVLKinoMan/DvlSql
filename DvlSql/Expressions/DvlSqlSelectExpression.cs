@@ -5,8 +5,8 @@ namespace DvlSql.Expressions
 {
     public class DvlSqlSelectExpression : DvlSqlExpression
     {
-        public int? Top { get; set; }
-        public HashSet<string> ParameterNames { get; } = new HashSet<string>();
+        public int? Top { get; init; }
+        public HashSet<string> ParameterNames { get; init; } = new HashSet<string>();
 
         //public DvlSqlFromExpression From { get; }
         // public new bool IsRoot { get; private set; } = true;

@@ -4,8 +4,8 @@ namespace DvlSql
 {
     public class DvlSqlParameter<TValue> : DvlSqlParameter
     {
-        public bool ExactValue { get; }
-        public TValue Value { get; } = default!;
+        public bool ExactValue { get; init; }
+        public TValue Value { get; init; } = default!;
 
         public DvlSqlParameter(string name, DvlSqlType type) : base(name, type)
         {
@@ -39,9 +39,9 @@ namespace DvlSql
 
     public abstract class DvlSqlParameter
     {
-        public string Name { get; }
+        public string Name { get; init; }
 
-        public DvlSqlType DvlSqlType { get; }
+        public DvlSqlType DvlSqlType { get; init; }
 
         protected DvlSqlParameter(string name, DvlSqlType dvlSqlType)
         {

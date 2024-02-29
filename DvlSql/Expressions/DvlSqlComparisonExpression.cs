@@ -2,9 +2,9 @@
 {
     public class DvlSqlComparisonExpression : DvlSqlBinaryExpression
     {
-        public DvlSqlConstantExpression LeftExpression { get; }
-        public SqlComparisonOperator ComparisonOperator { get; }
-        public DvlSqlConstantExpression RightExpression { get; }
+        public DvlSqlConstantExpression LeftExpression { get; init; }
+        public SqlComparisonOperator ComparisonOperator { get; init; }
+        public DvlSqlConstantExpression RightExpression { get; init; }
 
         public DvlSqlComparisonExpression(DvlSqlConstantExpression leftExpression, SqlComparisonOperator comparisonOperator,
             DvlSqlConstantExpression rightExpression) => (this.LeftExpression, this.ComparisonOperator, this.RightExpression) =
