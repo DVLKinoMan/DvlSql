@@ -9,7 +9,7 @@ namespace DvlSql
     public interface IDvlSqlConnection : IDisposable, IAsyncDisposable
     {
         Task<TResult> ConnectAsync<TResult>(Func<IDvlSqlCommand, Task<TResult>> func, string sqlString,
-            CommandType commandType = CommandType.Text, params DvlSqlParameter[] parameters);
+            CommandType commandType = CommandType.Text, params DvlSqlParameter[]? parameters);
 
         ValueTask<DbTransaction> BeginTransactionAsync(CancellationToken token = default);
 
