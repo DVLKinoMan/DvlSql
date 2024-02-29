@@ -6,11 +6,11 @@ namespace DvlSql.Expressions
 {
     public abstract class DvlSqlConstantExpression : DvlSqlExpression
     {
-        protected bool Equals(DvlSqlConstantExpression other) => throw new System.NotImplementedException();
+        protected bool Equals(DvlSqlConstantExpression other) => throw new NotImplementedException();
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
+            if (obj is null) return false;
             if (ReferenceEquals(this, obj)) return true;
             return obj.GetType() == this.GetType() && Equals((DvlSqlConstantExpression) obj);
         }
@@ -58,7 +58,7 @@ namespace DvlSql.Expressions
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
+            if (obj is null) return false;
             if (ReferenceEquals(this, obj)) return true;
             return obj.GetType() == this.GetType() && Equals((DvlSqlConstantExpression<TValue>) obj);
         }
