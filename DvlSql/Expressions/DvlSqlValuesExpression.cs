@@ -9,14 +9,9 @@ namespace DvlSql.Expressions
         public List<DvlSqlParameter> SqlParameters { get; init; } = [];
     }
 
-    public class DvlSqlValuesExpression<T> : DvlSqlValuesExpression  where T: ITuple
+    public class DvlSqlValuesExpression<T>(T[] values) : DvlSqlValuesExpression  where T: ITuple
     {
-        public T[] Values { get; init; }
-
-        public DvlSqlValuesExpression(T[] values)
-        {
-            Values = values;
-        }
+        public T[] Values { get; init; } = values;
 
         public DvlSqlValuesExpression(T[] values, DvlSqlAsExpression @as) : this(values)
         {

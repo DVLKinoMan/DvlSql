@@ -3,14 +3,11 @@ using System.Collections.Generic;
 
 namespace DvlSql.Expressions
 {
-    public class DvlSqlUpdateExpression : DvlSqlExpressionWithParameters
+    public class DvlSqlUpdateExpression(string tableName) : DvlSqlExpressionWithParameters
     {
-        public string TableName { get; init; }
+        public string TableName { get; init; } = tableName;
         public DvlSqlWhereExpression? WhereExpression { get; set; }
         public List<DvlSqlParameter> DvlSqlParameters { get; set; } = [];
-
-        public DvlSqlUpdateExpression(string tableName) =>
-            this.TableName = tableName;
 
         public void Add<TVal>(DvlSqlType<TVal> val) => 
             this.DvlSqlParameters.Add(new DvlSqlParameter<TVal>(val.Name??throw new ArgumentNullException(nameof(val.Name)), val));

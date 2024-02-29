@@ -1,16 +1,10 @@
 ﻿namespace DvlSql.Expressions
 {
-    public abstract class DvlSqlJoinExpression : DvlSqlExpression
+    public abstract class DvlSqlJoinExpression (string tableName, DvlSqlComparisonExpression comp) : DvlSqlExpression
     {
-        public string TableName { get; init; }
+        public string TableName { get; init; } = tableName;
         public new bool IsRoot { get; init; } = true;
-        public DvlSqlComparisonExpression ComparisonExpression { get; set; }
-
-        public DvlSqlJoinExpression(string tableName, DvlSqlComparisonExpression comp)
-        {
-            this.TableName = tableName;
-            this.ComparisonExpression = comp;
-        }
+        public DvlSqlComparisonExpression ComparisonExpression { get; set; } = comp;
 
         // public DvlSqlJoinExpression WithRoot(bool isRoot)
         // {
@@ -21,48 +15,32 @@
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
     }
 
-    public class DvlSqlFullJoinExpression : DvlSqlJoinExpression
+    public class DvlSqlFullJoinExpression(string tableName, DvlSqlComparisonExpression comparisonExpression) : DvlSqlJoinExpression(tableName, comparisonExpression)
     {
-        public DvlSqlFullJoinExpression(string tableName, DvlSqlComparisonExpression comparisonExpression) : base(tableName, comparisonExpression)
-        {
-        }
-
         public override DvlSqlExpression Clone()
         {
             throw new System.NotImplementedException();
         }
     }
 
-    public class DvlSqlInnerJoinExpression : DvlSqlJoinExpression
+    public class DvlSqlInnerJoinExpression(string tableName, DvlSqlComparisonExpression comparisonExpression) : DvlSqlJoinExpression(tableName, comparisonExpression)
     {
-        public DvlSqlInnerJoinExpression(string tableName, DvlSqlComparisonExpression comparisonExpression) : base(tableName, comparisonExpression)
-        {
-        }
-
         public override DvlSqlExpression Clone()
         {
             throw new System.NotImplementedException();
         }
     }
 
-    public class DvlSqlLeftJoinExpression : DvlSqlJoinExpression
+    public class DvlSqlLeftJoinExpression(string tableName, DvlSqlComparisonExpression comparisonExpression) : DvlSqlJoinExpression(tableName, comparisonExpression)
     {
-        public DvlSqlLeftJoinExpression(string tableName, DvlSqlComparisonExpression comparisonExpression) : base(tableName, comparisonExpression)
-        {
-        }
-
         public override DvlSqlExpression Clone()
         {
             throw new System.NotImplementedException();
         }
     }
 
-    public class DvlSqlRightJoinExpression : DvlSqlJoinExpression
+    public class DvlSqlRightJoinExpression(string tableName, DvlSqlComparisonExpression comparisonExpression) : DvlSqlJoinExpression(tableName, comparisonExpression)
     {
-        public DvlSqlRightJoinExpression(string tableName, DvlSqlComparisonExpression comparisonExpression) : base(tableName, comparisonExpression)
-        {
-        }
-
         public override DvlSqlExpression Clone()
         {
             throw new System.NotImplementedException();

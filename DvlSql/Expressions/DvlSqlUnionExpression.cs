@@ -60,16 +60,11 @@ namespace DvlSql.Expressions
         }
     }
 
-    public class UnionExpressionEnumerator : IEnumerator<(DvlSqlFullSelectExpression Expression, UnionType? Type)>
+    public class UnionExpressionEnumerator(List<(DvlSqlFullSelectExpression, UnionType?)> selectExpressions) : IEnumerator<(DvlSqlFullSelectExpression Expression, UnionType? Type)>
     {
-        private readonly List<(DvlSqlFullSelectExpression, UnionType?)> _selectExpressions;
+        private readonly List<(DvlSqlFullSelectExpression, UnionType?)> _selectExpressions = selectExpressions;
         private int _position = -1;
-        
-        public UnionExpressionEnumerator(List<(DvlSqlFullSelectExpression, UnionType?)> selectExpressions)
-        {
-            this._selectExpressions = selectExpressions;
-        }
-        
+
         public bool MoveNext()
         {
             this._position++;

@@ -26,27 +26,17 @@ namespace DvlSql
         }
     }
 
-    public class DvlSqlOutputParameter : DvlSqlParameter
+    public class DvlSqlOutputParameter(string name, DvlSqlType type) : DvlSqlParameter(name, type)
     {
         //public object Value => this.SqlParameter.Value;
         //todo check if this works
         public object Value { get; set; } = default!;
-
-        public DvlSqlOutputParameter(string name, DvlSqlType type) : base(name, type)
-        {
-        }
     }
 
-    public abstract class DvlSqlParameter
+    public abstract class DvlSqlParameter(string name, DvlSqlType dvlSqlType)
     {
-        public string Name { get; init; }
+        public string Name { get; init; } = name;//.WithAlpha();
 
-        public DvlSqlType DvlSqlType { get; init; }
-
-        protected DvlSqlParameter(string name, DvlSqlType dvlSqlType)
-        {
-            Name = name;//.WithAlpha();
-            DvlSqlType = dvlSqlType;
-        }
+        public DvlSqlType DvlSqlType { get; init; } = dvlSqlType;
     }
 }

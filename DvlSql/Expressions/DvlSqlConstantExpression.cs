@@ -52,7 +52,7 @@ namespace DvlSql.Expressions
         public abstract DvlSqlConstantExpression ConstantClone();
     }
 
-    public class DvlSqlConstantExpression<TValue> : DvlSqlConstantExpression
+    public class DvlSqlConstantExpression<TValue>(TValue value, bool isTableColumn = true) : DvlSqlConstantExpression
     {
         protected bool Equals(DvlSqlConstantExpression<TValue> other) => EqualityComparer<TValue>.Default.Equals(this.Value, other.Value);
 
@@ -69,17 +69,11 @@ namespace DvlSql.Expressions
 
         public override DvlSqlConstantExpression ConstantClone() => new DvlSqlConstantExpression<TValue>(Value, IsTableColumn);
 
-        private TValue Value { get; init; }
+        private TValue Value { get; init; } = value;
 
-        private bool IsTableColumn { get; init; }
+        private bool IsTableColumn { get; init; } = isTableColumn;
 
         public string StringValue => !IsTableColumn && this.Value is string ? $"'{this.Value}'" : GetDefaultSqlString(this.Value);
-
-        public DvlSqlConstantExpression(TValue value, bool isTableColumn = true)
-        {
-            this.Value = value;
-            this.IsTableColumn = isTableColumn;
-        }
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
 

@@ -1,11 +1,9 @@
 ﻿namespace DvlSql.Expressions
 {
-    public class DvlSqlExistsExpression : DvlSqlBinaryExpression
+    public class DvlSqlExistsExpression(DvlSqlFullSelectExpression select) : DvlSqlBinaryExpression
     {
-        public DvlSqlFullSelectExpression Select { get; init; }
-        
-        public DvlSqlExistsExpression(DvlSqlFullSelectExpression select) => this.Select = select;
-            
+        public DvlSqlFullSelectExpression Select { get; init; } = select;
+
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
 
         public override DvlSqlExpression Clone() => BinaryClone();

@@ -4,15 +4,10 @@ using static System.Exts.Extensions;
 
 namespace DvlSql.Expressions
 {
-    public class DvlSqlTableDeclarationExpression : DvlSqlExpression
+    public class DvlSqlTableDeclarationExpression(string tableName) : DvlSqlExpression
     {
-        public string TableName { get; init; }
+        public string TableName { get; init; } = tableName.WithAlpha();
         public List<DvlSqlType> Columns { get; set; } = default!;
-
-        public DvlSqlTableDeclarationExpression(string tableName)
-        {
-            TableName = tableName.WithAlpha();
-        }
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
 

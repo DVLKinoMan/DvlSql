@@ -5,19 +5,13 @@ using System.Runtime.CompilerServices;
 
 namespace DvlSql.Expressions
 {
-    public abstract class DvlSqlInsertExpression : DvlSqlExpressionWithParameters
+    public abstract class DvlSqlInsertExpression(string tableName, params string[] cols) : DvlSqlExpressionWithParameters
     {
-        public string TableName { get; init; }
+        public string TableName { get; init; } = tableName;
 
-        public string[] Columns { get; init; }
+        public string[] Columns { get; init; } = cols;
 
         public DvlSqlOutputExpression? OutputExpression { get; set; }
-
-        public DvlSqlInsertExpression(string tableName, params string[] cols)
-        {
-            TableName = tableName;
-            Columns = cols;
-        }
     }
 
     public class DvlSqlInsertIntoExpression<TParam> : DvlSqlInsertExpression where TParam : ITuple

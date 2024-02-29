@@ -3,17 +3,11 @@ using System.Collections.Generic;
 
 namespace DvlSql.Expressions
 {
-    public class DvlSqlAsExpression : DvlSqlExpression
+    public class DvlSqlAsExpression(string name, bool useAs = true) : DvlSqlExpression
     {
-        public string Name { get; init; }
+        public string Name { get; init; } = name;
         public IEnumerable<string>? Parameters { get; set; }
-        public bool UseAsKeyword { get; init; }
-
-        public DvlSqlAsExpression(string name, bool useAs = true)
-        {
-            Name = name;
-            UseAsKeyword = useAs;
-        }
+        public bool UseAsKeyword { get; init; } = useAs;
 
         public DvlSqlAsExpression(string name, IEnumerable<string> @params, bool useAs = true) : this(name, useAs)
         {

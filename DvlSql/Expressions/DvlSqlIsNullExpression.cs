@@ -1,10 +1,8 @@
 ﻿namespace DvlSql.Expressions
 {
-    public class DvlSqlIsNullExpression : DvlSqlBinaryExpression
+    public class DvlSqlIsNullExpression(DvlSqlExpression expression) : DvlSqlBinaryExpression
     {
-        public DvlSqlExpression Expression;
-
-        public DvlSqlIsNullExpression(DvlSqlExpression expression) => this.Expression = expression;
+        public DvlSqlExpression Expression = expression;
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
 

@@ -3,12 +3,9 @@ using System.Linq;
 
 namespace DvlSql.Expressions
 {
-    public class DvlSqlOrExpression : DvlSqlBinaryExpression
+    public class DvlSqlOrExpression(params DvlSqlBinaryExpression[] binaryExpressions) : DvlSqlBinaryExpression
     {
-        public IEnumerable<DvlSqlBinaryExpression> InnerExpressions { get; init; }
-
-        public DvlSqlOrExpression(params DvlSqlBinaryExpression[] binaryExpressions) =>
-            this.InnerExpressions = binaryExpressions;
+        public IEnumerable<DvlSqlBinaryExpression> InnerExpressions { get; init; } = binaryExpressions;
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
 
