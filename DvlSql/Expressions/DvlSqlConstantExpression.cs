@@ -19,27 +19,27 @@ namespace DvlSql.Expressions
 
         public static DvlSqlComparisonExpression operator ==(DvlSqlConstantExpression lhs,
             DvlSqlConstantExpression rhs) =>
-            new DvlSqlComparisonExpression(lhs, SqlComparisonOperator.Equality, rhs);
+            new(lhs, SqlComparisonOperator.Equality, rhs);
 
         public static DvlSqlComparisonExpression operator !=(DvlSqlConstantExpression lhs,
             DvlSqlConstantExpression rhs) =>
-            new DvlSqlComparisonExpression(lhs, SqlComparisonOperator.Different, rhs);
+            new(lhs, SqlComparisonOperator.Different, rhs);
 
         public static DvlSqlComparisonExpression operator >(DvlSqlConstantExpression lhs,
             DvlSqlConstantExpression rhs) =>
-            new DvlSqlComparisonExpression(lhs, SqlComparisonOperator.Greater, rhs);
+            new(lhs, SqlComparisonOperator.Greater, rhs);
 
         public static DvlSqlComparisonExpression operator >=(DvlSqlConstantExpression lhs,
             DvlSqlConstantExpression rhs) =>
-            new DvlSqlComparisonExpression(lhs, SqlComparisonOperator.GreaterOrEqual, rhs);
+            new(lhs, SqlComparisonOperator.GreaterOrEqual, rhs);
 
         public static DvlSqlComparisonExpression operator <(DvlSqlConstantExpression lhs,
             DvlSqlConstantExpression rhs) =>
-            new DvlSqlComparisonExpression(lhs, SqlComparisonOperator.Less, rhs);
+            new(lhs, SqlComparisonOperator.Less, rhs);
 
         public static DvlSqlComparisonExpression operator <=(DvlSqlConstantExpression lhs,
             DvlSqlConstantExpression rhs) =>
-            new DvlSqlComparisonExpression(lhs, SqlComparisonOperator.LessOrEqual, rhs);
+            new(lhs, SqlComparisonOperator.LessOrEqual, rhs);
         
         public static implicit operator DvlSqlConstantExpression(string str) => new DvlSqlConstantExpression<string>(str, true);
         

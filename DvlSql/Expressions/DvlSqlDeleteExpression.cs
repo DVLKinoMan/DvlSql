@@ -14,7 +14,7 @@ namespace DvlSql.Expressions
 
         public void AddJoin(DvlSqlJoinExpression exp)
         {
-            Join ??= new List<DvlSqlJoinExpression>();
+            Join ??= [];
             Join.Add(exp);
         }
 

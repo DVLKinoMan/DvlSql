@@ -20,14 +20,14 @@
 
         public override DvlSqlExpression Clone() => WhereClone();
         
-        public DvlSqlWhereExpression WhereClone() => new DvlSqlWhereExpression(InnerExpression.BinaryClone());
+        public DvlSqlWhereExpression WhereClone() => new(InnerExpression.BinaryClone());
 
         public void Add(DvlSqlBinaryExpression binaryExp) => InnerExpression = InnerExpression is null ? binaryExp : InnerExpression & binaryExp;
 
         public static DvlSqlWhereExpression operator &(DvlSqlWhereExpression leftWhereExpression,
-            DvlSqlBinaryExpression rightBinaryExpression) => new DvlSqlWhereExpression(leftWhereExpression.InnerExpression & rightBinaryExpression);
+            DvlSqlBinaryExpression rightBinaryExpression) => new(leftWhereExpression.InnerExpression & rightBinaryExpression);
 
         public static DvlSqlWhereExpression operator !(DvlSqlWhereExpression where) => 
-            new DvlSqlWhereExpression(!where.InnerExpression);
+            new(!where.InnerExpression);
     }
 }

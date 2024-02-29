@@ -6,11 +6,11 @@
 
         public static DvlSqlAndExpression operator &(DvlSqlBinaryExpression leftBinaryExpression,
             DvlSqlBinaryExpression rightBinaryExpression) =>
-            new DvlSqlAndExpression(leftBinaryExpression, rightBinaryExpression);
+            new(leftBinaryExpression, rightBinaryExpression);
 
         public static DvlSqlOrExpression operator |(DvlSqlBinaryExpression leftBinaryExpression,
             DvlSqlBinaryExpression rightBinaryExpression) =>
-            new DvlSqlOrExpression(leftBinaryExpression, rightBinaryExpression);
+            new(leftBinaryExpression, rightBinaryExpression);
 
         public static DvlSqlBinaryExpression operator !(DvlSqlBinaryExpression binaryExpression)
         {

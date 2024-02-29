@@ -15,6 +15,6 @@
 
         public override DvlSqlExpression Clone() => SkipClone();
 
-        public DvlSqlSkipExpression SkipClone() => new DvlSqlSkipExpression(OffsetRows, FetchNextRows);
+        public DvlSqlSkipExpression SkipClone() => new(OffsetRows, FetchNextRows);
     }
 }

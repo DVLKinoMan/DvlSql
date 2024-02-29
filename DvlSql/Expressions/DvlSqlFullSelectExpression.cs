@@ -18,11 +18,11 @@ namespace DvlSql.Expressions
             DvlSqlAsExpression @as) =>
         (
             this.From, this.Join, this.Where, this.GroupBy,
-            this.Select, this.OrderBy, this.Skip, this.As) = (@from, joins ?? new List<DvlSqlJoinExpression>(),
+            this.Select, this.OrderBy, this.Skip, this.As) = (@from, joins ?? [],
             @where, groupBy, @select, orderBy, skip, @as);
 
         public DvlSqlFromExpression From { get; set; }
-        public List<DvlSqlJoinExpression>? Join { get; private set; } = new List<DvlSqlJoinExpression>();
+        public List<DvlSqlJoinExpression>? Join { get; private set; } = [];
         public DvlSqlWhereExpression? Where { get; set; }
         public DvlSqlGroupByExpression? GroupBy { get; set; }
         public DvlSqlSelectExpression Select { get; set; }

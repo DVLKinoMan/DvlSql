@@ -6,7 +6,7 @@ namespace DvlSql.Expressions
     {
         public string TableName { get; init; }
         public DvlSqlWhereExpression? WhereExpression { get; set; }
-        public List<DvlSqlParameter> DvlSqlParameters { get; set; } = new List<DvlSqlParameter>();
+        public List<DvlSqlParameter> DvlSqlParameters { get; set; } = [];
 
         public DvlSqlUpdateExpression(string tableName) =>
             this.TableName = tableName;
@@ -21,7 +21,7 @@ namespace DvlSql.Expressions
 
         public override DvlSqlExpression Clone() => UpdateClone();
 
-        public DvlSqlUpdateExpression UpdateClone() => new DvlSqlUpdateExpression(TableName)
+        public DvlSqlUpdateExpression UpdateClone() => new(TableName)
         {
             WhereExpression = WhereExpression?.WhereClone(),
             DvlSqlParameters = [.. DvlSqlParameters]

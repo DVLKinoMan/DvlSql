@@ -6,7 +6,7 @@ namespace DvlSql.Expressions
     public class DvlSqlSelectExpression : DvlSqlExpression
     {
         public int? Top { get; init; }
-        public HashSet<string> ParameterNames { get; init; } = new HashSet<string>();
+        public HashSet<string> ParameterNames { get; init; } = [];
 
         //public DvlSqlFromExpression From { get; }
         // public new bool IsRoot { get; private set; } = true;
@@ -39,6 +39,6 @@ namespace DvlSql.Expressions
 
         public override DvlSqlExpression Clone() => SelectClone();
 
-        public DvlSqlSelectExpression SelectClone() => new DvlSqlSelectExpression(ParameterNames, Top);
+        public DvlSqlSelectExpression SelectClone() => new(ParameterNames, Top);
     }
 }
