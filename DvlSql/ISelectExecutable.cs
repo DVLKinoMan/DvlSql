@@ -18,7 +18,8 @@ namespace DvlSql
             Func<IDataReader, TKey> keySelector,
             Func<IDataReader, TValue> valueSelector,
             int? timeout = default,
-            CommandBehavior behavior = CommandBehavior.Default, CancellationToken cancellationToken = default);
+            CommandBehavior behavior = CommandBehavior.Default, 
+            CancellationToken cancellationToken = default);
 
         Task<TResult> FirstAsync<TResult>(int? timeout = default, CancellationToken cancellationToken = default);
 

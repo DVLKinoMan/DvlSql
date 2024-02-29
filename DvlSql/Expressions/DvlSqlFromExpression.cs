@@ -1,6 +1,4 @@
-﻿using DvlSql;
-
-namespace DvlSql.Expressions
+﻿namespace DvlSql.Expressions
 {
 
     public abstract class DvlSqlFromExpression : DvlSqlExpression

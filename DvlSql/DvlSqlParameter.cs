@@ -1,4 +1,4 @@
-﻿using static System.Exts.Extensions;
+﻿using System;
 
 namespace DvlSql
 {
@@ -16,7 +16,7 @@ namespace DvlSql
             }
         }
 
-        public DvlSqlParameter(DvlSqlType type) : base(type.Name, type)
+        public DvlSqlParameter(DvlSqlType type) : base(type.Name??throw new ArgumentNullException(nameof(type.Name)), type)
         {
             if (type is DvlSqlType<TValue> dvlSqlTypeValue)
             {

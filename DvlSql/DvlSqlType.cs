@@ -93,10 +93,10 @@ namespace DvlSql
             obj is DvlSqlType<TValue> type && Equals(type);
 
         private bool Equals(DvlSqlType<TValue> other) =>
-            other.Value.Equals(this.Value) &&
+            other.Value!.Equals(this.Value) &&
             base.Equals(other);
 
-        public override int GetHashCode() => EqualityComparer<TValue>.Default.GetHashCode(Value) + base.GetHashCode();
+        public override int GetHashCode() => EqualityComparer<TValue>.Default.GetHashCode(Value!) + base.GetHashCode();
     }
 
 }

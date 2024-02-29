@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace DvlSql.Expressions
 {
@@ -12,7 +13,7 @@ namespace DvlSql.Expressions
             this.TableName = tableName;
 
         public void Add<TVal>(DvlSqlType<TVal> val) => 
-            this.DvlSqlParameters.Add(new DvlSqlParameter<TVal>(val.Name, val));
+            this.DvlSqlParameters.Add(new DvlSqlParameter<TVal>(val.Name??throw new ArgumentNullException(nameof(val.Name)), val));
 
         public void Add(DvlSqlParameter val) =>
             this.DvlSqlParameters.Add(val);

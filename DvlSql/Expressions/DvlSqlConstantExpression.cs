@@ -65,7 +65,7 @@ namespace DvlSql.Expressions
 
         public override string ToString() => StringValue;
 
-        public override int GetHashCode() => EqualityComparer<TValue>.Default.GetHashCode(Value);
+        public override int GetHashCode() => EqualityComparer<TValue>.Default.GetHashCode(Value!);
 
         public override DvlSqlConstantExpression ConstantClone() => new DvlSqlConstantExpression<TValue>(Value, IsTableColumn);
 

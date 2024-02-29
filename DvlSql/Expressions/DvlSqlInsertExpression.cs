@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
@@ -25,7 +26,7 @@ namespace DvlSql.Expressions
 
         public DvlSqlValuesExpression<TParam> ValuesExpression { get; set; } = default!;
 
-        public DvlSqlInsertIntoExpression(string tableName, params DvlSqlType[] types) : base(tableName, types.Select(t => t.Name).ToArray())
+        public DvlSqlInsertIntoExpression(string tableName, params DvlSqlType[] types) : base(tableName, types.Select(t => t.Name??throw new ArgumentNullException(nameof(t.Name))).ToArray())
         {
             this.IsRoot = true;
             this.DvlSqlTypes = types;
