@@ -29,13 +29,13 @@ namespace DvlSql
 
         Task<TResult> SingleAsync<TResult>(Func<IDataReader, TResult> reader, int? timeout = default, CancellationToken cancellationToken = default);
 
-        Task<TResult> SingleOrDefaultAsync<TResult>(int? timeout = default, CancellationToken cancellationToken = default);
+        Task<TResult?> SingleOrDefaultAsync<TResult>(int? timeout = default, CancellationToken cancellationToken = default);
 
-        Task<TResult> SingleOrDefaultAsync<TResult>(Func<IDataReader, TResult> reader, int? timeout = default, CancellationToken cancellationToken = default);
+        Task<TResult?> SingleOrDefaultAsync<TResult>(Func<IDataReader, TResult> reader, int? timeout = default, CancellationToken cancellationToken = default);
 
-        Task<TResult> FirstOrDefaultAsync<TResult>(int? timeout = default, CancellationToken cancellationToken = default);
+        Task<TResult?> FirstOrDefaultAsync<TResult>(int? timeout = default, CancellationToken cancellationToken = default);
 
-        Task<TResult> FirstOrDefaultAsync<TResult>(Func<IDataReader, TResult> reader, int? timeout = default, CancellationToken cancellationToken = default);
+        Task<TResult?> FirstOrDefaultAsync<TResult>(Func<IDataReader, TResult> reader, int? timeout = default, CancellationToken cancellationToken = default);
 
         Task<bool> AnyAsync(int? timeout = default, CancellationToken cancellationToken = default);
 
