@@ -7,7 +7,7 @@ namespace DvlSql.Expressions
         public DvlSqlFromWithTableExpression FromExpression { get; init; } = fromExpression;
         public DvlSqlWhereExpression? WhereExpression { get; set; }
         public DvlSqlOutputExpression? OutputExpression { get; set; }
-        public List<DvlSqlJoinExpression>? Join { get; private set; } = new List<DvlSqlJoinExpression>();
+        public List<DvlSqlJoinExpression>? Join { get; private set; } = [];
 
         public void AddJoin(DvlSqlJoinExpression exp)
         {

@@ -18,7 +18,7 @@ namespace DvlSql.Expressions
 
         public DvlSqlTableDeclarationExpression AddColumn(DvlSqlType col)
         {
-            Columns ??= new List<DvlSqlType>();
+            Columns ??= [];
             Columns.Add(col);
             return this;
         }

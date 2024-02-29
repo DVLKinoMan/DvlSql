@@ -10,7 +10,7 @@ namespace DvlSql.Expressions
         public List<DvlSqlParameter> DvlSqlParameters { get; set; } = [];
 
         public void Add<TVal>(DvlSqlType<TVal> val) => 
-            this.DvlSqlParameters.Add(new DvlSqlParameter<TVal>(val.Name??throw new ArgumentNullException(nameof(val.Name)), val));
+            this.DvlSqlParameters.Add(new DvlSqlParameter<TVal>(val.Name??throw new ArgumentNullException(nameof(val)), val));
 
         public void Add(DvlSqlParameter val) =>
             this.DvlSqlParameters.Add(val);

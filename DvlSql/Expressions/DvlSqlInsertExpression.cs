@@ -20,7 +20,7 @@ namespace DvlSql.Expressions
 
         public DvlSqlValuesExpression<TParam> ValuesExpression { get; set; } = default!;
 
-        public DvlSqlInsertIntoExpression(string tableName, params DvlSqlType[] types) : base(tableName, types.Select(t => t.Name??throw new ArgumentNullException(nameof(t.Name))).ToArray())
+        public DvlSqlInsertIntoExpression(string tableName, params DvlSqlType[] types) : base(tableName, types.Select(t => t.Name??throw new ArgumentNullException(nameof(t))).ToArray())
         {
             this.IsRoot = true;
             this.DvlSqlTypes = types;

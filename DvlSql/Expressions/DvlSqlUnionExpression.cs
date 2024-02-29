@@ -6,8 +6,7 @@ namespace DvlSql.Expressions
 {
     public class DvlSqlUnionExpression : DvlSqlExpression, IList<(DvlSqlFullSelectExpression Expression, UnionType? Type)>
     {
-        private readonly List<(DvlSqlFullSelectExpression expression, UnionType? type)> _selectExpressions = 
-            new List<(DvlSqlFullSelectExpression, UnionType?)>();
+        private readonly List<(DvlSqlFullSelectExpression expression, UnionType? type)> _selectExpressions = [];
 
         public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
         public override DvlSqlExpression Clone()

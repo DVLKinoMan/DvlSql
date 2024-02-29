@@ -16,7 +16,7 @@ namespace DvlSql
             }
         }
 
-        public DvlSqlParameter(DvlSqlType type) : base(type.Name??throw new ArgumentNullException(nameof(type.Name)), type)
+        public DvlSqlParameter(DvlSqlType type) : base(type.Name??throw new ArgumentNullException(nameof(type)), type)
         {
             if (type is DvlSqlType<TValue> dvlSqlTypeValue)
             {
