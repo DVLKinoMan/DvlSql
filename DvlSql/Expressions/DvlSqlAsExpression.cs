@@ -9,7 +9,7 @@ namespace DvlSql.Expressions
         public IEnumerable<string>? Parameters { get; set; }
         public bool UseAsKeyword { get; init; } = useAs;
 
-        public DvlSqlAsExpression(string name, IEnumerable<string> @params, bool useAs = true) : this(name, useAs)
+        public DvlSqlAsExpression(string name, IEnumerable<string>? @params, bool useAs = true) : this(name, useAs)
         {
             Parameters = @params;
         }
