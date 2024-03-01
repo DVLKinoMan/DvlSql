@@ -11,10 +11,10 @@ namespace DvlSql.Expressions
         }
 
         public DvlSqlFullSelectExpression(DvlSqlFromExpression @from,
-            List<DvlSqlJoinExpression> joins, DvlSqlWhereExpression @where,
-            DvlSqlGroupByExpression groupBy,
-            DvlSqlSelectExpression @select, DvlSqlOrderByExpression orderBy, DvlSqlSkipExpression skip,
-            DvlSqlAsExpression @as) =>
+            List<DvlSqlJoinExpression>? joins, DvlSqlWhereExpression? @where,
+            DvlSqlGroupByExpression? groupBy,
+            DvlSqlSelectExpression @select, DvlSqlOrderByExpression? orderBy, DvlSqlSkipExpression? skip,
+            DvlSqlAsExpression? @as) =>
         (
             this.From, this.Join, this.Where, this.GroupBy,
             this.Select, this.OrderBy, this.Skip, this.As) = (@from, joins ?? [],
