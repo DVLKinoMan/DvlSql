@@ -6,7 +6,7 @@ namespace DvlSql.Expressions
 {
     public abstract class DvlSqlValuesExpression : DvlSqlFromExpression
     {
-        public List<DvlSqlParameter> SqlParameters { get; init; } = [];
+        public List<DvlSqlParameter> SqlParameters { get; set; } = [];
     }
 
     public class DvlSqlValuesExpression<T>(T[] values) : DvlSqlValuesExpression  where T: ITuple

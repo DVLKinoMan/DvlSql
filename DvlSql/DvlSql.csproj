@@ -3,16 +3,16 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
 	  <Nullable>enable</Nullable>
-    <Version>3.1.1</Version>
+    <Version>3.1.3</Version>
     <Authors>Daviti Dvali</Authors>
     <RepositoryUrl>https://github.com/DVLKinoMan/DvlSql</RepositoryUrl>
     <PackageProjectUrl>https://github.com/DVLKinoMan/DvlSql</PackageProjectUrl>
     <Description>DSL abstraction for Working with SQL (Select, Update, Insert, Delete, Executing Stored procedures, using Transactions)</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageReleaseNotes>Nullable values in expression constructors</PackageReleaseNotes>
+    <PackageReleaseNotes>Bugs with init setters</PackageReleaseNotes>
     <PackageTags>dsl, sql, Linq</PackageTags>
-    <AssemblyVersion>3.1.1</AssemblyVersion>
-    <FileVersion>3.1.1</FileVersion>
+    <AssemblyVersion>3.1.3</AssemblyVersion>
+    <FileVersion>3.1.3</FileVersion>
     <PackageLicenseFile>license.txt</PackageLicenseFile>
     <PackageReadmeFile>Readme.md</PackageReadmeFile>
   </PropertyGroup>
