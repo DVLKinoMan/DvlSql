@@ -1,0 +1,20 @@
+Software License Agreement
+
+This Software License Agreement (the "Agreement") is entered into by and between Daviti Dvali ("Licensor") and the user ("Licensee") of the software.
+
+1. License Grant: Licensor hereby grants Licensee a non-exclusive, non-transferable license to use the software (the "Software") in accordance with the terms and conditions of this Agreement.
+
+2. Restrictions: Licensee shall not, without the prior written consent of Licensor, modify, adapt, reverse engineer, decompile, or disassemble the Software in any way.
+
+3. Ownership: Licensor retains all right, title, and interest in and to the Software, including all intellectual property rights.
+
+4. No Warranty: The Software is provided "as is," without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and non-infringement.
+
+5. Limitation of Liability: In no event shall Licensor be liable for any damages arising out of the use or inability to use the Software.
+
+6. Governing Law: This Agreement shall be governed by and construed in accordance with the laws of country Georgia's Jurisdiction.
+
+By using the Software, Licensee agrees to be bound by the terms and conditions of this Agreement.
+
+Daviti Dvali,
+dvali.daviti@gmail.com

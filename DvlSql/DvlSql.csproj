@@ -3,20 +3,33 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
 	  <Nullable>enable</Nullable>
-    <Version>3.0.2</Version>
-    <Authors>David Dvali</Authors>
+    <Version>3.1</Version>
+    <Authors>Daviti Dvali</Authors>
     <RepositoryUrl>https://github.com/DVLKinoMan/DvlSql</RepositoryUrl>
     <PackageProjectUrl>https://github.com/DVLKinoMan/DvlSql</PackageProjectUrl>
-    <Description>DSL for Working with SQL (Select, Update, Insert, Delete, Executing Stored procedures, using Transactions)</Description>
+    <Description>DSL abstraction for Working with SQL (Select, Update, Insert, Delete, Executing Stored procedures, using Transactions)</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageReleaseNotes>Now it is available to make transactions also and SqlServer Implementation is seperate</PackageReleaseNotes>
+    <PackageReleaseNotes>Upgrade to .NET 8.0</PackageReleaseNotes>
     <PackageTags>dsl, sql, Linq</PackageTags>
-    <AssemblyVersion>3.0.2</AssemblyVersion>
-    <FileVersion>3.0.2</FileVersion>
+    <AssemblyVersion>3.1</AssemblyVersion>
+    <FileVersion>3.1</FileVersion>
+    <PackageLicenseFile>license.txt</PackageLicenseFile>
+    <PackageReadmeFile>Readme.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SystemNET.Exts" Version="1.0.0" />
+    <PackageReference Include="SystemNET.Exts" Version="3.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="license.txt">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Update="Readme.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
