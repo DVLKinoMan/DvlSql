@@ -11,7 +11,7 @@ namespace DvlSql
         Task<List<TResult>> ToListAsync<TResult>(Func<IDataReader, TResult> reader, int? timeout = default,
             CommandBehavior behavior = CommandBehavior.Default, CancellationToken cancellationToken = default);
 
-        Task<List<TResult>> ToListAsync<TResult>(int? timeout = default,
+        Task<List<TResult?>> ToListAsync<TResult>(int? timeout = default,
             CommandBehavior behavior = CommandBehavior.Default, CancellationToken cancellationToken = default);
 
         Task<Dictionary<TKey, List<TValue>>> ToDictionaryAsync<TKey, TValue>(
