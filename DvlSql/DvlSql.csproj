@@ -3,16 +3,16 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
 	  <Nullable>enable</Nullable>
-    <Version>3.2.0</Version>
+    <Version>3.2.1</Version>
     <Authors>Daviti Dvali</Authors>
     <RepositoryUrl>https://github.com/DVLKinoMan/DvlSql</RepositoryUrl>
     <PackageProjectUrl>https://github.com/DVLKinoMan/DvlSql</PackageProjectUrl>
     <Description>DSL abstraction for Working with SQL (Select, Update, Insert, Delete, Executing Stored procedures, using Transactions)</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageReleaseNotes>DvlSqlOptions</PackageReleaseNotes>
+    <PackageReleaseNotes>DvlSqlOptions Parameterless</PackageReleaseNotes>
     <PackageTags>dsl, sql, Linq</PackageTags>
-    <AssemblyVersion>3.2.0</AssemblyVersion>
-    <FileVersion>3.2.0</FileVersion>
+    <AssemblyVersion>3.2.1</AssemblyVersion>
+    <FileVersion>3.2.1</FileVersion>
     <PackageLicenseFile>license.txt</PackageLicenseFile>
     <PackageReadmeFile>Readme.md</PackageReadmeFile>
   </PropertyGroup>

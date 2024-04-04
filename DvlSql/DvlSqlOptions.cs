@@ -1,8 +1,15 @@
 ﻿namespace DvlSql
 {
-    public class DvlSqlOptions(string connectionString)
+    public class DvlSqlOptions
     {
-        public string ConnectionString { get; set; } = connectionString;
+        public string ConnectionString { get; set; } = default!;
+
+        public DvlSqlOptions() { }
+
+        public DvlSqlOptions(string connectionString)
+        {
+            ConnectionString = connectionString;
+        }
     }
 
 }
