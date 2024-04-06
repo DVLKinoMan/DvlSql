@@ -13,7 +13,7 @@ Feature 4: Delete statements for sql
 Installation
 You can install DvlSql via NuGet package manager:
 
-NuGet\Install-Package DvlSql -Version 3.2.1
+NuGet\Install-Package DvlSql -Version 3.3.0
 
 Documentation
 For detailed documentation and examples, please visit https://github.com/DVLKinoMan/DvlSql.SqlServer
