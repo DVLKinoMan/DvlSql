@@ -1,7 +1,6 @@
-﻿namespace DvlSql
+﻿namespace DvlSql;
+
+public interface IOrderExecutable : IOrderable, ISelectExecutable
 {
-    public interface IOrderExecutable : IOrderable, ISelectExecutable
-    {
-        
-    }
+    
 }

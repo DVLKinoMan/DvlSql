@@ -1,9 +1,8 @@
 ﻿using DvlSql.Expressions;
 
-namespace DvlSql
+namespace DvlSql;
+
+public interface IUpdateable : IUpdateSetable, IInsertDeleteExecutable<int>
 {
-    public interface IUpdateable : IUpdateSetable, IInsertDeleteExecutable<int>
-    {
-        IInsertDeleteExecutable<int> Where(DvlSqlBinaryExpression binaryExpression, params DvlSqlParameter[] @params);
-    }
+    IInsertDeleteExecutable<int> Where(DvlSqlBinaryExpression binaryExpression, params DvlSqlParameter[] @params);
 }

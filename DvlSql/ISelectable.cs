@@ -1,9 +1,8 @@
-﻿namespace DvlSql
+﻿namespace DvlSql;
+
+public interface ISelectable
 {
-    public interface ISelectable
-    {
-        IOrderer Select(params string[] parameterNames);
-        IOrderer Select();
-        IOrderer SelectTop(int count, params string[] parameterNames);
-    }
+    IOrderer Select(params string[] parameterNames);
+    IOrderer Select();
+    IOrderer SelectTop(int count, params string[] parameterNames);
 }

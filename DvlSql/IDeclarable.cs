@@ -1,9 +1,8 @@
 ﻿using DvlSql.Expressions;
 
-namespace DvlSql
+namespace DvlSql;
+
+public interface IDeclarable
 {
-    public interface IDeclarable
-    {
-        DvlSqlTableDeclarationExpression DeclareTable(string name);
-    }
+    DvlSqlTableDeclarationExpression DeclareTable(string name);
 }

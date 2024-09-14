@@ -1,8 +1,7 @@
-﻿namespace DvlSql
+﻿namespace DvlSql;
+
+public interface IUpdateSetable
 {
-    public interface IUpdateSetable
-    {
-        IUpdateable Set<TVal>(DvlSqlType<TVal> value);
-        IUpdateable Set(DvlSqlParameter value);
-    }
+    IUpdateable Set<TVal>(DvlSqlType<TVal> value);
+    IUpdateable Set(DvlSqlParameter value);
 }

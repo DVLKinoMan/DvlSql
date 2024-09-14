@@ -1,11 +1,10 @@
 ﻿using DvlSql.Expressions;
 using System.Collections.Generic;
 
-namespace DvlSql
+namespace DvlSql;
+
+public interface IFilterable
 {
-    public interface IFilterable
-    {
-        IFilter Where(DvlSqlBinaryExpression binaryExpression);
-        IFilter Where(DvlSqlBinaryExpression binaryExpression, IEnumerable<DvlSqlParameter> @params);
-    }
+    IFilter Where(DvlSqlBinaryExpression binaryExpression);
+    IFilter Where(DvlSqlBinaryExpression binaryExpression, IEnumerable<DvlSqlParameter> @params);
 }

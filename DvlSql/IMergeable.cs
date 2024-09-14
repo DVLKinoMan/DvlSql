@@ -1,32 +1,31 @@
-﻿namespace DvlSql
+﻿namespace DvlSql;
+
+public interface IMergeable
 {
-    public interface IMergeable
-    {
-        IMergeUsing Merge(string tableName);
-    }
+    IMergeUsing Merge(string tableName);
+}
 
-    public interface IMergeUsing
-    {
-        IMergeOn Using();
-    }
+public interface IMergeUsing
+{
+    IMergeOn Using();
+}
 
-    public interface IMergeOn
-    {
+public interface IMergeOn
+{
 
-    }
+}
 
-    public interface IMergeMatchable
-    {
+public interface IMergeMatchable
+{
 
-    }
+}
 
-    public interface IMergeThenable
-    {
+public interface IMergeThenable
+{
 
-    }
+}
 
-    public interface IMergeOutput
-    {
+public interface IMergeOutput
+{
 
-    }
 }

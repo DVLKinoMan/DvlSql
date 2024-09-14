@@ -1,7 +1,6 @@
-﻿namespace DvlSql
+﻿namespace DvlSql;
+
+public interface ISelector : ISelectable, IJoinable, IFilterable, IGroupable
 {
-    public interface ISelector : ISelectable, IJoinable, IFilterable, IGroupable
-    {
-        
-    }
+    
 }

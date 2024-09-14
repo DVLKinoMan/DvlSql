@@ -4,19 +4,18 @@ using System.Data.Common;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DvlSql
+namespace DvlSql;
+
+public interface IDvlSqlConnection : IDisposable, IAsyncDisposable
 {
-    public interface IDvlSqlConnection : IDisposable, IAsyncDisposable
-    {
-        Task<TResult> ConnectAsync<TResult>(Func<IDvlSqlCommand, Task<TResult>> func, string sqlString,
-            CommandType commandType = CommandType.Text, params DvlSqlParameter[]? parameters);
+    Task<TResult> ConnectAsync<TResult>(Func<IDvlSqlCommand, Task<TResult>> func, string sqlString,
+        CommandType commandType = CommandType.Text, params DvlSqlParameter[]? parameters);
 
-        ValueTask<DbTransaction> BeginTransactionAsync(CancellationToken token = default);
+    ValueTask<DbTransaction> BeginTransactionAsync(CancellationToken token = default);
 
-        Task CommitAsync(CancellationToken token = default);
+    Task CommitAsync(CancellationToken token = default);
 
-        Task RollbackAsync(CancellationToken token = default);
+    Task RollbackAsync(CancellationToken token = default);
 
-        IDvlSqlConnection GetClone();
-    }
+    IDvlSqlConnection GetClone();
 }

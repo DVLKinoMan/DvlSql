@@ -1,14 +1,13 @@
 ﻿using DvlSql.Expressions;
 
-namespace DvlSql
+namespace DvlSql;
+
+internal static class Exts
 {
-    internal static class Exts
+    internal static DvlSqlBinaryExpression SetNot(this DvlSqlBinaryExpression binaryExpression, bool not)
     {
-        internal static DvlSqlBinaryExpression SetNot(this DvlSqlBinaryExpression binaryExpression, bool not)
-        {
-            if (not)
-                binaryExpression.Not = !binaryExpression.Not;
-            return binaryExpression;
-        }
+        if (not)
+            binaryExpression.Not = !binaryExpression.Not;
+        return binaryExpression;
     }
 }

@@ -1,11 +1,10 @@
 ﻿using DvlSql.Expressions;
 using System.Collections.Generic;
 
-namespace DvlSql
+namespace DvlSql;
+
+public interface IGrouper : ISelectable
 {
-    public interface IGrouper : ISelectable
-    {
-        ISelectable Having(DvlSqlBinaryExpression binaryExpression);
-        ISelectable Having(DvlSqlBinaryExpression binaryExpression, IEnumerable<DvlSqlParameter> @params);
-    }
+    ISelectable Having(DvlSqlBinaryExpression binaryExpression);
+    ISelectable Having(DvlSqlBinaryExpression binaryExpression, IEnumerable<DvlSqlParameter> @params);
 }

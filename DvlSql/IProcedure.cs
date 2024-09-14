@@ -1,7 +1,6 @@
-﻿namespace DvlSql
+﻿namespace DvlSql;
+
+public interface IProcedure
 {
-    public interface IProcedure
-    {
-        IProcedureExecutable Procedure(string procedureName, params DvlSqlParameter[] parameters);
-    }
+    IProcedureExecutable Procedure(string procedureName, params DvlSqlParameter[] parameters);
 }

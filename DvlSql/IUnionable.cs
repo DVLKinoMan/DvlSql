@@ -1,8 +1,7 @@
-﻿namespace DvlSql
+﻿namespace DvlSql;
+
+public interface IUnionable
 {
-    public interface IUnionable
-    {
-        IFromable Union();
-        IFromable UnionAll();
-    }
+    IFromable Union();
+    IFromable UnionAll();
 }

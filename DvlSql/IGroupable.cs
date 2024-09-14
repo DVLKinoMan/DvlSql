@@ -1,8 +1,7 @@
-﻿namespace DvlSql
+﻿namespace DvlSql;
+
+// ReSharper disable once IdentifierTypo
+public interface IGroupable
 {
-    // ReSharper disable once IdentifierTypo
-    public interface IGroupable
-    {
-        IGrouper GroupBy(params string[] parameterNames);
-    }
+    IGrouper GroupBy(params string[] parameterNames);
 }

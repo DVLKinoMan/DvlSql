@@ -1,11 +1,10 @@
 ﻿using DvlSql.Expressions;
 
-namespace DvlSql
+namespace DvlSql;
+
+public interface IFromable
 {
-    public interface IFromable
-    {
-        ISelector From(string tableName, bool withNoLock = false);
-        ISelector From(DvlSqlFullSelectExpression select);
-        ISelector From(DvlSqlFromWithTableExpression fromWithTableExpression);
-    }
+    ISelector From(string tableName, bool withNoLock = false);
+    ISelector From(DvlSqlFullSelectExpression select);
+    ISelector From(DvlSqlFromWithTableExpression fromWithTableExpression);
 }
