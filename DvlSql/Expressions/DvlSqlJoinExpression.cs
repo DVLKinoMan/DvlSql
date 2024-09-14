@@ -1,21 +1,19 @@
 ﻿namespace DvlSql.Expressions;
 
-public abstract class DvlSqlJoinExpression (string tableName, DvlSqlComparisonExpression comp) : DvlSqlExpression
+public abstract class DvlSqlJoinExpression(string tableName) : DvlSqlExpression
 {
     public string TableName { get; init; } = tableName;
     public new bool IsRoot { get; init; } = true;
-    public DvlSqlComparisonExpression ComparisonExpression { get; set; } = comp;
+}
 
-    // public DvlSqlJoinExpression WithRoot(bool isRoot)
-    // {
-    //     this.IsRoot = isRoot;
-    //     return this;
-    // }
+public abstract class DvlSqlJoinExpression<T> (string tableName, DvlSqlComparisonExpression<T> comp) : DvlSqlJoinExpression(tableName)
+{
+    public DvlSqlComparisonExpression<T> ComparisonExpression { get; set; } = comp;
 
     public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
 }
 
-public class DvlSqlFullJoinExpression(string tableName, DvlSqlComparisonExpression comparisonExpression) : DvlSqlJoinExpression(tableName, comparisonExpression)
+public class DvlSqlFullJoinExpression<T>(string tableName, DvlSqlComparisonExpression<T> comparisonExpression) : DvlSqlJoinExpression<T>(tableName, comparisonExpression)
 {
     public override DvlSqlExpression Clone()
     {
@@ -23,7 +21,7 @@ public class DvlSqlFullJoinExpression(string tableName, DvlSqlComparisonExpressi
     }
 }
 
-public class DvlSqlInnerJoinExpression(string tableName, DvlSqlComparisonExpression comparisonExpression) : DvlSqlJoinExpression(tableName, comparisonExpression)
+public class DvlSqlInnerJoinExpression<T>(string tableName, DvlSqlComparisonExpression<T> comparisonExpression) : DvlSqlJoinExpression<T>(tableName, comparisonExpression)
 {
     public override DvlSqlExpression Clone()
     {
@@ -31,7 +29,7 @@ public class DvlSqlInnerJoinExpression(string tableName, DvlSqlComparisonExpress
     }
 }
 
-public class DvlSqlLeftJoinExpression(string tableName, DvlSqlComparisonExpression comparisonExpression) : DvlSqlJoinExpression(tableName, comparisonExpression)
+public class DvlSqlLeftJoinExpression<T>(string tableName, DvlSqlComparisonExpression<T> comparisonExpression) : DvlSqlJoinExpression<T>(tableName, comparisonExpression)
 {
     public override DvlSqlExpression Clone()
     {
@@ -39,7 +37,7 @@ public class DvlSqlLeftJoinExpression(string tableName, DvlSqlComparisonExpressi
     }
 }
 
-public class DvlSqlRightJoinExpression(string tableName, DvlSqlComparisonExpression comparisonExpression) : DvlSqlJoinExpression(tableName, comparisonExpression)
+public class DvlSqlRightJoinExpression<T>(string tableName, DvlSqlComparisonExpression<T> comparisonExpression) : DvlSqlJoinExpression<T>(tableName, comparisonExpression)
 {
     public override DvlSqlExpression Clone()
     {

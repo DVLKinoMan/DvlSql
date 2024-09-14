@@ -10,11 +10,11 @@ public interface ISqlExpressionVisitor
     void Visit(DvlSqlAndExpression expression);
     void Visit(DvlSqlSelectExpression expression);
     void Visit(DvlSqlWhereExpression expression);
-    void Visit(DvlSqlComparisonExpression expression);
+    void Visit<T>(DvlSqlComparisonExpression<T> expression);
     void Visit<TValue>(DvlSqlConstantExpression<TValue> expression);
     void Visit<TValue>(DvlSqlMemberExpression<TValue> expression);
     void Visit(DvlSqlFromExpression expression);
-    void Visit(DvlSqlJoinExpression expression);
+    void Visit<T>(DvlSqlJoinExpression<T> expression);
     void Visit(DvlSqlOrderByExpression expression);
     void Visit(DvlSqlGroupByExpression expression);
     //void Visit(DvlSqlNotExpression expression);

@@ -1,15 +1,9 @@
 ﻿namespace DvlSql.Expressions;
 
-public abstract class DvlSqlComparisonExpression : DvlSqlBinaryExpression
-{
-    public SqlComparisonOperator ComparisonOperator { get; init; }
-
-    public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
-}
-
-public class DvlSqlComparisonExpression<T> : DvlSqlComparisonExpression
+public class DvlSqlComparisonExpression<T> : DvlSqlBinaryExpression
 {
     public DvlSqlComparableExpression<T> LeftExpression { get; init; }
+    public SqlComparisonOperator ComparisonOperator { get; init; }
     public DvlSqlComparableExpression<T> RightExpression { get; init; }
 
     public DvlSqlComparisonExpression(DvlSqlComparableExpression<T> leftExpression, SqlComparisonOperator comparisonOperator,
@@ -26,4 +20,6 @@ public class DvlSqlComparisonExpression<T> : DvlSqlComparisonExpression
     {
         this.Not = !this.Not;
     }
+
+    public override void Accept(ISqlExpressionVisitor visitor) => visitor.Visit(this);
 }
