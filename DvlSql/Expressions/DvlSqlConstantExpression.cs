@@ -51,4 +51,28 @@ public class DvlSqlConstantExpression<TValue>(TValue value) : DvlSqlComparableEx
     public static DvlSqlComparisonExpression<TValue> operator <=(DvlSqlConstantExpression<TValue> lhs,
         DvlSqlConstantExpression<TValue> rhs) =>
         new(lhs, SqlComparisonOperator.LessOrEqual, rhs);
+
+    public static DvlSqlComparisonExpression<TValue> operator ==(DvlSqlConstantExpression<TValue> lhs,
+        DvlSqlMemberExpression<TValue> rhs) =>
+        new(lhs, SqlComparisonOperator.Equality, rhs);
+
+    public static DvlSqlComparisonExpression<TValue> operator !=(DvlSqlConstantExpression<TValue> lhs,
+        DvlSqlMemberExpression<TValue> rhs) =>
+        new(lhs, SqlComparisonOperator.Different, rhs);
+
+    public static DvlSqlComparisonExpression<TValue> operator >(DvlSqlConstantExpression<TValue> lhs,
+            DvlSqlMemberExpression<TValue> rhs) =>
+            new(lhs, SqlComparisonOperator.Greater, rhs);
+
+    public static DvlSqlComparisonExpression<TValue> operator >=(DvlSqlConstantExpression<TValue> lhs,
+        DvlSqlMemberExpression<TValue> rhs) =>
+        new(lhs, SqlComparisonOperator.GreaterOrEqual, rhs);
+
+    public static DvlSqlComparisonExpression<TValue> operator <(DvlSqlConstantExpression<TValue> lhs,
+        DvlSqlMemberExpression<TValue> rhs) =>
+        new(lhs, SqlComparisonOperator.Less, rhs);
+
+    public static DvlSqlComparisonExpression<TValue> operator <=(DvlSqlConstantExpression<TValue> lhs,
+        DvlSqlMemberExpression<TValue> rhs) =>
+        new(lhs, SqlComparisonOperator.LessOrEqual, rhs);
 }
