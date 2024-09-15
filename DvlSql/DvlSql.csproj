@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
 	  <Nullable>enable</Nullable>
-    <Version>4.0.1</Version>
+    <Version>4.0.2</Version>
     <Authors>Daviti Dvali</Authors>
     <RepositoryUrl>https://github.com/DVLKinoMan/DvlSql</RepositoryUrl>
     <PackageProjectUrl>https://github.com/DVLKinoMan/DvlSql</PackageProjectUrl>
@@ -11,8 +11,8 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageReleaseNotes>DvlSqlMemberExpression</PackageReleaseNotes>
     <PackageTags>dsl, sql, Linq</PackageTags>
-    <AssemblyVersion>4.0.1</AssemblyVersion>
-    <FileVersion>4.0.1</FileVersion>
+    <AssemblyVersion>4.0.2</AssemblyVersion>
+    <FileVersion>4.0.2</FileVersion>
     <PackageLicenseFile>license.txt</PackageLicenseFile>
     <PackageReadmeFile>Readme.md</PackageReadmeFile>
   </PropertyGroup>
