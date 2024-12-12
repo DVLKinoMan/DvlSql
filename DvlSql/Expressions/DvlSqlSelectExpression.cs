@@ -5,7 +5,7 @@ namespace DvlSql.Expressions;
 public class DvlSqlSelectExpression : DvlSqlExpression
 {
     public int? Top { get; set; }
-    public HashSet<string> ParameterNames { get; init; } = [];
+    public List<string> ParameterNames { get; init; } = [];
 
     //public DvlSqlFromExpression From { get; }
     // public new bool IsRoot { get; private set; } = true;
@@ -13,7 +13,7 @@ public class DvlSqlSelectExpression : DvlSqlExpression
     public DvlSqlSelectExpression(int? top = null) =>
         this.Top = top;
 
-    public DvlSqlSelectExpression(HashSet<string> parameterNames,
+    public DvlSqlSelectExpression(List<string> parameterNames,
         int? top = null) =>
         (this.ParameterNames, this.Top) = (parameterNames, top);
 
@@ -26,7 +26,7 @@ public class DvlSqlSelectExpression : DvlSqlExpression
     //     return this;
     // }
 
-    public bool Add(string paramName) => this.ParameterNames.Add(paramName);
+    public void Add(string paramName) => this.ParameterNames.Add(paramName);
 
     public void AddRange(IEnumerable<string> paramNames)
     {

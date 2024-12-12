@@ -8,15 +8,15 @@ namespace DvlSql;
 
 public interface ISelectExecutable
 {
-    Task<List<TResult>> ToListAsync<TResult>(Func<IDataReader, TResult> reader, int? timeout = default,
+    Task<List<TResult?>> ToListAsync<TResult>(Func<IDataReader, TResult?> reader, int? timeout = default,
         CommandBehavior behavior = CommandBehavior.Default, CancellationToken cancellationToken = default);
 
     Task<List<TResult?>> ToListAsync<TResult>(int? timeout = default,
         CommandBehavior behavior = CommandBehavior.Default, CancellationToken cancellationToken = default);
 
-    Task<Dictionary<TKey, List<TValue>>> ToDictionaryAsync<TKey, TValue>(
+    Task<Dictionary<TKey, List<TValue?>>> ToDictionaryAsync<TKey, TValue>(
         Func<IDataReader, TKey> keySelector,
-        Func<IDataReader, TValue> valueSelector,
+        Func<IDataReader, TValue?> valueSelector,
         int? timeout = default,
         CommandBehavior behavior = CommandBehavior.Default, 
         CancellationToken cancellationToken = default);
@@ -35,7 +35,7 @@ public interface ISelectExecutable
 
     Task<TResult?> FirstOrDefaultAsync<TResult>(int? timeout = default, CancellationToken cancellationToken = default);
 
-    Task<TResult?> FirstOrDefaultAsync<TResult>(Func<IDataReader, TResult> reader, int? timeout = default, CancellationToken cancellationToken = default);
+    Task<TResult?> FirstOrDefaultAsync<TResult>(Func<IDataReader, TResult?> reader, int? timeout = default, CancellationToken cancellationToken = default);
 
     Task<bool> AnyAsync(int? timeout = default, CancellationToken cancellationToken = default);
 
